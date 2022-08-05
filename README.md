@@ -1,2 +1,2 @@
 # Blood-Bank
-this is for get bacaloria degree 
+this is a project to help people getting blood so easy and not to suffer
