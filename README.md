@@ -23,15 +23,15 @@
 
  Technique  of Each content mentioned above :
  ## 1- Mobile Application :
- It is going to be deigned with Flutter -which is designed and supported by Google- in order to work with both Android and IOS phones , The team members working on this are Ezz Alarab Alhomaidi and Taib Alameri .
+ It is going to be designed with Flutter -which is designed and supported by Google- in order to work with both Android and IOS phones , The team members working on this are Ezz Alarab Alhomaidi and Taib Alameri .
  ## 2- Web Application :
- It is going to be deigned with Reactjs -which is designed and supported by Facebook-, The team members working on this are Amran Alameri and Abdullah Ahmed.
+ It is going to be designed with Reactjs -which is designed and supported by Facebook-, The team members working on this are Amran Alameri and Abdullah Ahmed.
  ## 3- API:
-  It is going to be deigned with Nodejs , The team member working on this is Mohammed Gamal .
+  It is going to be designed with Nodejs , The team member working on this is Mohammed Gamal .
  ## 4- Dashboard :
-  It is going to be deigned with Reactjs -which is designed and supported by Facebook-, The team members properly working on this are Amran Alameri and Abdullah Ahmed,Mohammed Gamal.
+  It is going to be designed with Reactjs -which is designed and supported by Facebook-, The team members properly working on this are Amran Alameri and Abdullah Ahmed,Mohammed Gamal.
   ## 4- Database :
-  It is going to be deigned with Fairbase , The team member working on this is Mohammed Gamal .
+  It is going to be designed with Fairbase , The team member working on this is Mohammed Gamal .
   <div> 
   <p align="center">
     <br/> 
