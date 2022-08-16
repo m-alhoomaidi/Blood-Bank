@@ -11,7 +11,7 @@
   </a>
   <div/>
 # Electronic Donate Blood Bank<br/>
- this is a project to help people getting blood so easy by searching for the boold type in specific area or everywhere around Yemen  not to suffer<br/>
+ this is a project to help people getting blood so easy by searching for the boold type in specific area or everywhere around Yemen<br/>
   
   
  This project contains of :
