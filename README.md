@@ -9,10 +9,10 @@
   <a href="https://github.com/github_username/repo_name">
     <img src="https://github.com/MhdGmal1998/Blood-Bank/blob/3c7c61f20f072909336a02b6c8fb30c44d5497cf/blood-donation-logo-png.png" alt="Logo" width="80" height="80">
   </a>
-
-<h2 align="center">Blood-Bank</h2>
+  <div/>
 # Electronic Donate Blood Bank 
- 
+ this is a project to help people getting blood so easy and not to suffer
+  <br/>
  This project contans of :
  * Mobaile Application 
  * Web Application 
@@ -31,10 +31,9 @@
   It is going to be degined with Reactjs -which is desgined and supported by FaceBook-, The team members propaly working on this are Amran Alameri and Abdullah Ahmed,Mohammed Gamal.
   ## 4- DataBase :
   It is going to be degined with Fairbase , The team member working on this is Mohammed Gamal .
+  <div> 
   <p align="center">
-    this is a project to help people getting blood so easy and not to suffer
-    <br />
-    
+    <br/> 
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
