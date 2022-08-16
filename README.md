@@ -11,27 +11,27 @@
   </a>
   <div/>
 # Electronic Donate Blood Bank<br/>
- this is a project to help people getting blood so easy and not to suffer<br/>
+ this is a project to help people getting blood so easy by searching for the boold type in specific area or everywhere around Yemen  not to suffer<br/>
   
   
- This project contans of :
- * Mobaile Application 
+ This project contains of :
+ * Mobile Application 
  * Web Application 
  * API
- * DashBoord 
- * DataBase
+ * Dashboard 
+ * Database
 
- Tecnice of Each content mentioned abouve :
- ## 1- Mobaile Application :
- It is going to be degined with Flluter -which is desgined and supported by Google- in order to work with both Android and IOS phones , The team members working on this are Ezz Alarab Alhomaidi and Taib Alameri .
+ Technique  of Each content mentioned above :
+ ## 1- Mobile Application :
+ It is going to be deigned with Flutter -which is designed and supported by Google- in order to work with both Android and IOS phones , The team members working on this are Ezz Alarab Alhomaidi and Taib Alameri .
  ## 2- Web Application :
- It is going to be degined with Reactjs -which is desgined and supported by FaceBook-, The team members working on this are Amran Alameri and Abdullah Ahmed.
+ It is going to be deigned with Reactjs -which is designed and supported by Facebook-, The team members working on this are Amran Alameri and Abdullah Ahmed.
  ## 3- API:
-  It is going to be degined with Nodejs , The team member working on this is Mohammed Gamal .
- ## 4- DashBoord :
-  It is going to be degined with Reactjs -which is desgined and supported by FaceBook-, The team members propaly working on this are Amran Alameri and Abdullah Ahmed,Mohammed Gamal.
-  ## 4- DataBase :
-  It is going to be degined with Fairbase , The team member working on this is Mohammed Gamal .
+  It is going to be deigned with Nodejs , The team member working on this is Mohammed Gamal .
+ ## 4- Dashboard :
+  It is going to be deigned with Reactjs -which is designed and supported by Facebook-, The team members properly working on this are Amran Alameri and Abdullah Ahmed,Mohammed Gamal.
+  ## 4- Database :
+  It is going to be deigned with Fairbase , The team member working on this is Mohammed Gamal .
   <div> 
   <p align="center">
     <br/> 
@@ -39,9 +39,9 @@
     <br />
     <br />
     <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
+    •
     <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
+    •
     <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
   </p>
 </div>
