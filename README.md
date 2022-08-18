@@ -1,9 +1,10 @@
 
 
  <!--<a href="https://github.com/github_username/repo_name">-->
-![alt text](https://github.com/MhdGmal1998/Blood-Bank/blob/3c7c61f20f072909336a02b6c8fb30c44d5497cf/blood-donation-logo-png.png " Project Logo")
-# Electronic Donate Blood Bank<br/>
- this is a project to help people getting blood so easy by searching for the boold type in specific area or everywhere around Yemen<br/>
+![Project Logo](https://github.com/MhdGmal1998/Blood-Bank/blob/3c7c61f20f072909336a02b6c8fb30c44d5497cf/blood-donation-logo-png.png " Project Logo")
+# Electronic Donate Blood Bank
+
+ Electronic Donate Blood Bank is a project that helps people getting blood so easy by searching for the blood type in a specific area or everywhere around Yemen .
   
   
  This project contains of :
