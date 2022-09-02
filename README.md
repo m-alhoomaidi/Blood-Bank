@@ -1,10 +1,10 @@
 
 
  <!--<a href="https://github.com/github_username/repo_name">-->
-![Project Logo]
+ 
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="blood-donation-logo-png.png" alt="Logo" width="80" height="80">
   </a>
 </div>
    # Electronic Donate Blood Bank
