@@ -9,7 +9,7 @@
  Screenshots :
 
 
- Features :
+##Features :
  * Flutter Mobile Application works with both Android and IOS system . 
  * BLoC state management in the mobile application . 
  * Reactjs Web Application which is best choice for fast one time use . 
@@ -17,15 +17,17 @@
  * Dashboard to manage both mobile application and web application . 
  * The project uses Firebase .
 
- Demo :
+##Demo :
 
 
- Installation :
+##Installation :
+
  1- mobile application :
 
  2- web application :
 
- Contributors :
+##Contributors :
+
  1- Abdullah Ahmed :
 
  2- Amran Alameri :
