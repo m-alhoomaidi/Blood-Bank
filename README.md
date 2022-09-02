@@ -4,27 +4,16 @@
 ![Project Logo](https://github.com/MhdGmal1998/Blood-Bank/blob/3c7c61f20f072909336a02b6c8fb30c44d5497cf/blood-donation-logo-png.png " Project Logo")
    # Electronic Donate Blood Bank
 
- Electronic Donate Blood Bank is a servant project that helps people getting blood so easy by searching for the blood type in a specific area or everywhere using a mobile application or a website application .
+ Electronic Donate Blood Bank is a servant project that helps people getting blood so easy by searching for the blood type in a specific area or everywhere using a mobile application or a web application .
   
   
- This project contains of :
- * Mobile Application 
- * Web Application 
- * API
- * Dashboard 
- * Database
-
- Technique  of Each content mentioned above :
- ## 1- Mobile Application :
- It is going to be designed with Flutter -which is designed and supported by Google- in order to work with both Android and IOS phones , The team members working on this are Ezz Alarab Alhomaidi and Taib Alameri .
- ## 2- Web Application :
- It is going to be designed with Reactjs -which is designed and supported by Facebook-, The team members working on this are Amran Alameri and Abdullah Ahmed.
- ## 3- API:
-  It is going to be designed with Nodejs , The team member working on this is Mohammed Gamal .
- ## 4- Dashboard :
-  It is going to be designed with Reactjs -which is designed and supported by Facebook-, The team members properly working on this are Amran Alameri and Abdullah Ahmed,Mohammed Gamal.
-  ## 4- Database :
-  It is going to be designed with Fairbase , The team member working on this is Mohammed Gamal .
+ Features :
+ * Flutter Mobile Application works with both Android and IOS system . 
+ * BLoC state management in the mobile application . 
+ * Reactjs Web Application which is best choice for fast one time use . 
+ * Redux state management in the web application .
+ * Dashboard to manage both mobile application and web application . 
+ * The project uses Firebase .
   <div> 
   <p align="center">
     <br/> 
