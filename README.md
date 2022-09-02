@@ -6,7 +6,9 @@
 
  Electronic Donate Blood Bank is a servant project that helps people getting blood so easy by searching for the blood type in a specific area or everywhere using a mobile application or a web application .
   
-  
+ Screenshots :
+
+
  Features :
  * Flutter Mobile Application works with both Android and IOS system . 
  * BLoC state management in the mobile application . 
@@ -14,6 +16,27 @@
  * Redux state management in the web application .
  * Dashboard to manage both mobile application and web application . 
  * The project uses Firebase .
+
+ Demo :
+
+
+ Installation :
+ 1- mobile application :
+
+ 2- web application :
+
+ Contributors :
+ 1- Abdullah Ahmed :
+
+ 2- Amran Alameri :
+ 
+ 3- EzzAlarab Alhomaidi :
+
+ 4- Mohammed Alhomaidi:
+
+ 5- Tayeb Alameri :
+
+ 
   <div> 
   <p align="center">
     <br/> 
