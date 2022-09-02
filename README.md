@@ -1,7 +1,12 @@
 
 
  <!--<a href="https://github.com/github_username/repo_name">-->
-![Project Logo](https://github.com/MhdGmal1998/Blood-Bank/blob/3c7c61f20f072909336a02b6c8fb30c44d5497cf/blood-donation-logo-png.png " Project Logo")
+![Project Logo]
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+</div>
    # Electronic Donate Blood Bank
 
  Electronic Donate Blood Bank is a servant project that helps people getting blood so easy by searching for the blood type in a specific area or everywhere using a mobile application or a web application .
