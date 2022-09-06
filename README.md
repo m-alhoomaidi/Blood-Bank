@@ -6,8 +6,8 @@
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="blood-donation-logo-png.png" alt="Logo" width="80" height="80">
   </a>
+ <h1>Electronic Donate Blood Bank</h1>
 </div>
-   # Electronic Donate Blood Bank
 
  Electronic Donate Blood Bank is a servant project that helps people getting blood so easy by searching for the blood type in a specific area or everywhere using a mobile application or a web application .
   
