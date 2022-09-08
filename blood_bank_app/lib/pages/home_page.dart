@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      drawer: const HomeDrower(),
+      endDrawer: const HomeDrower(),
     );
   }
 }
