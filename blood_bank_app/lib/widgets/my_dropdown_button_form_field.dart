@@ -41,7 +41,7 @@ class _MyDropdownButtonFormFieldState extends State<MyDropdownButtonFormField> {
           .toList(),
       onChanged: widget.onChange,
       decoration: InputDecoration(
-        prefixIcon: widget.icon ?? Icon(Icons.menu),
+        prefixIcon: widget.icon ?? const Icon(Icons.menu),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         border: const OutlineInputBorder(
@@ -63,7 +63,7 @@ class _MyDropdownButtonFormFieldState extends State<MyDropdownButtonFormField> {
             color: Colors.green,
             width: 2,
           ),
-          borderRadius: const BorderRadius.all(
+          borderRadius: BorderRadius.all(
             Radius.circular(50),
           ),
         ),

@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   modal_progress_hud_nsn: ^0.3.0
   flutter_svg: ^1.1.4
+  csc_picker: ^0.2.6
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +65,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - data/country.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

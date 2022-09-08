@@ -4,6 +4,7 @@ import '../widgets/my_outlined_icon_button.dart';
 import '../widgets/my_dropdown_button_form_field.dart';
 import '../widgets/my_text_form_field.dart';
 import '../models/my_stepper.dart' as my_stepper;
+import '../models/csc_picker_ar.dart' as csc_ar;
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -143,38 +144,124 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MyDropdownButtonFormField(
-                      hint: "اختر محافظتك",
-                      value: selectedGovernorate,
-                      items: governorates,
-                      icon: const Icon(Icons.location_city_outlined),
-                      onChange: (value) =>
-                          setState(() => selectedGovernorate = value),
+                  ///Adding CSC Picker Widget in app
+                  csc_ar.CSCPicker(
+                    layout: csc_ar.Layout.vertical,
+                    // currentCountry: countryValue,
+                    // currentCity: cityValue,
+                    // currentState: stateValue,
+
+                    ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                    showStates: true,
+
+                    /// Enable disable city drop down [OPTIONAL PARAMETER]
+                    showCities: true,
+
+                    ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                    flagState: csc_ar.CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
+
+                    ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+                    dropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        color: Colors.white,
+                        border:
+                            Border.all(color: Colors.grey.shade300, width: 1)),
+
+                    ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                    disabledDropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        color: Colors.grey.shade300,
+                        border:
+                            Border.all(color: Colors.grey.shade300, width: 1)),
+
+                    //placeholders for dropdown search field
+                    countrySearchPlaceholder: "Country",
+                    stateSearchPlaceholder: "State",
+                    citySearchPlaceholder: "City",
+
+                    ///labels for dropdown
+                    countryDropdownLabel: "الدولة",
+                    stateDropdownLabel: "المحافطة",
+                    cityDropdownLabel: "المديرية",
+
+                    ///Default Country
+                    defaultCountry: csc_ar.DefaultCountry.Yemen,
+                    // currentCity:
+                    //     Provider.of<ProviderSignInOut>(context).cityValue,
+                    // currentState:
+                    //     Provider.of<ProviderSignInOut>(context).stateValue,
+                    // currentCountry:
+                    //     Provider.of<ProviderSignInOut>(context).countryValue,
+
+                    ///Disable country dropdown (Note: use it with default country)
+                    // disableCountry: true,
+
+                    ///selected item style [OPTIONAL PARAMETER]
+                    selectedItemStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MyDropdownButtonFormField(
-                      hint: "اختر مديريتك",
-                      value: selectedDistrict,
-                      items: districs,
-                      icon: const Icon(Icons.location_on_outlined),
-                      onChange: (value) =>
-                          setState(() => selectedDistrict = value),
+
+                    ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                    dropdownHeadingStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+
+                    ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                    dropdownItemStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
                     ),
+
+                    ///Dialog box radius [OPTIONAL PARAMETER]
+                    dropdownDialogRadius: 10.0,
+
+                    ///Search bar radius [OPTIONAL PARAMETER]
+                    searchBarRadius: 10.0,
+
+                    ///triggers once country selected in dropdown
+                    onCountryChanged: (value) {},
+
+                    ///triggers once state selected in dropdown
+                    onStateChanged: (value) {},
+
+                    // ///triggers once city selected in dropdown
+                    onCityChanged: (value) {},
                   ),
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MyTextFormField(
-                      hint: "حارتك أو قريتك",
-                      onSave: (value) {},
-                      icon: Icons.my_location_outlined,
-                    ),
-                  ),
+
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: MyDropdownButtonFormField(
+                  //     hint: "اختر محافظتك",
+                  //     value: selectedGovernorate,
+                  //     items: governorates,
+                  //     icon: const Icon(Icons.location_city_outlined),
+                  //     onChange: (value) =>
+                  //         setState(() => selectedGovernorate = value),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: MyDropdownButtonFormField(
+                  //     hint: "اختر مديريتك",
+                  //     value: selectedDistrict,
+                  //     items: districs,
+                  //     icon: const Icon(Icons.location_on_outlined),
+                  //     onChange: (value) =>
+                  //         setState(() => selectedDistrict = value),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: MyTextFormField(
+                  //     hint: "حارتك أو قريتك",
+                  //     onSave: (value) {},
+                  //     icon: Icons.my_location_outlined,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
