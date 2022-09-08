@@ -1,13 +1,13 @@
-import 'package:blood_bank_app/widgets/my_outlined_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import '../widgets/my_outlined_icon_button.dart';
 import '../widgets/my_dropdown_button_form_field.dart';
 import '../widgets/my_text_form_field.dart';
 import '../models/my_stepper.dart' as my_stepper;
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
-  static const String routeName = "form";
+  static const String routeName = "sign-up";
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -17,6 +17,19 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _saving = false;
   final GlobalKey<FormState> _formFirstState = GlobalKey<FormState>();
   final GlobalKey<FormState> _formSecondState = GlobalKey<FormState>();
+
+  String? selectedGovernorate;
+  String? selectedDistrict;
+  String? selectedBloodType;
+
+  final double stepContentHeight = 200.0;
+  int _activeStepIndex = 0;
+
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController pincode = TextEditingController();
 
   final List<String> bloodTypes = const <String>[
     "A+",
@@ -45,10 +58,6 @@ class _SignUpPageState extends State<SignUpPage> {
     "Hobaish"
   ];
 
-  String? selectedGovernorate;
-  String? selectedDistrict;
-  String? selectedBloodType;
-
   Future submit() async {
     FormState? formData = _formFirstState.currentState;
     if (formData!.validate()) {
@@ -60,14 +69,6 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  int _activeStepIndex = 0;
-
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  TextEditingController address = TextEditingController();
-  TextEditingController pincode = TextEditingController();
-
   List<my_stepper.Step> stepList() => [
         my_stepper.Step(
           state: _activeStepIndex <= 0
@@ -76,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
           isActive: _activeStepIndex >= 0,
           title: const Text(''),
           content: SizedBox(
-            height: 200,
+            height: stepContentHeight,
             child: Form(
               key: _formFirstState,
               child: Column(
@@ -85,11 +86,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
-                      hint: "Enter Your Name",
+                      hint: "اكتب اسمك",
                       onSave: (value) {},
                       validator: (value) {
                         if (value!.length < 2) {
-                          return "Name Can't be less than 2 letters";
+                          return "لا يمكن أن يكون الاسم أقل من حرفين";
                         }
                         return null;
                       },
@@ -100,11 +101,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
-                      hint: "Enter Your Phone Number",
+                      hint: "اكتب رقم هاتفك",
                       onSave: (value) {},
                       validator: (value) {
                         if (value!.length != 9) {
-                          return "Phone number must be 9 numbers long";
+                          return "يجب أن يكون عدد الأرقام 9";
                         }
                         return null;
                       },
@@ -116,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyDropdownButtonFormField(
-                      hint: "Select Your Blood Type",
+                      hint: "اختر فصيلة دمك",
                       value: selectedBloodType,
                       items: bloodTypes,
                       icon: const Icon(Icons.bloodtype_outlined),
@@ -136,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
           isActive: _activeStepIndex >= 1,
           title: const Text(''),
           content: SizedBox(
-            height: 200,
+            height: stepContentHeight,
             child: Form(
               key: _formSecondState,
               child: Column(
@@ -145,7 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyDropdownButtonFormField(
-                      hint: "Select Your Governorate",
+                      hint: "اختر محافظتك",
                       value: selectedGovernorate,
                       items: governorates,
                       icon: const Icon(Icons.location_city_outlined),
@@ -157,7 +158,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyDropdownButtonFormField(
-                      hint: "Select Your District",
+                      hint: "اختر مديريتك",
                       value: selectedDistrict,
                       items: districs,
                       icon: const Icon(Icons.location_on_outlined),
@@ -169,7 +170,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: MyTextFormField(
-                      hint: "Enter Your Blood Type",
+                      hint: "حارتك أو قريتك",
                       onSave: (value) {},
                       icon: Icons.my_location_outlined,
                     ),
@@ -183,11 +184,11 @@ class _SignUpPageState extends State<SignUpPage> {
           state: my_stepper.StepState.complete,
           isActive: _activeStepIndex >= 2,
           title: const Text(''),
-          content: const SizedBox(
-            height: 200,
-            child: Center(
+          content: SizedBox(
+            height: stepContentHeight,
+            child: const Center(
               child: Text(
-                "Review & Confirm",
+                "مراجعة بيانات المستخدم",
               ),
             ),
           ),
@@ -199,7 +200,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Sign up From',
+          'إنشاء حساب متبرع',
         ),
         centerTitle: true,
         backgroundColor: Colors.red,
@@ -249,7 +250,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   if (_activeStepIndex > 0)
                     Positioned(
-                      left: 20,
+                      right: 20,
                       child: SizedBox(
                         width: 140,
                         child: MyOutlinedIconButton(
@@ -260,7 +261,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             color: Colors.orange,
                           ),
                           label: const Text(
-                            'Back',
+                            'السابق',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -274,13 +275,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 20,
                   ),
                   Positioned(
-                    right: 20,
+                    left: 20,
                     child: SizedBox(
                       width: 140,
                       child: (isLastStep)
                           ? MyOutlinedIconButton(
                               icon: const Text(
-                                'Submit',
+                                'إنشاء',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -296,7 +297,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             )
                           : MyOutlinedIconButton(
                               icon: const Text(
-                                'Next',
+                                'التالي',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
