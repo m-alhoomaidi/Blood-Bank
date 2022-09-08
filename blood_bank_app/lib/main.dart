@@ -1,5 +1,7 @@
-import 'package:blood_bank_app/pages/home_page.dart';
+import '../pages/home_page.dart';
+import '../pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +16,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Colors.green,
+        primarySwatch: Colors.red,
+        primaryColor: Colors.red,
         fontFamily: "Almarai",
       ),
+      locale: const Locale("ar", "AE"),
+      localizationsDelegates: const [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale("ar", "AE")],
       initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
+        SignUpPage.routeName: (context) => const SignUpPage(),
       },
     );
   }

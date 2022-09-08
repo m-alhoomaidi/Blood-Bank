@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/pages/sign_up_page.dart';
 import 'package:blood_bank_app/style.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,8 @@ class HomeDrower extends StatelessWidget {
 
   DrawerHeader buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
-      decoration: const BoxDecoration(
-        color: Colors.blue,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
       ),
       child: InkWell(
         onTap: () {
@@ -46,7 +47,7 @@ class HomeDrower extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               const Text(
-                "User Name",
+                "اسم المستخدم",
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
@@ -68,48 +69,35 @@ class HomeDrower extends StatelessWidget {
           buildDrawerMenuItem(
             context: context,
             icon: Icons.home_outlined,
-            title: "Home",
+            title: "الرئيسية",
+            onTap: () {},
+          ),
+          buildDrawerMenuItem(
+            context: context,
+            title: "تسجيل دخول",
+            icon: Icons.login_rounded,
+            onTap: () {},
+          ),
+          buildDrawerMenuItem(
+            context: context,
+            title: "إنشاء حساب",
+            icon: Icons.person_add_outlined,
             onTap: () {
-              // Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-              // Navigator.of(context).pushNamed(MakingForm.routeName);
-              // Navigator.of(context).pushNamed(TestLock.routeName);
+              Navigator.of(context).pushNamed(SignUpPage.routeName);
             },
           ),
           buildDrawerMenuItem(
             context: context,
             icon: Icons.settings_outlined,
-            title: "Settings",
-            onTap: () {
-              // Navigator.pop(context);
-              // Navigator.of(context).pushNamed(SettingsPage.routeName);
-            },
-          ),
-          buildDrawerMenuItem(
-            context: context,
-            title: "Register",
-            icon: Icons.person_add_outlined,
-            onTap: () {
-              // Navigator.pop(context);
-              // Navigator.of(context).pushNamed(RegisterPage.routeName);
-            },
-          ),
-          buildDrawerMenuItem(
-            context: context,
-            title: "Login",
-            icon: Icons.login_rounded,
-            onTap: () {
-              // Navigator.pop(context);
-              // Navigator.of(context).pushNamed(LoginPage.routeName);
-            },
+            title: "إعدادات",
+            onTap: () {},
           ),
           const Divider(color: Colors.black54),
           buildDrawerMenuItem(
             context: context,
-            title: "About",
+            title: "حول التبيق",
             icon: Icons.info_outline,
-            onTap: () {
-              // Navigator.of(context).pushNamed(AboutPage.routeName);
-            },
+            onTap: () {},
           ),
         ],
       ),

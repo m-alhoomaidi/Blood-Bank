@@ -28,6 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
     "AB+",
     "AB-"
   ];
+
   final List<String> governorates = const [
     "Ibb",
     "Sana'a",
@@ -36,12 +37,14 @@ class _SignUpPageState extends State<SignUpPage> {
     "Thamar",
     "Hodaidah"
   ];
+
   final List<String> districs = const [
     "Al-Dhehar",
     "Al-Mashanna",
     "Al-Odain",
     "Hobaish"
   ];
+
   String? selectedGovernorate;
   String? selectedDistrict;
   String? selectedBloodType;
@@ -204,7 +207,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: ModalProgressHUD(
         inAsyncCall: _saving,
         child: my_stepper.Stepper(
-          svgPictureAsset: "images/blood_drop.svg",
+          svgPictureAsset: "assets/images/blood_drop.svg",
           iconColor: Colors.red,
           elevation: 0,
           type: my_stepper.StepperType.horizontal,
@@ -239,7 +242,6 @@ class _SignUpPageState extends State<SignUpPage> {
             return Container(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Stack(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width,

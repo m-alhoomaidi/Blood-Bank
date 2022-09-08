@@ -9,14 +9,15 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Blood Bank"),
+        title: const Text("بنك الدم الإلكتروني"),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'Welcome',
+              'مرحباً',
             ),
           ],
         ),

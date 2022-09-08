@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Color eAppBarBgColor = Colors.lightBlue;
-Color ePrimColor = Colors.blue;
-Color eSecondColor = Colors.green;
+Color eAppBarBgColor = Colors.redAccent;
+Color ePrimColor = Colors.red;
+Color eSecondColor = Colors.black45;
 Color eBgColor = Colors.white70;
 Color eTextColor = Colors.black54;
