@@ -220,6 +220,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اكتب اسمك",
+                  blurrBorderColor: Colors.white,
+                  fillColor: Colors.red[100],
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length < 2) {
@@ -235,6 +237,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اكتب رقم هاتفك",
+                  blurrBorderColor: Colors.white,
+                  fillColor: Colors.red[100],
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length != 9) {
@@ -253,6 +257,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: "اختر فصيلة دمك",
                   value: selectedBloodType,
                   items: bloodTypes,
+                  fillColor: Colors.red[100],
+                  blurrBorderColor: Colors.white,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) =>
                       setState(() => selectedBloodType = value),
@@ -299,16 +305,26 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
                   dropdownDecoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    color: Colors.red[100],
+                    border: Border.all(
                       color: Colors.white,
-                      border: Border.all(color: eSecondColor, width: 1)),
+                      width: 1,
+                    ),
+                  ),
+
+                  dropDownPadding: const EdgeInsets.all(12),
+                  dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
 
                   ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
                   disabledDropdownDecoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    color: Colors.grey.shade300,
+                    border: Border.all(
                       color: Colors.grey.shade300,
-                      border:
-                          Border.all(color: Colors.grey.shade300, width: 1)),
+                      width: 1,
+                    ),
+                  ),
 
                   //placeholders for dropdown search field
                   countrySearchPlaceholder: "الدولة",
@@ -334,14 +350,14 @@ class _SignUpPageState extends State<SignUpPage> {
 
                   ///selected item style [OPTIONAL PARAMETER]
                   selectedItemStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
                   ),
 
                   ///DropdownDialog Heading style [OPTIONAL PARAMETER]
                   dropdownHeadingStyle: const TextStyle(
                       color: Colors.black,
-                      fontSize: 17,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold),
 
                   ///DropdownDialog Item style [OPTIONAL PARAMETER]

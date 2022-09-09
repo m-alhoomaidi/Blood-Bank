@@ -9,8 +9,9 @@ class MyTextFormField extends StatelessWidget {
     this.onChange,
     this.validator,
     this.onSave,
-    this.primaryColor,
-    this.secondaryColor,
+    this.focusBorderColor,
+    this.blurrBorderColor,
+    this.fillColor,
   }) : super(key: key);
 
   final TextInputType keyBoardType;
@@ -19,7 +20,7 @@ class MyTextFormField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final FormFieldSetter<String>? onSave;
   final IconData? icon;
-  final Color? primaryColor, secondaryColor;
+  final Color? focusBorderColor, blurrBorderColor, fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,8 @@ class MyTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: icon != null ? Icon(icon!) : null,
         hintText: hint!,
+        filled: (fillColor != null),
+        fillColor: fillColor,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         border: const OutlineInputBorder(
@@ -41,7 +44,7 @@ class MyTextFormField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: secondaryColor ?? Colors.blue[800]!,
+            color: blurrBorderColor ?? Colors.blue[800]!,
             width: 1,
           ),
           borderRadius: const BorderRadius.all(
@@ -50,7 +53,7 @@ class MyTextFormField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: primaryColor ?? Colors.green,
+            color: focusBorderColor ?? Colors.green,
             width: 2,
           ),
           borderRadius: const BorderRadius.all(

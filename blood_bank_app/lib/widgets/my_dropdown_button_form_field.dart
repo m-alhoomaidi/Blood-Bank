@@ -8,11 +8,15 @@ class MyDropdownButtonFormField extends StatefulWidget {
     required this.items,
     this.icon,
     this.hint,
+    this.focusBorderColor,
+    this.blurrBorderColor,
+    this.fillColor,
   }) : super(key: key);
 
   final String? hint;
   final String? value;
   final Icon? icon;
+  final Color? focusBorderColor, blurrBorderColor, fillColor;
   final List<String> items;
   final Function(String?)? onChange;
 
@@ -42,6 +46,8 @@ class _MyDropdownButtonFormFieldState extends State<MyDropdownButtonFormField> {
       onChanged: widget.onChange,
       decoration: InputDecoration(
         prefixIcon: widget.icon ?? const Icon(Icons.menu),
+        filled: (widget.fillColor != null),
+        fillColor: widget.fillColor,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         border: const OutlineInputBorder(
@@ -51,19 +57,19 @@ class _MyDropdownButtonFormFieldState extends State<MyDropdownButtonFormField> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.blue[800]!,
+            color: widget.blurrBorderColor ?? Colors.blue[800]!,
             width: 1,
           ),
           borderRadius: const BorderRadius.all(
             Radius.circular(50),
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.green,
+            color: widget.focusBorderColor ?? Colors.green,
             width: 2,
           ),
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(50),
           ),
         ),

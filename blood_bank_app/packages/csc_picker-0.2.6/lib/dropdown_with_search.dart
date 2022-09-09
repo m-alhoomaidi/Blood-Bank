@@ -14,6 +14,8 @@ class DropdownWithSearch<T> extends StatelessWidget {
   final double? dialogRadius;
   final bool disabled;
   final String label;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
 
   final Function onChanged;
 
@@ -32,6 +34,8 @@ class DropdownWithSearch<T> extends StatelessWidget {
       this.disabledDecoration,
       this.searchBarRadius,
       this.dialogRadius,
+      this.padding,
+      this.margin,
       required this.label,
       this.disabled = false})
       : super(key: key);
@@ -65,30 +69,44 @@ class DropdownWithSearch<T> extends StatelessWidget {
           });
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          margin: margin,
+          padding: padding,
           decoration: !disabled
               ? decoration != null
                   ? decoration
                   : BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade300, width: 1))
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 1,
+                      ),
+                    )
               : disabledDecoration != null
                   ? disabledDecoration
                   : BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       color: Colors.grey.shade300,
-                      border:
-                          Border.all(color: Colors.grey.shade300, width: 1)),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 1,
+                      ),
+                    ),
           child: Row(
             children: [
               Expanded(
-                  child: Text(selected.toString(),
-                      overflow: TextOverflow.ellipsis,
-                      style: selectedItemStyle != null
-                          ? selectedItemStyle
-                          : TextStyle(fontSize: 14))),
-              Icon(Icons.keyboard_arrow_down_rounded)
+                child: Center(
+                  child: Text(
+                    selected.toString(),
+                    overflow: TextOverflow.ellipsis,
+                    style: selectedItemStyle != null
+                        ? selectedItemStyle
+                        : TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
+              Icon(Icons.keyboard_arrow_down_rounded),
+              const SizedBox(width: 15),
             ],
           ),
         ),
