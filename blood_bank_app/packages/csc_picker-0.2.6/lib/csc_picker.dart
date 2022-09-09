@@ -39,6 +39,7 @@ class CSCPicker extends StatefulWidget {
     this.dropdownDialogRadius,
     this.dropDownPadding,
     this.dropDownMargin,
+    this.spaceBetween,
     this.flagState = CountryFlag.ENABLE,
     this.layout = Layout.horizontal,
     this.showStates = true,
@@ -74,6 +75,7 @@ class CSCPicker extends StatefulWidget {
   final Layout layout;
   final double? searchBarRadius;
   final double? dropdownDialogRadius;
+  final double? spaceBetween;
   final EdgeInsetsGeometry? dropDownPadding, dropDownMargin;
 
   final DefaultCountry? defaultCountry;
@@ -293,14 +295,10 @@ class CSCPickerState extends State<CSCPicker> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  countryDropdown(),
-                  SizedBox(
-                    height: 10.0,
-                  ),
+                  // countryDropdown(),
+                  // SizedBox(height: widget.spaceBetween),
                   stateDropdown(),
-                  SizedBox(
-                    height: 10.0,
-                  ),
+                  SizedBox(height: widget.spaceBetween),
                   cityDropdown()
                 ],
               )
@@ -417,6 +415,10 @@ class CSCPickerState extends State<CSCPicker> {
       selected: _selectedState,
       padding: widget.dropDownPadding,
       margin: widget.dropDownMargin,
+      icon: Icon(
+        Icons.location_city_outlined,
+        color: Colors.black45,
+      ),
       label: widget.stateSearchPlaceholder,
       //onChanged: (value) => _onSelectedState(value),
       onChanged: (value) {
@@ -447,6 +449,10 @@ class CSCPickerState extends State<CSCPicker> {
       selected: _selectedCity,
       padding: widget.dropDownPadding,
       margin: widget.dropDownMargin,
+      icon: Icon(
+        Icons.location_on_outlined,
+        color: Colors.black45,
+      ),
       label: widget.citySearchPlaceholder,
       //onChanged: (value) => _onSelectedCity(value),
       onChanged: (value) {

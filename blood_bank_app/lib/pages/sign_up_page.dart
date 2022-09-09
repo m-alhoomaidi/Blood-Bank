@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/widgets/my_checkbox_form_field.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -18,8 +19,9 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool _saving = false;
-  final GlobalKey<FormState> _formFirstState = GlobalKey<FormState>();
-  final GlobalKey<FormState> _formSecondState = GlobalKey<FormState>();
+  final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>();
+  final GlobalKey<FormState> _secondFormState = GlobalKey<FormState>();
+  final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
 
   String? selectedGovernorate;
   String? selectedDistrict;
@@ -57,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
   ];
 
   Future submit() async {
-    FormState? formData = _formFirstState.currentState;
+    FormState? formData = _firstFormState.currentState;
     if (formData!.validate()) {
       formData.save();
       setState(() => _saving = true);
@@ -161,7 +163,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 Icons.check_rounded,
                                 color: Colors.green,
                               ),
-                              onPressed: controls.onStepContinue,
+                              onPressed: () {
+                                _thirdFormState.currentState!.validate();
+                              },
                               borderColor: Colors.green,
                             )
                           : MyOutlinedIconButton(
@@ -207,15 +211,16 @@ class _SignUpPageState extends State<SignUpPage> {
       content: SizedBox(
         height: stepContentHeight,
         child: Form(
-          key: _formFirstState,
+          key: _firstFormState,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "اكتب اسمك",
+                  hint: "اسمك",
                   blurrBorderColor: Colors.white,
+                  focusBorderColor: Colors.pink[200],
                   fillColor: Colors.red[100],
                   onSave: (value) {},
                   validator: (value) {
@@ -231,8 +236,9 @@ class _SignUpPageState extends State<SignUpPage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "اكتب رقم هاتفك",
+                  hint: "رقم هاتفك",
                   blurrBorderColor: Colors.white,
+                  focusBorderColor: Colors.pink[200],
                   fillColor: Colors.red[100],
                   onSave: (value) {},
                   validator: (value) {
@@ -249,11 +255,12 @@ class _SignUpPageState extends State<SignUpPage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyDropdownButtonFormField(
-                  hint: "اختر فصيلة دمك",
+                  hint: "فصيلة دمك",
                   value: selectedBloodType,
                   items: bloodTypes,
-                  fillColor: Colors.red[100],
                   blurrBorderColor: Colors.white,
+                  focusBorderColor: Colors.pink[200],
+                  fillColor: Colors.red[100],
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) =>
                       setState(() => selectedBloodType = value),
@@ -276,7 +283,7 @@ class _SignUpPageState extends State<SignUpPage> {
       content: SizedBox(
         height: stepContentHeight,
         child: Form(
-          key: _formSecondState,
+          key: _secondFormState,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -296,7 +303,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   dropDownPadding: const EdgeInsets.all(12),
-                  dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
+                  // dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
+                  spaceBetween: 20.0,
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     color: Colors.grey.shade300,
@@ -340,6 +348,24 @@ class _SignUpPageState extends State<SignUpPage> {
                   onCityChanged: (value) {},
                 ),
               ),
+              const SizedBox(height: 20.0),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: MyTextFormField(
+                  hint: "المنطقة",
+                  blurrBorderColor: Colors.white,
+                  focusBorderColor: Colors.pink[200],
+                  fillColor: Colors.red[100],
+                  icon: Icons.my_location_outlined,
+                  onSave: (value) {},
+                  validator: (value) {
+                    if (value!.length != 9) {
+                      return "يجب أن يكون عدد الأرقام 9";
+                    }
+                    return null;
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -363,12 +389,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      Text("اسمك", style: TextStyle(height: 1.5)),
-                      Text("رقمك", style: TextStyle(height: 1.5)),
-                      Text("فصيلة دمك", style: TextStyle(height: 1.5)),
-                      Text("المحافظة", style: TextStyle(height: 1.5)),
-                      Text("المديرية", style: TextStyle(height: 1.5)),
-                      Text("المنطقة", style: TextStyle(height: 1.5)),
+                      Text("اسمك", style: TextStyle(height: 1.4)),
+                      Text("رقمك", style: TextStyle(height: 1.4)),
+                      Text("فصيلة دمك", style: TextStyle(height: 1.4)),
+                      Text("المحافظة", style: TextStyle(height: 1.4)),
+                      Text("المديرية", style: TextStyle(height: 1.4)),
+                      Text("المنطقة", style: TextStyle(height: 1.4)),
                     ],
                   ),
                   const VerticalDivider(width: 20),
@@ -386,18 +412,29 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
             ),
-            Row(
-              children: [
-                Checkbox(
-                    value: didConfirm,
-                    onChanged: (value) => setState(() => didConfirm = value!)),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("أوافق على سياسات الخصوصية"),
-                  style: TextButton.styleFrom(primary: Colors.blue),
-                ),
-              ],
+
+            Form(
+              key: _thirdFormState,
+              child: MyCheckboxFormField(
+                title: const Text("أوافق على سياسات الخصوصية"),
+                onSaved: (value) {},
+                validator: (value) {
+                  if (!value!) return "يجب أن تؤكد موافقتك";
+                },
+              ),
             ),
+            // Row(
+            //   children: [
+            //     Checkbox(
+            //         value: didConfirm,
+            //         onChanged: (value) => setState(() => didConfirm = value!)),
+            //     TextButton(
+            //       onPressed: () {},
+            //       style: TextButton.styleFrom(primary: Colors.blue),
+            //       child: const Text("أوافق على سياسات الخصوصية"),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
@@ -410,7 +447,7 @@ class _SignUpPageState extends State<SignUpPage> {
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
-        height: 1.5,
+        height: 1.4,
       ),
     );
   }

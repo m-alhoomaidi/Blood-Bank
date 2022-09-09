@@ -16,6 +16,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
   final String label;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
+  final Icon? icon;
 
   final Function onChanged;
 
@@ -36,6 +37,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
       this.dialogRadius,
       this.padding,
       this.margin,
+      this.icon,
       required this.label,
       this.disabled = false})
       : super(key: key);
@@ -94,6 +96,7 @@ class DropdownWithSearch<T> extends StatelessWidget {
                     ),
           child: Row(
             children: [
+              icon ?? Container(),
               Expanded(
                 child: Center(
                   child: Text(
