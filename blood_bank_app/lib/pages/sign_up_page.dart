@@ -27,12 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   final double stepContentHeight = 200.0;
   int _activeStepIndex = 0;
-
-  TextEditingController name = TextEditingController();
-  TextEditingController email = TextEditingController();
-  TextEditingController pass = TextEditingController();
-  TextEditingController address = TextEditingController();
-  TextEditingController pincode = TextEditingController();
+  bool didConfirm = false;
 
   final List<String> bloodTypes = const <String>[
     "A+",
@@ -285,25 +280,13 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ///Adding CSC Picker Widget in app
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: CSCPicker(
                   layout: Layout.vertical,
-                  // currentCountry: countryValue,
-                  // currentCity: cityValue,
-                  // currentState: stateValue,
-
-                  ///Enable disable state dropdown [OPTIONAL PARAMETER]
                   showStates: true,
-
-                  /// Enable disable city drop down [OPTIONAL PARAMETER]
                   showCities: true,
-
-                  ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
                   flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
-
-                  ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
                   dropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     color: Colors.red[100],
@@ -312,11 +295,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: 1,
                     ),
                   ),
-
                   dropDownPadding: const EdgeInsets.all(12),
                   dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
-
-                  ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     color: Colors.grey.shade300,
@@ -325,18 +305,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: 1,
                     ),
                   ),
-
-                  //placeholders for dropdown search field
                   countrySearchPlaceholder: "الدولة",
                   stateSearchPlaceholder: "المحافطة",
                   citySearchPlaceholder: "المديرية",
-
-                  ///labels for dropdown
                   countryDropdownLabel: "الدولة",
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
-
-                  ///Default Country
                   defaultCountry: DefaultCountry.Yemen,
                   // currentCity:
                   //     Provider.of<ProviderSignInOut>(context).cityValue,
@@ -344,77 +318,28 @@ class _SignUpPageState extends State<SignUpPage> {
                   //     Provider.of<ProviderSignInOut>(context).stateValue,
                   // currentCountry:
                   //     Provider.of<ProviderSignInOut>(context).countryValue,
-
                   ///Disable country dropdown (Note: use it with default country)
                   // disableCountry: true,
 
-                  ///selected item style [OPTIONAL PARAMETER]
                   selectedItemStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 16,
                   ),
-
-                  ///DropdownDialog Heading style [OPTIONAL PARAMETER]
                   dropdownHeadingStyle: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
-
-                  ///DropdownDialog Item style [OPTIONAL PARAMETER]
                   dropdownItemStyle: const TextStyle(
                     color: Colors.black,
                     fontSize: 14,
                   ),
-
-                  ///Dialog box radius [OPTIONAL PARAMETER]
                   dropdownDialogRadius: 10.0,
-
-                  ///Search bar radius [OPTIONAL PARAMETER]
                   searchBarRadius: 10.0,
-
-                  ///triggers once country selected in dropdown
                   onCountryChanged: (value) {},
-
-                  ///triggers once state selected in dropdown
                   onStateChanged: (value) {},
-
-                  // ///triggers once city selected in dropdown
                   onCityChanged: (value) {},
                 ),
               ),
-
-              // Container(
-              //   margin: const EdgeInsets.symmetric(horizontal: 20),
-              //   child: MyDropdownButtonFormField(
-              //     hint: "اختر محافظتك",
-              //     value: selectedGovernorate,
-              //     items: governorates,
-              //     icon: const Icon(Icons.location_city_outlined),
-              //     onChange: (value) =>
-              //         setState(() => selectedGovernorate = value),
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              // Container(
-              //   margin: const EdgeInsets.symmetric(horizontal: 20),
-              //   child: MyDropdownButtonFormField(
-              //     hint: "اختر مديريتك",
-              //     value: selectedDistrict,
-              //     items: districs,
-              //     icon: const Icon(Icons.location_on_outlined),
-              //     onChange: (value) =>
-              //         setState(() => selectedDistrict = value),
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              // Container(
-              //   margin: const EdgeInsets.symmetric(horizontal: 20),
-              //   child: MyTextFormField(
-              //     hint: "حارتك أو قريتك",
-              //     onSave: (value) {},
-              //     icon: Icons.my_location_outlined,
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -431,8 +356,6 @@ class _SignUpPageState extends State<SignUpPage> {
         height: stepContentHeight,
         child: Column(
           children: [
-            const Text("البيانات التي أدخلتها:"),
-            const SizedBox(height: 15),
             Expanded(
               child: Row(
                 children: [
@@ -443,26 +366,51 @@ class _SignUpPageState extends State<SignUpPage> {
                       Text("اسمك", style: TextStyle(height: 1.5)),
                       Text("رقمك", style: TextStyle(height: 1.5)),
                       Text("فصيلة دمك", style: TextStyle(height: 1.5)),
+                      Text("المحافظة", style: TextStyle(height: 1.5)),
+                      Text("المديرية", style: TextStyle(height: 1.5)),
+                      Text("المنطقة", style: TextStyle(height: 1.5)),
                     ],
                   ),
                   const VerticalDivider(width: 20),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "اسم المتبرع",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          height: 1.5,
-                        ),
-                      ),
+                    children: [
+                      buildDonorDetail("اسم المتبرع"),
+                      buildDonorDetail("714296685"),
+                      buildDonorDetail("O+"),
+                      buildDonorDetail("إب"),
+                      buildDonorDetail("الظهار"),
+                      buildDonorDetail("السبل"),
                     ],
                   ),
                 ],
               ),
             ),
+            Row(
+              children: [
+                Checkbox(
+                    value: didConfirm,
+                    onChanged: (value) => setState(() => didConfirm = value!)),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text("أوافق على سياسات الخصوصية"),
+                  style: TextButton.styleFrom(primary: Colors.blue),
+                ),
+              ],
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Text buildDonorDetail(String detail) {
+    return Text(
+      detail,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        height: 1.5,
       ),
     );
   }
