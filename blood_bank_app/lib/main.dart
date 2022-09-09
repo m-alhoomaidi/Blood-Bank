@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/style.dart';
+
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.red,
-        primaryColor: Colors.red,
+        primaryColor: ePrimColor,
         fontFamily: "Almarai",
       ),
       locale: const Locale("ar", "AE"),

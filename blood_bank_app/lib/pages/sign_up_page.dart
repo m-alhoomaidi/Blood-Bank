@@ -1,10 +1,12 @@
+import 'package:blood_bank_app/style.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../widgets/my_outlined_icon_button.dart';
 import '../widgets/my_dropdown_button_form_field.dart';
 import '../widgets/my_text_form_field.dart';
 import '../models/my_stepper.dart' as my_stepper;
-import '../models/csc_picker_ar.dart' as csc_ar;
+// import '../models/csc_picker_ar.dart' as csc_ar;
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -70,233 +72,19 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  List<my_stepper.Step> stepList() => [
-        my_stepper.Step(
-          state: _activeStepIndex <= 0
-              ? my_stepper.StepState.editing
-              : my_stepper.StepState.complete,
-          isActive: _activeStepIndex >= 0,
-          title: const Text(''),
-          content: SizedBox(
-            height: stepContentHeight,
-            child: Form(
-              key: _formFirstState,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MyTextFormField(
-                      hint: "اكتب اسمك",
-                      onSave: (value) {},
-                      validator: (value) {
-                        if (value!.length < 2) {
-                          return "لا يمكن أن يكون الاسم أقل من حرفين";
-                        }
-                        return null;
-                      },
-                      icon: Icons.person,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MyTextFormField(
-                      hint: "اكتب رقم هاتفك",
-                      onSave: (value) {},
-                      validator: (value) {
-                        if (value!.length != 9) {
-                          return "يجب أن يكون عدد الأرقام 9";
-                        }
-                        return null;
-                      },
-                      icon: Icons.phone_android,
-                      keyBoardType: TextInputType.number,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: MyDropdownButtonFormField(
-                      hint: "اختر فصيلة دمك",
-                      value: selectedBloodType,
-                      items: bloodTypes,
-                      icon: const Icon(Icons.bloodtype_outlined),
-                      onChange: (value) =>
-                          setState(() => selectedBloodType = value),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        my_stepper.Step(
-          state: _activeStepIndex <= 1
-              ? my_stepper.StepState.editing
-              : my_stepper.StepState.complete,
-          isActive: _activeStepIndex >= 1,
-          title: const Text(''),
-          content: SizedBox(
-            height: stepContentHeight,
-            child: Form(
-              key: _formSecondState,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ///Adding CSC Picker Widget in app
-                  csc_ar.CSCPicker(
-                    layout: csc_ar.Layout.vertical,
-                    // currentCountry: countryValue,
-                    // currentCity: cityValue,
-                    // currentState: stateValue,
-
-                    ///Enable disable state dropdown [OPTIONAL PARAMETER]
-                    showStates: true,
-
-                    /// Enable disable city drop down [OPTIONAL PARAMETER]
-                    showCities: true,
-
-                    ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
-                    flagState: csc_ar.CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
-
-                    ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
-                    dropdownDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Colors.white,
-                        border:
-                            Border.all(color: Colors.grey.shade300, width: 1)),
-
-                    ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
-                    disabledDropdownDecoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Colors.grey.shade300,
-                        border:
-                            Border.all(color: Colors.grey.shade300, width: 1)),
-
-                    //placeholders for dropdown search field
-                    countrySearchPlaceholder: "Country",
-                    stateSearchPlaceholder: "State",
-                    citySearchPlaceholder: "City",
-
-                    ///labels for dropdown
-                    countryDropdownLabel: "الدولة",
-                    stateDropdownLabel: "المحافطة",
-                    cityDropdownLabel: "المديرية",
-
-                    ///Default Country
-                    defaultCountry: csc_ar.DefaultCountry.Yemen,
-                    // currentCity:
-                    //     Provider.of<ProviderSignInOut>(context).cityValue,
-                    // currentState:
-                    //     Provider.of<ProviderSignInOut>(context).stateValue,
-                    // currentCountry:
-                    //     Provider.of<ProviderSignInOut>(context).countryValue,
-
-                    ///Disable country dropdown (Note: use it with default country)
-                    // disableCountry: true,
-
-                    ///selected item style [OPTIONAL PARAMETER]
-                    selectedItemStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-
-                    ///DropdownDialog Heading style [OPTIONAL PARAMETER]
-                    dropdownHeadingStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold),
-
-                    ///DropdownDialog Item style [OPTIONAL PARAMETER]
-                    dropdownItemStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-
-                    ///Dialog box radius [OPTIONAL PARAMETER]
-                    dropdownDialogRadius: 10.0,
-
-                    ///Search bar radius [OPTIONAL PARAMETER]
-                    searchBarRadius: 10.0,
-
-                    ///triggers once country selected in dropdown
-                    onCountryChanged: (value) {},
-
-                    ///triggers once state selected in dropdown
-                    onStateChanged: (value) {},
-
-                    // ///triggers once city selected in dropdown
-                    onCityChanged: (value) {},
-                  ),
-
-                  // Container(
-                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: MyDropdownButtonFormField(
-                  //     hint: "اختر محافظتك",
-                  //     value: selectedGovernorate,
-                  //     items: governorates,
-                  //     icon: const Icon(Icons.location_city_outlined),
-                  //     onChange: (value) =>
-                  //         setState(() => selectedGovernorate = value),
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 20),
-                  // Container(
-                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: MyDropdownButtonFormField(
-                  //     hint: "اختر مديريتك",
-                  //     value: selectedDistrict,
-                  //     items: districs,
-                  //     icon: const Icon(Icons.location_on_outlined),
-                  //     onChange: (value) =>
-                  //         setState(() => selectedDistrict = value),
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 20),
-                  // Container(
-                  //   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  //   child: MyTextFormField(
-                  //     hint: "حارتك أو قريتك",
-                  //     onSave: (value) {},
-                  //     icon: Icons.my_location_outlined,
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        my_stepper.Step(
-          state: my_stepper.StepState.complete,
-          isActive: _activeStepIndex >= 2,
-          title: const Text(''),
-          content: SizedBox(
-            height: stepContentHeight,
-            child: const Center(
-              child: Text(
-                "مراجعة بيانات المستخدم",
-              ),
-            ),
-          ),
-        ),
-      ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'إنشاء حساب متبرع',
-        ),
+        title: const Text('إنشاء حساب متبرع'),
         centerTitle: true,
-        backgroundColor: Colors.red,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ModalProgressHUD(
         inAsyncCall: _saving,
         child: my_stepper.Stepper(
           svgPictureAsset: "assets/images/blood_drop.svg",
-          iconColor: Colors.red,
+          iconColor: Theme.of(context).primaryColor,
           elevation: 0,
           type: my_stepper.StepperType.horizontal,
           currentStep: _activeStepIndex,
@@ -314,7 +102,6 @@ class _SignUpPageState extends State<SignUpPage> {
             if (_activeStepIndex == 0) {
               return;
             }
-
             setState(() {
               _activeStepIndex -= 1;
             });
@@ -376,7 +163,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                               ),
                               label: const Icon(
-                                Icons.arrow_forward,
+                                Icons.check_rounded,
                                 color: Colors.green,
                               ),
                               onPressed: controls.onStepContinue,
@@ -404,6 +191,261 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  List<my_stepper.Step> stepList() => [
+        firstStep(),
+        secondStep(),
+        thirdStep(),
+      ];
+
+  my_stepper.Step firstStep() {
+    return my_stepper.Step(
+      state: _activeStepIndex <= 0
+          ? my_stepper.StepState.editing
+          : my_stepper.StepState.complete,
+      isActive: _activeStepIndex >= 0,
+      title: const Text("بياناتك", style: TextStyle(fontSize: 12)),
+      content: SizedBox(
+        height: stepContentHeight,
+        child: Form(
+          key: _formFirstState,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: MyTextFormField(
+                  hint: "اكتب اسمك",
+                  onSave: (value) {},
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "لا يمكن أن يكون الاسم أقل من حرفين";
+                    }
+                    return null;
+                  },
+                  icon: Icons.person,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: MyTextFormField(
+                  hint: "اكتب رقم هاتفك",
+                  onSave: (value) {},
+                  validator: (value) {
+                    if (value!.length != 9) {
+                      return "يجب أن يكون عدد الأرقام 9";
+                    }
+                    return null;
+                  },
+                  icon: Icons.phone_android,
+                  keyBoardType: TextInputType.number,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: MyDropdownButtonFormField(
+                  hint: "اختر فصيلة دمك",
+                  value: selectedBloodType,
+                  items: bloodTypes,
+                  icon: const Icon(Icons.bloodtype_outlined),
+                  onChange: (value) =>
+                      setState(() => selectedBloodType = value),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  my_stepper.Step secondStep() {
+    return my_stepper.Step(
+      state: _activeStepIndex <= 1
+          ? my_stepper.StepState.editing
+          : my_stepper.StepState.complete,
+      isActive: _activeStepIndex >= 1,
+      title: const Text("عنوانك", style: TextStyle(fontSize: 12)),
+      content: SizedBox(
+        height: stepContentHeight,
+        child: Form(
+          key: _formSecondState,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ///Adding CSC Picker Widget in app
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: CSCPicker(
+                  layout: Layout.vertical,
+                  // currentCountry: countryValue,
+                  // currentCity: cityValue,
+                  // currentState: stateValue,
+
+                  ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                  showStates: true,
+
+                  /// Enable disable city drop down [OPTIONAL PARAMETER]
+                  showCities: true,
+
+                  ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                  flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
+
+                  ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+                  dropdownDecoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                      color: Colors.white,
+                      border: Border.all(color: eSecondColor, width: 1)),
+
+                  ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                  disabledDropdownDecoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                      color: Colors.grey.shade300,
+                      border:
+                          Border.all(color: Colors.grey.shade300, width: 1)),
+
+                  //placeholders for dropdown search field
+                  countrySearchPlaceholder: "الدولة",
+                  stateSearchPlaceholder: "المحافطة",
+                  citySearchPlaceholder: "المديرية",
+
+                  ///labels for dropdown
+                  countryDropdownLabel: "الدولة",
+                  stateDropdownLabel: "المحافطة",
+                  cityDropdownLabel: "المديرية",
+
+                  ///Default Country
+                  defaultCountry: DefaultCountry.Yemen,
+                  // currentCity:
+                  //     Provider.of<ProviderSignInOut>(context).cityValue,
+                  // currentState:
+                  //     Provider.of<ProviderSignInOut>(context).stateValue,
+                  // currentCountry:
+                  //     Provider.of<ProviderSignInOut>(context).countryValue,
+
+                  ///Disable country dropdown (Note: use it with default country)
+                  // disableCountry: true,
+
+                  ///selected item style [OPTIONAL PARAMETER]
+                  selectedItemStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+
+                  ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                  dropdownHeadingStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold),
+
+                  ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                  dropdownItemStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+
+                  ///Dialog box radius [OPTIONAL PARAMETER]
+                  dropdownDialogRadius: 10.0,
+
+                  ///Search bar radius [OPTIONAL PARAMETER]
+                  searchBarRadius: 10.0,
+
+                  ///triggers once country selected in dropdown
+                  onCountryChanged: (value) {},
+
+                  ///triggers once state selected in dropdown
+                  onStateChanged: (value) {},
+
+                  // ///triggers once city selected in dropdown
+                  onCityChanged: (value) {},
+                ),
+              ),
+
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: MyDropdownButtonFormField(
+              //     hint: "اختر محافظتك",
+              //     value: selectedGovernorate,
+              //     items: governorates,
+              //     icon: const Icon(Icons.location_city_outlined),
+              //     onChange: (value) =>
+              //         setState(() => selectedGovernorate = value),
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: MyDropdownButtonFormField(
+              //     hint: "اختر مديريتك",
+              //     value: selectedDistrict,
+              //     items: districs,
+              //     icon: const Icon(Icons.location_on_outlined),
+              //     onChange: (value) =>
+              //         setState(() => selectedDistrict = value),
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: MyTextFormField(
+              //     hint: "حارتك أو قريتك",
+              //     onSave: (value) {},
+              //     icon: Icons.my_location_outlined,
+              //   ),
+              // ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  my_stepper.Step thirdStep() {
+    return my_stepper.Step(
+      state: my_stepper.StepState.complete,
+      isActive: _activeStepIndex >= 2,
+      title: const Text("تأكيد", style: TextStyle(fontSize: 12)),
+      content: SizedBox(
+        height: stepContentHeight,
+        child: Column(
+          children: [
+            const Text("البيانات التي أدخلتها:"),
+            const SizedBox(height: 15),
+            Expanded(
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Text("اسمك", style: TextStyle(height: 1.5)),
+                      Text("رقمك", style: TextStyle(height: 1.5)),
+                      Text("فصيلة دمك", style: TextStyle(height: 1.5)),
+                    ],
+                  ),
+                  const VerticalDivider(width: 20),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "اسم المتبرع",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

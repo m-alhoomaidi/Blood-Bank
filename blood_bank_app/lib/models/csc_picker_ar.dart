@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
-// library csc_picker;
+library csc_picker;
 
-import 'package:csc_picker/dropdown_with_search.dart';
+import '../models/dropdown_with_search.dart';
 import 'package:csc_picker/model/select_status_model.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
@@ -365,6 +365,7 @@ class CSCPickerState extends State<CSCPicker> {
   ///Country Dropdown Widget
   Widget countryDropdown() {
     return DropdownWithSearch(
+      selectedItemPadding: const EdgeInsets.all(20),
       title: widget.countryDropdownLabel,
       placeHolder: widget.countrySearchPlaceholder,
       selectedItemStyle: widget.selectedItemStyle,
@@ -372,16 +373,14 @@ class CSCPickerState extends State<CSCPicker> {
       itemStyle: widget.dropdownItemStyle,
       decoration: widget.dropdownDecoration,
       disabledDecoration: widget.disabledDropdownDecoration,
-      disabled: _country.length == 0 || widget.disableCountry ? true : false,
+      disabled: _country.isEmpty || widget.disableCountry ? true : false,
       dialogRadius: widget.dropdownDialogRadius,
       searchBarRadius: widget.searchBarRadius,
       label: widget.countrySearchPlaceholder,
       items: _country.map((String? dropDownStringItem) {
         return dropDownStringItem;
       }).toList(),
-      selected: _selectedCountry != null
-          ? _selectedCountry
-          : widget.countryDropdownLabel,
+      selected: _selectedCountry ?? widget.countryDropdownLabel,
       //selected: _selectedCountry != null ? _selectedCountry : "Country",
       //onChanged: (value) => _onSelectedCountry(value),
       onChanged: (value) {
