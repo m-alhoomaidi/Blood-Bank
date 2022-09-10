@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/pages/sign_in_page.dart';
 import 'package:blood_bank_app/pages/sign_up_page.dart';
 import 'package:blood_bank_app/style.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,9 @@ class HomeDrower extends StatelessWidget {
             context: context,
             title: "تسجيل دخول",
             icon: Icons.login_rounded,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(SignInPage.routeName);
+            },
           ),
           buildDrawerMenuItem(
             context: context,

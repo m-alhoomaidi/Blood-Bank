@@ -12,6 +12,7 @@ class MyTextFormField extends StatelessWidget {
     this.focusBorderColor,
     this.blurrBorderColor,
     this.fillColor,
+    this.isPassword = false,
   }) : super(key: key);
 
   final TextInputType keyBoardType;
@@ -21,12 +22,14 @@ class MyTextFormField extends StatelessWidget {
   final FormFieldSetter<String>? onSave;
   final IconData? icon;
   final Color? focusBorderColor, blurrBorderColor, fillColor;
+  final bool isPassword;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: onChange,
       validator: validator,
+      obscureText: isPassword,
       onSaved: onSave,
       keyboardType: keyBoardType,
       textAlign: TextAlign.center,

@@ -1,12 +1,11 @@
-import 'package:blood_bank_app/style.dart';
-import 'package:blood_bank_app/widgets/my_checkbox_form_field.dart';
-import 'package:csc_picker/csc_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../widgets/my_outlined_icon_button.dart';
 import '../widgets/my_dropdown_button_form_field.dart';
 import '../widgets/my_text_form_field.dart';
 import '../models/my_stepper.dart' as my_stepper;
+import '../widgets/my_checkbox_form_field.dart';
+import 'package:csc_picker/csc_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 // import '../models/csc_picker_ar.dart' as csc_ar;
 
 class SignUpPage extends StatefulWidget {
@@ -75,7 +74,6 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar(
         title: const Text('إنشاء حساب متبرع'),
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ModalProgressHUD(
         inAsyncCall: _saving,

@@ -1,9 +1,4 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // import 'button_style.dart';
 // import 'color_scheme.dart';
@@ -19,7 +14,6 @@ import 'package:flutter/widgets.dart';
 // import 'theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-// TODO(dragostis): Missing functionality:
 //   * mobile horizontal mode with adding/removing steps
 //   * alternative labeling
 //   * stepper feedback in the case of high-latency interactions
