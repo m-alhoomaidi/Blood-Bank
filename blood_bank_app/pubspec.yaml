@@ -40,6 +40,7 @@ dependencies:
   # csc_picker: ^0.2.6
   csc_picker:
     path: packages/csc_picker-0.2.6
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

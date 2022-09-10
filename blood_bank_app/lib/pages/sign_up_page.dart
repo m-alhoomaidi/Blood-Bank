@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+
 import '../widgets/my_outlined_icon_button.dart';
 import '../widgets/my_dropdown_button_form_field.dart';
 import '../widgets/my_text_form_field.dart';
@@ -194,6 +196,60 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   List<my_stepper.Step> stepList() => [
+        my_stepper.Step(
+          state: _activeStepIndex <= 0
+              ? my_stepper.StepState.editing
+              : my_stepper.StepState.complete,
+          isActive: _activeStepIndex >= 0,
+          title: const Text("حسابك", style: TextStyle(fontSize: 12)),
+          content: SizedBox(
+            height: stepContentHeight,
+            child: Form(
+              key: _firstFormState,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: MyTextFormField(
+                      hint: "بريدك الإلكتروني",
+                      blurrBorderColor: Colors.white,
+                      focusBorderColor: Colors.pink[200],
+                      fillColor: Colors.red[100],
+                      onSave: (value) {},
+                      validator: (value) =>
+                          value != null && EmailValidator.validate(value)
+                              ? value
+                              : "اكتب بريد إيميل صحيح",
+                      icon: Icons.email,
+                      keyBoardType: TextInputType.emailAddress,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: MyTextFormField(
+                      hint: "كلمة المرور",
+                      blurrBorderColor: Colors.white,
+                      focusBorderColor: Colors.pink[200],
+                      fillColor: Colors.red[100],
+                      isPassword: true,
+                      onSave: (value) {},
+                      validator: (value) {
+                        if (value!.length < 6) {
+                          return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
+                        }
+                        return null;
+                      },
+                      icon: Icons.password,
+                      keyBoardType: TextInputType.number,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         firstStep(),
         secondStep(),
         thirdStep(),

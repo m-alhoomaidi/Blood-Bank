@@ -1,3 +1,6 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import '../widgets/my_button.dart';
 import '../widgets/my_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +23,28 @@ class SignInPage extends StatelessWidget {
       body: ModalProgressHUD(
         inAsyncCall: _saving,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 50),
+            Stack(
+              children: [
+                SvgPicture.asset(
+                  "assets/images/blood_drop.svg",
+                  color: Colors.red,
+                  height: 150,
+                ),
+                const Positioned(
+                  bottom: 25,
+                  right: 18,
+                  child: Icon(
+                    Icons.add,
+                    size: 70,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 40),
             Form(
               key: _formState,
               child: Column(
@@ -35,12 +58,10 @@ class SignInPage extends StatelessWidget {
                         fillColor: Colors.red[100],
                         keyBoardType: TextInputType.phone,
                         onSave: (value) {},
-                        validator: (value) {
-                          if (value!.length < 2) {
-                            return "لا يمكن أن يكون الاسم أقل من حرفين";
-                          }
-                          return null;
-                        },
+                        validator: (value) =>
+                            value != null && EmailValidator.validate(value)
+                                ? null
+                                : "اكتب بريد إيميل صحيح",
                         icon: Icons.phone_android),
                   ),
                   const SizedBox(height: 20),
@@ -54,8 +75,8 @@ class SignInPage extends StatelessWidget {
                       fillColor: Colors.red[100],
                       onSave: (value) {},
                       validator: (value) {
-                        if (value!.length != 9) {
-                          return "يجب أن يكون عدد الأرقام 9";
+                        if (value!.length < 6) {
+                          return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
                         }
                         return null;
                       },
