@@ -13,7 +13,7 @@ class MyButton extends StatelessWidget {
       child: Material(
         elevation: 5,
         color: color,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         child: MaterialButton(
           onPressed: onPressed,
           minWidth: 200,
