@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/widgets/my_button.dart';
 import 'package:blood_bank_app/widgets/my_checkbox_form_field.dart';
 import 'package:blood_bank_app/widgets/my_dropdown_button_form_field.dart';
 import 'package:blood_bank_app/widgets/my_outlined_icon_button.dart';
@@ -367,26 +368,33 @@ class _SignUpCenterState extends State<SignUpCenter> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: MyTextFormField(
-                  hint: "اسم المركز الطبي",
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
-                  onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length < 2) {
-                      return "لا يمكن أن يكون الاسم أقل من حرفين";
-                    }
-                    return null;
-                  },
-                  icon: Icons.person,
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  "حرصاً على سلامة البيانات يرجى منكم إرفاق وثيقة تثبت هوية المركز كالترخيص مثلاً",
+                  style: TextStyle(fontSize: 16, height: 2),
                 ),
               ),
-              const SizedBox(height: 20.0),
+              MyButton(
+                title: "صورة إثبات هوية المركز",
+                onPressed: () {},
+              ),
               MyCheckboxFormField(
-                title: const Text("أوافق على سياسات الخصوصية"),
+                title: Row(
+                  children: [
+                    const Text("أوافق على "),
+                    GestureDetector(
+                      child: const Text(
+                        "سياسات الخصوصية",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
                 onSaved: (value) {},
                 validator: (value) {
                   if (!value!) return "يجب أن تؤكد موافقتك";

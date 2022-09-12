@@ -448,76 +448,82 @@ class _SignUpPageState extends State<SignUpPage> {
       state: my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 3,
       title: const Text("تأكيد", style: TextStyle(fontSize: 12)),
-      content: SizedBox(
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         height: stepContentHeight,
         child: Column(
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text("اسمك", style: TextStyle(height: 1.4)),
-                      Text("رقمك", style: TextStyle(height: 1.4)),
-                      Text("فصيلة دمك", style: TextStyle(height: 1.4)),
-                      Text("المحافظة", style: TextStyle(height: 1.4)),
-                      Text("المديرية", style: TextStyle(height: 1.4)),
-                      Text("المنطقة", style: TextStyle(height: 1.4)),
-                    ],
-                  ),
-                  const VerticalDivider(width: 20),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      buildDonorDetail("اسم المتبرع"),
-                      buildDonorDetail("714296685"),
-                      buildDonorDetail("O+"),
-                      buildDonorDetail("إب"),
-                      buildDonorDetail("الظهار"),
-                      buildDonorDetail("السبل"),
-                    ],
-                  ),
-                ],
-              ),
+            Wrap(
+              children: [
+                buildDonorDetail(
+                  key: "اسم المتبرع",
+                  value: "عزالعرب مفيد الحميدي",
+                ),
+                buildDonorDetail(
+                  key: "رقم الهاتف",
+                  value: "714296685",
+                ),
+                buildDonorDetail(
+                  key: "فصيلة الدم",
+                  value: "O+",
+                ),
+                buildDonorDetail(
+                  key: "العنوان",
+                  value: "إب - الظهار - قحزة",
+                ),
+                buildDonorDetail(
+                  key: "البريد الإلكتروني",
+                  value: "ezz2019alarab@gmail.com",
+                ),
+              ],
             ),
-
             Form(
               key: _fourthFormState,
               child: MyCheckboxFormField(
-                title: const Text("أوافق على سياسات الخصوصية"),
+                title: Row(
+                  children: [
+                    const Text("أوافق على "),
+                    GestureDetector(
+                      child: const Text(
+                        "سياسات الخصوصية",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
                 onSaved: (value) {},
                 validator: (value) {
                   if (!value!) return "يجب أن تؤكد موافقتك";
                 },
               ),
             ),
-            // Row(
-            //   children: [
-            //     Checkbox(
-            //         value: didConfirm,
-            //         onChanged: (value) => setState(() => didConfirm = value!)),
-            //     TextButton(
-            //       onPressed: () {},
-            //       style: TextButton.styleFrom(primary: Colors.blue),
-            //       child: const Text("أوافق على سياسات الخصوصية"),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),
     );
   }
 
-  Text buildDonorDetail(String detail) {
-    return Text(
-      detail,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-        height: 1.4,
+  SizedBox buildDonorDetail({
+    required String key,
+    required String value,
+  }) {
+    return SizedBox(
+      height: 28,
+      child: Wrap(
+        children: [
+          Text(
+            "$key:  ",
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          const SizedBox(width: 20.0),
+        ],
       ),
     );
   }
