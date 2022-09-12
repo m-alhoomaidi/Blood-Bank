@@ -95,6 +95,7 @@ class SignInPage extends StatelessWidget {
               MyButton(
                 title: "تسجيل دخول",
                 onPressed: () {},
+                color: eSecondColor,
               ),
             ],
           ),

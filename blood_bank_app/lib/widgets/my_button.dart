@@ -20,7 +20,7 @@ class MyButton extends StatelessWidget {
           height: 42,
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               color: Colors.white,
             ),

@@ -36,7 +36,7 @@ class HomeDrower extends StatelessWidget {
                 width: 80,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  color: eSecondColor,
+                  color: Colors.blue,
                 ),
                 child: const Center(
                   child: Icon(
