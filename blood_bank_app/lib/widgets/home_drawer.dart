@@ -69,12 +69,6 @@ class HomeDrower extends StatelessWidget {
         children: [
           buildDrawerMenuItem(
             context: context,
-            icon: Icons.home_outlined,
-            title: "الرئيسية",
-            onTap: () {},
-          ),
-          buildDrawerMenuItem(
-            context: context,
             title: "تسجيل دخول",
             icon: Icons.login_rounded,
             onTap: () {

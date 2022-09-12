@@ -55,7 +55,7 @@ class SignInPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: MyTextFormField(
                           hint: "رقم الهاتف",
                           blurrBorderColor: Colors.white,
@@ -71,7 +71,7 @@ class SignInPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: MyTextFormField(
                         hint: "كلمة المرور",
                         isPassword: true,

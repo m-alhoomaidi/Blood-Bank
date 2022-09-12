@@ -1,29 +1,27 @@
-import '../style.dart';
-import '../widgets/my_outlined_icon_button.dart';
-import '../widgets/my_dropdown_button_form_field.dart';
-import '../widgets/my_text_form_field.dart';
-import '../widgets/my_checkbox_form_field.dart';
-import '../pages/sing_up_center_page.dart';
-import '../models/my_stepper.dart' as my_stepper;
-import 'package:flutter/material.dart';
+import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/widgets/my_checkbox_form_field.dart';
+import 'package:blood_bank_app/widgets/my_dropdown_button_form_field.dart';
+import 'package:blood_bank_app/widgets/my_outlined_icon_button.dart';
+import 'package:blood_bank_app/widgets/my_text_form_field.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+import '../models/my_stepper.dart' as my_stepper;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
-  static const String routeName = "sign-up";
+class SignUpCenter extends StatefulWidget {
+  SignUpCenter({Key? key}) : super(key: key);
+  static const String routeName = "sign-up-center";
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  State<SignUpCenter> createState() => _SignUpCenterState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpCenterState extends State<SignUpCenter> {
   bool _saving = false;
   final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _secondFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
-  final GlobalKey<FormState> _fourthFormState = GlobalKey<FormState>();
 
   String? selectedGovernorate;
   String? selectedDistrict;
@@ -63,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('إنشاء حساب متبرع'),
+        title: const Text('إنشاء حساب مركز طبي'),
         centerTitle: true,
       ),
       body: ModalProgressHUD(
@@ -152,7 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     color: Colors.green,
                                   ),
                                   onPressed: () {
-                                    _fourthFormState.currentState!.validate();
+                                    _thirdFormState.currentState!.validate();
                                   },
                                   borderColor: Colors.green,
                                 )
@@ -176,24 +174,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                     ],
                   ),
-                  isFirstStep()
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            child: const Text(
-                              "إنشاء حساب كمركز طبي",
-                              style: TextStyle(
-                                color: Colors.blue,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(SignUpCenter.routeName);
-                            },
-                          ),
-                        )
-                      : Container(),
                 ],
               ),
             );
@@ -205,9 +185,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   List<my_stepper.Step> stepList() => <my_stepper.Step>[
         firstStep(),
-        secondSetp(),
+        secondStep(),
         thirdStep(),
-        fourthStep(),
       ];
 
   my_stepper.Step firstStep() {
@@ -224,15 +203,28 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "بخطواتـك هذه قد تـنـقـذ حيـاة إنــسان",
-                style: TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 40.0),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "بريدك الإلكتروني",
+                  hint: "اسم المركز الطبي",
+                  blurrBorderColor: Colors.white,
+                  focusBorderColor: eTextFiledFocusBorder,
+                  fillColor: eTextFiledFill,
+                  onSave: (value) {},
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "لا يمكن أن يكون الاسم أقل من حرفين";
+                    }
+                    return null;
+                  },
+                  icon: Icons.person,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: MyTextFormField(
+                  hint: "البريد الإلكتروني",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
                   fillColor: eTextFiledFill,
@@ -249,7 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "أنشئ كلمة مرور",
+                  hint: "كلمة المرور",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
                   fillColor: eTextFiledFill,
@@ -271,89 +263,17 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  my_stepper.Step secondSetp() {
+  my_stepper.Step secondStep() {
     return my_stepper.Step(
       state: _activeStepIndex <= 1
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 1,
-      title: const Text("بياناتك", style: TextStyle(fontSize: 12)),
-      content: SizedBox(
-        height: stepContentHeight,
-        child: Form(
-          key: _secondFormState,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: MyTextFormField(
-                  hint: "اسمك",
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
-                  onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length < 2) {
-                      return "لا يمكن أن يكون الاسم أقل من حرفين";
-                    }
-                    return null;
-                  },
-                  icon: Icons.person,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: MyTextFormField(
-                  hint: "رقم هاتفك",
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
-                  onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length != 9) {
-                      return "يجب أن يكون عدد الأرقام 9";
-                    }
-                    return null;
-                  },
-                  icon: Icons.phone_android,
-                  keyBoardType: TextInputType.number,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                child: MyDropdownButtonFormField(
-                  hint: "فصيلة دمك",
-                  value: selectedBloodType,
-                  items: bloodTypes,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
-                  icon: const Icon(Icons.bloodtype_outlined),
-                  onChange: (value) =>
-                      setState(() => selectedBloodType = value),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  my_stepper.Step thirdStep() {
-    return my_stepper.Step(
-      state: _activeStepIndex <= 2
-          ? my_stepper.StepState.editing
-          : my_stepper.StepState.complete,
-      isActive: _activeStepIndex >= 2,
       title: const Text("عنوانك", style: TextStyle(fontSize: 12)),
       content: SizedBox(
         height: stepContentHeight,
         child: Form(
-          key: _thirdFormState,
+          key: _secondFormState,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -390,14 +310,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
                   defaultCountry: DefaultCountry.Yemen,
-                  // currentCity:
-                  //     Provider.of<ProviderSignInOut>(context).cityValue,
-                  // currentState:
-                  //     Provider.of<ProviderSignInOut>(context).stateValue,
-                  // currentCountry:
-                  //     Provider.of<ProviderSignInOut>(context).countryValue,
-                  ///Disable country dropdown (Note: use it with default country)
-                  // disableCountry: true,
 
                   selectedItemStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
@@ -422,7 +334,7 @@ class _SignUpPageState extends State<SignUpPage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "المنطقة",
+                  hint: "العنوان",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
                   fillColor: eTextFiledFill,
@@ -443,69 +355,45 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  my_stepper.Step fourthStep() {
+  my_stepper.Step thirdStep() {
     return my_stepper.Step(
       state: my_stepper.StepState.complete,
-      isActive: _activeStepIndex >= 3,
+      isActive: _activeStepIndex >= 2,
       title: const Text("تأكيد", style: TextStyle(fontSize: 12)),
       content: SizedBox(
         height: stepContentHeight,
-        child: Column(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text("اسمك", style: TextStyle(height: 1.4)),
-                      Text("رقمك", style: TextStyle(height: 1.4)),
-                      Text("فصيلة دمك", style: TextStyle(height: 1.4)),
-                      Text("المحافظة", style: TextStyle(height: 1.4)),
-                      Text("المديرية", style: TextStyle(height: 1.4)),
-                      Text("المنطقة", style: TextStyle(height: 1.4)),
-                    ],
-                  ),
-                  const VerticalDivider(width: 20),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      buildDonorDetail("اسم المتبرع"),
-                      buildDonorDetail("714296685"),
-                      buildDonorDetail("O+"),
-                      buildDonorDetail("إب"),
-                      buildDonorDetail("الظهار"),
-                      buildDonorDetail("السبل"),
-                    ],
-                  ),
-                ],
+        child: Form(
+          key: _thirdFormState,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: MyTextFormField(
+                  hint: "اسم المركز الطبي",
+                  blurrBorderColor: Colors.white,
+                  focusBorderColor: eTextFiledFocusBorder,
+                  fillColor: eTextFiledFill,
+                  onSave: (value) {},
+                  validator: (value) {
+                    if (value!.length < 2) {
+                      return "لا يمكن أن يكون الاسم أقل من حرفين";
+                    }
+                    return null;
+                  },
+                  icon: Icons.person,
+                ),
               ),
-            ),
-
-            Form(
-              key: _fourthFormState,
-              child: MyCheckboxFormField(
+              const SizedBox(height: 20.0),
+              MyCheckboxFormField(
                 title: const Text("أوافق على سياسات الخصوصية"),
                 onSaved: (value) {},
                 validator: (value) {
                   if (!value!) return "يجب أن تؤكد موافقتك";
                 },
               ),
-            ),
-            // Row(
-            //   children: [
-            //     Checkbox(
-            //         value: didConfirm,
-            //         onChanged: (value) => setState(() => didConfirm = value!)),
-            //     TextButton(
-            //       onPressed: () {},
-            //       style: TextButton.styleFrom(primary: Colors.blue),
-            //       child: const Text("أوافق على سياسات الخصوصية"),
-            //     ),
-            //   ],
-            // ),
-          ],
+            ],
+          ),
         ),
       ),
     );
