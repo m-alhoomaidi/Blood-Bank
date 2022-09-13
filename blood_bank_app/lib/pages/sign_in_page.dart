@@ -1,10 +1,9 @@
-import 'package:blood_bank_app/style.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../widgets/my_button.dart';
-import '../widgets/my_text_form_field.dart';
+import '../style.dart';
+import '../widgets/forms/my_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignInPage extends StatelessWidget {

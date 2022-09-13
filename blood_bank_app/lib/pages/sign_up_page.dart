@@ -1,8 +1,8 @@
 import '../style.dart';
-import '../widgets/my_outlined_icon_button.dart';
-import '../widgets/my_dropdown_button_form_field.dart';
-import '../widgets/my_text_form_field.dart';
-import '../widgets/my_checkbox_form_field.dart';
+import '../widgets/forms/my_outlined_icon_button.dart';
+import '../widgets/forms/my_dropdown_button_form_field.dart';
+import '../widgets/forms/my_text_form_field.dart';
+import '../widgets/forms/my_checkbox_form_field.dart';
 import '../pages/sing_up_center_page.dart';
 import '../models/my_stepper.dart' as my_stepper;
 import 'package:flutter/material.dart';
@@ -80,8 +80,6 @@ class _SignUpPageState extends State<SignUpPage> {
               setState(() {
                 _activeStepIndex += 1;
               });
-            } else {
-              print('Submited');
             }
           },
           onStepCancel: () {
@@ -496,9 +494,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
                 onSaved: (value) {},
-                validator: (value) {
-                  if (!value!) return "يجب أن تؤكد موافقتك";
-                },
+                validator: (value) => !value! ? "يجب أن تؤكد موافقتك" : null,
               ),
             ),
           ],

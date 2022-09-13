@@ -1,9 +1,8 @@
-import 'package:blood_bank_app/pages/sign_in_page.dart';
-import 'package:blood_bank_app/pages/sing_up_center_page.dart';
-import 'package:blood_bank_app/style.dart';
-
+import '../style.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
+import '../pages/sign_in_page.dart';
+import '../pages/sing_up_center_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
         SignInPage.routeName: (context) => SignInPage(),
-        SignUpCenter.routeName: (context) => SignUpCenter(),
+        SignUpCenter.routeName: (context) => const SignUpCenter(),
       },
     );
   }

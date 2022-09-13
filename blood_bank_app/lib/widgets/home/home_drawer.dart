@@ -1,6 +1,5 @@
-import 'package:blood_bank_app/pages/sign_in_page.dart';
-import 'package:blood_bank_app/pages/sign_up_page.dart';
-import 'package:blood_bank_app/style.dart';
+import '../../pages/sign_in_page.dart';
+import '../../pages/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrower extends StatelessWidget {

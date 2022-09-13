@@ -1,17 +1,16 @@
-import 'package:blood_bank_app/style.dart';
-import 'package:blood_bank_app/widgets/my_button.dart';
-import 'package:blood_bank_app/widgets/my_checkbox_form_field.dart';
-import 'package:blood_bank_app/widgets/my_dropdown_button_form_field.dart';
-import 'package:blood_bank_app/widgets/my_outlined_icon_button.dart';
-import 'package:blood_bank_app/widgets/my_text_form_field.dart';
+import '../style.dart';
+import '../widgets/forms/my_button.dart';
+import '../widgets/forms/my_checkbox_form_field.dart';
+import '../widgets/forms/my_outlined_icon_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
+import '../models/my_stepper.dart' as my_stepper;
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import '../models/my_stepper.dart' as my_stepper;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignUpCenter extends StatefulWidget {
-  SignUpCenter({Key? key}) : super(key: key);
+  const SignUpCenter({Key? key}) : super(key: key);
   static const String routeName = "sign-up-center";
 
   @override
@@ -79,8 +78,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
               setState(() {
                 _activeStepIndex += 1;
               });
-            } else {
-              print('Submited');
             }
           },
           onStepCancel: () {
