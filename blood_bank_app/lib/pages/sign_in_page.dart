@@ -26,7 +26,7 @@ class SignInPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Stack(
@@ -48,7 +48,7 @@ class SignInPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               Form(
                 key: _formState,
                 child: Column(
@@ -87,10 +87,45 @@ class SignInPage extends StatelessWidget {
                         icon: Icons.key_outlined,
                       ),
                     ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0,
+                        vertical: 10.0,
+                      ),
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        child: const Text(
+                          "نسيت كلمة المرور؟",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(width: 50.0),
+                        const Text(
+                          "ليس لديك حساب؟  ",
+                        ),
+                        GestureDetector(
+                          child: const Text(
+                            "إنشاء حساب",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               MyButton(
                 title: "تسجيل دخول",
                 onPressed: () {},
