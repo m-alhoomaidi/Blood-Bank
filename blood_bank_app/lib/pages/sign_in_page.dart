@@ -1,3 +1,6 @@
+import 'package:blood_bank_app/pages/sign_up_page.dart';
+import 'package:blood_bank_app/widgets/forms/my_outlined_icon_button.dart';
+
 import '../style.dart';
 import '../widgets/forms/my_button.dart';
 import '../widgets/forms/my_text_form_field.dart';
@@ -118,7 +121,10 @@ class SignInPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushReplacementNamed(SignUpPage.routeName);
+                          },
                         ),
                       ],
                     ),
@@ -126,10 +132,19 @@ class SignInPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              MyButton(
-                title: "تسجيل دخول",
+              MyOutlinedIconButton(
+                label: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  child: Text(
+                    "تسجيل دخول",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: eSecondColor,
+                    ),
+                  ),
+                ),
                 onPressed: () {},
-                color: eSecondColor,
+                borderColor: eSecondColor,
               ),
             ],
           ),

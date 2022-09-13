@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class MyOutlinedIconButton extends StatelessWidget {
   const MyOutlinedIconButton({
     required this.onPressed,
-    required this.icon,
     required this.label,
+    this.icon,
     this.borderWidth = 2,
     this.borderColor = Colors.blue,
     // this.borderRadius = BorderRadius.zero,
@@ -17,7 +17,7 @@ class MyOutlinedIconButton extends StatelessWidget {
   // final BorderRadius borderRadius;
   // final EdgeInsets padding;
   final Widget label;
-  final Widget icon;
+  final Widget? icon;
   final VoidCallback? onPressed;
 
   @override
@@ -38,7 +38,7 @@ class MyOutlinedIconButton extends StatelessWidget {
         ),
       ),
       label: label,
-      icon: icon,
+      icon: icon ?? Container(),
       onPressed: onPressed,
     );
   }

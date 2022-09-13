@@ -372,8 +372,19 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   style: TextStyle(fontSize: 16, height: 2),
                 ),
               ),
-              MyButton(
-                title: "صورة إثبات هوية المركز",
+              const SizedBox(height: 20),
+              MyOutlinedIconButton(
+                label: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40.0),
+                  child: Text(
+                    "صورة إثبات هوية المركز",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+                borderColor: Colors.blue,
                 onPressed: () {},
               ),
               MyCheckboxFormField(
