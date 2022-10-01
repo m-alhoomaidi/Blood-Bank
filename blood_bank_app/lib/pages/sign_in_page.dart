@@ -1,8 +1,6 @@
-import 'package:blood_bank_app/pages/sign_up_page.dart';
-import 'package:blood_bank_app/widgets/forms/my_outlined_icon_button.dart';
-
+import '../pages/sign_up_page.dart';
+import '../widgets/forms/my_outlined_icon_button.dart';
 import '../style.dart';
-import '../widgets/forms/my_button.dart';
 import '../widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -59,7 +57,7 @@ class SignInPage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: MyTextFormField(
-                          hint: "رقم الهاتف",
+                          hint: "رقم الهاتف أو البريد",
                           blurrBorderColor: Colors.white,
                           focusBorderColor: eTextFiledFocusBorder,
                           fillColor: eTextFiledFill,

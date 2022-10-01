@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [Locale("ar", "AE")],
       initialRoute: HomePage.routeName,
       routes: {
-        HomePage.routeName: (context) => const HomePage(),
+        HomePage.routeName: (context) => HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
         SignInPage.routeName: (context) => SignInPage(),
         SignUpCenter.routeName: (context) => const SignUpCenter(),
