@@ -1,6 +1,5 @@
 import 'package:blood_bank_app/style.dart';
 import 'package:blood_bank_app/widgets/forms/my_dropdown_button_form_field.dart';
-import 'package:blood_bank_app/widgets/forms/my_text_form_field.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +43,7 @@ class _SearchOptionsState extends State<SearchOptions> {
                 flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
                 dropdownDecoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  color: Colors.red[100],
+                  color: eSearchTextFieldFill,
                   border: Border.all(
                     color: Colors.white,
                     width: 1,
@@ -86,7 +85,7 @@ class _SearchOptionsState extends State<SearchOptions> {
                 onCityChanged: (value) {},
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: MyDropdownButtonFormField(
@@ -94,7 +93,7 @@ class _SearchOptionsState extends State<SearchOptions> {
                 value: selectedBloodType,
                 items: bloodTypes,
                 blurrBorderColor: Colors.white,
-                focusBorderColor: eTextFiledFocusBorder,
+                focusBorderColor: eTextFieldFocusBorder,
                 fillColor: eSearchTextFieldFill,
                 icon: const Icon(Icons.bloodtype_outlined),
                 onChange: (value) => setState(() => selectedBloodType = value),

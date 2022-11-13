@@ -232,7 +232,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "بريدك الإلكتروني",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) =>
@@ -249,7 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "أنشئ كلمة مرور",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   isPassword: true,
                   onSave: (value) {},
@@ -288,7 +288,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "اسمك",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
@@ -306,7 +306,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "رقم هاتفك",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
@@ -327,7 +327,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   value: selectedBloodType,
                   items: bloodTypes,
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) =>
@@ -414,7 +414,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "المنطقة",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: Icons.my_location_outlined,
                   onSave: (value) {},

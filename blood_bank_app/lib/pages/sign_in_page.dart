@@ -59,7 +59,7 @@ class SignInPage extends StatelessWidget {
                       child: MyTextFormField(
                           hint: "رقم الهاتف أو البريد",
                           blurrBorderColor: Colors.white,
-                          focusBorderColor: eTextFiledFocusBorder,
+                          focusBorderColor: eTextFieldFocusBorder,
                           fillColor: eTextFieldFill,
                           keyBoardType: TextInputType.phone,
                           onSave: (value) {},
@@ -76,7 +76,7 @@ class SignInPage extends StatelessWidget {
                         hint: "كلمة المرور",
                         isPassword: true,
                         blurrBorderColor: Colors.white,
-                        focusBorderColor: eTextFiledFocusBorder,
+                        focusBorderColor: eTextFieldFocusBorder,
                         fillColor: eTextFieldFill,
                         onSave: (value) {},
                         validator: (value) {

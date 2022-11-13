@@ -206,7 +206,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "اسم المركز الطبي",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
@@ -224,7 +224,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "البريد الإلكتروني",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) =>
@@ -241,7 +241,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "كلمة المرور",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   isPassword: true,
                   onSave: (value) {},
@@ -334,7 +334,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "العنوان",
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: Icons.my_location_outlined,
                   onSave: (value) {},
