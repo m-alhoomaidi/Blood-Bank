@@ -231,6 +231,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "بريدك الإلكتروني",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
@@ -248,6 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "أنشئ كلمة مرور",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
@@ -287,6 +289,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اسمك",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
@@ -305,6 +308,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "رقم هاتفك",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
@@ -325,6 +329,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyDropdownButtonFormField(
                   hint: "فصيلة دمك",
                   value: selectedBloodType,
+                  hintColor: eTextColor,
                   items: bloodTypes,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
@@ -413,6 +418,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "المنطقة",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,

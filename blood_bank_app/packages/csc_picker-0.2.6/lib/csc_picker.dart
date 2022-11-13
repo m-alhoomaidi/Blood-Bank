@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 library csc_picker;
 
 import 'package:csc_picker/dropdown_with_search.dart';
@@ -129,7 +127,6 @@ class CSCPickerState extends State<CSCPicker> {
 
   void _setDefaultCountry() {
     if (widget.defaultCountry != null) {
-      print(_country[DefaultCountries[widget.defaultCountry]!]);
       _onSelectedCountry(_country[DefaultCountries[widget.defaultCountry]!]!);
     }
   }
