@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/pages/search_page.dart';
+
 import '../style.dart';
 import '../widgets/home/home_charts.dart';
 import '../widgets/home/home_carousel.dart';
@@ -45,7 +47,9 @@ class HomePage extends StatelessWidget {
       drawer: const HomeDrower(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(SearchPage.routeName);
+        },
       ),
     );
   }

@@ -12,6 +12,7 @@ class HomeDrower extends StatelessWidget {
       child: Column(
         children: const [
           HomeDrawerHeader(),
+          // if user signed in show HomeDrawerUserBody
           HomeDrawerBody(),
         ],
       ),

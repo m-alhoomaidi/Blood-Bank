@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/pages/search_page.dart';
+
 import '../style.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
@@ -32,10 +34,11 @@ class MyApp extends StatelessWidget {
       supportedLocales: const [Locale("ar", "AE")],
       initialRoute: HomePage.routeName,
       routes: {
-        HomePage.routeName: (context) => HomePage(),
+        HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
         SignInPage.routeName: (context) => SignInPage(),
         SignUpCenter.routeName: (context) => const SignUpCenter(),
+        SearchPage.routeName: (context) => const SearchPage(),
       },
     );
   }
