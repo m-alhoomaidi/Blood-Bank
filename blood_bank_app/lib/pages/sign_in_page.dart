@@ -60,7 +60,7 @@ class SignInPage extends StatelessWidget {
                           hint: "رقم الهاتف أو البريد",
                           blurrBorderColor: Colors.white,
                           focusBorderColor: eTextFiledFocusBorder,
-                          fillColor: eTextFiledFill,
+                          fillColor: eTextFieldFill,
                           keyBoardType: TextInputType.phone,
                           onSave: (value) {},
                           validator: (value) =>
@@ -77,7 +77,7 @@ class SignInPage extends StatelessWidget {
                         isPassword: true,
                         blurrBorderColor: Colors.white,
                         focusBorderColor: eTextFiledFocusBorder,
-                        fillColor: eTextFiledFill,
+                        fillColor: eTextFieldFill,
                         onSave: (value) {},
                         validator: (value) {
                           if (value!.length < 6) {

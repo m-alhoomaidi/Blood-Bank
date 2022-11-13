@@ -6,6 +6,7 @@ Color eSecondColor = const Color.fromARGB(255, 0, 200, 150);
 Color eBgColor = Colors.white70;
 Color eTextColor = Colors.black54;
 Color eTextFiledFocusBorder = Colors.pink[200]!;
-Color eTextFiledFill = Colors.red[100]!;
+Color eTextFieldFill = Colors.red[100]!;
+Color eSearchTextFieldFill = Colors.white;
 
 double fieldsRaduis = 10.0;

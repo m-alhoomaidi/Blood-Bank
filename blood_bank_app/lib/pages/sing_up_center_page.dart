@@ -207,7 +207,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   hint: "اسم المركز الطبي",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length < 2) {
@@ -225,7 +225,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   hint: "البريد الإلكتروني",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) =>
                       value != null && EmailValidator.validate(value)
@@ -242,7 +242,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   hint: "كلمة المرور",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   isPassword: true,
                   onSave: (value) {},
                   validator: (value) {
@@ -335,7 +335,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   hint: "العنوان",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   icon: Icons.my_location_outlined,
                   onSave: (value) {},
                   validator: (value) {

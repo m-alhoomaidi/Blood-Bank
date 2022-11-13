@@ -233,7 +233,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: "بريدك الإلكتروني",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) =>
                       value != null && EmailValidator.validate(value)
@@ -250,7 +250,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: "أنشئ كلمة مرور",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   isPassword: true,
                   onSave: (value) {},
                   validator: (value) {
@@ -289,7 +289,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: "اسمك",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length < 2) {
@@ -307,7 +307,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: "رقم هاتفك",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length != 9) {
@@ -328,7 +328,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   items: bloodTypes,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) =>
                       setState(() => selectedBloodType = value),
@@ -388,14 +388,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
                   defaultCountry: DefaultCountry.Yemen,
-                  // currentCity:
-                  //     Provider.of<ProviderSignInOut>(context).cityValue,
-                  // currentState:
-                  //     Provider.of<ProviderSignInOut>(context).stateValue,
-                  // currentCountry:
-                  //     Provider.of<ProviderSignInOut>(context).countryValue,
-                  ///Disable country dropdown (Note: use it with default country)
-                  // disableCountry: true,
 
                   selectedItemStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
@@ -423,7 +415,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: "المنطقة",
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFiledFocusBorder,
-                  fillColor: eTextFiledFill,
+                  fillColor: eTextFieldFill,
                   icon: Icons.my_location_outlined,
                   onSave: (value) {},
                   validator: (value) {
