@@ -12,7 +12,7 @@ class CarouselItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(5.0),
       child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         child: Stack(
           children: <Widget>[
             Image.asset(item, fit: BoxFit.cover, width: 1000.0),

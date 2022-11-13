@@ -1,9 +1,10 @@
+import 'package:blood_bank_app/style.dart';
 import 'package:blood_bank_app/widgets/home/carousel_item.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class HomeCarousel extends StatefulWidget {
-  HomeCarousel({
+  const HomeCarousel({
     Key? key,
   }) : super(key: key);
 
@@ -58,29 +59,9 @@ class _HomeCarouselState extends State<HomeCarousel> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 200,
-                width: 50,
-                child: Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(0),
-                      backgroundColor: Colors.red.withOpacity(0),
-                      shadowColor: Colors.red.withOpacity(0),
-                    ),
-                    child: const SizedBox(
-                      height: 200,
-                      child: Icon(
-                        Icons.arrow_back_ios_rounded,
-                        size: 40,
-                        color: Colors.black45,
-                      ),
-                    ),
-                    onPressed: () {
-                      _controller.previousPage();
-                    },
-                  ),
-                ),
+              CarouselArrow(
+                controller: _controller,
+                icon: Icons.arrow_back_ios_rounded,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -90,47 +71,67 @@ class _HomeCarouselState extends State<HomeCarousel> {
                     child: Container(
                       width: 12.0,
                       height: 12.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 4.0),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black)
-                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                          color:
+                              // (Theme.of(context).brightness ==
+                              //             Brightness.dark
+                              //         ? Colors.white
+                              //         : Colors.black)
+                              eSecondColor.withOpacity(
+                                  _current == entry.key ? 0.8 : 0.3)),
                     ),
                   );
                 }).toList(),
               ),
-              SizedBox(
-                height: 200,
-                width: 50,
-                child: Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(0),
-                      backgroundColor: Colors.red.withOpacity(0),
-                      shadowColor: Colors.red.withOpacity(0),
-                    ),
-                    child: const SizedBox(
-                      height: 200,
-                      child: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 40,
-                        color: Colors.black45,
-                      ),
-                    ),
-                    onPressed: () {
-                      _controller.nextPage();
-                    },
-                  ),
-                ),
+              CarouselArrow(
+                controller: _controller,
+                icon: Icons.arrow_forward_ios_rounded,
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class CarouselArrow extends StatelessWidget {
+  const CarouselArrow(
+      {Key? key, required CarouselController controller, required this.icon})
+      : _controller = controller,
+        super(key: key);
+
+  final CarouselController _controller;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      width: 50,
+      child: Center(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.all(0),
+            backgroundColor: Colors.red.withOpacity(0),
+            shadowColor: Colors.red.withOpacity(0),
+          ),
+          child: SizedBox(
+            height: 200,
+            child: Icon(
+              icon,
+              size: 40,
+              color: Colors.black45,
+            ),
+          ),
+          onPressed: () {
+            _controller.nextPage();
+          },
+        ),
+      ),
     );
   }
 }
