@@ -30,7 +30,7 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           const Expanded(
-            flex: 2,
+            flex: 3,
             child: SearchResult(),
           ),
         ],
