@@ -8,15 +8,26 @@ class DonerCardBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Padding(
-          padding: EdgeInsets.only(bottom: 12.0),
-          child: Text("data"),
-        ),
-        Text("tayeb"),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
         SizedBox(
           height: 15,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.phone,
+              size: 30,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.2,
+            ),
+            Icon(
+              Icons.message,
+              size: 30,
+            )
+          ],
         )
       ],
     );

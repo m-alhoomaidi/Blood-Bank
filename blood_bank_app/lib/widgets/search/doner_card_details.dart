@@ -22,7 +22,7 @@ class DonerCardDetails extends StatelessWidget {
           height: 10,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.11,
           padding: const EdgeInsets.all(10),
           margin: const EdgeInsets.all(1.0),
           // decoration: const BoxDecoration(
@@ -87,26 +87,26 @@ class DonerCardDetails extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Spacer(),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.phone,
-                            size: 30,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                          ),
-                          const Icon(
-                            Icons.message,
-                            size: 30,
-                          )
-                        ],
-                      ),
-                    )
+                    // const Spacer(),
+                    // Align(
+                    //   alignment: Alignment.topRight,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     children: [
+                    //       const Icon(
+                    //         Icons.phone,
+                    //         size: 30,
+                    //       ),
+                    //       SizedBox(
+                    //         width: MediaQuery.of(context).size.width * 0.2,
+                    //       ),
+                    //       const Icon(
+                    //         Icons.message,
+                    //         size: 30,
+                    //       )
+                    //     ],
+                    //   ),
+                    // )
                   ],
                 ),
               )
