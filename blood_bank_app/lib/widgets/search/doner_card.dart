@@ -1,5 +1,3 @@
-import 'package:blood_bank_app/style.dart';
-
 import '../../widgets/search/doner_card_details.dart';
 import '../../widgets/search/my_expansion_panel.dart';
 import '../../models/doner_data.dart';
@@ -38,13 +36,16 @@ class _DonerCardState extends State<DonerCard> {
                 _donerDatas.map<ExpansionPanel>((DonerCardData donerData) {
               return ExpansionPanelRadio(
                 value: donerData.id,
-                backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                backgroundColor: const Color.fromARGB(0, 255, 255, 255),
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: CircleAvatar(
-                      radius: 25,
-                      child: Text(donerData.id.toString()),
+                    leading: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: CircleAvatar(
+                        radius: 25,
+                        child: Text(donerData.id.toString()),
+                      ),
                     ),
                     title: DonerCardDetails(
                         bloodTayep: donerData.id.toString(),
