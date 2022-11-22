@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+class HomeDrawerMenuItem extends StatelessWidget {
+  const HomeDrawerMenuItem({
+    required this.title,
+    required this.icon,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+}

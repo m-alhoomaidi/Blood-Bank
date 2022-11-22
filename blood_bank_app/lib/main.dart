@@ -1,7 +1,10 @@
-import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/pages/search_page.dart';
 
+import '../style.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
+import '../pages/sign_in_page.dart';
+import '../pages/sing_up_center_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -21,6 +24,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         primaryColor: ePrimColor,
         fontFamily: "Almarai",
+        // textTheme: Theme.of(context).textTheme.copyWith(
+        //       bodyText2: TextStyle(
+        //         color: eTextColor,
+        //         fontFamily: 'Almarai',
+        //       ),
+        //     ),
       ),
       locale: const Locale("ar", "AE"),
       localizationsDelegates: const [
@@ -33,6 +42,9 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
+        SignInPage.routeName: (context) => SignInPage(),
+        SignUpCenter.routeName: (context) => const SignUpCenter(),
+        SearchPage.routeName: (context) => const SearchPage(),
       },
     );
   }

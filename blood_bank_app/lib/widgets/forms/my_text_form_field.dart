@@ -12,6 +12,8 @@ class MyTextFormField extends StatelessWidget {
     this.focusBorderColor,
     this.blurrBorderColor,
     this.fillColor,
+    this.hintStyle = const TextStyle(),
+    this.isPassword = false,
   }) : super(key: key);
 
   final TextInputType keyBoardType;
@@ -21,18 +23,22 @@ class MyTextFormField extends StatelessWidget {
   final FormFieldSetter<String>? onSave;
   final IconData? icon;
   final Color? focusBorderColor, blurrBorderColor, fillColor;
+  final bool isPassword;
+  final TextStyle hintStyle;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: onChange,
       validator: validator,
+      obscureText: isPassword,
       onSaved: onSave,
       keyboardType: keyBoardType,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
         prefixIcon: icon != null ? Icon(icon!) : null,
-        hintText: hint!,
+        hintText: hint,
+        hintStyle: hintStyle,
         filled: (fillColor != null),
         fillColor: fillColor,
         contentPadding:
@@ -48,7 +54,7 @@ class MyTextFormField extends StatelessWidget {
             width: 1,
           ),
           borderRadius: const BorderRadius.all(
-            Radius.circular(50),
+            Radius.circular(10),
           ),
         ),
         focusedBorder: OutlineInputBorder(

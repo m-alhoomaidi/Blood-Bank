@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 
-class MyDropdownButtonFormField extends StatefulWidget {
+class MyDropdownButtonFormField extends StatelessWidget {
   const MyDropdownButtonFormField({
     Key? key,
     required this.value,
     required this.onChange,
     required this.items,
-    this.icon,
-    this.hint,
-    this.focusBorderColor,
-    this.blurrBorderColor,
+    this.icon = const Icon(Icons.menu),
+    this.hint = 'Select an item',
+    this.focusBorderColor = Colors.green,
+    this.blurrBorderColor = Colors.blue,
+    this.hintColor = Colors.black87,
     this.fillColor,
+    this.raduis = 10,
   }) : super(key: key);
 
-  final String? hint;
+  final String hint;
   final String? value;
-  final Icon? icon;
-  final Color? focusBorderColor, blurrBorderColor, fillColor;
+  final Icon icon;
+  final Color focusBorderColor, blurrBorderColor, hintColor;
+  final Color? fillColor;
   final List<String> items;
   final Function(String?)? onChange;
+  final double raduis;
 
-  @override
-  State<MyDropdownButtonFormField> createState() =>
-      _MyDropdownButtonFormFieldState();
-}
-
-class _MyDropdownButtonFormFieldState extends State<MyDropdownButtonFormField> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       hint: Text(
-        widget.hint ?? "Select an item",
+        hint,
+        style: TextStyle(
+          color: hintColor,
+        ),
       ),
-      value: widget.value,
-      items: widget.items
+      value: value,
+      items: items
           .map(
             (item) => DropdownMenuItem<String>(
               value: item,
@@ -43,30 +44,30 @@ class _MyDropdownButtonFormFieldState extends State<MyDropdownButtonFormField> {
             ),
           )
           .toList(),
-      onChanged: widget.onChange,
+      onChanged: onChange,
       decoration: InputDecoration(
-        prefixIcon: widget.icon ?? const Icon(Icons.menu),
-        filled: (widget.fillColor != null),
-        fillColor: widget.fillColor,
+        prefixIcon: icon,
+        filled: (fillColor != null),
+        fillColor: fillColor,
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        border: const OutlineInputBorder(
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(raduis),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: widget.blurrBorderColor ?? Colors.blue[800]!,
+            color: blurrBorderColor,
             width: 1,
           ),
           borderRadius: const BorderRadius.all(
-            Radius.circular(50),
+            Radius.circular(10),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: widget.focusBorderColor ?? Colors.green,
+            color: focusBorderColor,
             width: 2,
           ),
           borderRadius: const BorderRadius.all(
