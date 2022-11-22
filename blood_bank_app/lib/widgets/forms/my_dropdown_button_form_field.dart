@@ -6,18 +6,20 @@ class MyDropdownButtonFormField extends StatelessWidget {
     required this.value,
     required this.onChange,
     required this.items,
-    this.icon,
-    this.hint,
-    this.focusBorderColor,
-    this.blurrBorderColor,
+    this.icon = const Icon(Icons.menu),
+    this.hint = 'Select an item',
+    this.focusBorderColor = Colors.green,
+    this.blurrBorderColor = Colors.blue,
+    this.hintColor = Colors.black87,
     this.fillColor,
     this.raduis = 10,
   }) : super(key: key);
 
-  final String? hint;
+  final String hint;
   final String? value;
-  final Icon? icon;
-  final Color? focusBorderColor, blurrBorderColor, fillColor;
+  final Icon icon;
+  final Color focusBorderColor, blurrBorderColor, hintColor;
+  final Color? fillColor;
   final List<String> items;
   final Function(String?)? onChange;
   final double raduis;
@@ -26,7 +28,10 @@ class MyDropdownButtonFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       hint: Text(
-        hint ?? "Select an item",
+        hint,
+        style: TextStyle(
+          color: hintColor,
+        ),
       ),
       value: value,
       items: items
@@ -41,7 +46,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
           .toList(),
       onChanged: onChange,
       decoration: InputDecoration(
-        prefixIcon: icon ?? const Icon(Icons.menu),
+        prefixIcon: icon,
         filled: (fillColor != null),
         fillColor: fillColor,
         contentPadding:
@@ -53,7 +58,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: blurrBorderColor ?? Colors.blue[800]!,
+            color: blurrBorderColor,
             width: 1,
           ),
           borderRadius: const BorderRadius.all(
@@ -62,7 +67,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: focusBorderColor ?? Colors.green,
+            color: focusBorderColor,
             width: 2,
           ),
           borderRadius: const BorderRadius.all(

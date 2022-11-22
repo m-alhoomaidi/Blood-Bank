@@ -41,6 +41,28 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const HomeCharts(),
+            const SizedBox(height: 20),
+            // const Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+            //   child: Text(
+            //     'إرشــادات صـحيـة:',
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: const [
+            //       Text(
+            //         'أولاً يجب التأكد من فصيلة دم المحتاج.',
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

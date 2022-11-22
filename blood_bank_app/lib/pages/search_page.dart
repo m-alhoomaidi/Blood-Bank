@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/style.dart';
 import 'package:blood_bank_app/widgets/search/search_options.dart';
 import 'package:blood_bank_app/widgets/search/search_result.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class SearchPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
+      backgroundColor: eBackGroundColor,
       body: Column(
         children: <Widget>[
           Expanded(

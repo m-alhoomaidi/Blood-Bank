@@ -251,13 +251,13 @@ class _MyExpansionPanelListState extends State<MyExpansionPanelList> {
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 255, 255),
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(8),
-            bottomRight: Radius.circular(8),
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
           ),
         ),
-        height: MediaQuery.of(context).size.height * 0.2,
+        height: MediaQuery.of(context).size.height * 0.13,
         child: Row(
           children: <Widget>[
             Expanded(
@@ -310,7 +310,11 @@ class _MyExpansionPanelListState extends State<MyExpansionPanelList> {
                     : CrossFadeState.showFirst,
                 duration: widget.animationDuration,
               ),
+<<<<<<< HEAD
               const Divider(height: 5),
+=======
+              const Divider(height: 10),
+>>>>>>> 85821d908fc4e7eb29041ecfe6c9a8651641e2f3
             ],
           ),
         ),

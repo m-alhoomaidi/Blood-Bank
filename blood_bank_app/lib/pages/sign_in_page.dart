@@ -58,8 +58,9 @@ class SignInPage extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: MyTextFormField(
                           hint: "رقم الهاتف أو البريد",
+                          hintStyle: eHintStyle,
                           blurrBorderColor: Colors.white,
-                          focusBorderColor: eTextFiledFocusBorder,
+                          focusBorderColor: eTextFieldFocusBorder,
                           fillColor: eTextFieldFill,
                           keyBoardType: TextInputType.phone,
                           onSave: (value) {},
@@ -74,9 +75,10 @@ class SignInPage extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: MyTextFormField(
                         hint: "كلمة المرور",
+                        hintStyle: eHintStyle,
                         isPassword: true,
                         blurrBorderColor: Colors.white,
-                        focusBorderColor: eTextFiledFocusBorder,
+                        focusBorderColor: eTextFieldFocusBorder,
                         fillColor: eTextFieldFill,
                         onSave: (value) {},
                         validator: (value) {

@@ -24,6 +24,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         primaryColor: ePrimColor,
         fontFamily: "Almarai",
+        // textTheme: Theme.of(context).textTheme.copyWith(
+        //       bodyText2: TextStyle(
+        //         color: eTextColor,
+        //         fontFamily: 'Almarai',
+        //       ),
+        //     ),
       ),
       locale: const Locale("ar", "AE"),
       localizationsDelegates: const [

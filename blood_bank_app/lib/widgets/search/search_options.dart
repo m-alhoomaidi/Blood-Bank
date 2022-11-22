@@ -92,7 +92,7 @@ class _SearchOptionsState extends State<SearchOptions> {
               value: selectedBloodType,
               items: bloodTypes,
               blurrBorderColor: Colors.white,
-              focusBorderColor: eTextFiledFocusBorder,
+              focusBorderColor: eTextFieldFocusBorder,
               fillColor: eSearchTextFieldFill,
               icon: const Icon(Icons.bloodtype_outlined),
               onChange: (value) => setState(() => selectedBloodType = value),

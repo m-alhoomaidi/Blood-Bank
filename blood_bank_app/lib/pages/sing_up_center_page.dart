@@ -205,8 +205,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اسم المركز الطبي",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) {
@@ -223,8 +224,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "البريد الإلكتروني",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   onSave: (value) {},
                   validator: (value) =>
@@ -240,8 +242,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "كلمة المرور",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   isPassword: true,
                   onSave: (value) {},
@@ -333,8 +336,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "العنوان",
+                  hintStyle: eHintStyle,
                   blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFiledFocusBorder,
+                  focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: Icons.my_location_outlined,
                   onSave: (value) {},
