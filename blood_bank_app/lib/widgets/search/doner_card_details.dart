@@ -38,7 +38,7 @@ class DonerCardDetails extends StatelessWidget {
                 child: Wrap(
                   children: [
                     const Text(
-                      "من منطقة",
+                      "المنطقة",
                     ),
                     const SizedBox(
                       width: 5,

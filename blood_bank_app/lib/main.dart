@@ -1,5 +1,4 @@
-import 'package:blood_bank_app/pages/search_page.dart';
-
+import '../pages/search_page.dart';
 import '../style.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
