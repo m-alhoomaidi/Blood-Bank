@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/style.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class CarouselArrow extends StatelessWidget {
             child: Icon(
               icon,
               size: 40,
-              color: Colors.black45,
+              color: eSecondColor.withOpacity(0.4),
             ),
           ),
           onPressed: () {
