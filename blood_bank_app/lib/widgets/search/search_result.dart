@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/widgets/search/doner_card.dart';
 import 'package:flutter/material.dart';
 
 class SearchResult extends StatelessWidget {
@@ -7,8 +8,6 @@ class SearchResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('result'),
-    );
+    return const SizedBox(child: DonerCard());
   }
 }

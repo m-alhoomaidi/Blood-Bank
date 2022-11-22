@@ -42,7 +42,7 @@ class _SearchOptionsState extends State<SearchOptions> {
               flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
               dropdownDecoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                color: eSearchTextFieldFill,
+                color: Colors.red[100],
                 border: Border.all(
                   color: Colors.white,
                   width: 1,
@@ -84,7 +84,7 @@ class _SearchOptionsState extends State<SearchOptions> {
               onCityChanged: (value) {},
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: MyDropdownButtonFormField(
@@ -92,7 +92,7 @@ class _SearchOptionsState extends State<SearchOptions> {
               value: selectedBloodType,
               items: bloodTypes,
               blurrBorderColor: Colors.white,
-              focusBorderColor: eTextFieldFocusBorder,
+              focusBorderColor: eTextFiledFocusBorder,
               fillColor: eSearchTextFieldFill,
               icon: const Icon(Icons.bloodtype_outlined),
               onChange: (value) => setState(() => selectedBloodType = value),
