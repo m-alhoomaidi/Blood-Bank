@@ -13,11 +13,6 @@ class DonerCardBody extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-<<<<<<< HEAD
-            const Icon(
-              Icons.phone,
-              size: 30,
-=======
             Container(
               height: 60,
               width: 150,
@@ -33,16 +28,10 @@ class DonerCardBody extends StatelessWidget {
                 color: Colors.white,
                 size: 30,
               ),
->>>>>>> b474634751f450913173a4c490aab9f2b51f5293
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.05,
             ),
-<<<<<<< HEAD
-            const Icon(
-              Icons.message,
-              size: 30,
-=======
             Container(
               height: 60,
               width: 150,
@@ -58,7 +47,6 @@ class DonerCardBody extends StatelessWidget {
                 color: Colors.white,
                 size: 30,
               ),
->>>>>>> b474634751f450913173a4c490aab9f2b51f5293
             ),
           ],
         )

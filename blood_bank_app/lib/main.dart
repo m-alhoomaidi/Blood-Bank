@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import 'package:blood_bank_app/pages/search_page.dart';
 import 'package:blood_bank_app/pages/setting_page.dart';
 
-=======
-import '../pages/search_page.dart';
->>>>>>> b474634751f450913173a4c490aab9f2b51f5293
 import '../style.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
