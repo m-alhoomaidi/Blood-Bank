@@ -10,20 +10,20 @@ class DonerCardBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.phone,
               size: 30,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.2,
             ),
-            Icon(
+            const Icon(
               Icons.message,
               size: 30,
             )

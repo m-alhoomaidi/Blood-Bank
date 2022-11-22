@@ -26,13 +26,13 @@ class _DonerCardState extends State<DonerCard> {
               setState(() => _donerDatas[index].isExpanded = !isExpanded);
             },
             expandedHeaderPadding: EdgeInsets.zero,
-            dividerColor: Color.fromARGB(148, 237, 236, 236),
+            dividerColor: const Color.fromARGB(148, 237, 236, 236),
             children:
                 _donerDatas.map<ExpansionPanel>((DonerCardData donerData) {
               return ExpansionPanelRadio(
                 // isExpanded: product.isExpanded,
                 value: donerData.id,
-                backgroundColor: Color.fromARGB(216, 255, 255, 255),
+                backgroundColor: const Color.fromARGB(216, 255, 255, 255),
                 canTapOnHeader: false,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
