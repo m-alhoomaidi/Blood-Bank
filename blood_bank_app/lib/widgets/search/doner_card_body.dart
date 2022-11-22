@@ -10,13 +10,7 @@ class DonerCardBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-<<<<<<< HEAD
-        const SizedBox(
-          height: 15,
-        ),
-=======
         SizedBox(height: 15),
->>>>>>> 85821d908fc4e7eb29041ecfe6c9a8651641e2f3
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -310,11 +310,7 @@ class _MyExpansionPanelListState extends State<MyExpansionPanelList> {
                     : CrossFadeState.showFirst,
                 duration: widget.animationDuration,
               ),
-<<<<<<< HEAD
-              const Divider(height: 5),
-=======
               const Divider(height: 10),
->>>>>>> 85821d908fc4e7eb29041ecfe6c9a8651641e2f3
             ],
           ),
         ),
