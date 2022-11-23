@@ -1,8 +1,8 @@
 import 'package:blood_bank_app/style.dart';
 import 'package:flutter/material.dart';
 
-class BuildSwitchListTile extends StatefulWidget {
-  const BuildSwitchListTile({
+class MySwitchListTile extends StatefulWidget {
+  const MySwitchListTile({
     super.key,
     required this.title,
     required this.subTitle,
@@ -10,10 +10,10 @@ class BuildSwitchListTile extends StatefulWidget {
   final String title;
   final String subTitle;
   @override
-  State<BuildSwitchListTile> createState() => _BuildSwitchListTileState();
+  State<MySwitchListTile> createState() => _MySwitchListTileState();
 }
 
-class _BuildSwitchListTileState extends State<BuildSwitchListTile> {
+class _MySwitchListTileState extends State<MySwitchListTile> {
   bool onchangValue = false;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _BuildSwitchListTileState extends State<BuildSwitchListTile> {
             )),
         subtitle: Text(widget.subTitle),
         value: onchangValue,
-        activeColor: ePrimColor,
+        activeColor: eSecondColor,
         onChanged: (val) {
           setState(() {
             onchangValue = val;

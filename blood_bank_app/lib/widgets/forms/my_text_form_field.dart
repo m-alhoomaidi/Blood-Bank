@@ -17,6 +17,7 @@ class MyTextFormField extends StatelessWidget {
     this.suffixIcon = true,
     this.readOnly = false,
     this.onTap,
+    this.controller,
   }) : super(key: key);
 
   final TextInputType keyBoardType;
@@ -30,11 +31,14 @@ class MyTextFormField extends StatelessWidget {
   final bool isPassword;
   final TextStyle hintStyle;
   final bool readOnly;
+  final TextEditingController? controller;
+
   final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       onTap: onTap,
       onChanged: onChange,
       validator: validator,

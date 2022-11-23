@@ -71,7 +71,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
             width: 2,
           ),
           borderRadius: const BorderRadius.all(
-            Radius.circular(50),
+            Radius.circular(10),
           ),
         ),
       ),
