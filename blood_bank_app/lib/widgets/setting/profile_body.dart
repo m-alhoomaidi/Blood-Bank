@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/pages/user_date_page.dart';
 import 'package:blood_bank_app/style.dart';
 import 'package:blood_bank_app/widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,9 @@ class _ProfileBodyState extends State<ProfileBody> {
                 fontWeight: FontWeight.w700,
               ),
             ),
+            onTap: () {
+              Navigator.of(context).pushNamed(UserDataPage.routeName);
+            },
           ),
           const BuildSwitchListTile(
             title: "متاح",
@@ -65,18 +69,22 @@ class _ProfileBodyState extends State<ProfileBody> {
             subTitle: "تشغيل gbs",
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: MyTextFormField(
               hint: 'تاريخ الميلاد',
               hintStyle: eHintStyle,
               isPassword: true,
-              blurrBorderColor: eSecondColor,
-              focusBorderColor: eSecondColor,
               suffixIcon: true,
-              icon: const Icon(Icons.calendar_month),
+              blurrBorderColor: Colors.grey,
+              focusBorderColor: eSecondColor,
+              icon: const Icon(
+                Icons.calendar_month,
+                color: eSecondColor,
+              ),
               readOnly: true,
               onTap: () {
-                print('object');
+                showDateTimePicker(context);
               },
             ),
           ),

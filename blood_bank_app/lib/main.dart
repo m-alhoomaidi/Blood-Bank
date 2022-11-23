@@ -1,5 +1,6 @@
 import 'package:blood_bank_app/pages/search_page.dart';
 import 'package:blood_bank_app/pages/setting_page.dart';
+import 'package:blood_bank_app/pages/user_date_page.dart';
 
 import '../style.dart';
 import '../pages/home_page.dart';
@@ -46,7 +47,8 @@ class MyApp extends StatelessWidget {
         SignInPage.routeName: (context) => SignInPage(),
         SignUpCenter.routeName: (context) => const SignUpCenter(),
         SearchPage.routeName: (context) => const SearchPage(),
-        SettingPage.routeName: (context) => const SettingPage()
+        SettingPage.routeName: (context) => const SettingPage(),
+        UserDataPage.routeName: (context) => const UserDataPage(),
       },
     );
   }
