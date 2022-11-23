@@ -311,7 +311,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
                   defaultCountry: DefaultCountry.Yemen,
-
                   selectedItemStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 16,

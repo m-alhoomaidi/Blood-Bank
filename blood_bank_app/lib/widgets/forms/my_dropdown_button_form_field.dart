@@ -13,6 +13,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
     this.hintColor = Colors.black87,
     this.fillColor,
     this.raduis = 10,
+    this.validator,
   }) : super(key: key);
 
   final String hint;
@@ -23,10 +24,12 @@ class MyDropdownButtonFormField extends StatelessWidget {
   final List<String> items;
   final Function(String?)? onChange;
   final double raduis;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
+      validator: validator,
       hint: Text(
         hint,
         style: TextStyle(
@@ -71,7 +74,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
             width: 2,
           ),
           borderRadius: const BorderRadius.all(
-            Radius.circular(50),
+            Radius.circular(10),
           ),
         ),
       ),

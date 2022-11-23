@@ -1,10 +1,8 @@
-import 'package:blood_bank_app/pages/search_page.dart';
-
+import '../pages/search_page.dart';
 import '../style.dart';
 import '../widgets/home/home_charts.dart';
 import '../widgets/home/home_carousel.dart';
 import '../widgets/home_drawer/home_drawer.dart';
-
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -18,6 +16,23 @@ class HomePage extends StatelessWidget {
         title: const Text("بنك الدم الإلكتروني"),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              // try {
+              //   FirebaseAuth.instance.createUserWithEmailAndPassword(
+              //     email: 'email@example.com',
+              //     password: 'password',
+              //   );
+              // } catch (e) {
+              //   print(e);
+              // }
+            },
+            icon: const Icon(
+              Icons.notifications,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

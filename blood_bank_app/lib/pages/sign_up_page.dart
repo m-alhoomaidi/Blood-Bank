@@ -1,3 +1,7 @@
+import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
@@ -19,17 +23,22 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool _saving = false;
   final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _secondFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _fourthFormState = GlobalKey<FormState>();
 
-  String? selectedGovernorate;
-  String? selectedDistrict;
-  String? selectedBloodType;
+  String? selectedGovernorate, selectedDistrict;
+  String? email,
+      password,
+      name,
+      phone,
+      selectedBloodType,
+      stateName,
+      district,
+      neighborhood;
 
-  final double stepContentHeight = 200.0;
+  final double stepContentHeight = 300.0;
   int _activeStepIndex = 0;
   bool didConfirm = false;
 
@@ -44,20 +53,41 @@ class _SignUpPageState extends State<SignUpPage> {
     "AB-"
   ];
 
-  Future submit() async {
-    FormState? formData = _firstFormState.currentState;
-    if (formData!.validate()) {
-      formData.save();
-      setState(() => _saving = true);
-      // await function();
-    } else {
-      print("Not Valid");
-    }
-  }
+  Future submit() async {}
 
   bool isFirstStep() => _activeStepIndex == 0;
 
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
+
+  void validating() {
+    FormState? formData = _firstFormState.currentState;
+    if (_activeStepIndex == 0) {
+      if (formData!.validate()) {
+        formData.save();
+        setState(() => _activeStepIndex++);
+      }
+    } else if (_activeStepIndex == 1) {
+      FormState? formData = _secondFormState.currentState;
+      if (formData!.validate()) {
+        formData.save();
+        setState(() => _activeStepIndex++);
+      }
+    } else if (_activeStepIndex == 2) {
+      FormState? formData = _thirdFormState.currentState;
+      if (district == null) {
+        print('object');
+        Fluttertoast.showToast(msg: 'يجب اختيار المحافظة والمديرية');
+      } else {
+        print(district);
+        if (formData!.validate()) {
+          formData.save();
+          setState(() => _activeStepIndex++);
+        }
+      }
+    } else {
+      setState(() => _activeStepIndex++);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,138 +96,173 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text('إنشاء حساب متبرع'),
         centerTitle: true,
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: _saving,
-        child: my_stepper.Stepper(
-          svgPictureAsset: "assets/images/blood_drop.svg",
-          iconColor: Theme.of(context).primaryColor,
-          elevation: 0,
-          type: my_stepper.StepperType.horizontal,
-          currentStep: _activeStepIndex,
-          steps: stepList(),
-          onStepContinue: () {
-            if (_activeStepIndex < (stepList().length - 1)) {
-              setState(() {
-                _activeStepIndex += 1;
-              });
-            }
-          },
-          onStepCancel: () {
-            if (isFirstStep()) {
-              return;
-            }
-            setState(() {
-              _activeStepIndex -= 1;
-            });
-          },
-          onStepTapped: (int index) {
-            setState(() {
-              _activeStepIndex = index;
-            });
-          },
-          controlsBuilder:
-              (BuildContext context, my_stepper.ControlsDetails controls) {
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                children: [
-                  Stack(
+      body: BlocConsumer<SignupCubit, SignupState>(
+        listener: (context, state) {
+          if (state is SignupSuccess) {
+            Fluttertoast.showToast(msg: 'تم إنشاء حساب بنجاح');
+            Navigator.of(context).pop();
+          } else if (state is SignupFailure) {
+            Fluttertoast.showToast(
+              msg: state.error,
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
+        },
+        builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: (state is SignupLoading),
+            child: my_stepper.Stepper(
+              svgPictureAsset: "assets/images/blood_drop.svg",
+              iconColor: Theme.of(context).primaryColor,
+              elevation: 0,
+              type: my_stepper.StepperType.horizontal,
+              currentStep: _activeStepIndex,
+              steps: stepList(),
+              onStepContinue: () {
+                if (_activeStepIndex < (stepList().length - 1)) {
+                  setState(() {
+                    _activeStepIndex += 1;
+                  });
+                }
+              },
+              onStepCancel: () {
+                if (isFirstStep()) {
+                  return;
+                }
+                setState(() => _activeStepIndex -= 1);
+              },
+              onStepTapped: (int index) {
+                setState(() {
+                  _activeStepIndex = index;
+                });
+              },
+              controlsBuilder:
+                  (BuildContext context, my_stepper.ControlsDetails controls) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
-                      ),
-                      if (!isFirstStep())
-                        Positioned(
-                          right: 20,
-                          child: SizedBox(
-                            width: 140,
-                            child: MyOutlinedIconButton(
-                              onPressed: controls.onStepCancel,
-                              borderColor: Colors.orange,
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.orange,
-                              ),
-                              label: const Text(
-                                'السابق',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.orange,
+                      Stack(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                          ),
+                          if (!isFirstStep())
+                            Positioned(
+                              right: 20,
+                              child: SizedBox(
+                                width: 140,
+                                child: MyOutlinedIconButton(
+                                  onPressed: controls.onStepCancel,
+                                  borderColor: Colors.orange,
+                                  icon: const Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.orange,
+                                  ),
+                                  label: const Text(
+                                    'السابق',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.orange,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
+                          const SizedBox(width: 20),
+                          Positioned(
+                            left: 20,
+                            child: SizedBox(
+                              width: 140,
+                              child: (isLastStep())
+                                  ? MyOutlinedIconButton(
+                                      icon: const Text(
+                                        'إنشاء',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                      label: const Icon(
+                                        Icons.check_rounded,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () {
+                                        FormState? formData =
+                                            _fourthFormState.currentState;
+                                        if (formData!.validate()) {
+                                          BlocProvider.of<SignupCubit>(context)
+                                              .signUp(
+                                                  email: email!,
+                                                  password: password!);
+                                        }
+                                      },
+                                      borderColor: Colors.green,
+                                    )
+                                  : MyOutlinedIconButton(
+                                      icon: const Text(
+                                        'التالي',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                      label: const Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.blue,
+                                      ),
+                                      onPressed: validating,
+                                      borderColor: Colors.blue,
+                                    ),
+                            ),
                           ),
-                        ),
-                      const SizedBox(width: 20),
-                      Positioned(
-                        left: 20,
-                        child: SizedBox(
-                          width: 140,
-                          child: (isLastStep())
-                              ? MyOutlinedIconButton(
-                                  icon: const Text(
-                                    'إنشاء',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  label: const Icon(
-                                    Icons.check_rounded,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () {
-                                    _fourthFormState.currentState!.validate();
-                                  },
-                                  borderColor: Colors.green,
-                                )
-                              : MyOutlinedIconButton(
-                                  icon: const Text(
-                                    'التالي',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  label: const Icon(
-                                    Icons.arrow_forward,
+                        ],
+                      ),
+                      isFirstStep()
+                          ? Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                child: const Text(
+                                  "إنشاء حساب كمركز طبي",
+                                  style: TextStyle(
                                     color: Colors.blue,
                                   ),
-                                  onPressed: controls.onStepContinue,
-                                  borderColor: Colors.blue,
                                 ),
-                        ),
-                      ),
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacementNamed(
+                                      SignUpCenter.routeName);
+                                },
+                              ),
+                            )
+                          : Container(),
                     ],
                   ),
-                  isFirstStep()
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            child: const Text(
-                              "إنشاء حساب كمركز طبي",
-                              style: TextStyle(
-                                color: Colors.blue,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(SignUpCenter.routeName);
-                            },
-                          ),
-                        )
-                      : Container(),
-                ],
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          );
+        },
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     FormState? formData = _firstFormState.currentState;
+      //     if (formData!.validate()) {
+      //       formData.save();
+      //       setState(() => _saving = true);
+      //       BlocProvider.of<SignupCubit>(context)
+      //           .signUp(email: email!, password: password!);
+      //       setState(() => _saving = false);
+      //     } else {
+      //       print("Not Valid");
+      //     }
+      //   },
+      // ),
     );
   }
 
@@ -235,7 +300,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
-                  onSave: (value) {},
+                  onSave: (value) {
+                    email = value;
+                  },
                   validator: (value) =>
                       value != null && EmailValidator.validate(value)
                           ? null
@@ -254,7 +321,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   isPassword: true,
-                  onSave: (value) {},
+                  onSave: (value) {
+                    password = value;
+                  },
                   validator: (value) {
                     if (value!.length < 6) {
                       return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
@@ -293,7 +362,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
-                  onSave: (value) {},
+                  onSave: (value) {
+                    name = value;
+                  },
                   validator: (value) {
                     if (value!.length < 2) {
                       return "لا يمكن أن يكون الاسم أقل من حرفين";
@@ -312,7 +383,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
-                  onSave: (value) {},
+                  onSave: (value) {
+                    phone = value;
+                  },
                   validator: (value) {
                     if (value!.length != 9) {
                       return "يجب أن يكون عدد الأرقام 9";
@@ -328,6 +401,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyDropdownButtonFormField(
                   hint: "فصيلة دمك",
+                  validator: (value) {
+                    return (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
+                  },
                   value: selectedBloodType,
                   hintColor: eTextColor,
                   items: bloodTypes,
@@ -408,9 +484,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   dropdownDialogRadius: 10.0,
                   searchBarRadius: 10.0,
-                  onCountryChanged: (value) {},
-                  onStateChanged: (value) {},
-                  onCityChanged: (value) {},
+                  onStateChanged: (value) {
+                    stateName = value;
+                  },
+                  onCityChanged: (value) {
+                    district = value;
+                  },
                 ),
               ),
               const SizedBox(height: 20.0),
@@ -423,10 +502,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: const Icon(Icons.my_location_outlined),
-                  onSave: (value) {},
+                  onSave: (value) {
+                    neighborhood = value;
+                  },
                   validator: (value) {
-                    if (value!.length != 9) {
-                      return "يجب أن يكون عدد الأرقام 9";
+                    if (value!.length < 2) {
+                      return "يرجى كتابة قريتك أو حارتك";
                     }
                     return null;
                   },
@@ -453,23 +534,24 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 buildDonorDetail(
                   key: "اسم المتبرع",
-                  value: "عزالعرب مفيد الحميدي",
+                  value: name ?? '',
                 ),
                 buildDonorDetail(
                   key: "رقم الهاتف",
-                  value: "714296685",
+                  value: phone ?? '',
                 ),
                 buildDonorDetail(
                   key: "فصيلة الدم",
-                  value: "O+",
+                  value: selectedBloodType ?? '',
                 ),
                 buildDonorDetail(
                   key: "العنوان",
-                  value: "إب - الظهار - قحزة",
+                  value:
+                      '${stateName ?? ''} - ${district ?? ''} - ${neighborhood ?? ''}',
                 ),
                 buildDonorDetail(
                   key: "البريد الإلكتروني",
-                  value: "ezz2019alarab@gmail.com",
+                  value: email ?? '',
                 ),
               ],
             ),
