@@ -216,7 +216,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                     }
                     return null;
                   },
-                  icon: Icons.person,
+                  icon: const Icon(Icons.person),
                 ),
               ),
               const SizedBox(height: 20),
@@ -233,7 +233,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                       value != null && EmailValidator.validate(value)
                           ? null
                           : "اكتب بريد إيميل صحيح",
-                  icon: Icons.email,
+                  icon: const Icon(Icons.email),
                   keyBoardType: TextInputType.emailAddress,
                 ),
               ),
@@ -254,7 +254,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                     }
                     return null;
                   },
-                  icon: Icons.password,
+                  icon: const Icon(Icons.password),
                 ),
               ),
             ],
@@ -311,7 +311,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
                   defaultCountry: DefaultCountry.Yemen,
-
                   selectedItemStyle: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 16,
@@ -340,7 +339,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
-                  icon: Icons.my_location_outlined,
+                  icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length != 9) {

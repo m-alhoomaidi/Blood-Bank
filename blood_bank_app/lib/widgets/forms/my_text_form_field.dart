@@ -14,6 +14,10 @@ class MyTextFormField extends StatelessWidget {
     this.fillColor,
     this.hintStyle = const TextStyle(),
     this.isPassword = false,
+    this.suffixIcon = true,
+    this.readOnly = false,
+    this.onTap,
+    this.controller,
   }) : super(key: key);
 
   final TextInputType keyBoardType;
@@ -21,22 +25,35 @@ class MyTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChange;
   final FormFieldValidator<String>? validator;
   final FormFieldSetter<String>? onSave;
-  final IconData? icon;
+  final Widget? icon;
+  final bool suffixIcon;
   final Color? focusBorderColor, blurrBorderColor, fillColor;
   final bool isPassword;
   final TextStyle hintStyle;
+  final bool readOnly;
+  final TextEditingController? controller;
+
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      onTap: onTap,
       onChanged: onChange,
       validator: validator,
       obscureText: isPassword,
       onSaved: onSave,
       keyboardType: keyBoardType,
       textAlign: TextAlign.center,
+      readOnly: readOnly,
       decoration: InputDecoration(
-        prefixIcon: icon != null ? Icon(icon!) : null,
+        prefixIcon: suffixIcon
+            ? null
+            : icon != null
+                ? icon!
+                : null,
+        suffixIcon: suffixIcon ? icon : null,
         hintText: hint,
         hintStyle: hintStyle,
         filled: (fillColor != null),

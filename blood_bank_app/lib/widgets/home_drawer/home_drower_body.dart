@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/pages/setting_page.dart';
+
 import 'home_drawer_menu_item.dart';
 import '../../pages/sign_in_page.dart';
 import '../../pages/sign_up_page.dart';
@@ -33,7 +35,9 @@ class HomeDrawerBody extends StatelessWidget {
           HomeDrawerMenuItem(
             icon: Icons.settings_outlined,
             title: "إعدادات",
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(SettingPage.routeName);
+            },
           ),
           const Divider(color: Colors.black54),
           HomeDrawerMenuItem(

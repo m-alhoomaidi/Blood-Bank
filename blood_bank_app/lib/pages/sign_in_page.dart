@@ -57,18 +57,19 @@ class SignInPage extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: MyTextFormField(
-                          hint: "رقم الهاتف أو البريد",
-                          hintStyle: eHintStyle,
-                          blurrBorderColor: Colors.white,
-                          focusBorderColor: eTextFieldFocusBorder,
-                          fillColor: eTextFieldFill,
-                          keyBoardType: TextInputType.phone,
-                          onSave: (value) {},
-                          validator: (value) =>
-                              value != null && EmailValidator.validate(value)
-                                  ? null
-                                  : "اكتب بريد إيميل صحيح",
-                          icon: Icons.phone_android),
+                        hint: "رقم الهاتف أو البريد",
+                        hintStyle: eHintStyle,
+                        blurrBorderColor: Colors.white,
+                        focusBorderColor: eTextFieldFocusBorder,
+                        fillColor: eTextFieldFill,
+                        keyBoardType: TextInputType.phone,
+                        onSave: (value) {},
+                        validator: (value) =>
+                            value != null && EmailValidator.validate(value)
+                                ? null
+                                : "اكتب بريد إيميل صحيح",
+                        icon: const Icon(Icons.phone_android),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Container(
@@ -87,7 +88,7 @@ class SignInPage extends StatelessWidget {
                           }
                           return null;
                         },
-                        icon: Icons.key_outlined,
+                        icon: const Icon(Icons.key_outlined),
                       ),
                     ),
                     Container(
