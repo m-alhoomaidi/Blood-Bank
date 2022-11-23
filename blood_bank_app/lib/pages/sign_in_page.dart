@@ -1,3 +1,10 @@
+import 'dart:math';
+
+import 'package:blood_bank_app/cubit/signin_cubit/signin_cubit.dart';
+import 'package:blood_bank_app/pages/home_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../pages/sign_up_page.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../style.dart';
@@ -13,6 +20,7 @@ class SignInPage extends StatelessWidget {
 
   bool _saving = false;
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
+  String? email, password;
 
   @override
   Widget build(BuildContext context) {
@@ -21,135 +29,161 @@ class SignInPage extends StatelessWidget {
         title: const Text('تسجيل دخول'),
         centerTitle: true,
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: _saving,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Stack(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/blood_drop.svg",
-                      color: ePrimColor,
-                      height: 100,
-                    ),
-                    const Positioned(
-                      bottom: 7,
-                      right: 0,
-                      child: Icon(
-                        Icons.add,
-                        size: 70,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Form(
-                key: _formState,
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 40),
-                      child: MyTextFormField(
-                        hint: "رقم الهاتف أو البريد",
-                        hintStyle: eHintStyle,
-                        blurrBorderColor: Colors.white,
-                        focusBorderColor: eTextFieldFocusBorder,
-                        fillColor: eTextFieldFill,
-                        keyBoardType: TextInputType.phone,
-                        onSave: (value) {},
-                        validator: (value) =>
-                            value != null && EmailValidator.validate(value)
-                                ? null
-                                : "اكتب بريد إيميل صحيح",
-                        icon: const Icon(Icons.phone_android),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 40),
-                      child: MyTextFormField(
-                        hint: "كلمة المرور",
-                        hintStyle: eHintStyle,
-                        isPassword: true,
-                        blurrBorderColor: Colors.white,
-                        focusBorderColor: eTextFieldFocusBorder,
-                        fillColor: eTextFieldFill,
-                        onSave: (value) {},
-                        validator: (value) {
-                          if (value!.length < 6) {
-                            return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
-                          }
-                          return null;
-                        },
-                        icon: const Icon(Icons.key_outlined),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 50.0,
-                        vertical: 10.0,
-                      ),
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        child: const Text(
-                          "نسيت كلمة المرور؟",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
-                    ),
-                    Row(
+      body: BlocConsumer<SingInCubit, SignInState>(
+        listener: (context, state) {
+          if (state is SigninSuccess) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          } else if (state is SigninFailure) {
+            Fluttertoast.showToast(
+              msg: state.error,
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: (state is SigninLoading),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Stack(
                       children: [
-                        const SizedBox(width: 50.0),
-                        const Text(
-                          "ليس لديك حساب؟  ",
+                        SvgPicture.asset(
+                          "assets/images/blood_drop.svg",
+                          color: ePrimColor,
+                          height: 100,
                         ),
-                        GestureDetector(
-                          child: const Text(
-                            "إنشاء حساب",
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        const Positioned(
+                          bottom: 7,
+                          right: 0,
+                          child: Icon(
+                            Icons.add,
+                            size: 70,
+                            color: Colors.white,
                           ),
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushReplacementNamed(SignUpPage.routeName);
-                          },
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 30),
-              MyOutlinedIconButton(
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
-                  child: Text(
-                    "تسجيل دخول",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: eSecondColor,
+                  ),
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formState,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 40),
+                          child: MyTextFormField(
+                            hint: "رقم الهاتف أو البريد",
+                            hintStyle: eHintStyle,
+                            blurrBorderColor: Colors.white,
+                            focusBorderColor: eTextFieldFocusBorder,
+                            fillColor: eTextFieldFill,
+                            keyBoardType: TextInputType.phone,
+                            onSave: (value) {
+                              email = value;
+                            },
+                            validator: (value) =>
+                                value != null && EmailValidator.validate(value)
+                                    ? null
+                                    : "اكتب بريد إيميل صحيح",
+                            icon: const Icon(Icons.phone_android),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 40),
+                          child: MyTextFormField(
+                            hint: "كلمة المرور",
+                            hintStyle: eHintStyle,
+                            isPassword: true,
+                            blurrBorderColor: Colors.white,
+                            focusBorderColor: eTextFieldFocusBorder,
+                            fillColor: eTextFieldFill,
+                            onSave: (value) {
+                              password = value;
+                            },
+                            validator: (value) {
+                              if (value!.length < 6) {
+                                return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
+                              }
+                              return null;
+                            },
+                            icon: const Icon(Icons.key_outlined),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 50.0,
+                            vertical: 10.0,
+                          ),
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            child: const Text(
+                              "نسيت كلمة المرور؟",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {},
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(width: 50.0),
+                            const Text(
+                              "ليس لديك حساب؟  ",
+                            ),
+                            GestureDetector(
+                              child: const Text(
+                                "إنشاء حساب",
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed(SignUpPage.routeName);
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                onPressed: () {},
-                borderColor: eSecondColor,
+                  const SizedBox(height: 30),
+                  MyOutlinedIconButton(
+                    label: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Text(
+                        "تسجيل دخول",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: eSecondColor,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (_formState.currentState!.validate()) {
+                        _formState.currentState!.save();
+                        BlocProvider.of<SingInCubit>(context)
+                            .signIn(email: email!, password: password!);
+                      }
+                    },
+                    borderColor: eSecondColor,
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
