@@ -1,16 +1,19 @@
-import 'package:blood_bank_app/pages/search_page.dart';
-import 'package:blood_bank_app/pages/setting_page.dart';
-import 'package:blood_bank_app/pages/user_date_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-import '../style.dart';
-import '../pages/home_page.dart';
-import '../pages/sign_up_page.dart';
-import '../pages/sign_in_page.dart';
-import '../pages/sing_up_center_page.dart';
+import 'pages/search_page.dart';
+import 'pages/setting_page.dart';
+import 'pages/user_date_page.dart';
+import 'pages/home_page.dart';
+import 'pages/sign_up_page.dart';
+import 'pages/sign_in_page.dart';
+import 'pages/sing_up_center_page.dart';
+import 'style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
