@@ -1,4 +1,6 @@
+import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'pages/search_page.dart';
 import 'pages/setting_page.dart';
@@ -14,7 +16,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (BuildContext context) => SignupCubit(),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
