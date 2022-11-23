@@ -9,9 +9,14 @@ import { CssBaseline,Container, Paper, Box } from "@material-ui/core";
 const App = ()=> {
   return (
     <BrowserRouter> 
-      <CssBaseline />
-    <Container component={Box} p={3} >
-      <Paper component={Box} p={2}  >
+    <Container component={Box} p={3} sx={{
+      marginTop :"60px",
+    }}>
+      {/* <CssBaseline />
+    <Container component={Box} p={3} sx={{
+      marginTop :"60px",
+    }}>
+      <Paper component={Box} p={1} > */}
      
      
          
@@ -29,7 +34,7 @@ const App = ()=> {
       
       
       
-       </Paper>
+      
     </Container>
     </BrowserRouter>
   );
