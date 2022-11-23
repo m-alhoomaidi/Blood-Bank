@@ -120,7 +120,7 @@ export default function RecipeReviewCard() {
   required
   multiline
   id="phoneNumber"
-  defaultValue="+967 775076363"
+  defaultValue="عبدالله اليفرسي"
   helperText="أنقر لتغيير اسمك الشخصي"
   name="phoneNumber"
   autoComplete="phoneNumber"
@@ -157,7 +157,7 @@ export default function RecipeReviewCard() {
   required
   multiline
   id="phoneNumber"
-  defaultValue="+967 775076363"
+  defaultValue="A+"
   helperText="أنقر لتعيير فصيلة دمك"
   name="phoneNumber"
   autoComplete="phoneNumber"
@@ -177,7 +177,7 @@ export default function RecipeReviewCard() {
   required
   multiline
   id="phoneNumber"
-  defaultValue="+967 775076363"
+  defaultValue="Abdullah@gmail.com"
   helperText="أنقر لتغيير البريد الالكتروني "
   name="phoneNumber"
   autoComplete="phoneNumber"
@@ -206,8 +206,8 @@ export default function RecipeReviewCard() {
   required
   multiline
   id="phoneNumber"
-  defaultValue="+967 775076363"
-  helperText="أنقر لتعيير بريدك الالكتروني"
+  defaultValue="إب"
+  helperText="أنقر لتعيير المحافظة"
   name="phoneNumber"
   autoComplete="phoneNumber"
 />
@@ -224,8 +224,8 @@ export default function RecipeReviewCard() {
   required
   multiline
   id="phoneNumber"
-  defaultValue="+967 775076363"
-  helperText="أنقر لتعيير بريدك الالكتروني"
+  defaultValue="جبلة"
+  helperText="أنقر لتعيير المديرية"
   name="phoneNumber"
   autoComplete="phoneNumber"
 />
@@ -242,8 +242,8 @@ export default function RecipeReviewCard() {
   required
   multiline
   id="phoneNumber"
-  defaultValue="+967 775076363"
-  helperText="أنقر لتعيير بريدك الالكتروني"
+  defaultValue="الشراعي"
+  helperText="أنقر لتعيير المنطقة"
   name="phoneNumber"
   autoComplete="phoneNumber"
 />
