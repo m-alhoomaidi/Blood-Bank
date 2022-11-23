@@ -240,7 +240,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       value != null && EmailValidator.validate(value)
                           ? null
                           : "اكتب بريد إيميل صحيح",
-                  icon: Icons.email,
+                  icon: const Icon(Icons.email),
                   keyBoardType: TextInputType.emailAddress,
                 ),
               ),
@@ -261,7 +261,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                     return null;
                   },
-                  icon: Icons.password,
+                  icon: const Icon(Icons.password),
                 ),
               ),
             ],
@@ -300,7 +300,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                     return null;
                   },
-                  icon: Icons.person,
+                  icon: const Icon(Icons.person),
                 ),
               ),
               const SizedBox(height: 20),
@@ -319,7 +319,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     }
                     return null;
                   },
-                  icon: Icons.phone_android,
+                  icon: const Icon(Icons.phone_android),
                   keyBoardType: TextInputType.number,
                 ),
               ),
@@ -422,7 +422,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
-                  icon: Icons.my_location_outlined,
+                  icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length != 9) {
