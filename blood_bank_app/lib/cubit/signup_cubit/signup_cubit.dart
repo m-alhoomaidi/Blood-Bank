@@ -13,13 +13,17 @@ class SignupCubit extends Cubit<SignupState> {
     required String password,
   }) async {
     emit(SignupLoading());
-    await fireAuth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then((userCredential) {
-      if (userCredential.user != null) {
-        emit(SignupSuccess());
-        currentUser = userCredential.user;
-      }
-    });
+    try {
+      await fireAuth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((userCredential) {
+        if (userCredential.user != null) {
+          emit(SignupSuccess());
+          currentUser = userCredential.user;
+        }
+      });
+    } catch (e) {
+      emit(SignupFailure(error: e.toString()));
+    }
   }
 }

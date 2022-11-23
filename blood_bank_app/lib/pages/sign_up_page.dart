@@ -23,7 +23,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool _saving = false;
   final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _secondFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
@@ -60,6 +59,36 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
+  void validating() {
+    FormState? formData = _firstFormState.currentState;
+    if (_activeStepIndex == 0) {
+      if (formData!.validate()) {
+        formData.save();
+        setState(() => _activeStepIndex++);
+      }
+    } else if (_activeStepIndex == 1) {
+      FormState? formData = _secondFormState.currentState;
+      if (formData!.validate()) {
+        formData.save();
+        setState(() => _activeStepIndex++);
+      }
+    } else if (_activeStepIndex == 2) {
+      FormState? formData = _thirdFormState.currentState;
+      if (district == null) {
+        print('object');
+        Fluttertoast.showToast(msg: 'يجب اختيار المحافظة والمديرية');
+      } else {
+        print(district);
+        if (formData!.validate()) {
+          formData.save();
+          setState(() => _activeStepIndex++);
+        }
+      }
+    } else {
+      setState(() => _activeStepIndex++);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +96,18 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text('إنشاء حساب متبرع'),
         centerTitle: true,
       ),
-      body: BlocBuilder<SignupCubit, SignupState>(
+      body: BlocConsumer<SignupCubit, SignupState>(
+        listener: (context, state) {
+          if (state is SignupSuccess) {
+            Fluttertoast.showToast(msg: 'تم إنشاء حساب بنجاح');
+            Navigator.of(context).pop();
+          } else if (state is SignupFailure) {
+            Fluttertoast.showToast(
+              msg: state.error,
+              toastLength: Toast.LENGTH_LONG,
+            );
+          }
+        },
         builder: (context, state) {
           return ModalProgressHUD(
             inAsyncCall: (state is SignupLoading),
@@ -151,8 +191,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                         color: Colors.green,
                                       ),
                                       onPressed: () {
-                                        _fourthFormState.currentState!
-                                            .validate();
+                                        FormState? formData =
+                                            _fourthFormState.currentState;
+                                        if (formData!.validate()) {
+                                          BlocProvider.of<SignupCubit>(context)
+                                              .signUp(
+                                                  email: email!,
+                                                  password: password!);
+                                        }
                                       },
                                       borderColor: Colors.green,
                                     )
@@ -169,48 +215,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Icons.arrow_forward,
                                         color: Colors.blue,
                                       ),
-                                      onPressed: //controls.onStepContinue,
-                                          () async {
-                                        FormState? formData =
-                                            _firstFormState.currentState;
-                                        if (_activeStepIndex == 0) {
-                                          if (formData!.validate()) {
-                                            formData.save();
-                                            setState(() => _activeStepIndex++);
-                                          }
-                                        } else if (_activeStepIndex == 1) {
-                                          FormState? formData =
-                                              _secondFormState.currentState;
-                                          if (formData!.validate()) {
-                                            formData.save();
-                                            setState(() => _activeStepIndex++);
-                                          }
-                                        } else if (_activeStepIndex == 2) {
-                                          FormState? formData =
-                                              _thirdFormState.currentState;
-                                          if (district == null) {
-                                            print('object');
-                                            Fluttertoast.showToast(
-                                                msg:
-                                                    "This is Center Short Toast",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.red,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          } else {
-                                            print(district);
-                                            if (formData!.validate()) {
-                                              formData.save();
-                                              setState(
-                                                  () => _activeStepIndex++);
-                                            }
-                                          }
-                                        } else {
-                                          setState(() => _activeStepIndex++);
-                                        }
-                                      },
+                                      onPressed: validating,
                                       borderColor: Colors.blue,
                                     ),
                             ),
@@ -501,8 +506,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     neighborhood = value;
                   },
                   validator: (value) {
-                    if (value!.length != 9) {
-                      return "يجب أن يكون عدد الأرقام 9";
+                    if (value!.length < 2) {
+                      return "يرجى كتابة قريتك أو حارتك";
                     }
                     return null;
                   },
