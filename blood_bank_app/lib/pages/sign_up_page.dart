@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/models/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -35,7 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
       password,
       name,
       phone,
-      selectedBloodType,
+      bloodType,
       stateName,
       district,
       neighborhood;
@@ -198,7 +199,18 @@ class _SignUpPageState extends State<SignUpPage> {
                                         if (formData!.validate()) {
                                           BlocProvider.of<SignupCubit>(context)
                                               .signUp(
-                                                  email: email!,
+                                                  donor: Donor(
+                                                    email: email!,
+                                                    password: password!,
+                                                    name: name!,
+                                                    phone: phone!,
+                                                    bloodType: bloodType!,
+                                                    state: stateName!,
+                                                    district: district!,
+                                                    neighborhood: neighborhood!,
+                                                    image: '',
+                                                    brithDate: '',
+                                                  ),
                                                   password: password!);
                                         }
                                       },
@@ -401,15 +413,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   validator: (value) {
                     return (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
                   },
-                  value: selectedBloodType,
+                  value: bloodType,
                   hintColor: eTextColor,
                   items: bloodTypes,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: const Icon(Icons.bloodtype_outlined),
-                  onChange: (value) =>
-                      setState(() => selectedBloodType = value),
+                  onChange: (value) => setState(() => bloodType = value),
                 ),
               ),
             ],
@@ -539,7 +550,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 buildDonorDetail(
                   key: "فصيلة الدم",
-                  value: selectedBloodType ?? '',
+                  value: bloodType ?? '',
                 ),
                 buildDonorDetail(
                   key: "العنوان",

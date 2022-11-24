@@ -14,18 +14,6 @@ class SingInCubit extends Cubit<SignInState> {
     required String password,
   }) async {
     emit(SigninLoading());
-    // try {
-    //   await fireAuth
-    //       .createUserWithEmailAndPassword(email: email, password: password)
-    //       .then((userCredential) {
-    //     if (userCredential.user != null) {
-    //       emit(SinginSuccess());
-    //       currentUser = userCredential.user;
-    //     }
-    //   });
-    // } catch (e) {
-    //   emit(SinginFailure(error: e.toString()));
-    // }
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)

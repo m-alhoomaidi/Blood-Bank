@@ -1,8 +1,8 @@
 class Donor {
   String email;
-  String pass;
+  String password;
   String name;
-  String number;
+  String phone;
   String bloodType;
   String state;
   String district;
@@ -12,27 +12,28 @@ class Donor {
   String gender;
   String isShown;
   String isShownNumber;
-  String gbs;
+  String gps;
 
-  Donor(
-      {required this.email,
-      required this.pass,
-      required this.name,
-      required this.number,
-      required this.bloodType,
-      required this.state,
-      required this.district,
-      required this.neighborhood,
-      required this.image,
-      required this.brithDate,
-      this.gender = "male",
-      this.isShown = "1",
-      this.isShownNumber = "1",
-      this.gbs = "0"});
+  Donor({
+    required this.email,
+    required this.password,
+    required this.name,
+    required this.phone,
+    required this.bloodType,
+    required this.state,
+    required this.district,
+    required this.neighborhood,
+    this.brithDate = '',
+    this.image = '',
+    this.gender = "male",
+    this.isShown = "1",
+    this.isShownNumber = "1",
+    this.gps = "1",
+  });
 
   static Map<String, String> toMap(Donor donor) => {
         "name": donor.name,
-        "number": donor.number,
+        "number": donor.phone,
         "blood_type": donor.bloodType,
         "state": donor.state,
         "district": donor.district,
@@ -42,13 +43,14 @@ class Donor {
         "gender": donor.brithDate,
         "is_shown": donor.isShown,
         "is_shown_number": donor.isShownNumber,
-        "gbs": donor.gbs
+        "gbs": donor.gps
       };
+
   static Donor fromJson(donor) => Donor(
       email: donor["email"],
-      pass: donor["pass"],
+      password: donor["pass"],
       name: donor["name"],
-      number: donor["number"],
+      phone: donor["number"],
       bloodType: donor["bloodType"],
       state: donor["state"],
       district: donor["district"],

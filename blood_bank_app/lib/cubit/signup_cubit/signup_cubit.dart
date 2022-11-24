@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:blood_bank_app/models/donor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 part 'signup_state.dart';
@@ -9,13 +10,14 @@ class SignupCubit extends Cubit<SignupState> {
   User? currentUser;
 
   Future<void> signUp({
-    required String email,
+    required Donor donor,
     required String password,
   }) async {
     emit(SignupLoading());
     try {
       await fireAuth
-          .createUserWithEmailAndPassword(email: email, password: password)
+          .createUserWithEmailAndPassword(
+              email: donor.email, password: password)
           .then((userCredential) {
         if (userCredential.user != null) {
           emit(SignupSuccess());
@@ -46,4 +48,6 @@ class SignupCubit extends Cubit<SignupState> {
       emit(SignupFailure(error: e.toString()));
     }
   }
+
+  Future<void> addUserData({required Donor donor}) async {}
 }
