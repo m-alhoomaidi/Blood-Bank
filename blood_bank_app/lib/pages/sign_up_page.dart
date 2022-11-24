@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../cubit/signup_cubit/signup_cubit.dart';
 import '../style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
@@ -252,11 +255,6 @@ class _SignUpPageState extends State<SignUpPage> {
       //   onPressed: () async {
       //     FormState? formData = _firstFormState.currentState;
       //     if (formData!.validate()) {
-      //       formData.save();
-      //       setState(() => _saving = true);
-      //       BlocProvider.of<SignupCubit>(context)
-      //           .signUp(email: email!, password: password!);
-      //       setState(() => _saving = false);
       //     } else {
       //       print("Not Valid");
       //     }

@@ -22,6 +22,26 @@ class SignupCubit extends Cubit<SignupState> {
           currentUser = userCredential.user;
         }
       });
+    } on FirebaseException catch (e) {
+      String fireError = 'خطأ';
+      switch (e.code) {
+        case 'invalid-email':
+          fireError = 'بريد غير صالح';
+          break;
+        case 'weak-password':
+          fireError = 'كلمة المرور ضعيفة';
+          break;
+        case 'email-already-in-use':
+          fireError = 'الحساب مسجل بالفعل';
+          break;
+        case 'unknown':
+          fireError = 'تأكد من اتصال الإنترنت';
+          break;
+        default:
+          fireError = 'خطأ غير معروف';
+          break;
+      }
+      emit(SignupFailure(error: fireError));
     } catch (e) {
       emit(SignupFailure(error: e.toString()));
     }
