@@ -12,7 +12,7 @@ class Donor {
   String gender;
   String isShown;
   String isShownNumber;
-  String gps;
+  String isGpsOn;
 
   Donor({
     required this.email,
@@ -28,7 +28,7 @@ class Donor {
     this.gender = "male",
     this.isShown = "1",
     this.isShownNumber = "1",
-    this.gps = "1",
+    this.isGpsOn = "1",
   });
 
   static Map<String, String> toMap(Donor donor) => {
@@ -43,18 +43,22 @@ class Donor {
         "gender": donor.brithDate,
         "is_shown": donor.isShown,
         "is_shown_number": donor.isShownNumber,
-        "gbs": donor.gps
+        "is_gps_on": donor.isGpsOn
       };
 
   static Donor fromJson(donor) => Donor(
-      email: donor["email"],
-      password: donor["pass"],
-      name: donor["name"],
-      phone: donor["number"],
-      bloodType: donor["bloodType"],
-      state: donor["state"],
-      district: donor["district"],
-      neighborhood: donor["neighborhood"],
-      image: donor["image"],
-      brithDate: donor["brithDate"]);
+        email: donor["email"],
+        password: donor["pass"],
+        name: donor["name"],
+        phone: donor["number"],
+        bloodType: donor["bloodType"],
+        state: donor["state"],
+        district: donor["district"],
+        neighborhood: donor["neighborhood"],
+        image: donor["image"],
+        brithDate: donor["brithDate"],
+        isShown: donor["is_shown"],
+        isShownNumber: donor["is_shown_number"],
+        isGpsOn: donor["is_gps_on"],
+      );
 }
