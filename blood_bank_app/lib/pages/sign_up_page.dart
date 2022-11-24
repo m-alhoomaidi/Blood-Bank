@@ -1,3 +1,4 @@
+import '../utils.dart';
 import '../models/donor.dart';
 import '../pages/home_page.dart';
 import '../cubit/signup_cubit/signup_cubit.dart';
@@ -54,8 +55,6 @@ class _SignUpPageState extends State<SignUpPage> {
     "AB-"
   ];
 
-  Future submit() async {}
-
   bool isFirstStep() => _activeStepIndex == 0;
 
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
@@ -97,13 +96,10 @@ class _SignUpPageState extends State<SignUpPage> {
       body: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           if (state is SignupSuccess) {
-            Fluttertoast.showToast(msg: 'تم إنشاء حساب بنجاح');
+            Utils.showSnackBar(context: context, msg: 'تم إنشاء حساب بنجاح');
             Navigator.of(context).pushReplacementNamed(HomePage.routeName);
           } else if (state is SignupFailure) {
-            Fluttertoast.showToast(
-              msg: state.error,
-              toastLength: Toast.LENGTH_LONG,
-            );
+            Utils.showSnackBar(context: context, msg: state.error);
           }
         },
         builder: (context, state) {
