@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:blood_bank_app/models/donor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 part 'signup_state.dart';
@@ -20,10 +20,13 @@ class SignupCubit extends Cubit<SignupState> {
       await fireAuth
           .createUserWithEmailAndPassword(
               email: donor.email, password: password)
-          .then((userCredential) {
+          .then((userCredential) async {
         if (userCredential.user != null) {
-          emit(SignupSuccess());
           currentUser = userCredential.user;
+          fireStore
+              .collection('donor')
+              .add(Donor.toMap(donor))
+              .then((value) => emit(SignupSuccess()));
         }
       });
     } on FirebaseException catch (e) {
@@ -49,9 +52,5 @@ class SignupCubit extends Cubit<SignupState> {
     } catch (e) {
       emit(SignupFailure(error: e.toString()));
     }
-  }
-
-  Future<void> addUserData({required Donor donor}) async {
-    fireStore.collection('donor').add(Donor.toMap(donor));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/models/donor.dart';
+import 'package:blood_bank_app/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -103,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
         listener: (context, state) {
           if (state is SignupSuccess) {
             Fluttertoast.showToast(msg: 'تم إنشاء حساب بنجاح');
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
           } else if (state is SignupFailure) {
             Fluttertoast.showToast(
               msg: state.error,
