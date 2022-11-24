@@ -1,22 +1,33 @@
+import 'package:blood_bank_app/models/donor.dart';
+
 class DonerCardData {
   DonerCardData({
-    required this.id,
-    required this.title,
-    required this.description,
+    required this.name,
+    required this.bloodType,
+    required this.phone,
+    required this.district,
+    required this.isShownNumber,
     this.isExpanded = false,
   });
 
-  int id;
-  String title;
-  String description;
+  String name;
+  String bloodType;
+  String district;
+  String isShownNumber;
+  String phone;
   bool isExpanded;
 
-  static List<DonerCardData> generateItems(int numberOfItems) {
+  static List<DonerCardData> generateItems({
+    required int numberOfItems,
+    required Donor donor,
+  }) {
     return List<DonerCardData>.generate(numberOfItems, (int index) {
       return DonerCardData(
-        id: index + 1,
-        title: 'Doner${index + 1}',
-        description: 'Está é a descrição do Doner ${index + 1}',
+        name: donor.name,
+        bloodType: donor.bloodType,
+        phone: donor.phone,
+        district: donor.district,
+        isShownNumber: donor.isShownNumber,
       );
     });
   }

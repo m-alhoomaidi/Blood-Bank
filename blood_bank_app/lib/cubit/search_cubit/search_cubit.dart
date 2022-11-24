@@ -19,12 +19,11 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchLoading());
     try {
       fireStore
-          .collection('donor')
+          .collection('donors')
           .where('blood_type', isEqualTo: bloodType)
           .get()
           .then((value) async {
         donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();
-        print(donors.length);
         emit(SearchSuccess(donors: donors));
       });
     } on FirebaseException catch (e) {
