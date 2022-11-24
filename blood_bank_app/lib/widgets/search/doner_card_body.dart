@@ -10,17 +10,26 @@ class DonerCardBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const SizedBox(
+          height: 10,
+        ),
+        const Text("طريقة التواصل"),
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 60,
-              width: 150,
+              height: 40,
+              width: 100,
               decoration: const BoxDecoration(
                 color: Colors.green,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
               ),
               child: const Icon(
@@ -33,13 +42,15 @@ class DonerCardBody extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.05,
             ),
             Container(
-              height: 60,
-              width: 150,
+              height: 40,
+              width: 100,
               decoration: const BoxDecoration(
                 color: Colors.amber,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
               ),
               child: const Icon(

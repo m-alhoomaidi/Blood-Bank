@@ -2,6 +2,7 @@ import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'cubit/signin_cubit/signin_cubit.dart';
 import 'pages/search_page.dart';
 import 'pages/setting_page.dart';
 import 'pages/user_date_page.dart';
@@ -21,6 +22,7 @@ void main() async {
       BlocProvider(
         create: (BuildContext context) => SignupCubit(),
       ),
+      BlocProvider(create: ((BuildContext context) => SingInCubit())),
     ],
     child: const MyApp(),
   ));
