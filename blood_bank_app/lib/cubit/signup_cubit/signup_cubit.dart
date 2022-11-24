@@ -1,12 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meta/meta.dart';
 import 'package:blood_bank_app/models/donor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   SignupCubit() : super(SignupInitial());
   FirebaseAuth fireAuth = FirebaseAuth.instance;
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
   User? currentUser;
 
   Future<void> signUp({
@@ -49,5 +51,7 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  Future<void> addUserData({required Donor donor}) async {}
+  Future<void> addUserData({required Donor donor}) async {
+    fireStore.collection('donor').add(Donor.toMap(donor));
+  }
 }

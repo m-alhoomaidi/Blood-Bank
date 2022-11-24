@@ -199,19 +199,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                         if (formData!.validate()) {
                                           BlocProvider.of<SignupCubit>(context)
                                               .signUp(
-                                                  donor: Donor(
-                                                    email: email!,
-                                                    password: password!,
-                                                    name: name!,
-                                                    phone: phone!,
-                                                    bloodType: bloodType!,
-                                                    state: stateName!,
-                                                    district: district!,
-                                                    neighborhood: neighborhood!,
-                                                    image: '',
-                                                    brithDate: '',
-                                                  ),
-                                                  password: password!);
+                                            donor: Donor(
+                                              email: email!,
+                                              password: password!,
+                                              name: name!,
+                                              phone: phone!,
+                                              bloodType: bloodType!,
+                                              state: stateName!,
+                                              district: district!,
+                                              neighborhood: neighborhood!,
+                                              image: '',
+                                              brithDate: '',
+                                            ),
+                                            password: password!,
+                                          );
                                         }
                                       },
                                       borderColor: Colors.green,
