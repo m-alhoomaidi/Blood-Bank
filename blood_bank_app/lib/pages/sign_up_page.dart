@@ -1,7 +1,4 @@
-import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
+import '../cubit/signup_cubit/signup_cubit.dart';
 import '../style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
@@ -9,6 +6,8 @@ import '../widgets/forms/my_text_form_field.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
 import '../pages/sing_up_center_page.dart';
 import '../models/my_stepper.dart' as my_stepper;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
