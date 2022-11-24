@@ -1,8 +1,5 @@
-import 'package:blood_bank_app/models/donor.dart';
-import 'package:blood_bank_app/pages/home_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
+import '../models/donor.dart';
+import '../pages/home_page.dart';
 import '../cubit/signup_cubit/signup_cubit.dart';
 import '../style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
@@ -63,33 +60,30 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
-  void validating() {
-    FormState? formData = _firstFormState.currentState;
+  FormState? currentFormState() {
     if (_activeStepIndex == 0) {
-      if (formData!.validate()) {
-        formData.save();
-        setState(() => _activeStepIndex++);
-      }
+      return _firstFormState.currentState;
     } else if (_activeStepIndex == 1) {
-      FormState? formData = _secondFormState.currentState;
+      return _secondFormState.currentState;
+    } else if (_activeStepIndex == 2) {
+      return _thirdFormState.currentState;
+    }
+    return null;
+  }
+
+  void validateForm({int? stepIndex}) {
+    FormState? formData = currentFormState();
+    if (_activeStepIndex == 2 && district == null) {
+      Fluttertoast.showToast(msg: 'يجب اختيار المحافظة والمديرية');
+    } else {
       if (formData!.validate()) {
         formData.save();
-        setState(() => _activeStepIndex++);
-      }
-    } else if (_activeStepIndex == 2) {
-      FormState? formData = _thirdFormState.currentState;
-      if (district == null) {
-        print('object');
-        Fluttertoast.showToast(msg: 'يجب اختيار المحافظة والمديرية');
-      } else {
-        print(district);
-        if (formData!.validate()) {
-          formData.save();
+        if (stepIndex == null) {
           setState(() => _activeStepIndex++);
+        } else {
+          setState(() => _activeStepIndex = stepIndex);
         }
       }
-    } else {
-      setState(() => _activeStepIndex++);
     }
   }
 
@@ -136,9 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 setState(() => _activeStepIndex -= 1);
               },
               onStepTapped: (int index) {
-                setState(() {
-                  _activeStepIndex = index;
-                });
+                validateForm(stepIndex: index);
               },
               controlsBuilder:
                   (BuildContext context, my_stepper.ControlsDetails controls) {
@@ -231,7 +223,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         Icons.arrow_forward,
                                         color: Colors.blue,
                                       ),
-                                      onPressed: validating,
+                                      onPressed: validateForm,
                                       borderColor: Colors.blue,
                                     ),
                             ),
