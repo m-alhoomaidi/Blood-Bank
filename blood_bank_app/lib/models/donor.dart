@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 class Donor {
   String email;
   String password;
@@ -31,34 +34,46 @@ class Donor {
     this.isGpsOn = "1",
   });
 
-  static Map<String, String> toMap(Donor donor) => {
-        "name": donor.name,
-        "number": donor.phone,
-        "blood_type": donor.bloodType,
-        "state": donor.state,
-        "district": donor.district,
-        "neighborhood": donor.neighborhood,
-        "image": donor.image,
-        "brithdate": donor.brithDate,
-        "gender": donor.brithDate,
-        "is_shown": donor.isShown,
-        "is_shown_number": donor.isShownNumber,
-        "is_gps_on": donor.isGpsOn
-      };
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'email': email,
+      'password': password,
+      'name': name,
+      'phone': phone,
+      'bloodType': bloodType,
+      'state': state,
+      'district': district,
+      'neighborhood': neighborhood,
+      'image': image,
+      'brithDate': brithDate,
+      'gender': gender,
+      'isShown': isShown,
+      'isShownNumber': isShownNumber,
+      'isGpsOn': isGpsOn,
+    };
+  }
 
-  static Donor fromJson(donor) => Donor(
-        email: donor["email"],
-        password: donor["pass"],
-        name: donor["name"],
-        phone: donor["number"],
-        bloodType: donor["bloodType"],
-        state: donor["state"],
-        district: donor["district"],
-        neighborhood: donor["neighborhood"],
-        image: donor["image"],
-        brithDate: donor["brithDate"],
-        isShown: donor["is_shown"],
-        isShownNumber: donor["is_shown_number"],
-        isGpsOn: donor["is_gps_on"],
-      );
+  factory Donor.fromMap(Map<String, dynamic> map) {
+    return Donor(
+      email: map['email'] as String,
+      password: map['password'] as String,
+      name: map['name'] as String,
+      phone: map['phone'] as String,
+      bloodType: map['bloodType'] as String,
+      state: map['state'] as String,
+      district: map['district'] as String,
+      neighborhood: map['neighborhood'] as String,
+      image: map['image'] as String,
+      brithDate: map['brithDate'] as String,
+      gender: map['gender'] as String,
+      isShown: map['isShown'] as String,
+      isShownNumber: map['isShownNumber'] as String,
+      isGpsOn: map['isGpsOn'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Donor.fromJson(String source) =>
+      Donor.fromMap(json.decode(source) as Map<String, dynamic>);
 }
