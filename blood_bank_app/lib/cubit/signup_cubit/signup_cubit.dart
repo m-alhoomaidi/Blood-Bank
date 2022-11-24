@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:blood_bank_app/models/donor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../models/donor.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
