@@ -1,7 +1,9 @@
-import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:blood_bank_app/models/donor.dart';
+import 'package:blood_bank_app/pages/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import '../cubit/signup_cubit/signup_cubit.dart';
 import '../style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
@@ -9,6 +11,8 @@ import '../widgets/forms/my_text_form_field.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
 import '../pages/sing_up_center_page.dart';
 import '../models/my_stepper.dart' as my_stepper;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
@@ -33,7 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
       password,
       name,
       phone,
-      selectedBloodType,
+      bloodType,
       stateName,
       district,
       neighborhood;
@@ -100,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
         listener: (context, state) {
           if (state is SignupSuccess) {
             Fluttertoast.showToast(msg: 'تم إنشاء حساب بنجاح');
-            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
           } else if (state is SignupFailure) {
             Fluttertoast.showToast(
               msg: state.error,
@@ -196,8 +200,20 @@ class _SignUpPageState extends State<SignUpPage> {
                                         if (formData!.validate()) {
                                           BlocProvider.of<SignupCubit>(context)
                                               .signUp(
-                                                  email: email!,
-                                                  password: password!);
+                                            donor: Donor(
+                                              email: email!,
+                                              password: password!,
+                                              name: name!,
+                                              phone: phone!,
+                                              bloodType: bloodType!,
+                                              state: stateName!,
+                                              district: district!,
+                                              neighborhood: neighborhood!,
+                                              image: '',
+                                              brithDate: '',
+                                            ),
+                                            password: password!,
+                                          );
                                         }
                                       },
                                       borderColor: Colors.green,
@@ -253,11 +269,6 @@ class _SignUpPageState extends State<SignUpPage> {
       //   onPressed: () async {
       //     FormState? formData = _firstFormState.currentState;
       //     if (formData!.validate()) {
-      //       formData.save();
-      //       setState(() => _saving = true);
-      //       BlocProvider.of<SignupCubit>(context)
-      //           .signUp(email: email!, password: password!);
-      //       setState(() => _saving = false);
       //     } else {
       //       print("Not Valid");
       //     }
@@ -404,15 +415,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   validator: (value) {
                     return (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
                   },
-                  value: selectedBloodType,
+                  value: bloodType,
                   hintColor: eTextColor,
                   items: bloodTypes,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
                   icon: const Icon(Icons.bloodtype_outlined),
-                  onChange: (value) =>
-                      setState(() => selectedBloodType = value),
+                  onChange: (value) => setState(() => bloodType = value),
                 ),
               ),
             ],
@@ -542,7 +552,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 buildDonorDetail(
                   key: "فصيلة الدم",
-                  value: selectedBloodType ?? '',
+                  value: bloodType ?? '',
                 ),
                 buildDonorDetail(
                   key: "العنوان",

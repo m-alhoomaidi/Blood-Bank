@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 part 'signin_state.dart';
 
@@ -15,18 +14,6 @@ class SingInCubit extends Cubit<SignInState> {
     required String password,
   }) async {
     emit(SigninLoading());
-    // try {
-    //   await fireAuth
-    //       .createUserWithEmailAndPassword(email: email, password: password)
-    //       .then((userCredential) {
-    //     if (userCredential.user != null) {
-    //       emit(SinginSuccess());
-    //       currentUser = userCredential.user;
-    //     }
-    //   });
-    // } catch (e) {
-    //   emit(SinginFailure(error: e.toString()));
-    // }
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
