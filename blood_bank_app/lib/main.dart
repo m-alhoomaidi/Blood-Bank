@@ -1,5 +1,6 @@
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
+import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

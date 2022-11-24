@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 part 'signin_state.dart';
 
 class SingInCubit extends Cubit<SignInState> {
   SingInCubit() : super(SigninInitial());
 
+  FirebaseAuth auth = FirebaseAuth.instance;
   User? currentUser;
 
   Future<void> signIn({
@@ -15,7 +15,7 @@ class SingInCubit extends Cubit<SignInState> {
   }) async {
     emit(SigninLoading());
     try {
-      await FirebaseAuth.instance
+      await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((userCredential) {
         if (userCredential.user != null) {
@@ -29,6 +29,17 @@ class SingInCubit extends Cubit<SignInState> {
       } else if (e.code == 'wrong-password') {
         emit(SigninFailure(error: "كلمة المرور خاطئة"));
       }
+    }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    try {
+      emit(SigninLoading());
+      await auth.sendPasswordResetEmail(email: email).then((value) {
+        emit(SigninSuccessResetPass());
+      });
+    } catch (e) {
+      emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
     }
   }
 }
