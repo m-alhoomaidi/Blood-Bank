@@ -24,8 +24,8 @@ class SignupCubit extends Cubit<SignupState> {
         if (userCredential.user != null) {
           currentUser = userCredential.user;
           fireStore
-              .collection('donor')
-              .add(Donor.toMap(donor))
+              .collection('donors')
+              .add(donor.toMap())
               .then((value) => emit(SignupSuccess()));
         }
       });

@@ -2,11 +2,11 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import Container from '@mui/material/Container';
 import CardItem from './CardItem';
 const Card2 =()=>{
 return (
-  <Box>
-    <Box sx={{width:"600px"}}>
+    <Box >
     <Grid >
     <CardItem sx={{margin:"20px"}}>
     <Grid item xs container direction="column" spacing={2} sx={{
@@ -120,7 +120,7 @@ return (
           fontSize:"18px",
           color :"black",
         },
-        marginRight:"10px",
+        marginRight:"20px",
        
        }}
   required
@@ -139,7 +139,7 @@ return (
           fontSize:"18px",
           color :"black",
         },
-        margin:"10px",
+        marginRight:"20px",
        }}
   required
   multiline
@@ -154,9 +154,6 @@ return (
       </CardItem>
       </Grid>
         </Box>
-
-
-  </Box>
 );
 };
 export default Card2;

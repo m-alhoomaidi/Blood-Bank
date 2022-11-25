@@ -96,7 +96,11 @@ class _SignUpPageState extends State<SignUpPage> {
       body: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           if (state is SignupSuccess) {
-            Utils.showSnackBar(context: context, msg: 'تم إنشاء حساب بنجاح');
+            Utils.showSnackBar(
+              context: context,
+              msg: 'تم إنشاء حساب بنجاح',
+              color: Colors.green,
+            );
             Navigator.of(context).pushReplacementNamed(HomePage.routeName);
           } else if (state is SignupFailure) {
             Utils.showSnackBar(context: context, msg: state.error);
@@ -190,7 +194,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                               .signUp(
                                             donor: Donor(
                                               email: email!,
-                                              password: password!,
                                               name: name!,
                                               phone: phone!,
                                               bloodType: bloodType!,

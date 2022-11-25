@@ -1,7 +1,9 @@
+import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/style.dart';
 import 'package:blood_bank_app/widgets/forms/my_dropdown_button_form_field.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchOptions extends StatefulWidget {
   const SearchOptions({
@@ -14,7 +16,7 @@ class SearchOptions extends StatefulWidget {
 
 class _SearchOptionsState extends State<SearchOptions> {
   final GlobalKey<FormState> searchFormState = GlobalKey<FormState>();
-  String? selectedBloodType;
+  String? bloodType, state, district;
   final List<String> bloodTypes = const <String>[
     "A+",
     "A-",
@@ -84,8 +86,19 @@ class _SearchOptionsState extends State<SearchOptions> {
                 dropdownDialogRadius: 10.0,
                 searchBarRadius: 10.0,
                 onCountryChanged: (value) {},
-                onStateChanged: (value) {},
-                onCityChanged: (value) {},
+                onStateChanged: (value) {
+                  state = value;
+                },
+                onCityChanged: (value) async {
+                  district = value;
+                  if (bloodType != null && value != null) {
+                    BlocProvider.of<SearchCubit>(context).searchDonors(
+                      state: state!,
+                      district: district!,
+                      bloodType: bloodType!,
+                    );
+                  }
+                },
               ),
             ),
             const SizedBox(height: 10),
@@ -93,13 +106,22 @@ class _SearchOptionsState extends State<SearchOptions> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: MyDropdownButtonFormField(
                 hint: "فصيلة دمك",
-                value: selectedBloodType,
+                value: bloodType,
                 items: bloodTypes,
                 blurrBorderColor: Colors.white,
                 focusBorderColor: eTextFieldFocusBorder,
                 fillColor: eSearchTextFieldFill,
                 icon: const Icon(Icons.bloodtype_outlined),
-                onChange: (value) => setState(() => selectedBloodType = value),
+                onChange: (value) async {
+                  setState(() => bloodType = value);
+                  if (state != null && district != null) {
+                    BlocProvider.of<SearchCubit>(context).searchDonors(
+                      state: state!,
+                      district: district!,
+                      bloodType: bloodType!,
+                    );
+                  }
+                },
               ),
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,10 +21,9 @@ void main() async {
   await Firebase.initializeApp();
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(
-        create: (BuildContext context) => SignupCubit(),
-      ),
-      BlocProvider(create: ((BuildContext context) => SingInCubit())),
+      BlocProvider(create: (BuildContext context) => SignupCubit()),
+      BlocProvider(create: (BuildContext context) => SingInCubit()),
+      BlocProvider(create: (BuildContext context) => SearchCubit()),
     ],
     child: const MyApp(),
   ));
