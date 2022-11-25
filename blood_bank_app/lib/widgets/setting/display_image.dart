@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:blood_bank_app/style.dart';
 import 'package:flutter/material.dart';
 
 class DisplayImage extends StatelessWidget {
-  final String imagePath;
+  dynamic imagePath;
   final VoidCallback onPressed;
 
   // Constructor
-  const DisplayImage({
+  DisplayImage({
     Key? key,
     required this.imagePath,
     required this.onPressed,
@@ -14,30 +16,31 @@ class DisplayImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = ePrimColor;
-
     return Center(
         child: Stack(children: [
-      buildImage(color),
+      buildImage(ePrimColor),
       Positioned(
-        child: buildEditIcon(color),
         right: 4,
         top: 10,
+        child: buildEditIcon(ePrimColor),
       )
     ]));
   }
 
   // Builds Profile Image
   Widget buildImage(Color color) {
-    final image = imagePath;
-
     return CircleAvatar(
       radius: 75,
       backgroundColor: color,
-      child: CircleAvatar(
-        backgroundImage: AssetImage(image),
-        radius: 70,
-      ),
+      child: (imagePath is String)
+          ? const CircleAvatar(
+              backgroundImage: AssetImage("assets/images/1.jpg"),
+              radius: 70,
+            )
+          : CircleAvatar(
+              backgroundImage: FileImage(imagePath),
+              radius: 70,
+            ),
     );
   }
 
