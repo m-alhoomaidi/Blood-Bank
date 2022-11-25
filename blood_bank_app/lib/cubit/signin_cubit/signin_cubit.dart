@@ -45,7 +45,10 @@ class SingInCubit extends Cubit<SignInState> {
     }
   }
 
-  Future<String> isPhoneRegisterd(String phone) async {
+  Future<String> isPhoneRegisterd(
+      {required String phone,
+      required String type,
+      String password = ""}) async {
     String result = "Error";
     try {
       emit(SigninLoading());
@@ -56,13 +59,19 @@ class SingInCubit extends Cubit<SignInState> {
           .then((value) async {
         if (value.docs.isNotEmpty) {
           result = await value.docs[0].get("email");
-          resetPassword(email: result).then((value) {
-            emit(SigninSuccessResetPass());
-          }).onError((error, stackTrace) {
-            emit(SigninFailure(error: "راجع البيانات المدخلة "));
-          });
+          if (type == "forget") {
+            resetPassword(email: result)
+                .then((value) {})
+                .onError((error, stackTrace) {
+              emit(SigninFailure(error: "راجع البيانات المدخلة "));
+            });
+          } else if (type == "signin") {
+            signIn(email: result, password: password);
+          }
+        } else {
+          emit(SigninFailure(error: "رقم الهاتق الذي ادخلته غير صحيح"));
         }
-      });
+      }).onError((error, stackTrace) {});
     } on FirebaseException catch (e) {
       emit(SigninFailure(error: "راجع البيانات المدخلة "));
     } catch (e) {

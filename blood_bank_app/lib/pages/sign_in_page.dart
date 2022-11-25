@@ -156,7 +156,8 @@ class SignInPage extends StatelessWidget {
                                   _formStateEmail.currentState!.save();
                                   if (email!.isValidPhone) {
                                     BlocProvider.of<SingInCubit>(context)
-                                        .isPhoneRegisterd(email!);
+                                        .isPhoneRegisterd(
+                                            phone: email!, type: "forget");
                                   } else {
                                     BlocProvider.of<SingInCubit>(context)
                                         .resetPassword(email: email!);
@@ -206,8 +207,16 @@ class SignInPage extends StatelessWidget {
                             _formStateEmail.currentState!.validate()) {
                           _formState.currentState!.save();
                           _formStateEmail.currentState!.save();
-                          BlocProvider.of<SingInCubit>(context)
-                              .signIn(email: email!, password: password!);
+                          if (email!.isValidPhone) {
+                            BlocProvider.of<SingInCubit>(context)
+                                .isPhoneRegisterd(
+                                    phone: email!,
+                                    type: "signin",
+                                    password: password!);
+                          } else {
+                            BlocProvider.of<SingInCubit>(context)
+                                .signIn(email: email!, password: password!);
+                          }
                         }
                       },
                       borderColor: eSecondColor,
