@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 part 'signin_state.dart';
@@ -6,6 +7,7 @@ part 'signin_state.dart';
 class SingInCubit extends Cubit<SignInState> {
   SingInCubit() : super(SigninInitial());
 
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   User? currentUser;
 
@@ -41,5 +43,31 @@ class SingInCubit extends Cubit<SignInState> {
     } catch (e) {
       emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
     }
+  }
+
+  Future<String> isPhoneRegisterd(String phone) async {
+    String result = "Error";
+    try {
+      emit(SigninLoading());
+      await _fireStore
+          .collection("donors")
+          .where("phone", isEqualTo: phone)
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          result = await value.docs[0].get("email");
+          resetPassword(email: result).then((value) {
+            emit(SigninSuccessResetPass());
+          }).onError((error, stackTrace) {
+            emit(SigninFailure(error: "راجع البيانات المدخلة "));
+          });
+        }
+      });
+    } on FirebaseException catch (e) {
+      emit(SigninFailure(error: "راجع البيانات المدخلة "));
+    } catch (e) {
+      emit(SigninFailure(error: "راجع البيانات المدخلة "));
+    }
+    return result;
   }
 }

@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/models/extention.dart';
+
 import '../pages/search_page.dart';
 import '../style.dart';
 import '../widgets/home/home_charts.dart';
@@ -19,6 +21,9 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+              String s = "565655555";
+              print("++++++++++++++++++++++");
+              print(s.isValidPhone);
               // try {
               //   FirebaseAuth.instance.createUserWithEmailAndPassword(
               //     email: 'email@example.com',

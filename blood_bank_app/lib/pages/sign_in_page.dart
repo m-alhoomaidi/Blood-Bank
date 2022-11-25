@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:blood_bank_app/cubit/signin_cubit/signin_cubit.dart';
+import 'package:blood_bank_app/models/extention.dart';
 import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
 import 'package:blood_bank_app/pages/home_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../pages/sign_up_page.dart';
+import '../utils.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../style.dart';
 import '../widgets/forms/my_text_form_field.dart';
@@ -39,10 +41,7 @@ class SignInPage extends StatelessWidget {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const HomePage()));
             } else if (state is SigninFailure) {
-              Fluttertoast.showToast(
-                msg: state.error,
-                toastLength: Toast.LENGTH_LONG,
-              );
+              Utils.showSnackBar(context: context, msg: state.error);
             } else if (state is SigninSuccessResetPass) {
               DialogResetPassWord.Dialog(context);
               // MaterialPageRoute(builder: (context) => const HomePage());
@@ -99,10 +98,19 @@ class SignInPage extends StatelessWidget {
                                 onSave: (value) {
                                   email = value;
                                 },
-                                validator: (value) => value != null &&
-                                        EmailValidator.validate(value)
-                                    ? null
-                                    : "اكتب بريد إيميل صحيح",
+                                validator: (value) {
+                                  if (value != null &&
+                                      EmailValidator.validate(value)) {
+                                    return null;
+                                  } else if (value!.isValidPhone) {
+                                    return null;
+                                  } else if (!EmailValidator.validate(value) ||
+                                      !value.isValidPhone) {
+                                    return "اكتب بريد إيميل او رقم هاتف صحيح";
+                                  }
+
+                                  return null;
+                                },
                                 icon: const Icon(Icons.phone_android),
                               ),
                             ),
@@ -146,9 +154,13 @@ class SignInPage extends StatelessWidget {
                               onTap: () {
                                 if (_formStateEmail.currentState!.validate()) {
                                   _formStateEmail.currentState!.save();
-                                  BlocProvider.of<SingInCubit>(context)
-                                      .resetPassword(
-                                          email: "ezz2019alarab@gmail.com");
+                                  if (email!.isValidPhone) {
+                                    BlocProvider.of<SingInCubit>(context)
+                                        .isPhoneRegisterd(email!);
+                                  } else {
+                                    BlocProvider.of<SingInCubit>(context)
+                                        .resetPassword(email: email!);
+                                  }
                                 }
                               },
                             ),
