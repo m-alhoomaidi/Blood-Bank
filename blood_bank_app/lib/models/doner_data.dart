@@ -27,7 +27,7 @@ class DonerCardData {
         bloodType: donor.bloodType,
         phone: donor.phone,
         district: donor.district,
-        isShownNumber: donor.isShownNumber,
+        isShownNumber: donor.isShownPhone,
       );
     });
   }

@@ -19,8 +19,8 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchLoading());
     try {
       fireStore
-          .collection('donors')
-          .where('blood_type', isEqualTo: bloodType)
+          .collection(DonorFields.collectionName)
+          .where(DonorFields.bloodType, isEqualTo: bloodType)
           .get()
           .then((value) async {
         donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 class Donor {
+  String id;
   String email;
   String name;
   String phone;
@@ -13,11 +14,12 @@ class Donor {
   String brithDate;
   String gender;
   String isShown;
-  String isShownNumber;
+  String isShownPhone;
   String isGpsOn;
   bool isExpanded;
 
   Donor({
+    this.id = '',
     required this.email,
     required this.name,
     required this.phone,
@@ -29,7 +31,7 @@ class Donor {
     this.image = '',
     this.gender = "male",
     this.isShown = "1",
-    this.isShownNumber = "1",
+    this.isShownPhone = "1",
     this.isGpsOn = "1",
     this.isExpanded = false,
   });
@@ -45,7 +47,7 @@ class Donor {
   //       "brithdate": donor.brithDate,
   //       "gender": donor.brithDate,
   //       "is_shown": donor.isShown,
-  //       "is_shown_number": donor.isShownNumber,
+  //       "is_shown_phone": donor.isShownNumber,
   //       "is_gps_on": donor.isGpsOn
   //     };
 
@@ -61,43 +63,45 @@ class Donor {
   //       image: donor["image"],
   //       brithDate: donor["brithDate"],
   //       isShown: donor["is_shown"],
-  //       isShownNumber: donor["is_shown_number"],
+  //       isShownNumber: donor["is_shown_phone"],
   //       isGpsOn: donor["is_gps_on"],
   //     );
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'email': email,
-      'name': name,
-      'phone': phone,
-      'blood_type': bloodType,
-      'state': state,
-      'district': district,
-      'neighborhood': neighborhood,
-      'image': image,
-      'brith_date': brithDate,
-      'gender': gender,
-      'is_shown': isShown,
-      'is_shown_number': isShownNumber,
-      'is_gps_on': isGpsOn,
+      DonorFields.id: id,
+      DonorFields.email: email,
+      DonorFields.name: name,
+      DonorFields.phone: phone,
+      DonorFields.bloodType: bloodType,
+      DonorFields.state: state,
+      DonorFields.district: district,
+      DonorFields.neighborhood: neighborhood,
+      DonorFields.image: image,
+      DonorFields.brithDate: brithDate,
+      DonorFields.gender: gender,
+      DonorFields.isShown: isShown,
+      DonorFields.isShownPhone: isShownPhone,
+      DonorFields.isGpsOn: isGpsOn,
     };
   }
 
   factory Donor.fromMap(Map<String, dynamic> map) {
     return Donor(
-      email: map['email'] as String,
-      name: map['name'] as String,
-      phone: map['phone'] as String,
-      bloodType: map['blood_type'] as String,
-      state: map['state'] as String,
-      district: map['district'] as String,
-      neighborhood: map['neighborhood'] as String,
-      image: map['image'] as String,
-      brithDate: map['brith_date'] as String,
-      gender: map['gender'] as String,
-      isShown: map['is_shown'] as String,
-      isShownNumber: map['is_shown_number'] as String,
-      isGpsOn: map['is_gps_on'] as String,
+      id: map[DonorFields.id] as String,
+      email: map[DonorFields.id] as String,
+      name: map[DonorFields.id] as String,
+      phone: map[DonorFields.id] as String,
+      bloodType: map[DonorFields.id] as String,
+      state: map[DonorFields.id] as String,
+      district: map[DonorFields.id] as String,
+      neighborhood: map[DonorFields.id] as String,
+      image: map[DonorFields.id] as String,
+      brithDate: map[DonorFields.id] as String,
+      gender: map[DonorFields.id] as String,
+      isShown: map[DonorFields.id] as String,
+      isShownPhone: map[DonorFields.id] as String,
+      isGpsOn: map[DonorFields.id] as String,
     );
   }
 
@@ -105,4 +109,22 @@ class Donor {
 
   factory Donor.fromJson(String source) =>
       Donor.fromMap(json.decode(source) as Map<String, dynamic>);
+}
+
+class DonorFields {
+  static const String collectionName = 'donors';
+  static const String id = 'id';
+  static const String email = 'email';
+  static const String name = 'name';
+  static const String phone = 'phone';
+  static const String bloodType = 'blood_type';
+  static const String state = 'state';
+  static const String district = 'district';
+  static const String neighborhood = 'neighborhood';
+  static const String image = 'image';
+  static const String brithDate = 'brith_date';
+  static const String gender = 'gender';
+  static const String isShown = 'is_shown';
+  static const String isShownPhone = 'is_shown_phone';
+  static const String isGpsOn = 'is_gps_on';
 }
