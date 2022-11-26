@@ -27,21 +27,21 @@
 
 ## Installation :
 
- 1- mobile application :
+ - mobile application :
 
- 2- web application :
+ - web application :
 
 ## Contributors :
 
- 1- Abdullah Ahmed :
+ - Abdullah Ahmed :
 
- 2- Amran Alameri :
+ - Amran Alameri :
  
- 3- Ezzalarab Al-Homaidi :
+ - Ezzalarab Al-Homaidi :
 
- 4- Mohammed Alhomaidi:
+ - Mohammed Alhomaidi:
 
- 5- Tayeb Alameri :
+ - Tayeb Alameri :
 
  
   <div> 
