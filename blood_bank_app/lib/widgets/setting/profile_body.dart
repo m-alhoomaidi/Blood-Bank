@@ -13,9 +13,9 @@ class ProfileBody extends StatefulWidget {
 }
 
 class _ProfileBodyState extends State<ProfileBody> {
-  String? selectedBloodType;
+  String? selectedGender;
 
-  final List<String> bloodTypes = const <String>[
+  final List<String> genders = const <String>[
     "غير محدد",
     "ذكر",
     "أنثى",
@@ -100,14 +100,13 @@ class _ProfileBodyState extends State<ProfileBody> {
                 const SizedBox(height: 20),
                 MyDropdownButtonFormField(
                   hint: "الجنس",
-                  value: selectedBloodType,
+                  value: selectedGender,
                   hintColor: eTextColor,
-                  items: bloodTypes,
+                  items: genders,
                   blurrBorderColor: Colors.grey,
                   focusBorderColor: eSecondColor,
                   icon: const Icon(Icons.transgender),
-                  onChange: (value) =>
-                      setState(() => selectedBloodType = value),
+                  onChange: (value) => setState(() => selectedGender = value),
                 ),
               ],
             ),

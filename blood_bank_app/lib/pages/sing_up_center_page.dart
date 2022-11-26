@@ -31,17 +31,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
   int _activeStepIndex = 0;
   bool didConfirm = false;
 
-  final List<String> bloodTypes = const <String>[
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-"
-  ];
-
   Future submit() async {
     FormState? formData = _firstFormState.currentState;
     if (formData!.validate()) {

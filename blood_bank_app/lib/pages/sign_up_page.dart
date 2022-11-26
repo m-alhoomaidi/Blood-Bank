@@ -1,3 +1,4 @@
+import '../models/blood_types.dart';
 import '../utils.dart';
 import '../models/donor.dart';
 import '../pages/home_page.dart';
@@ -43,17 +44,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final double stepContentHeight = 300.0;
   int _activeStepIndex = 0;
   bool didConfirm = false;
-
-  final List<String> bloodTypes = const <String>[
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-"
-  ];
 
   bool isFirstStep() => _activeStepIndex == 0;
 
@@ -408,7 +398,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                   value: bloodType,
                   hintColor: eTextColor,
-                  items: bloodTypes,
+                  items: BloodTypes.bloodTypes,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,
