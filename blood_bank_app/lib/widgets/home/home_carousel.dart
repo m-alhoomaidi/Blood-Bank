@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/shared/style.dart';
 import 'package:blood_bank_app/widgets/home/carousel_arrow.dart';
 import 'package:blood_bank_app/widgets/home/carousel_item.dart';
 import 'package:carousel_slider/carousel_slider.dart';

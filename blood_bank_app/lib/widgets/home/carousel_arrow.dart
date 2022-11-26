@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/shared/style.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 

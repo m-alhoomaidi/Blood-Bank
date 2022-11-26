@@ -1,9 +1,9 @@
 import '../models/blood_types.dart';
-import '../utils.dart';
+import '../shared/utils.dart';
 import '../models/donor.dart';
 import '../pages/home_page.dart';
 import '../cubit/signup_cubit/signup_cubit.dart';
-import '../style.dart';
+import '../shared/style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
 import '../widgets/forms/my_text_form_field.dart';

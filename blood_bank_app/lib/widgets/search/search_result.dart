@@ -1,6 +1,6 @@
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/models/donor.dart';
-import 'package:blood_bank_app/utils.dart';
+import 'package:blood_bank_app/shared/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/search/doner_card_details.dart';

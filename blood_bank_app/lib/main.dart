@@ -12,7 +12,7 @@ import 'pages/home_page.dart';
 import 'pages/sign_up_page.dart';
 import 'pages/sign_in_page.dart';
 import 'pages/sing_up_center_page.dart';
-import 'style.dart';
+import 'shared/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

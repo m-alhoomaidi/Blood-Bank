@@ -1,4 +1,4 @@
-import '../style.dart';
+import '../shared/style.dart';
 import '../widgets/forms/my_button.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';

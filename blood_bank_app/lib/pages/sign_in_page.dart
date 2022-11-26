@@ -8,9 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../pages/sign_up_page.dart';
-import '../utils.dart';
+import '../shared/utils.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
-import '../style.dart';
+import '../shared/style.dart';
 import '../widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
