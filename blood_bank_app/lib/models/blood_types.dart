@@ -11,6 +11,54 @@ class BloodTypes {
   ];
 
   static List<String> canReceiveFrom({required String bloodType}) {
-    return [];
+    List<String> compatibleBLoodTypes = [];
+    switch (bloodType) {
+      case 'A+':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'A-':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'B+':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'B-':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'O+':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'O-':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'AB+':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      case 'AB-':
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+      default:
+        compatibleBLoodTypes = [
+          'O-',
+        ];
+        break;
+    }
+    return compatibleBLoodTypes;
   }
 }

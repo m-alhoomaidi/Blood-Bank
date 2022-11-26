@@ -1,6 +1,7 @@
-import 'package:blood_bank_app/shared/style.dart';
-import 'package:blood_bank_app/widgets/search/search_options.dart';
-import 'package:blood_bank_app/widgets/search/search_result.dart';
+import '../shared/style.dart';
+import '../widgets/search/search_options.dart';
+import '../widgets/search/search_result.dart';
+
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatelessWidget {

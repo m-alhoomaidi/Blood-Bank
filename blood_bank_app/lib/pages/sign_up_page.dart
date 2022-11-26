@@ -10,6 +10,7 @@ import '../widgets/forms/my_text_form_field.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
 import '../pages/sing_up_center_page.dart';
 import '../models/my_stepper.dart' as my_stepper;
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';

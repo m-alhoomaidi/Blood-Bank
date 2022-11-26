@@ -1,10 +1,10 @@
-import 'package:blood_bank_app/models/extention.dart';
-
+import '../models/extention.dart';
 import '../pages/search_page.dart';
 import '../shared/style.dart';
 import '../widgets/home/home_charts.dart';
 import '../widgets/home/home_carousel.dart';
 import '../widgets/home_drawer/home_drawer.dart';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
