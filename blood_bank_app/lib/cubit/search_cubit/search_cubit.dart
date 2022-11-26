@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:blood_bank_app/models/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
@@ -20,7 +20,8 @@ class SearchCubit extends Cubit<SearchState> {
     try {
       fireStore
           .collection(DonorFields.collectionName)
-          .where(DonorFields.bloodType, isEqualTo: bloodType)
+          .where(DonorFields.state, isEqualTo: state)
+          .where(DonorFields.district, isEqualTo: district)
           .get()
           .then((value) async {
         donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();
