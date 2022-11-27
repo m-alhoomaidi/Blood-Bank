@@ -20,7 +20,7 @@ class SignupCubit extends Cubit<SignupState> {
     try {
       await fireAuth
           .createUserWithEmailAndPassword(
-              email: donor.email, password: Encryption.encode(donor.password))
+              email: donor.email, password: donor.password)
           .then((userCredential) async {
         if (userCredential.user != null) {
           donor.id = userCredential.user!.uid;
