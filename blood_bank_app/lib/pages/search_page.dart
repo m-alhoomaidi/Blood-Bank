@@ -20,7 +20,7 @@ class SearchPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.red,
@@ -33,7 +33,7 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           const Expanded(
-            flex: 3,
+            flex: 5,
             child: SearchResult(),
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/models/blood_types.dart';
 import 'package:blood_bank_app/shared/style.dart';
 import 'package:blood_bank_app/widgets/forms/my_dropdown_button_form_field.dart';
+import 'package:blood_bank_app/widgets/search/result_tabs.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,6 +115,7 @@ class _SearchOptionsState extends State<SearchOptions> {
                 },
               ),
             ),
+            ResultTabs(),
           ],
         ),
       ),
