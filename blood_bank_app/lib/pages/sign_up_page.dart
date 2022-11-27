@@ -185,6 +185,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                               .signUp(
                                             donor: Donor(
                                               email: email!,
+                                              password: password!,
                                               name: name!,
                                               phone: phone!,
                                               bloodType: bloodType!,
@@ -194,7 +195,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                               image: '',
                                               brithDate: '',
                                             ),
-                                            password: password!,
                                           );
                                         }
                                       },

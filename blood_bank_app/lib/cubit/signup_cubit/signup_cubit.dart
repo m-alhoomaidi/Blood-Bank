@@ -1,3 +1,4 @@
+import '../../shared/encryption.dart';
 import '../../models/donor.dart';
 
 import 'package:bloc/bloc.dart';
@@ -14,13 +15,12 @@ class SignupCubit extends Cubit<SignupState> {
 
   Future<void> signUp({
     required Donor donor,
-    required String password,
   }) async {
     emit(SignupLoading());
     try {
       await fireAuth
           .createUserWithEmailAndPassword(
-              email: donor.email, password: password)
+              email: donor.email, password: Encryption.encode(donor.password))
           .then((userCredential) async {
         if (userCredential.user != null) {
           donor.id = userCredential.user!.uid;
