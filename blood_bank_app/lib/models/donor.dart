@@ -4,6 +4,7 @@ import 'dart:convert';
 class Donor {
   String id;
   String email;
+  String password;
   String name;
   String phone;
   String bloodType;
@@ -21,6 +22,7 @@ class Donor {
   Donor({
     this.id = '',
     required this.email,
+    this.password = '',
     required this.name,
     required this.phone,
     required this.bloodType,
@@ -70,6 +72,7 @@ class Donor {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       DonorFields.id: id,
+      DonorFields.password: password,
       DonorFields.email: email,
       DonorFields.name: name,
       DonorFields.phone: phone,
@@ -89,19 +92,20 @@ class Donor {
   factory Donor.fromMap(Map<String, dynamic> map) {
     return Donor(
       id: map[DonorFields.id] as String,
-      email: map[DonorFields.id] as String,
-      name: map[DonorFields.id] as String,
-      phone: map[DonorFields.id] as String,
-      bloodType: map[DonorFields.id] as String,
-      state: map[DonorFields.id] as String,
-      district: map[DonorFields.id] as String,
-      neighborhood: map[DonorFields.id] as String,
-      image: map[DonorFields.id] as String,
-      brithDate: map[DonorFields.id] as String,
-      gender: map[DonorFields.id] as String,
-      isShown: map[DonorFields.id] as String,
-      isShownPhone: map[DonorFields.id] as String,
-      isGpsOn: map[DonorFields.id] as String,
+      email: map[DonorFields.email] as String,
+      password: map[DonorFields.password] as String,
+      name: map[DonorFields.name] as String,
+      phone: map[DonorFields.phone] as String,
+      bloodType: map[DonorFields.bloodType] as String,
+      state: map[DonorFields.state] as String,
+      district: map[DonorFields.district] as String,
+      neighborhood: map[DonorFields.neighborhood] as String,
+      image: map[DonorFields.image] as String,
+      brithDate: map[DonorFields.brithDate] as String,
+      gender: map[DonorFields.gender] as String,
+      isShown: map[DonorFields.isShown] as String,
+      isShownPhone: map[DonorFields.isShownPhone] as String,
+      isGpsOn: map[DonorFields.isGpsOn] as String,
     );
   }
 
@@ -115,6 +119,7 @@ class DonorFields {
   static const String collectionName = 'donors';
   static const String id = 'id';
   static const String email = 'email';
+  static const String password = 'password';
   static const String name = 'name';
   static const String phone = 'phone';
   static const String bloodType = 'blood_type';
