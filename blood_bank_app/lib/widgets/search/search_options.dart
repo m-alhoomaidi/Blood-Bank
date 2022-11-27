@@ -115,6 +115,7 @@ class _SearchOptionsState extends State<SearchOptions> {
                 },
               ),
             ),
+            const SizedBox(height: 5),
             ResultTabs(),
           ],
         ),

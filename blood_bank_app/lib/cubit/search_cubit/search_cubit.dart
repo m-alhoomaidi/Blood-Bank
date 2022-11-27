@@ -25,12 +25,16 @@ class SearchCubit extends Cubit<SearchState> {
           .get()
           .then((value) async {
         donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();
-        emit(SearchSuccess(donors: donors));
+        emit(SearchSuccess(donors: donors, selectedBloodTypeIndex: 0));
       });
     } on FirebaseException catch (e) {
       emit(SearchFailure(error: e.code));
     } catch (e) {
       emit(SearchFailure(error: e.toString()));
     }
+  }
+
+  void setSelectedBloodType({required int index}) async {
+    emit(SearchSuccess(selectedBloodTypeIndex: index, donors: donors));
   }
 }
