@@ -1,17 +1,14 @@
-import 'dart:math';
-
-import 'package:blood_bank_app/cubit/signin_cubit/signin_cubit.dart';
-import 'package:blood_bank_app/models/extention.dart';
-import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
-import 'package:blood_bank_app/pages/home_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
+import '../cubit/signin_cubit/signin_cubit.dart';
+import '../models/extention.dart';
+import '../widgets/method/dialod_reset_password.dart';
+import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
-import '../utils.dart';
+import '../shared/utils.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
-import '../style.dart';
+import '../shared/style.dart';
 import '../widgets/forms/my_text_form_field.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:email_validator/email_validator.dart';

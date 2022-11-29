@@ -2,7 +2,9 @@
 import 'dart:convert';
 
 class Donor {
+  String id;
   String email;
+  String password;
   String name;
   String phone;
   String bloodType;
@@ -13,12 +15,14 @@ class Donor {
   String brithDate;
   String gender;
   String isShown;
-  String isShownNumber;
+  String isShownPhone;
   String isGpsOn;
   bool isExpanded;
 
   Donor({
+    this.id = '',
     required this.email,
+    this.password = '',
     required this.name,
     required this.phone,
     required this.bloodType,
@@ -29,7 +33,7 @@ class Donor {
     this.image = '',
     this.gender = "male",
     this.isShown = "1",
-    this.isShownNumber = "1",
+    this.isShownPhone = "1",
     this.isGpsOn = "1",
     this.isExpanded = false,
   });
@@ -45,7 +49,7 @@ class Donor {
   //       "brithdate": donor.brithDate,
   //       "gender": donor.brithDate,
   //       "is_shown": donor.isShown,
-  //       "is_shown_number": donor.isShownNumber,
+  //       "is_shown_phone": donor.isShownNumber,
   //       "is_gps_on": donor.isGpsOn
   //     };
 
@@ -61,43 +65,47 @@ class Donor {
   //       image: donor["image"],
   //       brithDate: donor["brithDate"],
   //       isShown: donor["is_shown"],
-  //       isShownNumber: donor["is_shown_number"],
+  //       isShownNumber: donor["is_shown_phone"],
   //       isGpsOn: donor["is_gps_on"],
   //     );
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'email': email,
-      'name': name,
-      'phone': phone,
-      'blood_type': bloodType,
-      'state': state,
-      'district': district,
-      'neighborhood': neighborhood,
-      'image': image,
-      'brith_date': brithDate,
-      'gender': gender,
-      'is_shown': isShown,
-      'is_shown_number': isShownNumber,
-      'is_gps_on': isGpsOn,
+      DonorFields.id: id,
+      DonorFields.password: password,
+      DonorFields.email: email,
+      DonorFields.name: name,
+      DonorFields.phone: phone,
+      DonorFields.bloodType: bloodType,
+      DonorFields.state: state,
+      DonorFields.district: district,
+      DonorFields.neighborhood: neighborhood,
+      DonorFields.image: image,
+      DonorFields.brithDate: brithDate,
+      DonorFields.gender: gender,
+      DonorFields.isShown: isShown,
+      DonorFields.isShownPhone: isShownPhone,
+      DonorFields.isGpsOn: isGpsOn,
     };
   }
 
   factory Donor.fromMap(Map<String, dynamic> map) {
     return Donor(
-      email: map['email'] as String,
-      name: map['name'] as String,
-      phone: map['phone'] as String,
-      bloodType: map['blood_type'] as String,
-      state: map['state'] as String,
-      district: map['district'] as String,
-      neighborhood: map['neighborhood'] as String,
-      image: map['image'] as String,
-      brithDate: map['brith_date'] as String,
-      gender: map['gender'] as String,
-      isShown: map['is_shown'] as String,
-      isShownNumber: map['is_shown_number'] as String,
-      isGpsOn: map['is_gps_on'] as String,
+      id: map[DonorFields.id] as String,
+      email: map[DonorFields.email] as String,
+      password: map[DonorFields.password] as String,
+      name: map[DonorFields.name] as String,
+      phone: map[DonorFields.phone] as String,
+      bloodType: map[DonorFields.bloodType] as String,
+      state: map[DonorFields.state] as String,
+      district: map[DonorFields.district] as String,
+      neighborhood: map[DonorFields.neighborhood] as String,
+      image: map[DonorFields.image] as String,
+      brithDate: map[DonorFields.brithDate] as String,
+      gender: map[DonorFields.gender] as String,
+      isShown: map[DonorFields.isShown] as String,
+      isShownPhone: map[DonorFields.isShownPhone] as String,
+      isGpsOn: map[DonorFields.isGpsOn] as String,
     );
   }
 
@@ -105,4 +113,23 @@ class Donor {
 
   factory Donor.fromJson(String source) =>
       Donor.fromMap(json.decode(source) as Map<String, dynamic>);
+}
+
+class DonorFields {
+  static const String collectionName = 'donors';
+  static const String id = 'id';
+  static const String email = 'email';
+  static const String password = 'password';
+  static const String name = 'name';
+  static const String phone = 'phone';
+  static const String bloodType = 'blood_type';
+  static const String state = 'state';
+  static const String district = 'district';
+  static const String neighborhood = 'neighborhood';
+  static const String image = 'image';
+  static const String brithDate = 'brith_date';
+  static const String gender = 'gender';
+  static const String isShown = 'is_shown';
+  static const String isShownPhone = 'is_shown_phone';
+  static const String isGpsOn = 'is_gps_on';
 }

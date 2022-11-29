@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:blood_bank_app/style.dart';
+import '../../shared/style.dart';
 
 class MySwitchListTile extends StatelessWidget {
   const MySwitchListTile({

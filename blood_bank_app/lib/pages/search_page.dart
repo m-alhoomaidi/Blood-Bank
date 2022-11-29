@@ -1,6 +1,7 @@
-import 'package:blood_bank_app/style.dart';
-import 'package:blood_bank_app/widgets/search/search_options.dart';
-import 'package:blood_bank_app/widgets/search/search_result.dart';
+import '../shared/style.dart';
+import '../widgets/search/search_options.dart';
+import '../widgets/search/search_result.dart';
+
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class SearchPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.red,
@@ -32,7 +33,7 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           const Expanded(
-            flex: 3,
+            flex: 5,
             child: SearchResult(),
           ),
         ],

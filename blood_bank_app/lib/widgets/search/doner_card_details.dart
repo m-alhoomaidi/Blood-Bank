@@ -38,12 +38,8 @@ class DonerCardDetails extends StatelessWidget {
                 child: Wrap(
                   children: [
                     const Text(
-                      "المنطقة",
+                      "المنطقة  : ",
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    const Text(" - "),
                     Text(donerCity,
                         style: const TextStyle(fontWeight: FontWeight.bold)),
                   ],
@@ -56,26 +52,3 @@ class DonerCardDetails extends StatelessWidget {
     );
   }
 }
-
-// class cardItem extends StatelessWidget {
-//   final onTap;
-//   const cardItem({super.key, this.onTap});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       child: Container(
-//         margin: EdgeInsets.symmetric(horizontal: 25),
-//         height: 220,
-//         width: MediaQuery.of(context).size.width,
-//         decoration: BoxDecoration(
-//             boxShadow: [
-//               BoxShadow(
-//                   color: Color(0xffFF6594).withOpacity(0.2), blurRadius: 25),
-//             ],
-//             color: Colors.white.withOpacity(1.0),
-//             borderRadius: BorderRadius.all(Radius.circular(30))),
-//       ),
-//     );
-//   }
-// }

@@ -1,14 +1,17 @@
-import '../utils.dart';
+import '../shared/encryption.dart';
+import '../models/blood_types.dart';
+import '../shared/utils.dart';
 import '../models/donor.dart';
 import '../pages/home_page.dart';
 import '../cubit/signup_cubit/signup_cubit.dart';
-import '../style.dart';
+import '../shared/style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
 import '../widgets/forms/my_text_form_field.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
 import '../pages/sing_up_center_page.dart';
 import '../models/my_stepper.dart' as my_stepper;
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
@@ -44,20 +47,29 @@ class _SignUpPageState extends State<SignUpPage> {
   int _activeStepIndex = 0;
   bool didConfirm = false;
 
-  final List<String> bloodTypes = const <String>[
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-"
-  ];
-
   bool isFirstStep() => _activeStepIndex == 0;
 
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
+
+  Future<void> submit() async {
+    FormState? formData = _fourthFormState.currentState;
+    if (formData!.validate()) {
+      BlocProvider.of<SignupCubit>(context).signUp(
+        donor: Donor(
+          email: email!,
+          password: Encryption.encode(password!),
+          name: name!,
+          phone: phone!,
+          bloodType: bloodType!,
+          state: stateName!,
+          district: district!,
+          neighborhood: neighborhood!,
+          image: '',
+          brithDate: '',
+        ),
+      );
+    }
+  }
 
   FormState? currentFormState() {
     if (_activeStepIndex == 0) {
@@ -134,137 +146,114 @@ class _SignUpPageState extends State<SignUpPage> {
               },
               controlsBuilder:
                   (BuildContext context, my_stepper.ControlsDetails controls) {
-                return Container(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 60,
-                          ),
-                          if (!isFirstStep())
-                            Positioned(
-                              right: 20,
-                              child: SizedBox(
-                                width: 140,
-                                child: MyOutlinedIconButton(
-                                  onPressed: controls.onStepCancel,
-                                  borderColor: Colors.orange,
-                                  icon: const Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.orange,
-                                  ),
-                                  label: const Text(
-                                    'السابق',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.orange,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          const SizedBox(width: 20),
-                          Positioned(
-                            left: 20,
-                            child: SizedBox(
-                              width: 140,
-                              child: (isLastStep())
-                                  ? MyOutlinedIconButton(
-                                      icon: const Text(
-                                        'إنشاء',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                      label: const Icon(
-                                        Icons.check_rounded,
-                                        color: Colors.green,
-                                      ),
-                                      onPressed: () {
-                                        FormState? formData =
-                                            _fourthFormState.currentState;
-                                        if (formData!.validate()) {
-                                          BlocProvider.of<SignupCubit>(context)
-                                              .signUp(
-                                            donor: Donor(
-                                              email: email!,
-                                              name: name!,
-                                              phone: phone!,
-                                              bloodType: bloodType!,
-                                              state: stateName!,
-                                              district: district!,
-                                              neighborhood: neighborhood!,
-                                              image: '',
-                                              brithDate: '',
-                                            ),
-                                            password: password!,
-                                          );
-                                        }
-                                      },
-                                      borderColor: Colors.green,
-                                    )
-                                  : MyOutlinedIconButton(
-                                      icon: const Text(
-                                        'التالي',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.blue,
-                                        ),
-                                      ),
-                                      label: const Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.blue,
-                                      ),
-                                      onPressed: validateForm,
-                                      borderColor: Colors.blue,
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      isFirstStep()
-                          ? Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15.0),
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                child: const Text(
-                                  "إنشاء حساب كمركز طبي",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pushReplacementNamed(
-                                      SignUpCenter.routeName);
-                                },
-                              ),
-                            )
-                          : Container(),
-                    ],
-                  ),
-                );
+                return buildNavigationButtons(context, controls);
               },
             ),
           );
         },
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     FormState? formData = _firstFormState.currentState;
-      //     if (formData!.validate()) {
-      //     } else {
-      //       print("Not Valid");
-      //     }
-      //   },
-      // ),
+    );
+  }
+
+  Container buildNavigationButtons(
+      BuildContext context, my_stepper.ControlsDetails controls) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 60,
+              ),
+              if (!isFirstStep())
+                Positioned(
+                  right: 20,
+                  child: SizedBox(
+                    width: 140,
+                    child: MyOutlinedIconButton(
+                      onPressed: controls.onStepCancel,
+                      borderColor: Colors.orange,
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.orange,
+                      ),
+                      label: const Text(
+                        'السابق',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              const SizedBox(width: 20),
+              Positioned(
+                left: 20,
+                child: SizedBox(
+                  width: 140,
+                  child: (isLastStep())
+                      ? MyOutlinedIconButton(
+                          icon: const Text(
+                            'إنشاء',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.green,
+                            ),
+                          ),
+                          label: const Icon(
+                            Icons.check_rounded,
+                            color: Colors.green,
+                          ),
+                          onPressed: () async {
+                            submit();
+                          },
+                          borderColor: Colors.green,
+                        )
+                      : MyOutlinedIconButton(
+                          icon: const Text(
+                            'التالي',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          label: const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.blue,
+                          ),
+                          onPressed: validateForm,
+                          borderColor: Colors.blue,
+                        ),
+                ),
+              ),
+            ],
+          ),
+          isFirstStep()
+              ? Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    child: const Text(
+                      "إنشاء حساب كمركز طبي",
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(SignUpCenter.routeName);
+                    },
+                  ),
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 
@@ -408,7 +397,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                   value: bloodType,
                   hintColor: eTextColor,
-                  items: bloodTypes,
+                  items: BloodTypes.bloodTypes,
                   blurrBorderColor: Colors.white,
                   focusBorderColor: eTextFieldFocusBorder,
                   fillColor: eTextFieldFill,

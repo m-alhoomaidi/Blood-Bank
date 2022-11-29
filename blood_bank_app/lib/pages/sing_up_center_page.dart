@@ -1,9 +1,9 @@
-import '../style.dart';
-import '../widgets/forms/my_button.dart';
+import '../shared/style.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_text_form_field.dart';
 import '../models/my_stepper.dart' as my_stepper;
+
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -31,27 +31,16 @@ class _SignUpCenterState extends State<SignUpCenter> {
   int _activeStepIndex = 0;
   bool didConfirm = false;
 
-  final List<String> bloodTypes = const <String>[
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-"
-  ];
-
-  Future submit() async {
-    FormState? formData = _firstFormState.currentState;
-    if (formData!.validate()) {
-      formData.save();
-      setState(() => _saving = true);
-      // await function();
-    } else {
-      print("Not Valid");
-    }
-  }
+  // Future submit() async {
+  //   FormState? formData = _firstFormState.currentState;
+  //   if (formData!.validate()) {
+  //     formData.save();
+  //     setState(() => _saving = true);
+  //     // await function();
+  //   } else {
+  //     print("Not Valid");
+  //   }
+  // }
 
   bool isFirstStep() => _activeStepIndex == 0;
 

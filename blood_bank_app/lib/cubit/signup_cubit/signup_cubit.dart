@@ -1,8 +1,10 @@
+import '../../shared/encryption.dart';
+import '../../models/donor.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../models/donor.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
@@ -13,18 +15,18 @@ class SignupCubit extends Cubit<SignupState> {
 
   Future<void> signUp({
     required Donor donor,
-    required String password,
   }) async {
     emit(SignupLoading());
     try {
       await fireAuth
           .createUserWithEmailAndPassword(
-              email: donor.email, password: password)
+              email: donor.email, password: donor.password)
           .then((userCredential) async {
         if (userCredential.user != null) {
+          donor.id = userCredential.user!.uid;
           currentUser = userCredential.user;
           fireStore
-              .collection('donors')
+              .collection(DonorFields.collectionName)
               .add(donor.toMap())
               .then((value) => emit(SignupSuccess()));
         }

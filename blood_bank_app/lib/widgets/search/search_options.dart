@@ -1,6 +1,8 @@
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
-import 'package:blood_bank_app/style.dart';
+import 'package:blood_bank_app/models/blood_types.dart';
+import 'package:blood_bank_app/shared/style.dart';
 import 'package:blood_bank_app/widgets/forms/my_dropdown_button_form_field.dart';
+import 'package:blood_bank_app/widgets/search/result_tabs.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,17 +19,6 @@ class SearchOptions extends StatefulWidget {
 class _SearchOptionsState extends State<SearchOptions> {
   final GlobalKey<FormState> searchFormState = GlobalKey<FormState>();
   String? bloodType, state, district;
-  final List<String> bloodTypes = const <String>[
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-"
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -107,7 +98,7 @@ class _SearchOptionsState extends State<SearchOptions> {
               child: MyDropdownButtonFormField(
                 hint: "فصيلة دمك",
                 value: bloodType,
-                items: bloodTypes,
+                items: BloodTypes.bloodTypes,
                 blurrBorderColor: Colors.white,
                 focusBorderColor: eTextFieldFocusBorder,
                 fillColor: eSearchTextFieldFill,
@@ -124,6 +115,8 @@ class _SearchOptionsState extends State<SearchOptions> {
                 },
               ),
             ),
+            const SizedBox(height: 5),
+            ResultTabs(),
           ],
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:blood_bank_app/models/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meta/meta.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
@@ -19,17 +19,22 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchLoading());
     try {
       fireStore
-          .collection('donors')
-          .where('blood_type', isEqualTo: bloodType)
+          .collection(DonorFields.collectionName)
+          .where(DonorFields.state, isEqualTo: state)
+          .where(DonorFields.district, isEqualTo: district)
           .get()
           .then((value) async {
         donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();
-        emit(SearchSuccess(donors: donors));
+        emit(SearchSuccess(donors: donors, selectedBloodTypeIndex: 0));
       });
     } on FirebaseException catch (e) {
       emit(SearchFailure(error: e.code));
     } catch (e) {
       emit(SearchFailure(error: e.toString()));
     }
+  }
+
+  void setSelectedBloodType({required int index}) async {
+    emit(SearchSuccess(selectedBloodTypeIndex: index, donors: donors));
   }
 }
