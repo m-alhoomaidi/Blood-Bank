@@ -1,20 +1,20 @@
-import 'package:blood_bank_app/shared/style.dart';
 import 'package:flutter/material.dart';
 
-class MySwitchListTile extends StatefulWidget {
+import '../../shared/style.dart';
+
+class MySwitchListTile extends StatelessWidget {
   const MySwitchListTile({
-    super.key,
+    Key? key,
     required this.title,
     required this.subTitle,
-  });
+    required this.onChange,
+    this.onchangValue = false,
+  }) : super(key: key);
   final String title;
   final String subTitle;
-  @override
-  State<MySwitchListTile> createState() => _MySwitchListTileState();
-}
+  final bool onchangValue;
+  final ValueChanged<bool>? onChange;
 
-class _MySwitchListTileState extends State<MySwitchListTile> {
-  bool onchangValue = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,16 +23,12 @@ class _MySwitchListTileState extends State<MySwitchListTile> {
         title: Align(
             alignment: Alignment.centerRight,
             child: Text(
-              widget.title,
+              title,
             )),
-        subtitle: Text(widget.subTitle),
+        subtitle: Text(subTitle),
         value: onchangValue,
         activeColor: eSecondColor,
-        onChanged: (val) {
-          setState(() {
-            onchangValue = val;
-          });
-        },
+        onChanged: onChange,
       ),
     );
   }

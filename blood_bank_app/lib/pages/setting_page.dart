@@ -115,7 +115,7 @@ class _SettingPageState extends State<SettingPage> {
               _showSelectPhotoOptions(context);
             },
             child: DisplayImage(
-              imagePath: _image ?? "assets\images\1.jpg",
+              imagePath: _image ?? "assets/images/1.jpg",
               onPressed: () {},
             ),
           ),
