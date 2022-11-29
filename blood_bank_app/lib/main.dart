@@ -1,6 +1,7 @@
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
+import 'package:blood_bank_app/pages/edit_main_data_page.dart';
 import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("ar", "AE")],
-      initialRoute: SettingPage.routeName,
+      initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),
         UserDataPage.routeName: (context) => const UserDataPage(),
+        EditMainDataPage.routeName: (context) => const EditMainDataPage()
       },
     );
   }
