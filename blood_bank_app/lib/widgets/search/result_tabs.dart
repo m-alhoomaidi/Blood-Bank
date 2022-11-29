@@ -1,5 +1,6 @@
-import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
-import 'package:blood_bank_app/models/blood_types.dart';
+import '../../cubit/search_cubit/search_cubit.dart';
+import '../../models/blood_types.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -99,7 +100,7 @@ class _ResultTabsState extends State<ResultTabs> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: const Center(
-              child: Text('فصائل الدم المناسبة للطلب'),
+              child: Text('ستظهر هنا فصائل الدم المناسبة'),
             ),
           );
         }

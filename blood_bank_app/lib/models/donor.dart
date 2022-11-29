@@ -13,7 +13,6 @@ class Donor {
   String neighborhood;
   String image;
   String brithDate;
-  String gender;
   String isShown;
   String isShownPhone;
   String isGpsOn;
@@ -31,7 +30,6 @@ class Donor {
     required this.neighborhood,
     this.brithDate = '',
     this.image = '',
-    this.gender = "male",
     this.isShown = "1",
     this.isShownPhone = "1",
     this.isGpsOn = "1",
@@ -47,7 +45,6 @@ class Donor {
   //       "neighborhood": donor.neighborhood,
   //       "image": donor.image,
   //       "brithdate": donor.brithDate,
-  //       "gender": donor.brithDate,
   //       "is_shown": donor.isShown,
   //       "is_shown_phone": donor.isShownNumber,
   //       "is_gps_on": donor.isGpsOn
@@ -82,7 +79,6 @@ class Donor {
       DonorFields.neighborhood: neighborhood,
       DonorFields.image: image,
       DonorFields.brithDate: brithDate,
-      DonorFields.gender: gender,
       DonorFields.isShown: isShown,
       DonorFields.isShownPhone: isShownPhone,
       DonorFields.isGpsOn: isGpsOn,
@@ -102,7 +98,6 @@ class Donor {
       neighborhood: map[DonorFields.neighborhood] as String,
       image: map[DonorFields.image] as String,
       brithDate: map[DonorFields.brithDate] as String,
-      gender: map[DonorFields.gender] as String,
       isShown: map[DonorFields.isShown] as String,
       isShownPhone: map[DonorFields.isShownPhone] as String,
       isGpsOn: map[DonorFields.isGpsOn] as String,
@@ -128,7 +123,6 @@ class DonorFields {
   static const String neighborhood = 'neighborhood';
   static const String image = 'image';
   static const String brithDate = 'brith_date';
-  static const String gender = 'gender';
   static const String isShown = 'is_shown';
   static const String isShownPhone = 'is_shown_phone';
   static const String isGpsOn = 'is_gps_on';
