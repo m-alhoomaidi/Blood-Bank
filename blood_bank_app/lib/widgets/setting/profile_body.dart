@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
+import 'package:blood_bank_app/pages/edit_main_data_page.dart';
 import 'package:blood_bank_app/pages/user_date_page.dart';
 import 'package:blood_bank_app/shared/style.dart';
 import 'package:blood_bank_app/widgets/forms/my_dropdown_button_form_field.dart';
@@ -16,12 +17,6 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   String? selectedGender;
-
-  final List<String> genders = const <String>[
-    "غير محدد",
-    "ذكر",
-    "أنثى",
-  ];
 
   showDateTimePicker(context) async {
     final DateTime initDateTime = DateTime.now();
@@ -72,7 +67,7 @@ class _ProfileBodyState extends State<ProfileBody> {
           ),
         ),
         onTap: () {
-          Navigator.of(context).pushNamed(UserDataPage.routeName);
+          Navigator.of(context).pushNamed(EditMainDataPage.routeName);
         },
       ),
       const MySwitchListTile(
