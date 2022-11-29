@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
@@ -24,6 +25,7 @@ void main() async {
       BlocProvider(create: (BuildContext context) => SignupCubit()),
       BlocProvider(create: (BuildContext context) => SingInCubit()),
       BlocProvider(create: (BuildContext context) => SearchCubit()),
+      BlocProvider(create: (BuildContext context) => ProfileCubit())
     ],
     child: const MyApp(),
   ));
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("ar", "AE")],
-      initialRoute: HomePage.routeName,
+      initialRoute: SettingPage.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
