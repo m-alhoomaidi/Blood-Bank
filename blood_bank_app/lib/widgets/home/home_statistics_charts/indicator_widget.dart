@@ -1,4 +1,4 @@
-import '../../models/home_statistics.dart';
+import '../../../models/home_statistics.dart';
 import 'package:flutter/material.dart';
 
 class IndicatorWidget extends StatelessWidget {

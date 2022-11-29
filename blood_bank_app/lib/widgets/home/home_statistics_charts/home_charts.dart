@@ -1,5 +1,6 @@
-import 'package:blood_bank_app/models/home_statistics.dart';
-import 'package:blood_bank_app/widgets/home/indicator_widget.dart';
+import '../../../models/home_statistics.dart';
+import 'indicator_widget.dart';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
