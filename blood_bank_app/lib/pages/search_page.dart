@@ -19,8 +19,8 @@ class SearchPage extends StatelessWidget {
       backgroundColor: eBackGroundColor,
       body: Column(
         children: <Widget>[
-          Expanded(
-            flex: 2,
+          SizedBox(
+            height: 200,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.red,
@@ -33,7 +33,6 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           const Expanded(
-            flex: 5,
             child: SearchResult(),
           ),
         ],
