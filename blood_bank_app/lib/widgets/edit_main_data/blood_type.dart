@@ -37,7 +37,7 @@ class _BloodTypeState extends State<BloodType> {
             onChange: (value) => setState(() => bloodType = value),
           ),
         ),
-        const SizedBox(height: 50.0),
+        const SizedBox(height: 15.0),
       ],
     );
   }

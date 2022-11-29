@@ -40,14 +40,15 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
             const SizedBox(height: 15.0),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Text("العنوان"),
-            ),
-            const AddressMainData(),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Text("الفصيلة"),
             ),
             const BloodType(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Text("العنوان"),
+            ),
+            const AddressMainData(),
+            const SizedBox(height: 30.0),
             MyButton(title: "حفظ", onPressed: (() {}))
           ],
         ),
