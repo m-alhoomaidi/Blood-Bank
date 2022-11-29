@@ -20,7 +20,7 @@ class SearchPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 200,
+            height: 190,
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.red,
