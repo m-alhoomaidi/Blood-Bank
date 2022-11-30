@@ -24,7 +24,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,   
   }),
-  background : "red",
+  background : "white",color:"black",
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['margin', 'width'], {
@@ -32,7 +32,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
    marginRight: drawerWidth,
-   background : "red",
+   background : "white",color:"black",
   }),
 }));
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -59,9 +59,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   return (
     <div>
     <ThemeProvider theme={rtlTheme}>
-    <CssBaseline />
+    {/* <CssBaseline /> */}
     <Box sx={{ display: 'flex' }} m={4}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <AppBar position="fixed" open={open} dir="ltr">
         <Toolbar >
           <Typography variant="h6" noWrap sx={{ flexGrow: 1,alignItems:"center",justifyContent:"center",fontSize:"35px"}} component="div"  >
@@ -80,9 +80,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Main open={open}>
+      {/* <Main open={open}>
         <DrawerHeader />
-      </Main>
+      </Main> */}
       <Drawer
         sx={{
           flexShrink: 0,
@@ -94,7 +94,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
         anchor="right"
         open={open}
       >
-        <DrawerHeader style={{background : "red"}}>
+        <DrawerHeader style={{background : "white"}}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
