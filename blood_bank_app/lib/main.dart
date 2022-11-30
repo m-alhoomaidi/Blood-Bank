@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("ar", "AE")],
-      initialRoute: SettingPage.routeName,
+      initialRoute: HomePage.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
