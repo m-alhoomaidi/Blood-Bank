@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
-  const MyTextFormField({
-    Key? key,
-    this.hint,
-    this.icon,
-    this.keyBoardType = TextInputType.text,
-    this.onChange,
-    this.validator,
-    this.onSave,
-    this.focusBorderColor,
-    this.blurrBorderColor,
-    this.fillColor,
-    this.hintStyle = const TextStyle(),
-    this.isPassword = false,
-    this.suffixIcon = true,
-    this.readOnly = false,
-    this.onTap,
-    this.controller,
-  }) : super(key: key);
+  const MyTextFormField(
+      {Key? key,
+      this.hint,
+      this.icon,
+      this.keyBoardType = TextInputType.text,
+      this.onChange,
+      this.validator,
+      this.onSave,
+      this.focusBorderColor,
+      this.blurrBorderColor,
+      this.fillColor,
+      this.hintStyle = const TextStyle(),
+      this.isPassword = false,
+      this.suffixIcon = true,
+      this.readOnly = false,
+      this.onTap,
+      this.controller,
+      this.initialValue})
+      : super(key: key);
 
   final TextInputType keyBoardType;
   final String? hint;
@@ -32,6 +33,7 @@ class MyTextFormField extends StatelessWidget {
   final TextStyle hintStyle;
   final bool readOnly;
   final TextEditingController? controller;
+  final String? initialValue;
 
   final void Function()? onTap;
 
@@ -39,6 +41,7 @@ class MyTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      initialValue: initialValue,
       onTap: onTap,
       onChanged: onChange,
       validator: validator,

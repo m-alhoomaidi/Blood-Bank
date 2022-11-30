@@ -1,3 +1,10 @@
+import 'package:blood_bank_app/models/donor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../widgets/forms/my_switchlist_tile.dart';
 import '../widgets/setting/select_photo_options_screen.dart';
 import '../widgets/setting/profile_body.dart';
 import '../widgets/setting/display_image.dart';
@@ -9,6 +16,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+// Table name data user in hive database
+const String dataBoxName = "dataProfile";
+
 class SettingPage extends StatefulWidget {
   static const String routeName = "setting";
   const SettingPage({super.key});
@@ -19,6 +29,42 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   File? _image;
+  Donor? donor;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  Box? dataBox;
+
+  Future<void> putDataTodataProfileTable() async {
+    // var box = await Hive.openBox(dataBoxName);
+
+    dataBox = Hive.box(dataBoxName);
+
+    try {
+      User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        await _fireStore
+            .collection('donors')
+            .doc("H5PPBI8VBBNikBYvmifb")
+            .get()
+            .then((value) async {
+          print(value.data());
+          print("object+++++++++++++++++++++");
+          print(currentUser.uid);
+          donor = Donor.fromMap(value.data()!);
+          print("------------------------");
+          print(donor!.email);
+          await dataBox!.add(donor!);
+          print("=======================");
+          // print(dataBox!.get("data_profile"));
+        });
+      } else {
+        print("error 1");
+      }
+    } catch (e) {
+      print("error 2");
+    }
+  }
 
   Future _pickImage(ImageSource source) async {
     try {
@@ -74,6 +120,9 @@ class _SettingPageState extends State<SettingPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      Hive.openBox(dataBoxName);
+    });
 
     () async {
       _permissionStatus = await Permission.storage.status;
@@ -112,7 +161,8 @@ class _SettingPageState extends State<SettingPage> {
           ),
           InkWell(
             onTap: () {
-              _showSelectPhotoOptions(context);
+              // _showSelectPhotoOptions(context);
+              putDataTodataProfileTable();
             },
             child: DisplayImage(
               imagePath: _image ?? "assets/images/1.jpg",
@@ -122,7 +172,7 @@ class _SettingPageState extends State<SettingPage> {
           const SizedBox(
             height: 10,
           ),
-          const ProfileBody(),
+          const ProfileBody()
         ],
       ),
     );

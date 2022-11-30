@@ -2,9 +2,10 @@ import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:blood_bank_app/pages/edit_main_data_page.dart';
-import 'package:blood_bank_app/widgets/method/dialod_reset_password.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'cubit/signin_cubit/signin_cubit.dart';
 import 'pages/search_page.dart';
@@ -21,6 +22,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => SignupCubit()),
@@ -58,7 +61,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("ar", "AE")],
-      initialRoute: HomePage.routeName,
+      initialRoute: SettingPage.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
