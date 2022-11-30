@@ -116,14 +116,11 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   PermissionStatus? _permissionStatus;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      Hive.openBox(dataBoxName);
-    });
-
     () async {
       _permissionStatus = await Permission.storage.status;
 

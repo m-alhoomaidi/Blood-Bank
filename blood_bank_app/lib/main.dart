@@ -23,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
-
+  await Hive.openBox(dataBoxName);
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => SignupCubit()),
