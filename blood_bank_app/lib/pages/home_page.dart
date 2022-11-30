@@ -1,5 +1,10 @@
+import 'package:blood_bank_app/models/donor.dart';
+import 'package:blood_bank_app/pages/setting_page.dart';
 import 'package:blood_bank_app/widgets/home/home_about.dart';
 import 'package:blood_bank_app/widgets/home/home_welcome.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 
 import 'search_page.dart';
 import '../models/extention.dart';
@@ -23,19 +28,7 @@ class HomePage extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {
-              String s = "565655555";
-              print("++++++++++++++++++++++");
-              print(s.isValidPhone);
-              // try {
-              //   FirebaseAuth.instance.createUserWithEmailAndPassword(
-              //     email: 'email@example.com',
-              //     password: 'password',
-              //   );
-              // } catch (e) {
-              //   print(e);
-              // }
-            },
+            onPressed: () async {},
             icon: const Icon(
               Icons.notifications,
             ),
