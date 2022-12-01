@@ -150,6 +150,7 @@ const NavBar = (props) => {
             sx={{
               width: "40px",
               height: "40px",
+              cursor: "pointer",
             }}
           >
             <CardMedia component="img" image="/logo.png" />

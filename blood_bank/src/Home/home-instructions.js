@@ -1,13 +1,11 @@
-import {Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-
-
-export const Instructions=(props)=>{
-const{children}=props;
-return (<Card sx={{ maxWidth: "35%" }}>
+export const Instructions = (props) => {
+  const { children } = props;
+  return (<Card sx={{ maxWidth: "35%" }}>
     <CardMedia
       component="img"
       height="140"
@@ -29,4 +27,3 @@ return (<Card sx={{ maxWidth: "35%" }}>
     </CardActions>
   </Card>)
 }
-
