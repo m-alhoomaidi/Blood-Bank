@@ -1,5 +1,6 @@
 import 'package:blood_bank_app/pages/setting_page.dart';
 
+import '../method/compare_hive_firbaase.dart';
 import 'home_drawer_menu_item.dart';
 import '../../pages/sign_in_page.dart';
 import '../../pages/sign_up_page.dart';
@@ -35,7 +36,8 @@ class HomeDrawerBody extends StatelessWidget {
           HomeDrawerMenuItem(
             icon: Icons.settings_outlined,
             title: "إعدادات",
-            onTap: () {
+            onTap: () async {
+              CompareHiveAndFireStore().compareHiveAndFirestore();
               Navigator.of(context).pushNamed(SettingPage.routeName);
             },
           ),

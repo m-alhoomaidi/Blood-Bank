@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 import '../../models/donor.dart';
@@ -20,7 +21,10 @@ class CompareHiveAndFireStore {
             .then((value) async {
           donor = Donor.fromMap(value.data()!);
 
-          if (Hive.box(dataBoxName).isEmpty) {
+          if (Hive.box(dataBoxName) != null) {
+            if (kDebugMode) {
+              print("22222222222222222222222222222");
+            }
             if (Hive.box(dataBoxName).get("name") == donor.name &&
                 Hive.box(dataBoxName).get("blood_type") == donor.bloodType &&
                 donor.isShown == Hive.box(dataBoxName).get("is_shown") &&
@@ -32,7 +36,6 @@ class CompareHiveAndFireStore {
                 donor.state == Hive.box(dataBoxName).get("satae") &&
                 donor.neighborhood ==
                     Hive.box(dataBoxName).get("neighborhood")) {
-              print("okkkkkkkkkk");
             } else {
               await _fireStore
                   .collection('donors')
@@ -50,6 +53,7 @@ class CompareHiveAndFireStore {
               });
             }
           } else if (Hive.box(dataBoxName).isNotEmpty) {
+            print("33333333333333333333333");
             Hive.box(dataBoxName).put("name", donor.name);
             Hive.box(dataBoxName).put("blood_type", donor.bloodType);
             Hive.box(dataBoxName).put("is_shown", donor.isShown);
@@ -62,7 +66,6 @@ class CompareHiveAndFireStore {
             Hive.box(dataBoxName).put("district", donor.district);
             Hive.box(dataBoxName).put("satae", donor.state);
             Hive.box(dataBoxName).put("neighborhood", donor.neighborhood);
-            Hive.box(dataBoxName).put("date", donor.brithDate);
           }
         });
       } else {}
