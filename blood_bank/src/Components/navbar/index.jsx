@@ -47,6 +47,7 @@ const navItems = [
 
 const fontColor = "#343a40";
 const AppBarBackground = "#f8f9fa";
+const RedColorValue = "#e63946";
 const NavBar = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
@@ -64,15 +65,21 @@ const NavBar = (props) => {
     >
       <Container fixed>
         <ListItem onClick={handleDrawerToggle}>
-          <ListItemButton>
+          <ListItemButton
+            sx={{
+              transition: "0.5s",
+              "&:hover": {
+                color: "white",
+                backgroundColor: RedColorValue,
+              },
+            }}
+          >
             <ListItemText>
-              <Typography align="right">{item.name}</Typography>
+              <Typography align="center">{item.name}</Typography>
             </ListItemText>
           </ListItemButton>
         </ListItem>
-        {navItems.length - 1 != index && (
-          <Divider sx={{ backgroundColor: fontColor }} />
-        )}
+        {navItems.length - 1 != index && <Divider />}
       </Container>
     </Link>
   ));
@@ -84,11 +91,15 @@ const NavBar = (props) => {
       sx={{
         color: fontColor,
         textDecoration: "none",
+        transition: "0.5s",
         p: 2,
-        borderRadius: 5,
+        "&:hover": {
+          color: "white",
+          backgroundColor: RedColorValue,
+        },
       }}
     >
-      {item.name}
+      <Typography sx={{ display: "inline" }}> {item.name}</Typography>
     </Link>
   ));
 

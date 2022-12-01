@@ -1,8 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme'
 import HomePage from "./pages/home";
 const App = () => {
   return (
-    <HomePage />
+    <ThemeProvider theme={theme}>
+      <HomePage />
+    </ThemeProvider>
   );
 }
 export default App;
