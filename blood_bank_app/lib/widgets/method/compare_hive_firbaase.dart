@@ -25,18 +25,17 @@ class CompareHiveAndFireStore {
             if (kDebugMode) {
               print("22222222222222222222222222222");
             }
-            if (Hive.box(dataBoxName).get("name") == donor.name &&
-                Hive.box(dataBoxName).get("blood_type") == donor.bloodType &&
-                donor.isShown == Hive.box(dataBoxName).get("is_shown") &&
-                donor.isGpsOn == Hive.box(dataBoxName).get("is_gps_on") &&
-                donor.isShownPhone ==
+            if (Hive.box(dataBoxName).get("name") != donor.name &&
+                Hive.box(dataBoxName).get("blood_type") != donor.bloodType &&
+                donor.isShown != Hive.box(dataBoxName).get("is_shown") &&
+                donor.isGpsOn != Hive.box(dataBoxName).get("is_gps_on") &&
+                donor.isShownPhone !=
                     Hive.box(dataBoxName).get("is_shown_phone") &&
-                Hive.box(dataBoxName).get("date") == donor.brithDate &&
-                donor.district == Hive.box(dataBoxName).get("district") &&
-                donor.state == Hive.box(dataBoxName).get("satae") &&
-                donor.neighborhood ==
+                Hive.box(dataBoxName).get("date") != donor.brithDate &&
+                donor.district != Hive.box(dataBoxName).get("district") &&
+                donor.state != Hive.box(dataBoxName).get("satae") &&
+                donor.neighborhood !=
                     Hive.box(dataBoxName).get("neighborhood")) {
-            } else {
               await _fireStore
                   .collection('donors')
                   .doc("H5PPBI8VBBNikBYvmifb")
