@@ -2,17 +2,15 @@ import 'package:blood_bank_app/widgets/forms/my_button.dart';
 
 import '../cubit/signin_cubit/signin_cubit.dart';
 import '../models/extention.dart';
-import '../widgets/method/dialod_reset_password.dart';
+import '../models/dialod_reset_password.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
 import '../shared/utils.dart';
-import '../widgets/forms/my_outlined_icon_button.dart';
 import '../shared/style.dart';
 import '../widgets/forms/my_text_form_field.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
