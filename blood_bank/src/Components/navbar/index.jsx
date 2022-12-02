@@ -16,6 +16,7 @@ import {
 import { Container } from "@mui/system";
 import { Fade as Hamburger } from "hamburger-react";
 import { useState } from "react";
+import { EmotionList } from "./motion-navbar";
 
 const navItems = [
   {
@@ -53,37 +54,6 @@ const NavBar = (props) => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  const navItemsListMoblie = navItems.map((item, index) => (
-    <Link
-      key={item.name}
-      href={item.href}
-      sx={{
-        textDecoration: "none",
-        color: fontColor,
-      }}
-    >
-      <Container fixed>
-        <ListItem onClick={handleDrawerToggle}>
-          <ListItemButton
-            sx={{
-              transition: "0.5s",
-              "&:hover": {
-                color: "white",
-                backgroundColor: RedColorValue,
-              },
-            }}
-          >
-            <ListItemText>
-              <Typography align="center">{item.name}</Typography>
-            </ListItemText>
-          </ListItemButton>
-        </ListItem>
-        {navItems.length - 1 != index && <Divider />}
-      </Container>
-    </Link>
-  ));
-
   const navItemsList = navItems.map((item) => (
     <Link
       href={item.href}
@@ -102,18 +72,11 @@ const NavBar = (props) => {
       <Typography sx={{ display: "inline" }}> {item.name}</Typography>
     </Link>
   ));
-
-  const drawer = (
-    <Box sx={{ backgroundColor: "white" }}>
-      <List>{navItemsListMoblie}</List>
-    </Box>
-  );
-
   return (
     <>
       <AppBar
         sx={{
-          backgroundColor: AppBarBackground,
+          backgroundColor: "white",
           position: { xs: "static", md: "fixed" },
         }}
       >
@@ -123,21 +86,8 @@ const NavBar = (props) => {
             justifyContent: "space-between",
           }}
         >
-          <Box sx={{ display: { xs: "block", md: "none" } }}>
-            <IconButton
-              sx={{
-                color: "white",
-                alignSelf: "flex-end",
-              }}
-            >
-              <Hamburger
-                direction="left"
-                size={22}
-                toggled={mobileOpen}
-                toggle={setMobileOpen}
-                color="black"
-              />
-            </IconButton>
+          <Box sx={{ display: { xs: "block", md: "none" }, mb: 9 }}>
+            <EmotionList />
           </Box>
           <Box
             sx={{
@@ -150,17 +100,13 @@ const NavBar = (props) => {
             sx={{
               width: "40px",
               height: "40px",
+              cursor: "pointer",
             }}
           >
             <CardMedia component="img" image="/logo.png" />
           </Box>
         </Toolbar>
       </AppBar>
-      {mobileOpen && (
-        <Box component="nav" sx={{ display: { xs: "block", md: "none" } }}>
-          {drawer}
-        </Box>
-      )}
     </>
   );
 };
