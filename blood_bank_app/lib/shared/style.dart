@@ -8,7 +8,7 @@ const Color eBgColor = Colors.white70;
 const Color eTextColor = Colors.black87;
 const Color eSearchTextFieldFill = Colors.white;
 Color eTextFieldFocusBorder = Colors.pink[200]!;
-Color eTextFieldFill = Colors.red[100]!;
+Color eTextFieldFill = Color.fromARGB(255, 245, 202, 211);
 
 const TextStyle bodyTextStyle = TextStyle();
 const TextStyle eHintStyle = TextStyle(

@@ -5,8 +5,10 @@ class MyButton extends StatelessWidget {
     this.color = Colors.blue,
     required this.title,
     required this.onPressed,
+    this.minWidth = 200,
   });
   final Color color;
+  final double? minWidth;
   final String title;
   final VoidCallback onPressed;
   @override
@@ -16,15 +18,15 @@ class MyButton extends StatelessWidget {
       child: Material(
         elevation: 5,
         color: color,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
         child: MaterialButton(
           onPressed: onPressed,
-          minWidth: 200,
+          minWidth: minWidth,
           height: 42,
           child: Text(
             title,
             style: const TextStyle(
-              fontSize: 20,
+              // fontSize: 20,
               color: Colors.white,
             ),
           ),

@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/widgets/forms/my_button.dart';
+
 import '../cubit/signin_cubit/signin_cubit.dart';
 import '../models/extention.dart';
 import '../widgets/method/dialod_reset_password.dart';
@@ -58,11 +60,21 @@ class SignInPage extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: Stack(
                         children: [
-                          SvgPicture.asset(
-                            "assets/images/blood_drop.svg",
-                            color: ePrimColor,
-                            height: 100,
+                          Container(
+                            child: Image.asset("assets/images/login.png"),
+                            //  CircleAvatar(
+                            //   backgroundImage:
+                            //       AssetImage("assets/images/login.png"),
+                            //   radius: 70,
+                            // ),
+                            height: 200,
                           ),
+
+                          // SvgPicture.asset(
+                          //   ,
+                          //   color: ePrimColor,
+                          //   height: 100,
+                          // ),
                           const Positioned(
                             bottom: 7,
                             right: 0,
@@ -75,6 +87,7 @@ class SignInPage extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     const SizedBox(height: 20),
                     Form(
                       key: _formState,
@@ -112,7 +125,7 @@ class SignInPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 10),
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 40),
                             child: MyTextFormField(
@@ -134,6 +147,7 @@ class SignInPage extends StatelessWidget {
                               icon: const Icon(Icons.key_outlined),
                             ),
                           ),
+                          // const SizedBox(height: 5),
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 50.0,
@@ -144,7 +158,7 @@ class SignInPage extends StatelessWidget {
                               child: const Text(
                                 "نسيت كلمة المرور؟",
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  // color: Colors.blue,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -163,61 +177,100 @@ class SignInPage extends StatelessWidget {
                               },
                             ),
                           ),
+                          const SizedBox(height: 40.0),
                           Row(
                             children: [
                               const SizedBox(width: 50.0),
-                              const Text(
-                                "ليس لديك حساب؟  ",
+                              // const Text(
+                              //   "ليس لديك حساب؟  ",
+                              // ),
+                              MyButton(
+                                title: "الدخول",
+                                color: Color(0xFFE57373),
+                                onPressed: () {
+                                  if (_formState.currentState!.validate() &&
+                                      _formStateEmail.currentState!
+                                          .validate()) {
+                                    _formState.currentState!.save();
+                                    _formStateEmail.currentState!.save();
+                                    if (email!.isValidPhone) {
+                                      BlocProvider.of<SingInCubit>(context)
+                                          .isPhoneRegisterd(
+                                              phone: email!,
+                                              type: "signin",
+                                              password: password!);
+                                    } else {
+                                      BlocProvider.of<SingInCubit>(context)
+                                          .signIn(
+                                              email: email!,
+                                              password: password!);
+                                    }
+                                  }
+                                },
+                                minWidth: 150,
                               ),
-                              GestureDetector(
-                                child: const Text(
-                                  "إنشاء حساب",
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                onTap: () {
+                              SizedBox(
+                                width: 20,
+                              ),
+                              MyButton(
+                                title: "إنشاء حساب",
+                                color: Colors.black,
+                                onPressed: () {
                                   Navigator.of(context).pushReplacementNamed(
                                       SignUpPage.routeName);
                                 },
+                                minWidth: 150,
                               ),
+                              // GestureDetector(
+                              //   child: const Text(
+                              //     "إنشاء حساب",
+                              //     style: TextStyle(
+                              //       color: Colors.blue,
+                              //       fontWeight: FontWeight.bold,
+                              //     ),
+                              //   ),
+                              //   onTap: () {
+                              //     Navigator.of(context).pushReplacementNamed(
+                              //         SignUpPage.routeName);
+                              //   },
+                              // ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    MyOutlinedIconButton(
-                      label: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50.0),
-                        child: Text(
-                          "تسجيل دخول",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: eSecondColor,
-                          ),
-                        ),
-                      ),
-                      onPressed: () {
-                        if (_formState.currentState!.validate() &&
-                            _formStateEmail.currentState!.validate()) {
-                          _formState.currentState!.save();
-                          _formStateEmail.currentState!.save();
-                          if (email!.isValidPhone) {
-                            BlocProvider.of<SingInCubit>(context)
-                                .isPhoneRegisterd(
-                                    phone: email!,
-                                    type: "signin",
-                                    password: password!);
-                          } else {
-                            BlocProvider.of<SingInCubit>(context)
-                                .signIn(email: email!, password: password!);
-                          }
-                        }
-                      },
-                      borderColor: eSecondColor,
-                    ),
+                    // const SizedBox(height: 30),
+
+                    // MyOutlinedIconButton(
+                    //   label: const Padding(
+                    //     padding: EdgeInsets.symmetric(horizontal: 50.0),
+                    //     child: Text(
+                    //       "تسجيل دخول",
+                    //       style: TextStyle(
+                    //         fontSize: 18,
+                    //         color: eSecondColor,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   onPressed: () {
+                    //     if (_formState.currentState!.validate() &&
+                    //         _formStateEmail.currentState!.validate()) {
+                    //       _formState.currentState!.save();
+                    //       _formStateEmail.currentState!.save();
+                    //       if (email!.isValidPhone) {
+                    //         BlocProvider.of<SingInCubit>(context)
+                    //             .isPhoneRegisterd(
+                    //                 phone: email!,
+                    //                 type: "signin",
+                    //                 password: password!);
+                    //       } else {
+                    //         BlocProvider.of<SingInCubit>(context)
+                    //             .signIn(email: email!, password: password!);
+                    //       }
+                    //     }
+                    //   },
+                    //   borderColor: eSecondColor,
+                    // ),
                   ],
                 ),
               ),
