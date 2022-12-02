@@ -9,13 +9,13 @@ import '../../pages/setting_page.dart';
 class CompareHiveAndFireStore {
   void compareHiveAndFirestore() async {
     Donor donor;
-    final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    final FirebaseAuth auth = FirebaseAuth.instance;
     try {
-      User? currentUser = _auth.currentUser;
+      User? currentUser = auth.currentUser;
       if (currentUser != null) {
-        await _fireStore
-            .collection('donors')
+        await fireStore
+            .collection(DonorFields.collectionName)
             .doc("H5PPBI8VBBNikBYvmifb")
             .get()
             .then((value) async {
@@ -25,49 +25,64 @@ class CompareHiveAndFireStore {
             if (kDebugMode) {
               print("22222222222222222222222222222");
             }
-            if (Hive.box(dataBoxName).get("name") != donor.name &&
-                Hive.box(dataBoxName).get("blood_type") != donor.bloodType &&
-                donor.isShown != Hive.box(dataBoxName).get("is_shown") &&
-                donor.isGpsOn != Hive.box(dataBoxName).get("is_gps_on") &&
+            if (Hive.box(dataBoxName).get(DonorFields.name) != donor.name &&
+                Hive.box(dataBoxName).get(DonorFields.bloodType) !=
+                    donor.bloodType &&
+                donor.isShown !=
+                    Hive.box(dataBoxName).get(DonorFields.isShown) &&
+                donor.isGpsOn !=
+                    Hive.box(dataBoxName).get(DonorFields.isGpsOn) &&
                 donor.isShownPhone !=
-                    Hive.box(dataBoxName).get("is_shown_phone") &&
+                    Hive.box(dataBoxName).get(DonorFields.isShownPhone) &&
                 Hive.box(dataBoxName).get("date") != donor.brithDate &&
-                donor.district != Hive.box(dataBoxName).get("district") &&
-                donor.state != Hive.box(dataBoxName).get("satae") &&
+                donor.district !=
+                    Hive.box(dataBoxName).get(DonorFields.district) &&
+                donor.state != Hive.box(dataBoxName).get(DonorFields.state) &&
                 donor.neighborhood !=
-                    Hive.box(dataBoxName).get("neighborhood")) {
-              await _fireStore
-                  .collection('donors')
+                    Hive.box(dataBoxName).get(DonorFields.neighborhood)) {
+              await fireStore
+                  .collection(DonorFields.collectionName)
                   .doc("H5PPBI8VBBNikBYvmifb")
                   .update({
-                "state": Hive.box(dataBoxName).get("satae"),
-                "neighborhood": Hive.box(dataBoxName).get("neighborhood"),
-                "district": Hive.box(dataBoxName).get("district"),
-                "name": Hive.box(dataBoxName).get("name"),
-                "blood_type": Hive.box(dataBoxName).get("blood_type"),
-                "is_shown": Hive.box(dataBoxName).get("is_shown"),
-                "is_shown_phone": Hive.box(dataBoxName).get("is_shown_phone"),
-                "is_gps_on": Hive.box(dataBoxName).get("is_gps_on"),
-                "brith_date": Hive.box(dataBoxName).get("date"),
+                DonorFields.state: Hive.box(dataBoxName).get(DonorFields.state),
+                DonorFields.neighborhood:
+                    Hive.box(dataBoxName).get(DonorFields.neighborhood),
+                DonorFields.district:
+                    Hive.box(dataBoxName).get(DonorFields.district),
+                DonorFields.name: Hive.box(dataBoxName).get(DonorFields.name),
+                DonorFields.bloodType:
+                    Hive.box(dataBoxName).get(DonorFields.bloodType),
+                DonorFields.isShown:
+                    Hive.box(dataBoxName).get(DonorFields.isShown),
+                DonorFields.isShownPhone:
+                    Hive.box(dataBoxName).get(DonorFields.isShownPhone),
+                DonorFields.isGpsOn:
+                    Hive.box(dataBoxName).get(DonorFields.isGpsOn),
+                DonorFields.brithDate:
+                    Hive.box(dataBoxName).get(DonorFields.brithDate),
               });
             }
           } else if (Hive.box(dataBoxName).isNotEmpty) {
             print("33333333333333333333333");
-            Hive.box(dataBoxName).put("name", donor.name);
-            Hive.box(dataBoxName).put("blood_type", donor.bloodType);
-            Hive.box(dataBoxName).put("is_shown", donor.isShown);
+            Hive.box(dataBoxName).put(DonorFields.name, donor.name);
+            Hive.box(dataBoxName).put(DonorFields.bloodType, donor.bloodType);
+            Hive.box(dataBoxName).put(DonorFields.isShown, donor.isShown);
 
-            Hive.box(dataBoxName).put("is_gps_on", donor.isGpsOn);
+            Hive.box(dataBoxName).put(DonorFields.isGpsOn, donor.isGpsOn);
 
-            Hive.box(dataBoxName).put("is_shown_phone", donor.isShownPhone);
-            Hive.box(dataBoxName).put("date", donor.brithDate);
+            Hive.box(dataBoxName)
+                .put(DonorFields.isShownPhone, donor.isShownPhone);
+            Hive.box(dataBoxName).put(DonorFields.brithDate, donor.brithDate);
 
-            Hive.box(dataBoxName).put("district", donor.district);
-            Hive.box(dataBoxName).put("satae", donor.state);
-            Hive.box(dataBoxName).put("neighborhood", donor.neighborhood);
+            Hive.box(dataBoxName).put(DonorFields.district, donor.district);
+            Hive.box(dataBoxName).put(DonorFields.state, donor.state);
+            Hive.box(dataBoxName)
+                .put(DonorFields.neighborhood, donor.neighborhood);
           }
         });
       } else {}
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 }
