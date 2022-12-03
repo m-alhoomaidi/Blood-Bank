@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart' as loc;
-import 'package:permission_handler/permission_handler.dart';
 import '../widgets/home_drawer/home_drawer.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
@@ -19,67 +15,73 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _requestPermission();
-    location.changeSettings(
-        interval: 1000, accuracy: loc.LocationAccuracy.high);
-    location.enableBackgroundMode(enable: true);
+
+    // LocationManager().interval = 1;
+    // LocationManager().distanceFilter = 0;
+    // LocationManager().notificationTitle = 'CARP Location Example';
+    // LocationManager().notificationMsg = 'CARP is tracking your location';
+
+    // _requestPermission();
+    // location.changeSettings(
+    //     interval: 1000, accuracy: loc.LocationAccuracy.high);
+    // location.enableBackgroundMode(enable: true);
   }
 
-  _requestPermission() async {
-    var status = await Permission.location.request();
-    if (status.isGranted) {
-      print('done');
-    } else if (status.isDenied) {
-      _requestPermission();
-    } else if (status.isPermanentlyDenied) {
-      openAppSettings();
-    }
-  }
+  // _requestPermission() async {
+  //   var status = await Permission.location.request();
+  //   if (status.isGranted) {
+  //     print('done');
+  //   } else if (status.isDenied) {
+  //     _requestPermission();
+  //   } else if (status.isPermanentlyDenied) {
+  //     openAppSettings();
+  //   }
+  // }
 
-  Future<Position> getLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+  // Future<Position> getLocation() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error('Please Turn on Location permissions manually');
-    }
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error('Please Turn on Location permissions manually');
+  //   }
+  //   return await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  // }
 
-  final loc.Location location = loc.Location();
-  StreamSubscription<loc.LocationData>? _locationSubscription;
+  // final loc.Location location = loc.Location();
+  // StreamSubscription<loc.LocationData>? _locationSubscription;
 
-  Future<void> _listenLocation() async {
-    try {
-      _locationSubscription = location.onLocationChanged.handleError((onError) {
-        print(onError);
-        _locationSubscription?.cancel();
-        setState(() {
-          _locationSubscription = null;
-        });
-      }).listen((loc.LocationData currentlocation) async {
-        print('=========================');
-        print(currentlocation.altitude);
-        print(currentlocation.longitude);
-      });
-    } catch (e) {
-      print('Error: -----');
-      print(e);
-    }
-  }
+  // Future<void> _listenLocation() async {
+  //   try {
+  //     _locationSubscription = location.onLocationChanged.handleError((onError) {
+  //       print(onError);
+  //       _locationSubscription?.cancel();
+  //       setState(() {
+  //         _locationSubscription = null;
+  //       });
+  //     }).listen((loc.LocationData currentlocation) async {
+  //       print('=========================');
+  //       print(currentlocation.altitude);
+  //       print(currentlocation.longitude);
+  //     });
+  //   } catch (e) {
+  //     print('Error: -----');
+  //     print(e);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +113,20 @@ class _HomePageState extends State<HomePage> {
       drawer: const HomeDrower(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
-        onPressed: () {
-          _listenLocation();
-          print('object');
-          // Navigator.of(context).pushNamed(SearchPage.routeName);
+        onPressed: () async {
+          // // get the current location
+          // await LocationManager().getCurrentLocation();
+          // // start listen to location updates
+          // StreamSubscription<LocationDto> locationSubscription =
+          //     LocationManager().locationStream.listen((LocationDto dto) {
+          //   print('======================');
+          //   print(dto.altitude);
+          //   print(dto.longitude);
+          // });
+          // // cancel listening and stop the location manager
+          // locationSubscription.cancel();
+          // LocationManager().stop();
+          // // Navigator.of(context).pushNamed(SearchPage.routeName);
         },
       ),
     );
