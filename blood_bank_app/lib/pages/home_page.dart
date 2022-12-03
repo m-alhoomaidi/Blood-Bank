@@ -1,23 +1,85 @@
-import 'package:blood_bank_app/models/donor.dart';
-import 'package:blood_bank_app/pages/setting_page.dart';
-import 'package:blood_bank_app/widgets/home/home_about.dart';
-import 'package:blood_bank_app/widgets/home/home_welcome.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hive/hive.dart';
-
-import 'search_page.dart';
-import '../models/extention.dart';
-import '../shared/style.dart';
-import '../widgets/home/home_statistics_charts/home_charts.dart';
-import '../widgets/home/home_carousel/home_carousel.dart';
-import '../widgets/home_drawer/home_drawer.dart';
-
+import 'dart:async';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart' as loc;
+import 'package:permission_handler/permission_handler.dart';
+import '../widgets/home_drawer/home_drawer.dart';
+import '../widgets/home/home_about.dart';
+import '../widgets/home/home_welcome.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
   static const String routeName = "home";
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _requestPermission();
+    location.changeSettings(
+        interval: 1000, accuracy: loc.LocationAccuracy.high);
+    location.enableBackgroundMode(enable: true);
+  }
+
+  _requestPermission() async {
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      print('done');
+    } else if (status.isDenied) {
+      _requestPermission();
+    } else if (status.isPermanentlyDenied) {
+      openAppSettings();
+    }
+  }
+
+  Future<Position> getLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Please Turn on Location permissions manually');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  final loc.Location location = loc.Location();
+  StreamSubscription<loc.LocationData>? _locationSubscription;
+
+  Future<void> _listenLocation() async {
+    try {
+      _locationSubscription = location.onLocationChanged.handleError((onError) {
+        print(onError);
+        _locationSubscription?.cancel();
+        setState(() {
+          _locationSubscription = null;
+        });
+      }).listen((loc.LocationData currentlocation) async {
+        print('=========================');
+        print(currentlocation.altitude);
+        print(currentlocation.longitude);
+      });
+    } catch (e) {
+      print('Error: -----');
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,46 +104,6 @@ class HomePage extends StatelessWidget {
           children: const <Widget>[
             HomeWelcome(),
             HomeAbout(),
-
-            // Container(
-            // const Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-            //   child: Text(
-            //     'إرشــادات صـحيـة:',
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: const [
-            //       Text(
-            //         'أولاً يجب التأكد من فصيلة دم المحتاج.',
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-            //   color: ePrimColor,
-            //   child: const HomeCarousel(),
-            // ),
-            // const Divider(),
-            // const Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-            //   child: Text(
-            //     "إحصائيات",
-            //     style: TextStyle(
-            //       fontSize: 18,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-            // const HomeCharts(),
-
             SizedBox(height: 20),
           ],
         ),
@@ -90,7 +112,9 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () {
-          Navigator.of(context).pushNamed(SearchPage.routeName);
+          _listenLocation();
+          print('object');
+          // Navigator.of(context).pushNamed(SearchPage.routeName);
         },
       ),
     );

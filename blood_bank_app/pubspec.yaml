@@ -44,8 +44,10 @@ dependencies:
     sdk: flutter
   flutter_svg: ^1.1.4
   fluttertoast: ^8.1.1
+  geolocator: ^9.0.2
   hive: 
   hive_flutter:
+  location: ^4.4.0
   image_cropper: ^3.0.1
   image_picker: ^0.8.6
   modal_progress_hud_nsn: ^0.3.0
