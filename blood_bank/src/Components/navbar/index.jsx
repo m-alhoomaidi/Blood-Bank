@@ -2,19 +2,11 @@ import * as React from "react";
 import {
   AppBar,
   Box,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Toolbar,
   Link,
-  Divider,
   CardMedia,
   Typography,
 } from "@mui/material";
-import { Container } from "@mui/system";
-import { Fade as Hamburger } from "hamburger-react";
 import { useState } from "react";
 import { EmotionList } from "./motion-navbar";
 
@@ -47,7 +39,6 @@ const navItems = [
 ];
 
 const fontColor = "#343a40";
-const AppBarBackground = "#f8f9fa";
 const RedColorValue = "#e63946";
 const NavBar = (props) => {
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -1,16 +1,12 @@
 import * as React from "react";
 import { useRef } from "react";
 import { motion, useCycle } from "framer-motion";
-import { useDimensions } from "./use-deminsion";
 import { MenuToggle } from "./list-toggle";
 import { Navigation } from "./list-navigation";
 import "./styles.css";
 import { Box } from "@mui/system";
-import { CardMedia } from "@mui/material";
 import LottieApp from "../../lottie";
 import {
-  BLOOD_BAG_LOTTIE,
-  HEART_PULSE_LOTTIE,
   LOGO_LOTTIE,
 } from "../../../constant/lottie";
 const sidebar = {
