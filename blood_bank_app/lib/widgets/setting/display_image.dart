@@ -34,7 +34,7 @@ class DisplayImage extends StatelessWidget {
       backgroundColor: color,
       child: (imagePath is String)
           ? const CircleAvatar(
-              backgroundImage: AssetImage("assets/images/1.jpg"),
+              backgroundImage: AssetImage("assets/images/boy.png"),
               radius: 70,
             )
           : CircleAvatar(
