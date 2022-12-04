@@ -12,7 +12,7 @@ import {
   BLOOD_BAG_LOTTIE,
   HEART_PULSE_LOTTIE,
   LOGO_LOTTIE,
-} from "../../../constant/lottie";
+} from "../../../constant/media";
 const sidebar = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
