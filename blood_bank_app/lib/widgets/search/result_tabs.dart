@@ -51,8 +51,9 @@ class ResultTabs extends StatelessWidget {
                             const SizedBox(height: 5),
                             Text(
                               BloodTypes.canReceiveFrom(
-                                  bloodType: BloodTypes.bloodTypes[
-                                      state.selectedTabIndex])[index],
+                                  bloodType:
+                                      BlocProvider.of<SearchCubit>(context)
+                                          .selectedBloodType!)[index],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
