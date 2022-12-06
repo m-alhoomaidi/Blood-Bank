@@ -41,11 +41,10 @@
   li {
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 95%;
   }
   
   ul {
-    padding: 25px;
     position: absolute;
     top: 100px;
   }
