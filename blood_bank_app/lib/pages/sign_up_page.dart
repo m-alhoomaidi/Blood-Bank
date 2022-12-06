@@ -64,8 +64,6 @@ class _SignUpPageState extends State<SignUpPage> {
           state: stateName!,
           district: district!,
           neighborhood: neighborhood!,
-          image: '',
-          brithDate: '',
         ),
       );
     }

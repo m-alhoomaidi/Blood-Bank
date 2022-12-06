@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:blood_bank_app/pages/edit_main_data_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 
 import 'cubit/signin_cubit/signin_cubit.dart';
 import 'pages/search_page.dart';
@@ -19,11 +24,16 @@ import 'shared/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+Future backgroundMessage(RemoteMessage message) async {
+  Fluttertoast.showToast(msg: message.data.values.first);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
+  FirebaseMessaging.onBackgroundMessage(backgroundMessage);
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => SignupCubit()),

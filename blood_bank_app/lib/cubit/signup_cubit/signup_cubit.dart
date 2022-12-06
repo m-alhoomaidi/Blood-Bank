@@ -1,3 +1,5 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '../../shared/encryption.dart';
 import '../../models/donor.dart';
 
@@ -25,10 +27,13 @@ class SignupCubit extends Cubit<SignupState> {
         if (userCredential.user != null) {
           donor.id = userCredential.user!.uid;
           currentUser = userCredential.user;
-          fireStore
-              .collection(DonorFields.collectionName)
-              .add(donor.toMap())
-              .then((value) => emit(SignupSuccess()));
+          await FirebaseMessaging.instance.getToken().then((token) {
+            donor.token = token!;
+            fireStore
+                .collection(DonorFields.collectionName)
+                .add(donor.toMap())
+                .then((value) => emit(SignupSuccess()));
+          });
         }
       });
     } on FirebaseException catch (e) {
