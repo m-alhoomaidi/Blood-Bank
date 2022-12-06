@@ -19,7 +19,8 @@ class ResultTabs extends StatelessWidget {
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               itemCount: BloodTypes.canReceiveFrom(
-                      bloodType: BloodTypes.bloodTypes[state.selectedTabIndex])
+                      bloodType: BlocProvider.of<SearchCubit>(context)
+                          .selectedBloodType!)
                   .length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (ctx, index) {
@@ -49,7 +50,9 @@ class ResultTabs extends StatelessWidget {
                           children: [
                             const SizedBox(height: 5),
                             Text(
-                              BloodTypes.bloodTypes[state.selectedTabIndex],
+                              BloodTypes.canReceiveFrom(
+                                  bloodType: BloodTypes.bloodTypes[
+                                      state.selectedTabIndex])[index],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
