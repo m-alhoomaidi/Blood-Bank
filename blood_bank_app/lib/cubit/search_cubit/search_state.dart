@@ -8,9 +8,9 @@ class SearchInitial extends SearchState {}
 
 class SearchSuccess extends SearchState {
   List<Donor> donors;
-  int selectedBloodTypeIndex;
+  int selectedTabIndex;
   SearchSuccess({
-    required this.selectedBloodTypeIndex,
+    required this.selectedTabIndex,
     required this.donors,
   });
 }
