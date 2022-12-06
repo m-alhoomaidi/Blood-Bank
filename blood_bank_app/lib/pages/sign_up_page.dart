@@ -288,9 +288,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "بريدك الإلكتروني",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {
                     email = value;
                   },
@@ -308,9 +308,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "أنشئ كلمة مرور",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   isPassword: true,
                   onSave: (value) {
                     password = value;
@@ -350,9 +350,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "اسمك",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {
                     name = value;
                   },
@@ -371,9 +371,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "رقم هاتفك",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {
                     phone = value;
                   },
@@ -398,9 +398,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   value: bloodType,
                   hintColor: eTextColor,
                   items: BloodTypes.bloodTypes,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) => setState(() => bloodType = value),
                 ),
@@ -488,9 +488,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: MyTextFormField(
                   hint: "المنطقة",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {
                     neighborhood = value;

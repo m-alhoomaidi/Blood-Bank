@@ -34,9 +34,9 @@ class SearchOptions extends StatelessWidget {
                 flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
                 dropdownDecoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  color: Colors.red[100],
+                  color: eFieldFillColor,
                   border: Border.all(
-                    color: Colors.white,
+                    color: eFieldFocusBorderColor,
                     width: 1,
                   ),
                 ),
@@ -73,13 +73,17 @@ class SearchOptions extends StatelessWidget {
                 searchBarRadius: 10.0,
                 onCountryChanged: (value) {},
                 onStateChanged: (value) {
-                  BlocProvider.of<SearchCubit>(context).selectedState = value!;
+                  if (value != null) {
+                    BlocProvider.of<SearchCubit>(context).selectedState = value;
+                  }
                 },
                 onCityChanged: (value) async {
-                  BlocProvider.of<SearchCubit>(context).selectedDistrict =
-                      value!;
+                  if (value != null) {
+                    BlocProvider.of<SearchCubit>(context).selectedDistrict =
+                        value;
+                  }
                   if (BlocProvider.of<SearchCubit>(context).selectedBloodType !=
-                          '' &&
+                          null &&
                       BlocProvider.of<SearchCubit>(context).selectedDistrict !=
                           '') {
                     BlocProvider.of<SearchCubit>(context).searchDonors();
@@ -94,9 +98,9 @@ class SearchOptions extends StatelessWidget {
                 hint: "فصيلة دمك",
                 value: BlocProvider.of<SearchCubit>(context).selectedBloodType,
                 items: BloodTypes.bloodTypes,
-                blurrBorderColor: Colors.white,
-                focusBorderColor: eTextFieldFocusBorder,
-                fillColor: eSearchTextFieldFill,
+                blurrBorderColor: eFieldBlurrBorderColor,
+                focusBorderColor: eFieldFocusBorderColor,
+                fillColor: eSearchFieldFillColor,
                 icon: const Icon(Icons.bloodtype_outlined),
                 onChange: (value) async {
                   BlocProvider.of<SearchCubit>(context).selectedBloodType =

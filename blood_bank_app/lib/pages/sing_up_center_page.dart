@@ -195,9 +195,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "اسم المركز الطبي",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length < 2) {
@@ -214,9 +214,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "البريد الإلكتروني",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {},
                   validator: (value) =>
                       value != null && EmailValidator.validate(value)
@@ -232,9 +232,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "كلمة المرور",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   isPassword: true,
                   onSave: (value) {},
                   validator: (value) {
@@ -325,9 +325,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "العنوان",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {},
                   validator: (value) {

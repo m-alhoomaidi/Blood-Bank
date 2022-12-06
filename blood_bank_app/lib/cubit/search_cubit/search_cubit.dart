@@ -8,7 +8,8 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(SearchInitial());
 
   List<Donor> donors = [];
-  String selectedState = '', selectedDistrict = '', selectedBloodType = '';
+  String selectedState = '', selectedDistrict = '';
+  String? selectedBloodType;
   int selectedTabBloodType = 0;
 
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
@@ -17,7 +18,7 @@ class SearchCubit extends Cubit<SearchState> {
     emit(SearchLoading());
     if (selectedState == '' ||
         selectedDistrict == '' ||
-        selectedBloodType == '') {
+        selectedBloodType == null) {
       emit(SearchFailure(error: 'يجب تحديد المحافظة والمديرية وفصيلة الدم'));
     } else {
       try {
