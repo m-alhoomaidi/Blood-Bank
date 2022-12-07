@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/pages/search_map.dart';
 import 'package:blood_bank_app/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import '../widgets/home_drawer/home_drawer.dart';
@@ -115,7 +116,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
-          Navigator.of(context).pushNamed(SearchPage.routeName);
+          // Navigator.of(context).pushNamed(SearchPage.routeName);
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => const SearchMapPage(),
+            ),
+          );
 
           // // get the current location
           // await LocationManager().getCurrentLocation();

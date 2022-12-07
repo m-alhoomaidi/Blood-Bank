@@ -1,7 +1,11 @@
 import 'dart:async';
 
+import 'package:blood_bank_app/shared/style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../widgets/home_drawer/home_drawer.dart';
 import '../widgets/home/home_about.dart';
@@ -16,6 +20,23 @@ class SearchMapPage extends StatefulWidget {
 }
 
 class _SearchMapPageState extends State<SearchMapPage> {
+  final Completer<GoogleMapController> _mapcontroller = Completer();
+
+  static const CameraPosition _center =
+      CameraPosition(target: LatLng(13.9583, 44.1709), zoom: 14);
+
+  final List<Marker> _marker = [];
+  final List<Marker> _branch = const [
+    Marker(
+        markerId: MarkerId("1"),
+        position: LatLng(37.421998333333335, -122.08400000000002),
+        infoWindow: InfoWindow(title: "tayeb")),
+    Marker(
+        markerId: MarkerId("2"),
+        position: LatLng(37.421998333333335, -122.08400000000002),
+        infoWindow: InfoWindow(title: "ali"))
+  ];
+
   bool servicestatus = false;
   bool haspermission = false;
   late LocationPermission permission;
@@ -25,7 +46,9 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
   @override
   void initState() {
+    // _marker.addAll(_branch);
     checkGps();
+    getPolyPoints();
     super.initState();
   }
 
@@ -97,6 +120,33 @@ class _SearchMapPageState extends State<SearchMapPage> {
     });
   }
 
+//-----------------------------------------------------
+  static const LatLng sourcelocation = LatLng(13.9585003, 44.1709884);
+  static const LatLng destination = LatLng(13.9672166, 44.1635721);
+  List<LatLng> polylinCoordinates = [];
+
+  void getPolyPoints() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      "AIzaSyCl1B3ibzOgquh5yV9lRRmYd1Yf4uE1Yf8",
+      PointLatLng(sourcelocation.latitude, sourcelocation.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylinCoordinates.add(LatLng(point.latitude, point.longitude));
+        print("++++++++++++++++++++++++++++++");
+        print(result);
+        setState(() {});
+      });
+    } else {
+      print("----------------------------");
+      print(result.errorMessage);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,26 +163,43 @@ class _SearchMapPageState extends State<SearchMapPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            SizedBox(height: 20),
-          ],
-        ),
+      body: GoogleMap(
+        // markers: Set<Marker>.of(_marker),
+        // onMapCreated: ((GoogleMapController controller) {
+        //   _mapcontroller.complete(controller);
+        // }),
+        initialCameraPosition:
+            const CameraPosition(target: sourcelocation, zoom: 10.5),
+        polylines: {
+          Polyline(
+              polylineId: PolylineId("route"),
+              points: polylinCoordinates,
+              color: Colors.black)
+        },
+        markers: {
+          Marker(
+            markerId: MarkerId("source"),
+            position: sourcelocation,
+          ),
+          Marker(
+            markerId: MarkerId("destination"),
+            position: destination,
+          )
+        },
       ),
       drawer: const HomeDrower(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
-          print(servicestatus ? "GPS is Enabled" : "GPS is disabled.");
-          print(haspermission ? "GPS is Enabled" : "GPS is disabled.");
+          getPolyPoints();
+          position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
+          print(position.longitude); //Output: 80.24599079
+          print(position.latitude); //Output: 29.6593457
 
-          print("Longitude: $long");
-          print(
-            "Latitude: $lat",
-          );
+          long = position.longitude.toString();
+          lat = position.latitude.toString();
+
           // // get the current location
           // await LocationManager().getCurrentLocation();
           // // start listen to location updates
