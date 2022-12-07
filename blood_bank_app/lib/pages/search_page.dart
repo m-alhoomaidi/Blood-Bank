@@ -29,7 +29,7 @@ class SearchPage extends StatelessWidget {
                   bottomRight: Radius.circular(30),
                 ),
               ),
-              child: const SearchOptions(),
+              child: SearchOptions(),
             ),
           ),
           const Expanded(

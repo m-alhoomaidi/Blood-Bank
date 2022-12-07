@@ -39,9 +39,9 @@ class _BloodTypeState extends State<BloodType> {
                       : box.get("blood_type"),
                   hintColor: eTextColor,
                   items: BloodTypes.bloodTypes,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) => setState(() {
                     bloodType = value;

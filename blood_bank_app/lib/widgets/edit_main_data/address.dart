@@ -103,9 +103,9 @@ class AddressMainData extends StatelessWidget {
                               : box.get("neighborhood")),
                           hint: "المنطقة",
                           hintStyle: eHintStyle,
-                          blurrBorderColor: Colors.white,
-                          focusBorderColor: eTextFieldFocusBorder,
-                          fillColor: eTextFieldFill,
+                          blurrBorderColor: eFieldBlurrBorderColor,
+                          focusBorderColor: eFieldFocusBorderColor,
+                          fillColor: eFieldFillColor,
                           icon: const Icon(Icons.my_location_outlined),
                           onSave: (value) {
                             // neighborhood = value;
