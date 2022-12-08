@@ -1,15 +1,11 @@
 import 'dart:async';
 
-import 'package:blood_bank_app/shared/style.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../widgets/home_drawer/home_drawer.dart';
-import '../widgets/home/home_about.dart';
-import '../widgets/home/home_welcome.dart';
 
 class SearchMapPage extends StatefulWidget {
   const SearchMapPage({Key? key}) : super(key: key);
@@ -22,21 +18,11 @@ class SearchMapPage extends StatefulWidget {
 class _SearchMapPageState extends State<SearchMapPage> {
   final Completer<GoogleMapController> _mapcontroller = Completer();
 
-  static const CameraPosition _center =
-      CameraPosition(target: LatLng(13.9583, 44.1709), zoom: 14);
-
   final List<Marker> _marker = [];
-  final List<Marker> _branch = const [
-    Marker(
-        markerId: MarkerId("1"),
-        position: LatLng(37.421998333333335, -122.08400000000002),
-        infoWindow: InfoWindow(title: "tayeb")),
-    Marker(
-        markerId: MarkerId("2"),
-        position: LatLng(37.421998333333335, -122.08400000000002),
-        infoWindow: InfoWindow(title: "ali"))
-  ];
 
+//---------------------------------
+
+//--------------------------
   bool servicestatus = false;
   bool haspermission = false;
   late LocationPermission permission;
@@ -46,8 +32,8 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
   @override
   void initState() {
-    // _marker.addAll(_branch);
     checkGps();
+    _marker.addAll(_markBrach);
     getPolyPoints();
     super.initState();
   }
@@ -60,9 +46,13 @@ class _SearchMapPageState extends State<SearchMapPage> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print('Location permissions are denied');
+          if (kDebugMode) {
+            print('Location permissions are denied');
+          }
         } else if (permission == LocationPermission.deniedForever) {
-          print("'Location permissions are permanently denied");
+          if (kDebugMode) {
+            print("'Location permissions are permanently denied");
+          }
         } else {
           haspermission = true;
         }
@@ -78,7 +68,9 @@ class _SearchMapPageState extends State<SearchMapPage> {
         getLocation();
       }
     } else {
-      print("GPS Service is not enabled, turn on GPS location");
+      if (kDebugMode) {
+        print("GPS Service is not enabled, turn on GPS location");
+      }
     }
 
     setState(() {
@@ -89,8 +81,10 @@ class _SearchMapPageState extends State<SearchMapPage> {
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    print(position.longitude); //Output: 80.24599079
-    print(position.latitude); //Output: 29.6593457
+    if (kDebugMode) {
+      print(position.longitude); //Output: 80.24599079
+      print(position.latitude); //Output: 29.6593457
+    }
 
     long = position.longitude.toString();
     lat = position.latitude.toString();
@@ -99,10 +93,9 @@ class _SearchMapPageState extends State<SearchMapPage> {
       //refresh UI
     });
 
-    LocationSettings locationSettings = LocationSettings(
+    LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high, //accuracy of the location data
       distanceFilter: 100, //minimum distance (measured in meters) a
-      //device must move horizontally before an update event is generated;
     );
 
     StreamSubscription<Position> positionStream =
@@ -121,7 +114,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
   }
 
 //-----------------------------------------------------
-  static const LatLng sourcelocation = LatLng(13.9585003, 44.1709884);
+  static const LatLng sourcelocation = LatLng(13.9585005, 44.1709885);
   static const LatLng destination = LatLng(13.9672166, 44.1635721);
   List<LatLng> polylinCoordinates = [];
 
@@ -137,13 +130,14 @@ class _SearchMapPageState extends State<SearchMapPage> {
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylinCoordinates.add(LatLng(point.latitude, point.longitude));
-        print("++++++++++++++++++++++++++++++");
-        print(result);
+
         setState(() {});
       });
     } else {
-      print("----------------------------");
-      print(result.errorMessage);
+      if (kDebugMode) {
+        print("----------------------------");
+        print(result.errorMessage);
+      }
     }
   }
 
@@ -164,41 +158,43 @@ class _SearchMapPageState extends State<SearchMapPage> {
         ],
       ),
       body: GoogleMap(
-        // markers: Set<Marker>.of(_marker),
+        markers: Set<Marker>.of(_marker),
+
         // onMapCreated: ((GoogleMapController controller) {
         //   _mapcontroller.complete(controller);
         // }),
+
         initialCameraPosition:
-            const CameraPosition(target: sourcelocation, zoom: 10.5),
+            const CameraPosition(target: sourcelocation, zoom: 13.5),
         polylines: {
           Polyline(
-              polylineId: PolylineId("route"),
+              polylineId: const PolylineId("route"),
               points: polylinCoordinates,
               color: Colors.black)
-        },
-        markers: {
-          Marker(
-            markerId: MarkerId("source"),
-            position: sourcelocation,
-          ),
-          Marker(
-            markerId: MarkerId("destination"),
-            position: destination,
-          )
         },
       ),
       drawer: const HomeDrower(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
+          if (kDebugMode) {
+            print("++++++++++++++++++++");
+            print(_listPorin[0].latitude);
+            print("===============================");
+            print(_markBrach.length);
+            print("0000000000000000000000000000000000");
+          }
+
           getPolyPoints();
           position = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high);
-          print(position.longitude); //Output: 80.24599079
-          print(position.latitude); //Output: 29.6593457
+          if (kDebugMode) {
+            print(position.longitude); //Output: 80.24599079
+            print(position.latitude); //Output: 29.6593457
+          }
 
-          long = position.longitude.toString();
-          lat = position.latitude.toString();
+          // long = position.longitude.toString();
+          // lat = position.latitude.toString();
 
           // // get the current location
           // await LocationManager().getCurrentLocation();
@@ -217,4 +213,28 @@ class _SearchMapPageState extends State<SearchMapPage> {
       ),
     );
   }
+
+  final List<Marker> _markBrach =
+      List<Marker>.generate(_listPorin.length, (index) {
+    return Marker(
+      markerId: MarkerId("${index}"),
+      position: LatLng(double.tryParse(_listPorin[index].latitude)!,
+          double.tryParse(_listPorin[index].longitude)!),
+      infoWindow: InfoWindow(title: "mohammed+ ${index}"),
+    );
+  });
+}
+
+final List<RecivePoint> _listPorin = [
+  RecivePoint(latitude: "13.9585003", longitude: ' 44.1709884'),
+  RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
+  RecivePoint(latitude: "13.9556008", longitude: '44.1708603'),
+  RecivePoint(latitude: "13.9556071", longitude: '44.1708585'),
+];
+
+class RecivePoint {
+  String latitude;
+  String longitude;
+
+  RecivePoint({required this.latitude, required this.longitude});
 }
