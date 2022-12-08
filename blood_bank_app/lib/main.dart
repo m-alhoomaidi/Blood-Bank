@@ -4,6 +4,7 @@ import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:blood_bank_app/pages/edit_main_data_page.dart';
+import 'package:blood_bank_app/pages/search_map.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,7 +81,8 @@ class MyApp extends StatelessWidget {
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),
         UserDataPage.routeName: (context) => const UserDataPage(),
-        EditMainDataPage.routeName: (context) => const EditMainDataPage()
+        EditMainDataPage.routeName: (context) => const EditMainDataPage(),
+        SearchMapPage.routeName: (context) => const SearchMapPage()
       },
     );
   }

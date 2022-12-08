@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:blood_bank_app/pages/search_map.dart';
+import 'package:blood_bank_app/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -191,8 +193,12 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
           // Navigator.of(context).pushNamed(SearchPage.routeName);
-
-          sendPushMessage();
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => const SearchMapPage(),
+            ),
+          );
 
           // // get the current location
           // await LocationManager().getCurrentLocation();

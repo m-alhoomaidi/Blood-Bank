@@ -1,11 +1,12 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme'
 import { HomePage, SignIn } from "./pages";
+import SearchBlood from './pages/Search/searchblood';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import NavBar from './Components/navbar'
 const App = () => {
-  return (
+  return(
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <NavBar />
