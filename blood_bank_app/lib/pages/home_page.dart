@@ -1,15 +1,15 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:blood_bank_app/pages/search_map.dart';
-import 'package:blood_bank_app/pages/search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../widgets/home_drawer/home_drawer.dart';
+import 'package:http/http.dart' as http;
+
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
+import '../widgets/home_drawer/home_drawer.dart';
+import 'search_map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

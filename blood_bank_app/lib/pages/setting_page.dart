@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/models/donor.dart';
+import '../models/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';

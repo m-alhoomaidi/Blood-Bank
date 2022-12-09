@@ -1,6 +1,7 @@
-import 'package:blood_bank_app/widgets/setting/select_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'select_photo.dart';
 
 class SelectPhotoOptionsScreen extends StatelessWidget {
   final Function(ImageSource source) onTap;

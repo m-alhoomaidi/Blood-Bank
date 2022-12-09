@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:blood_bank_app/models/donor.dart';
+import '../../models/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 part 'search_state.dart';
 

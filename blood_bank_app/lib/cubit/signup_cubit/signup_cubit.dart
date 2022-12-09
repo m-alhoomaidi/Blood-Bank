@@ -1,12 +1,11 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
-
-import '../../shared/encryption.dart';
-import '../../models/donor.dart';
-
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:meta/meta.dart';
+
+import '../../models/donor.dart';
+
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
