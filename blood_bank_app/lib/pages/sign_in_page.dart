@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/widgets/forms/my_button.dart';
+import '../widgets/forms/my_button.dart';
 
 import '../cubit/signin_cubit/signin_cubit.dart';
 import '../models/extention.dart';

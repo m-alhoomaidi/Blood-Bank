@@ -16,6 +16,7 @@ class Donor {
   String isShown;
   String isShownPhone;
   String isGpsOn;
+  String token;
   bool isExpanded;
 
   Donor({
@@ -28,6 +29,7 @@ class Donor {
     required this.state,
     required this.district,
     required this.neighborhood,
+    this.token = '',
     this.brithDate = '',
     this.image = '',
     this.isShown = "1",
@@ -82,6 +84,7 @@ class Donor {
       DonorFields.isShown: isShown,
       DonorFields.isShownPhone: isShownPhone,
       DonorFields.isGpsOn: isGpsOn,
+      DonorFields.token: token,
     };
   }
 
@@ -101,6 +104,7 @@ class Donor {
       isShown: map[DonorFields.isShown] as String,
       isShownPhone: map[DonorFields.isShownPhone] as String,
       isGpsOn: map[DonorFields.isGpsOn] as String,
+      token: map[DonorFields.token] as String,
     );
   }
 
@@ -126,4 +130,5 @@ class DonorFields {
   static const String isShown = 'is_shown';
   static const String isShownPhone = 'is_shown_phone';
   static const String isGpsOn = 'is_gps_on';
+  static const String token = 'token';
 }

@@ -1,23 +1,23 @@
-import '../shared/encryption.dart';
-import '../models/blood_types.dart';
-import '../shared/utils.dart';
-import '../models/donor.dart';
-import '../pages/home_page.dart';
-import '../cubit/signup_cubit/signup_cubit.dart';
-import '../shared/style.dart';
-import '../widgets/forms/my_outlined_icon_button.dart';
-import '../widgets/forms/my_dropdown_button_form_field.dart';
-import '../widgets/forms/my_text_form_field.dart';
-import '../widgets/forms/my_checkbox_form_field.dart';
-import '../pages/sing_up_center_page.dart';
-import '../models/my_stepper.dart' as my_stepper;
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../cubit/signup_cubit/signup_cubit.dart';
+import '../models/blood_types.dart';
+import '../models/donor.dart';
+import '../models/my_stepper.dart' as my_stepper;
+import '../pages/home_page.dart';
+import '../pages/sing_up_center_page.dart';
+import '../shared/encryption.dart';
+import '../shared/style.dart';
+import '../shared/utils.dart';
+import '../widgets/forms/my_checkbox_form_field.dart';
+import '../widgets/forms/my_dropdown_button_form_field.dart';
+import '../widgets/forms/my_outlined_icon_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -64,8 +64,6 @@ class _SignUpPageState extends State<SignUpPage> {
           state: stateName!,
           district: district!,
           neighborhood: neighborhood!,
-          image: '',
-          brithDate: '',
         ),
       );
     }

@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../cubit/search_cubit/search_cubit.dart';
 import '../../models/donor.dart';
 import '../../widgets/search/doner_card_details.dart';
 import '../../widgets/search/my_expansion_panel.dart';
 import 'doner_card_body.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
 
 class SearchResult extends StatefulWidget {
   const SearchResult({Key? key}) : super(key: key);

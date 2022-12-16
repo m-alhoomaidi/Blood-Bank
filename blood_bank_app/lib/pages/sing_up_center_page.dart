@@ -1,13 +1,13 @@
-import '../shared/style.dart';
-import '../widgets/forms/my_checkbox_form_field.dart';
-import '../widgets/forms/my_outlined_icon_button.dart';
-import '../widgets/forms/my_text_form_field.dart';
-import '../models/my_stepper.dart' as my_stepper;
-
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../models/my_stepper.dart' as my_stepper;
+import '../shared/style.dart';
+import '../widgets/forms/my_checkbox_form_field.dart';
+import '../widgets/forms/my_outlined_icon_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
 
 class SignUpCenter extends StatefulWidget {
   const SignUpCenter({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
-import 'package:blood_bank_app/pages/setting_page.dart';
-import 'package:blood_bank_app/widgets/edit_main_data/address.dart';
-import 'package:blood_bank_app/widgets/forms/my_button.dart';
-import 'package:blood_bank_app/widgets/forms/my_text_form_field.dart';
+import 'setting_page.dart';
+import '../widgets/edit_main_data/address.dart';
+import '../widgets/forms/my_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
