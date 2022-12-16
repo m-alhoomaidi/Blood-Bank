@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme'
 import { HomePage, SignIn } from "./pages";
-import SearchBlood from './pages/Search/searchblood';
+import Search from "./pages/search";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import NavBar from './Components/navbar'
@@ -13,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<SignIn />} />
+          <Route path='/search' element={<Search />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
