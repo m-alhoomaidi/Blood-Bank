@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { GreetingSection } from "../Components/home/greeting-section";
 const HomePage = (props) => {
   return (

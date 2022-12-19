@@ -96,7 +96,7 @@ const CreateAccount = () => {
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 const rtlTheme = createTheme({ direction: "rtl" });
   return (
-    <div  >
+    <div  sx={{marginTop:"60px"}} >
       <ThemeProvider theme={rtlTheme}>
       <StylesProvider jss={jss}>
       <Stepper alternativeLabel activeStep={activeStep} className={classes.IconSvging}>
@@ -127,7 +127,7 @@ const rtlTheme = createTheme({ direction: "rtl" });
       ) : (
         <div>
           <FormProvider {...methods} >
-            <form onSubmit={methods.handleSubmit(handleNext)} >
+            <form  >
               {getStepContent(activeStep)}
                <Button
                  className={classes.button}
@@ -140,8 +140,8 @@ const rtlTheme = createTheme({ direction: "rtl" });
                 </Button>
                   <Button
                   className={classes.button}
-                   //onClick={handleNext}
-                  type="submit"
+                   onClick={handleNext}
+                  //type="submit"
                   style={{marginTop:"10px",border :"1px solid aqua",color :'aqua',fontSize: 'large',fontWeight:'bold',fontStyle:'oblique',borderRadius: '10px',}}
                 > {activeStep && activeStep === steps.length ? (
                   
