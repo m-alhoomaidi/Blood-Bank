@@ -20,7 +20,7 @@ const navItems = [
   {
     id: 2,
     name: "انشاء حساب",
-    href: "#",
+    href: "/signup",
   },
   {
     id: 3,
