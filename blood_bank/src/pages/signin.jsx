@@ -14,7 +14,7 @@ import LottieApp from "../Components/lottie";
 import { HEALTH_LOTTIE, HEART_PULSE_LOTTIE } from "../constant/media";
 export default function SignInSide() {
   return (
-    <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
+       <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
       <Grid item xs={12} md={6}>
         <Box
           sx={{

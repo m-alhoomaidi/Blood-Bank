@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/widgets/forms/my_button.dart';
+import '../widgets/forms/my_button.dart';
 
 import '../cubit/signin_cubit/signin_cubit.dart';
 import '../models/extention.dart';
@@ -99,9 +99,9 @@ class SignInPage extends StatelessWidget {
                               child: MyTextFormField(
                                 hint: "رقم الهاتف أو البريد",
                                 hintStyle: eHintStyle,
-                                blurrBorderColor: Colors.white,
-                                focusBorderColor: eTextFieldFocusBorder,
-                                fillColor: eTextFieldFill,
+                                blurrBorderColor: eFieldBlurrBorderColor,
+                                focusBorderColor: eFieldFocusBorderColor,
+                                fillColor: eFieldFillColor,
                                 keyBoardType: TextInputType.phone,
                                 onSave: (value) {
                                   email = value;
@@ -130,9 +130,9 @@ class SignInPage extends StatelessWidget {
                               hint: "كلمة المرور",
                               hintStyle: eHintStyle,
                               isPassword: true,
-                              blurrBorderColor: Colors.white,
-                              focusBorderColor: eTextFieldFocusBorder,
-                              fillColor: eTextFieldFill,
+                              blurrBorderColor: eFieldBlurrBorderColor,
+                              focusBorderColor: eFieldFocusBorderColor,
+                              fillColor: eFieldFillColor,
                               onSave: (value) {
                                 password = value;
                               },

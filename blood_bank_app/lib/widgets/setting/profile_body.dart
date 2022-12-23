@@ -1,15 +1,13 @@
-import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
-import 'package:blood_bank_app/pages/edit_main_data_page.dart';
-import 'package:blood_bank_app/pages/setting_page.dart';
-import 'package:blood_bank_app/pages/user_date_page.dart';
-import 'package:blood_bank_app/shared/style.dart';
-import 'package:blood_bank_app/widgets/forms/my_dropdown_button_form_field.dart';
-import 'package:blood_bank_app/widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import '../../cubit/profile_cubit/profile_cubit.dart';
+import '../../pages/edit_main_data_page.dart';
+import '../../pages/setting_page.dart';
+import '../../shared/style.dart';
 import '../forms/my_switchlist_tile.dart';
+import '../forms/my_text_form_field.dart';
 
 class ProfileBody extends StatefulWidget {
   const ProfileBody({super.key});

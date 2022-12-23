@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/blood_types.dart';
@@ -39,9 +35,9 @@ class _BloodTypeState extends State<BloodType> {
                       : box.get("blood_type"),
                   hintColor: eTextColor,
                   items: BloodTypes.bloodTypes,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) => setState(() {
                     bloodType = value;

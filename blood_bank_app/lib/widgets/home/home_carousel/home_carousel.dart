@@ -1,9 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+
 import '../../../shared/style.dart';
 import 'carousel_arrow.dart';
 import 'carousel_item.dart';
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
 
 class HomeCarousel extends StatefulWidget {
   const HomeCarousel({

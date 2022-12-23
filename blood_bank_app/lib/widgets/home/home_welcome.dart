@@ -1,9 +1,10 @@
-import 'package:blood_bank_app/pages/search_page.dart';
-import 'package:blood_bank_app/pages/sign_up_page.dart';
-import 'package:blood_bank_app/shared/style.dart';
-import 'package:blood_bank_app/widgets/forms/my_button.dart';
-import 'package:blood_bank_app/widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
+
+import '../../pages/search_page.dart';
+import '../../pages/sign_up_page.dart';
+import '../../shared/style.dart';
+import '../forms/my_button.dart';
+import '../forms/my_text_form_field.dart';
 
 class HomeWelcome extends StatelessWidget {
   const HomeWelcome({Key? key}) : super(key: key);

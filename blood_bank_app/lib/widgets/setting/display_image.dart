@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:blood_bank_app/shared/style.dart';
+import '../../shared/style.dart';
 import 'package:flutter/material.dart';
 
 class DisplayImage extends StatelessWidget {

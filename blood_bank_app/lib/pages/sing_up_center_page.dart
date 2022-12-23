@@ -1,13 +1,13 @@
-import '../shared/style.dart';
-import '../widgets/forms/my_checkbox_form_field.dart';
-import '../widgets/forms/my_outlined_icon_button.dart';
-import '../widgets/forms/my_text_form_field.dart';
-import '../models/my_stepper.dart' as my_stepper;
-
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../models/my_stepper.dart' as my_stepper;
+import '../shared/style.dart';
+import '../widgets/forms/my_checkbox_form_field.dart';
+import '../widgets/forms/my_outlined_icon_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
 
 class SignUpCenter extends StatefulWidget {
   const SignUpCenter({Key? key}) : super(key: key);
@@ -195,9 +195,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "اسم المركز الطبي",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {},
                   validator: (value) {
                     if (value!.length < 2) {
@@ -214,9 +214,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "البريد الإلكتروني",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   onSave: (value) {},
                   validator: (value) =>
                       value != null && EmailValidator.validate(value)
@@ -232,9 +232,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "كلمة المرور",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   isPassword: true,
                   onSave: (value) {},
                   validator: (value) {
@@ -325,9 +325,9 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 child: MyTextFormField(
                   hint: "العنوان",
                   hintStyle: eHintStyle,
-                  blurrBorderColor: Colors.white,
-                  focusBorderColor: eTextFieldFocusBorder,
-                  fillColor: eTextFieldFill,
+                  blurrBorderColor: eFieldBlurrBorderColor,
+                  focusBorderColor: eFieldFocusBorderColor,
+                  fillColor: eFieldFillColor,
                   icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {},
                   validator: (value) {
