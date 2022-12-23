@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { EmotionList } from "./motion-navbar";
+import { SECONDARY_COLOR } from "../../constant/color";
 
 const navItems = [
   {
@@ -56,7 +57,8 @@ const NavBar = (props) => {
         p: 2,
         "&:hover": {
           color: "white",
-          backgroundColor: RedColorValue,
+          backgroundColor: SECONDARY_COLOR,
+          borderRadius: 1,
         },
       }}
     >

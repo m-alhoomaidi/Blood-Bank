@@ -2,6 +2,7 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import { Link, Typography } from "@mui/material";
 import { Container } from "@mui/system";
+import { SECONDARY_COLOR } from "../../../constant/color";
 
 const variants = {
   open: {
@@ -42,7 +43,7 @@ export const MenuItem = ({ i, item }) => {
           transition: "0.5s",
           "&:hover": {
             color: "white",
-            backgroundColor: "red",
+            backgroundColor: SECONDARY_COLOR,
           },
         }}
       >
