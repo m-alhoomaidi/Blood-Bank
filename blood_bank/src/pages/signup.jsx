@@ -1,6 +1,6 @@
 import React from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { create } from "jss";
 import rtl from "jss-rtl";
 import Grid from "@mui/material/Grid";
@@ -8,7 +8,7 @@ import {
   StylesProvider,
   jssPreset,
   ThemeProvider,
-  createTheme
+  createTheme,
 } from "@material-ui/core/styles";
 import {
   Typography,
@@ -18,17 +18,14 @@ import {
   StepLabel,
   Box,
 } from "@material-ui/core";
-import {
-  useForm,
-  FormProvider,
-} from "react-hook-form";
-import StepsCss from '../Components/stepper/StepsCss';
+import { useForm, FormProvider } from "react-hook-form";
+import StepsCss from "../Components/stepper/StepsCss";
 import Steps1 from "../Components/stepper/Step1";
 import Step2 from "../Components/stepper/Step2";
 import LottieApp from "../Components/lottie";
-import { HEALTH_LOTTIE} from "../constant/media";
-const steps = ['حسابك', 'بياناتك', 'تأكيد'];
-const maincolor="#e22c34";
+import { HEALTH_LOTTIE } from "../constant/media";
+const steps = ["حسابك", "بياناتك", "تأكيد"];
+const maincolor = "#e22c34";
 function getStepContent(step) {
   switch (step) {
     case 0:
@@ -36,7 +33,7 @@ function getStepContent(step) {
     case 1:
       return <Step2 />;
     default:
-      return  ;
+      return;
   }
 }
 const SignUp = () => {
@@ -51,7 +48,6 @@ const SignUp = () => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-
 
   const isStepSkipped = (step) => {
     return skipped.has(step);
@@ -75,8 +71,8 @@ const SignUp = () => {
   const rtlTheme = createTheme({ direction: "rtl" });
   return (
     <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
-      <Grid item xs={12} md={6}> 
-      <Box
+      <Grid item xs={12} md={6}>
+        <Box
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -86,8 +82,8 @@ const SignUp = () => {
         >
           <LottieApp animationpath={HEALTH_LOTTIE} />
         </Box>
-        </Grid>
-        <Grid item xs={12} md={6}>
+      </Grid>
+      <Grid item xs={12} md={6}>
         <Box
           sx={{
             display: "flex",
@@ -107,60 +103,91 @@ const SignUp = () => {
               width: { xs: "90%", md: "70%" },
             }}
           >
-        <ThemeProvider theme={rtlTheme}>
-      <StylesProvider jss={jss}>
-      <Stepper activeStep={activeStep} className={classes.IconSvging}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps} className={classes.IconSvging}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <Typography variant="h1" align="center">
-       Thank You
-        </Typography>
-      ) : (
-      <Box>
-      <FormProvider {...methods} >
-        <form  >
-          
-      {getStepContent(activeStep)}
-        <React.Fragment>
-        
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1}}
-              style={{marginTop:"10px",border :"1px solid #e22c10",color :'white',borderRadius: '10px',backgroundColor:"#e22c34"}}
-            >
-            <ArrowForwardIcon/>  السابق
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleNext} style={{marginTop:"10px",border :"1px solid #e22c10",color :'white',borderRadius: '10px',backgroundColor:"#e22c34"}}>
-              {activeStep === steps.length -1 ? ( " التأكيد") :(<>التالي<ArrowBackIcon/></>)}
-            </Button>
+            <ThemeProvider theme={rtlTheme}>
+              <StylesProvider jss={jss}>
+                <Stepper activeStep={activeStep} className={classes.IconSvging}>
+                  {steps.map((label, index) => {
+                    const stepProps = {};
+                    const labelProps = {};
+                    if (isStepSkipped(index)) {
+                      stepProps.completed = false;
+                    }
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepLabel
+                          {...labelProps}
+                          className={classes.IconSvging}
+                        >
+                          {label}
+                        </StepLabel>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+                {activeStep === steps.length ? (
+                  <Typography variant="h1" align="center">
+                    Thank You
+                  </Typography>
+                ) : (
+                  <Box>
+                    <FormProvider {...methods}>
+                      <form>
+                        {getStepContent(activeStep)}
+                        <React.Fragment>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              pt: 2,
+                            }}
+                          >
+                            <Button
+                              color="inherit"
+                              disabled={activeStep === 0}
+                              onClick={handleBack}
+                              sx={{ mr: 1 }}
+                              style={{
+                                marginTop: "10px",
+                                border: "1px solid #e22c10",
+                                color: "white",
+                                borderRadius: "10px",
+                                backgroundColor: "#e22c34",
+                              }}
+                            >
+                              <ArrowForwardIcon /> السابق
+                            </Button>
+                            <Box sx={{ flex: "1 1 auto" }} />
+                            <Button
+                              onClick={handleNext}
+                              style={{
+                                marginTop: "10px",
+                                border: "1px solid #e22c10",
+                                color: "white",
+                                borderRadius: "10px",
+                                backgroundColor: "#e22c34",
+                              }}
+                            >
+                              {activeStep === steps.length - 1 ? (
+                                " التأكيد"
+                              ) : (
+                                <>
+                                  التالي
+                                  <ArrowBackIcon />
+                                </>
+                              )}
+                            </Button>
+                          </Box>
+                        </React.Fragment>
+                      </form>
+                    </FormProvider>
+                  </Box>
+                )}
+              </StylesProvider>
+            </ThemeProvider>
           </Box>
-        </React.Fragment>    
-        </form>
-       </FormProvider>
-      </Box>
-      )}
-      </StylesProvider>
-      </ThemeProvider>
-           </Box>
-          </Box>
-        </Grid>
-    </Grid> 
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 

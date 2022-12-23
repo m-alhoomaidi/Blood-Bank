@@ -17,7 +17,7 @@ const App = () => {
           <Route path='/login' element={<SignIn />} />
           <Route path='/search' element={<Search />} />
           <Route path='/profile' element={<ProfileUser />} />
-          <Route path='signup' element={<SignUp />} />
+          <Route path='/signup' element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

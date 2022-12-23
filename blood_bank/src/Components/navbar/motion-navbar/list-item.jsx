@@ -24,6 +24,7 @@ const variants = {
 export const MenuItem = ({ i, item }) => {
   return (
     <motion.li
+      className="motion-li"
       variants={variants}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
