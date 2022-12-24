@@ -3,12 +3,20 @@ import {Controller,useFormContext } from "react-hook-form";
   import {TextField,Box} from "@material-ui/core";
   import BloodtypeIcon from '@mui/icons-material/Bloodtype';
   import Autocomplete from '@mui/material/Autocomplete';
-  import {  InputAdornment } from '@mui/material';
+  import {  InputAdornment, Typography } from '@mui/material';
   import {ThemeProvider,createTheme} from "@material-ui/core/styles";
   import CssBaseline from "@material-ui/core/CssBaseline";
   import LocationCityIcon from '@mui/icons-material/LocationCity';
   import LocationOnIcon from '@mui/icons-material/LocationOn';
   import MyLocationIcon from '@mui/icons-material/MyLocation';
+  import { FormGroup } from '@mui/material';
+  import {
+    Button,
+    Checkbox,
+    Grid,
+    Link,
+    FormControlLabel
+  } from "@material-ui/core";
 const rtlTheme = createTheme({ direction: "rtl" });
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -44,16 +52,7 @@ const useStyles = makeStyles((theme) => ({
     { label: 'Hudidah'},
     { label: 'Al-Mokala'},
   ];
-const top100Films = [
-  { label: 'A+'},
-  { label: 'B+' },
-  { label: 'AB+' },
-  { label: 'O+' },
-  { label: 'A-'},
-  { label: 'B-' },
-  { label: 'AB-'},
-  { label: 'O-'},
-];
+
 const Step2 = () => {
     const { control } = useFormContext();
     const classes = useStyles();
@@ -61,55 +60,7 @@ const Step2 = () => {
       <>
       <ThemeProvider theme={rtlTheme}>
       <CssBaseline />
-      <Box m={4} >
-        <Controller
-          control={control}
-          name="typeBlood"
-          render={({ field }) => (
-           
-            <Autocomplete
-            id="ckeckboxes-tags-demo"
-            options={top100Films}
-            disableCloseOnSelect       
-            disableClearable
-            sx ={{
-              '& .css-1q60rmi-MuiAutocomplete-endAdornment' :{
-                position: 'relative',
-                right :'0px',
-                
-              },
-              '& .MuiSvgIcon-root' : {
-                marginLeft : '10px',
-              },
-            }}
-            renderInput={(params) => 
-              {
-                const InputProps={...params.InputProps,
-                  style :{color :"black",
-                  fontWeight: 'bold',
-                  fontSize :'1.2rem',
-                  marginLeft :'50px',
-                },
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      < BloodtypeIcon/>
-                    </InputAdornment>
-                  ),
-                }; 
-                return(
-                  <TextField
-                  required
-                  className={classes.textField}
-                  placeholder="فصيلة دمك ؟"
-                  variant="outlined"
-                  {...params}
-                  InputProps={InputProps}
-                  />
-                );  
-              }
-            }
-   />)}
-      />   
+      <Box m={4} > 
               <Controller
           control={control}
           name="city"
@@ -232,7 +183,35 @@ const Step2 = () => {
               {...field}
             />  
           )}
-        />    
+        />
+               <Controller
+          control={control}
+          name="firstName"
+          render={({ field }) => (
+            <div>
+               <Grid container justifyContent="center">
+              <Typography style={{fontSize:"1.0em",fontWeight:"bold",marginTop:"5px" }}>حرصا على سلامة البيانات يرجى إرفاق وثيقة تثبتهوية المركز  </Typography>
+          <Button
+          id="Phone-Number"
+            variant="outlined"
+            required="phone"
+            style={{marginTop :"5px"}}
+            value ="صورة إثبات هوية المركز"
+            fullWidth
+          >صورة إثبات هوية المركز</Button>
+          <FormGroup sx={{marginTop :"5px"}}>
+            <FormControlLabel control={<Checkbox
+         color="primary" required
+          />} label={
+            <Box component="div" fontSize="1.2em">أوافق على <Link style={{color :"dodgerblue",fontWeight:'bold',}}>سياسية الخصوصية</Link></Box>
+          }
+           />
+            </FormGroup>
+            </Grid>
+             </div>
+            
+          )}
+        />           
          </Box>
   </ThemeProvider>
        </>

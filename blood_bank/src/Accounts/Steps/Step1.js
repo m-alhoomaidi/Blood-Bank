@@ -1,21 +1,22 @@
-import {Controller,useFormContext,} from "react-hook-form";
+  import {Controller,useFormContext,} from "react-hook-form";
   import {TextField} from "@material-ui/core";
   import {  InputAdornment } from '@mui/material';
   import EmailIcon from '@mui/icons-material/Email';
   import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
   import { makeStyles} from "@material-ui/core/styles";
+  import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+  import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
   const useStyles = makeStyles((theme) => ({
     button: {
       marginRight: theme.spacing(5),
     },
     textField: {
      [ `& fieldset`] : {
-        borderRadius: '20px',
+        borderRadius: '7px',
         color :'black',  
       },
       marginBottom :theme.spacing(1),
-      background :'rgb(251, 142, 99,0.6)',
-      borderRadius: '20px',
+      borderRadius: '7px',
       color :'black',
       fontWeight: 'bold',
       '& .MuiSvgIcon-root' :{
@@ -30,12 +31,36 @@ import {Controller,useFormContext,} from "react-hook-form";
   
   },
   }));
-//import StepsCss from './StepsCss';
 const Steps1 = () => {
     const { control } = useFormContext();
     const classes = useStyles()
     return (
       <>
+              <Controller
+          control={control}
+          name="firstName"
+          render={({ field }) => (
+            <TextField
+              id="first-name"
+              className={classes.textField}
+              inputProps={{
+                className :classes.labels}}
+             InputProps={{
+            startAdornment: (
+              <InputAdornment position="start" style={{marginLeft:"-10px"}}>
+                < PermIdentityOutlinedIcon style={{marginRight: '15px',}}/>
+              </InputAdornment>
+            ),
+          }}
+              variant="outlined"
+              placeholder="أدخل اسمك الرباعي"
+              fullWidth
+             margin="normal"
+              {...field}
+             
+            />
+          )}
+        />
       <Controller
           control={control}
           name="userEmail"
@@ -58,6 +83,32 @@ const Steps1 = () => {
            {...field}
            />
         )}
+        />
+                 <Controller
+          control={control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <TextField
+              id="Phone-Number"
+              variant="outlined"
+              required="phone"
+              style={{marginBottom:"20px",}}
+              className={classes.textField}
+              placeholder="أدخل رقم تلفونك "
+              fullWidth
+              inputProps={{
+                className :classes.labels}}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" style={{marginLeft:"-10px"}}>
+                    <  LocalPhoneIcon style={{marginRight: '15px',}}/>
+                  </InputAdornment>
+                ),
+              }}
+              margin="normal"
+              {...field}
+            />
+          )}
         />
         <Controller
           control={control}

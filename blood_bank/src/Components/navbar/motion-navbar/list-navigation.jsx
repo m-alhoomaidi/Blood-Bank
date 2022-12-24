@@ -37,7 +37,7 @@ const navItems = [
   },
 ];
 export const Navigation = () => (
-  <motion.ul variants={variants}>
+  <motion.ul className="motion-ul" variants={variants}>
     {navItems.map((item, index) => (
       <MenuItem i={index} key={index} item={item} />
     ))}

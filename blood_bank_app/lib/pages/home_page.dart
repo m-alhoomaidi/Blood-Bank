@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'dart:math' as math;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -193,12 +194,19 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
           // Navigator.of(context).pushNamed(SearchPage.routeName);
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => const SearchMapPage(),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute<void>(
+          //     builder: (BuildContext context) => const SearchMapPage(),
+          //   ),
+          // );
+
+          print(getDistanceFromLatLonInKM(
+            lat1: 13.9585003,
+            lon1: 44.1709884,
+            lat2: 13.9556071,
+            lon2: 44.1708585,
+          )); // 0.3220144142025769
 
           // // get the current location
           // await LocationManager().getCurrentLocation();
@@ -215,5 +223,34 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+// function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+// }
+// function deg2rad(deg) {
+//   return deg * (Math.PI/180)
+// }
+
+  getDistanceFromLatLonInKM({
+    required double lat1,
+    required double lon1,
+    required double lat2,
+    required double lon2,
+  }) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(deg2rad(lat1)) *
+            math.cos(deg2rad(lat2)) *
+            math.sin(dLon / 2) *
+            math.sin(dLon / 2);
+    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  deg2rad(deg) {
+    return deg * (math.pi / 180);
   }
 }
