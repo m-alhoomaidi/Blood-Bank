@@ -10,10 +10,10 @@ import { MedicalInstructionsCard } from "./card";
 export const MedialInstructionsSection = () => {
   return (
     <>
-      <FlexCenter mb={2}>
-        <SectionTitle title="إرشادات طبية" />
-      </FlexCenter>
-      <Box sx={{ backgroundColor: SECONDARY_COLOR }}>
+      <Box sx={{ backgroundColor: SECONDARY_COLOR, pt: 2, pb: 2, mt: -1 }}>
+        <FlexCenter>
+          <SectionTitle title="إرشادات طبية" color="white" />
+        </FlexCenter>
         <GridContainer>
           {MedicalInstructions.map((data, index) => (
             <Grid item xs={12} md={4} key={index}>

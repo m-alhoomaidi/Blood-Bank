@@ -5,8 +5,8 @@ const HomePage = (props) => {
   return (
     <>
       <GreetingSection />
-      <AboutUsSection />
       <MedialInstructionsSection />
+      <AboutUsSection />
     </>
   );
 };

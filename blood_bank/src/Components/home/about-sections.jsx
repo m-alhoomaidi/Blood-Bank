@@ -32,7 +32,7 @@ export const AboutUsSection = () => {
           <CardMedia
             component="img"
             image="/greeting_img.jpg"
-            height="300px"
+            height="270px"
             sx={{
               objectFit: "cover",
             }}
