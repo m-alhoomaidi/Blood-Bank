@@ -4,6 +4,10 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 const iconStyle = {
     color: 'white', fontSize: 28
 }
+
+export const GreetingData = {
+    title: 'قربة دم قد تغرس الحياة من جديد'
+}
 export const MedicalInstructions = [
     {
         title: 'الوزن',

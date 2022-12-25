@@ -18,8 +18,17 @@ export const AboutUsSection = () => {
       <FlexCenter mt={2} mb={2}>
         <SectionTitle title="من نحن" />
       </FlexCenter>
-      <GridContainer mb={2}>
-        <Grid item xs={12} md={6}>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={5.5}>
+          <Box>
+            <FlexVertical p={4}>
+              <Typography sx={{ textAlign: "justify" }}>
+                {AboutUsData.body}
+              </Typography>
+            </FlexVertical>
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={5.5}>
           <CardMedia
             component="img"
             image="/greeting_img.jpg"
@@ -29,16 +38,7 @@ export const AboutUsSection = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Box>
-            <FlexVertical p={4}>
-              <Typography sx={{ textAlign: "justify" }}>
-                {AboutUsData.body}
-              </Typography>
-            </FlexVertical>
-          </Box>
-        </Grid>
-      </GridContainer>
+      </Grid>
     </>
   );
 };
