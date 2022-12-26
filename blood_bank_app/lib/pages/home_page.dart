@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:math' as math;
 import 'package:blood_bank_app/models/location_point.dart';
+import 'package:blood_bank_app/presentation/onboarding/view/onboarding_view.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -172,7 +173,14 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () async {},
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const OnBoardingView(),
+                ),
+              );
+            },
             icon: const Icon(
               Icons.notifications,
             ),
@@ -245,10 +253,10 @@ class _HomePageState extends State<HomePage> {
   }) {
     List<LocationPoint> nearPoints = [];
     for (var point in points) {
-      double far =getDistanceFromLatLonInKM(point1: base, point2: point);
+      double far = getDistanceFromLatLonInKM(point1: base, point2: point);
       print(far);
       print(distanceKm);
-      if ( far < distanceKm) {
+      if (far < distanceKm) {
         nearPoints.add(point);
       }
     }
