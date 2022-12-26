@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/presentation/onboarding/view/onboarding_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("ar", "AE")],
-      initialRoute: HomePage.routeName,
+      initialRoute: OnBoardingView.routeName,
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
@@ -78,7 +79,8 @@ class MyApp extends StatelessWidget {
         SettingPage.routeName: (context) => const SettingPage(),
         UserDataPage.routeName: (context) => const UserDataPage(),
         EditMainDataPage.routeName: (context) => const EditMainDataPage(),
-        SearchMapPage.routeName: (context) => const SearchMapPage()
+        SearchMapPage.routeName: (context) => const SearchMapPage(),
+        OnBoardingView.routeName: (context) => const OnBoardingView()
       },
     );
   }

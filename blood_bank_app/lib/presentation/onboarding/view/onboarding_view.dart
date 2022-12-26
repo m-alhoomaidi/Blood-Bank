@@ -13,6 +13,7 @@ import '../../../pages/sign_in_page.dart';
 
 class OnBoardingView extends StatefulWidget {
   const OnBoardingView({Key? key}) : super(key: key);
+  static const String routeName = "on_boarding";
 
   @override
   _OnBoardingViewState createState() => _OnBoardingViewState();
@@ -105,7 +106,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
               child: SizedBox(
                 width: AppSize.s20,
                 height: AppSize.s20,
-                child: SvgPicture.asset(ImageAssets.leftArrowIc),
+                child: SvgPicture.asset(ImageAssets.rightArrowIc),
               ),
               onTap: () {
                 // go to previous slide
@@ -135,7 +136,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 child: SizedBox(
                   width: AppSize.s20,
                   height: AppSize.s20,
-                  child: SvgPicture.asset(ImageAssets.rightArrowIc),
+                  child: SvgPicture.asset(ImageAssets.leftArrowIc),
                 ),
                 onTap: () {
                   // go to previous slide
@@ -180,7 +181,7 @@ class OnBoardingPage extends StatelessWidget {
           child: Text(
             _sliderObject.title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.displayLarge,
+            // style: Theme.of(context).textTheme.displayLarge,
           ),
         ),
         Padding(
@@ -188,10 +189,10 @@ class OnBoardingPage extends StatelessWidget {
           child: Text(
             _sliderObject.subTitle,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium,
+            // style: Theme.of(context).textTheme.headlineMedium,
           ),
         ),
-        const SizedBox(height: AppSize.s60),
+        const SizedBox(height: AppSize.s8),
         SvgPicture.asset(_sliderObject.image)
       ],
     );
