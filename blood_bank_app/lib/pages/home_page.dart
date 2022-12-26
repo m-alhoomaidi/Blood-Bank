@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'dart:math' as math;
+import 'package:blood_bank_app/models/location_point.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -200,13 +201,19 @@ class _HomePageState extends State<HomePage> {
           //     builder: (BuildContext context) => const SearchMapPage(),
           //   ),
           // );
-
-          print(getDistanceFromLatLonInKM(
-            lat1: 13.9585003,
-            lon1: 44.1709884,
-            lat2: 13.9556071,
-            lon2: 44.1708585,
-          )); // 0.3220144142025769
+          LocationPoint point1 = LocationPoint(
+                lat: 13.9585003,
+                lon: 44.1709884,
+              ),
+              point2 = LocationPoint(
+                lat: 13.9556071,
+                lon: 44.1708585,
+              );
+          print(getNearbyPoints(
+            base: point1,
+            points: [point2],
+            distanceKm: 0.4,
+          ).length); // 0.3220144142025769
 
           // // get the current location
           // await LocationManager().getCurrentLocation();
@@ -231,18 +238,33 @@ class _HomePageState extends State<HomePage> {
 //   return deg * (Math.PI/180)
 // }
 
+  List<LocationPoint> getNearbyPoints({
+    required LocationPoint base,
+    required List<LocationPoint> points,
+    required double distanceKm,
+  }) {
+    List<LocationPoint> nearPoints = [];
+    for (var point in points) {
+      double far =getDistanceFromLatLonInKM(point1: base, point2: point);
+      print(far);
+      print(distanceKm);
+      if ( far < distanceKm) {
+        nearPoints.add(point);
+      }
+    }
+    return nearPoints;
+  }
+
   getDistanceFromLatLonInKM({
-    required double lat1,
-    required double lon1,
-    required double lat2,
-    required double lon2,
+    required LocationPoint point1,
+    required LocationPoint point2,
   }) {
     var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2 - lat1); // deg2rad below
-    var dLon = deg2rad(lon2 - lon1);
+    var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+    var dLon = deg2rad(point2.lon - point1.lon);
     var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
-        math.cos(deg2rad(lat1)) *
-            math.cos(deg2rad(lat2)) *
+        math.cos(deg2rad(point1.lat)) *
+            math.cos(deg2rad(point2.lat)) *
             math.sin(dLon / 2) *
             math.sin(dLon / 2);
     var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
