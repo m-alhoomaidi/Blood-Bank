@@ -79,6 +79,11 @@ flutter:
   assets:
     - assets/images/
     - data/country.json
+    - assets/images/onboarding_logo1.svg
+    - assets/images/hollow_cirlce_ic.svg
+    - assets/images/solid_circle_ic.svg
+    - assets/images/left_arrow_ic.svg
+    - assets/images/right_arrow_ic.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
