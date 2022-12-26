@@ -10,7 +10,8 @@ import {
 import { useState } from "react";
 import { EmotionList } from "./motion-navbar";
 import { SECONDARY_COLOR } from "../../constant/color";
-
+import { ProfileAvatar } from "./profile-avatar/index.jsx";
+import { SearchBar } from "./search-bar";
 const navItems = [
   {
     id: 1,
@@ -90,8 +91,10 @@ const NavBar = (props) => {
           <Box
             sx={{
               display: { xs: "none", md: "flex" },
+              alignItems: "center",
             }}
           >
+            <ProfileAvatar />
             <Box>{navItemsList}</Box>
           </Box>
           <Box

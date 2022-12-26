@@ -36,8 +36,14 @@ const navItems = [
     href: "#about",
   },
 ];
-export const Navigation = () => (
-  <motion.ul className="motion-ul" variants={variants}>
+export const Navigation = ({ isOpen }) => (
+  <motion.ul
+    className="motion-ul"
+    variants={variants}
+    style={{
+      display: !isOpen && "none",
+    }}
+  >
     {navItems.map((item, index) => (
       <MenuItem i={index} key={index} item={item} />
     ))}

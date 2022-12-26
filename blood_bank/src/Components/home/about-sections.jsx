@@ -18,18 +18,8 @@ export const AboutUsSection = () => {
       <FlexCenter mt={2} mb={2}>
         <SectionTitle title="من نحن" />
       </FlexCenter>
-      <GridContainer mb={2}>
-        <Grid item xs={12} md={6}>
-          <CardMedia
-            component="img"
-            image="/greeting_img.jpg"
-            height="300px"
-            sx={{
-              objectFit: "cover",
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} md={5.5}>
           <Box>
             <FlexVertical p={4}>
               <Typography sx={{ textAlign: "justify" }}>
@@ -38,7 +28,17 @@ export const AboutUsSection = () => {
             </FlexVertical>
           </Box>
         </Grid>
-      </GridContainer>
+        <Grid item xs={12} md={5.5}>
+          <CardMedia
+            component="img"
+            image="/greeting_img.jpg"
+            height="270px"
+            sx={{
+              objectFit: "cover",
+            }}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

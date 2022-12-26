@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import NavBar from './Components/navbar'
 import SignUp from './pages/signup';
+import { Footer } from './Components/footer';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='/profile' element={<ProfileUser />} />
           <Route path='/signup' element={<SignUp />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );

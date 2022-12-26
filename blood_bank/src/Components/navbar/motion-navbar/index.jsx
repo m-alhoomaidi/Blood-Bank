@@ -6,9 +6,8 @@ import { Navigation } from "./list-navigation";
 import "./styles.css";
 import { Box } from "@mui/system";
 import LottieApp from "../../lottie";
-import {
-  LOGO_LOTTIE,
-} from "../../../constant/media";
+import { LOGO_LOTTIE } from "../../../constant/media";
+import { ProfileAvatar } from "../profile-avatar/index.jsx";
 const sidebar = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
@@ -31,16 +30,23 @@ const sidebar = {
 
 export const EmotionList = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
+
+  // TODO -- authentication
+  const isAuth = true;
   const containerRef = useRef(null);
   return (
     <motion.nav
       initial={false}
       animate={isOpen ? "open" : "closed"}
       custom={600}
+      style={{
+        // backgroundColor: "red",
+        height: isOpen ? "800px" : "100%",
+      }}
       ref={containerRef}
     >
       <motion.div className="background" variants={sidebar} />
-      <Navigation />
+      <Navigation isOpen={isOpen} />
       <MenuToggle toggle={() => toggleOpen()} />
       <Box
         sx={{
@@ -52,7 +58,7 @@ export const EmotionList = () => {
           height: "100px",
         }}
       >
-        <LottieApp animationpath={LOGO_LOTTIE} />
+        {isAuth ? <ProfileAvatar /> : <LottieApp animationpath={LOGO_LOTTIE} />}
       </Box>
     </motion.nav>
   );

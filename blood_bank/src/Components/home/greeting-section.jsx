@@ -1,6 +1,7 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { GREETING_VID } from "../../constant/media";
 import { FlexVertical } from "../common/flex-vertical";
+import { GreetingData } from "../../profile";
 
 export const GreetingSection = (props) => {
   return (
@@ -45,13 +46,27 @@ export const GreetingSection = (props) => {
               alignItems: "center",
             }}
           >
-            <FlexVertical>
-              <Box>
-                <Typography variant="h1" sx={{ color: "white" }}>
-                  قربة دم تنقذ حياة
-                </Typography>
-              </Box>
-            </FlexVertical>
+            {/* <FlexVertical> */}
+            <Box
+              sx={{
+                width: "70%",
+                display: {
+                  xs: "none",
+                  md: "flex",
+                },
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: "5vw",
+                  textAlign: "center",
+                }}
+              >
+                {GreetingData.title}
+              </Typography>
+            </Box>
+            {/* </FlexVertical> */}
           </Box>
         </Box>
       </Box>
