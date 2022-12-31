@@ -20,7 +20,7 @@ const App = () => {
           <Route path='/profile' element={<ProfileUser />} />
           <Route path='/signup' element={<SignUp />} />
         </Routes>
-        <Footer />
+        {/* <Footer /> */}
       </BrowserRouter>
     </ThemeProvider>
   );
