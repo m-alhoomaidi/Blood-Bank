@@ -1,11 +1,5 @@
-import {Controller,useFormContext,} from "react-hook-form";
 import {TextField} from "@material-ui/core";
-import {  InputAdornment } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
-import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
 import { makeStyles} from "@material-ui/core/styles";
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(5),
@@ -32,94 +26,39 @@ marginLeft :'20px',
 },
 }));
 const Steps1 = () => {
-  const { control } = useFormContext();
   const classes = useStyles()
   return (
     <>
-     <Controller
-          control={control}
-          name="firstName"
-          render={({ field }) => (
-            <TextField
-              id="first-name"
-              className={classes.textField}
-              inputProps={{
-                className :classes.labels}}
-             InputProps={{
-            startAdornment: (
-              <InputAdornment position="start" style={{marginLeft:"-10px"}}>
-                < PermIdentityOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
-              
-              variant="outlined"
-              placeholder="إسم المركز"
-              fullWidth
-             margin="normal"
-              {...field}
-             
-            />
-          )}
-        />
-  
-      <Controller
-          control={control}
-          name="userEmail"
-          render={({ field }) => (
-         
-        <TextField  id="userEmail"  variant="outlined" fullWidth
-           type='email'
-           required
-           className={classes.textField}
-           placeholder='أدخل بريدك الالكتروني'
-           inputProps={{
-        className :classes.labels}}
-           InputProps={{
-             startAdornment: (
-               <InputAdornment position="start">
-                 <  EmailIcon/>
-               </InputAdornment>
-             ),
-           }}
-           margin="normal"
-           {...field}
-           />
-         
-     
-        )}
-        
-        />
-        
-        <Controller
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <TextField
-              id="password"
-              required
-              className={classes.textField}
-              inputProps={{
-                className :classes.labels}}
-             InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                < PasswordOutlinedIcon/>
-              </InputAdornment>
-            ),
-          }}
-          type="password"
-          variant="outlined"
-          placeholder=' إدخل كلمة السر'
-          fullWidth
-         margin="normal"
-          {...field}
-         
-        />
-      )}
-    />
-            
-    </>
+          
+     <TextField
+       name="firstName"
+       id="first-name"
+       variant="outlined"
+       label="إسم المركز"
+       fullWidth
+       margin="normal"
+     />
+     <TextField 
+       name="userEmail"
+       id="userEmail" 
+       variant="outlined" 
+       fullWidth
+       type='email'
+       required
+       label='البريد الالكتروني'
+       margin="normal"
+     />
+     <TextField
+       name="password"
+       id="password"
+       required
+       type="password"
+       variant="outlined"
+       label=' كلمة السر'
+       fullWidth
+       margin="normal"
+    /> 
+</>
   );
 };
 export default Steps1;
