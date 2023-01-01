@@ -103,7 +103,6 @@ const SignUp = () => {
               width: { xs: "90%", md: "70%" },
             }}
           >
-            <ThemeProvider theme={rtlTheme}>
               <StylesProvider jss={jss}>
                 <Stepper activeStep={activeStep} className={classes.IconSvging}>
                   {steps.map((label, index) => {
@@ -183,7 +182,6 @@ const SignUp = () => {
                   </Box>
                 )}
               </StylesProvider>
-            </ThemeProvider>
           </Box>
         </Box>
       </Grid>
