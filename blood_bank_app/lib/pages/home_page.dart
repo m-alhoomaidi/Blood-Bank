@@ -1,18 +1,17 @@
 import 'dart:convert';
-
 import 'dart:math' as math;
-import 'package:blood_bank_app/models/location_point.dart';
-import 'package:blood_bank_app/presentation/onboarding/view/onboarding_view.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/location_point.dart';
+import '../presentation/onboarding/view/onboarding_view.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
 import '../widgets/home_drawer/home_drawer.dart';
-import 'search_map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -209,6 +208,7 @@ class _HomePageState extends State<HomePage> {
           //     builder: (BuildContext context) => const SearchMapPage(),
           //   ),
           // );
+          Navigator.of(context).pushNamed(OnBoardingView.routeName);
           LocationPoint point1 = LocationPoint(
                 lat: 13.9585003,
                 lon: 44.1709884,

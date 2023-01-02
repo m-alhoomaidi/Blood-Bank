@@ -1,4 +1,3 @@
-import 'package:blood_bank_app/presentation/onboarding/view/onboarding_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import 'pages/sign_in_page.dart';
 import 'pages/sign_up_page.dart';
 import 'pages/sing_up_center_page.dart';
 import 'pages/user_date_page.dart';
+import 'presentation/onboarding/view/onboarding_view.dart';
 import 'shared/style.dart';
 
 Future backgroundMessage(RemoteMessage message) async {
@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
         UserDataPage.routeName: (context) => const UserDataPage(),
         EditMainDataPage.routeName: (context) => const EditMainDataPage(),
         SearchMapPage.routeName: (context) => const SearchMapPage(),
-        // OnBoardingView.routeName: (context) => const OnBoardingView()
+        OnBoardingView.routeName: (context) => const OnBoardingView()
       },
     );
   }
