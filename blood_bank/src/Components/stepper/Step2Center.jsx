@@ -58,7 +58,6 @@ const Step2 = () => {
     const classes = useStyles();
     return (
       <>
-      <ThemeProvider theme={rtlTheme}>
          <TextField
            name="city"
            id="ckeckboxes-tags-demo"
@@ -124,7 +123,6 @@ const Step2 = () => {
           </FormGroup>
        </Grid>
       </div>         
-  </ThemeProvider>
        </>
     );
   };
