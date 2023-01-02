@@ -34,6 +34,11 @@ const navItems = [
     name: "البحث عن متبرع",
     href: "/search",
   },
+  {
+    id: 5,
+    name: "الخريطة",
+    href: "/map",
+  },
 ];
 
 const fontColor = "#343a40";

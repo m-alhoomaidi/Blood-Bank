@@ -10,6 +10,7 @@ import SignUp from './pages/signup';
 import { Footer } from './Components/footer';
 import { AuthConsumer, AuthProvider } from './context/auth-context';
 import { AuthGuard } from './context/auth-gaurd';
+import MapPage from './pages/map';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -23,6 +24,7 @@ const App = () => {
               <Route path='/search' element={<Search />} />
               <Route path='/profile' element={<ProfileUser />} />
               <Route path='/signup' element={<SignUp />} />
+              <Route path='/map' element={<MapPage />} />
             </Routes>
             {/* <Footer /> */}
           </AuthGuard>
