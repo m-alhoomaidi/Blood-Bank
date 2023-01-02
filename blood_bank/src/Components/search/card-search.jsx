@@ -6,9 +6,10 @@ import ClockIcon from '@mui/icons-material/AccessTime';
 import MessageIcon from '@mui/icons-material/Message';
 const CardSearch = (props) => {    
     return (
-    <Box container>
+      <>
+    <Box >
        <Card sx={{ height: '100%' }}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} >
             <Grid item>
                 <Avatar
                    sx={{backgroundColor: 'error.main',marginRight:"20px"}}>
@@ -18,11 +19,11 @@ const CardSearch = (props) => {
             <Grid item>
                 <Typography sx={{marginTop:"8px"}}>عبدالله احمد</Typography>
             </Grid>
-            <Grid item xs={4}></Grid>
+           
             </Grid>
           <Grid container spacing={2} justifyContent="center" flexDirection="column">
           <Grid item >
-            <Box container sx={{marginTop:"-20px"}}>
+            <Box container sx={{marginTop:"3px"}}>
             <ClockIcon sx={{color:"dimgrey", margin :"-5px 80px 15px 0px", fontSize :"15px"}}/>
               <Typography sx={{margin:"-40px 100px 0px 0px",color:"dimgrey"}}>10/12/2022 </Typography>
             </Box>
@@ -30,10 +31,10 @@ const CardSearch = (props) => {
            <Grid item >
               <Typography sx={{marginRight:"80px"}}>المنطقة - السبل</Typography>
             </Grid>
-            <Grid item xs={2}></Grid>
+           
           </Grid>
-          <Box container sx={{margin:"20px 20px"}}>
-            <Grid container spacing={6} >
+          <Box container sx={{margin:"20px 20px",display:"flex",justifyContent:'center'}}>
+            <Grid container spacing={6} justifyContent="center">
             <Grid item >
                <Button variant="contained" sx={{background:"green", "&:hover": {
                   backgroundColor: "#69af69",
@@ -41,8 +42,8 @@ const CardSearch = (props) => {
                 },}} ><LocalPhoneIcon /></Button>
             </Grid>
             <Grid item >
-                <Button variant="contained" sx={{background:"yellow", "&:hover": {
-                  backgroundColor: "#afa314",
+                <Button variant="contained" sx={{background:"#f79898", "&:hover": {
+                  backgroundColor: "#df2525",
                   textDecoration: "none",
                 },}}><MessageIcon /></Button>
              </Grid>
@@ -50,6 +51,7 @@ const CardSearch = (props) => {
           </Box>
        </Card>
     </Box>
+    </>
   );
 };
 export default CardSearch;

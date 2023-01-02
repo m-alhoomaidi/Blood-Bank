@@ -36,18 +36,19 @@ export const SearchUserBlood = () => {
     setStateCityid(Stateid);
   };
   return (
-    <Box container sx={{ marginTop: "80px" }}>
+    <>
+    <Box  sx={{ marginTop: "80px" }}>
       <Paper
         sx={{
-          p: 2,
+          p: 1,
           margin: "auto",
           flexGrow: 1,
           backgroundColor: (theme) =>
             theme.palette.mode === "dark" ? "#1A2027" : "#fff",
         }}
       >
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item>
+        <Grid container spacing={3} flexDirection="row" justifyContent="center">
+          <Grid item xs={10} md={3}>
             <Autocomplete
               fullWidth
               disablePortal
@@ -55,7 +56,7 @@ export const SearchUserBlood = () => {
               onChange={HandleCountry}
               options={Countryes}
               getOptionLabel={(Countryes) => Countryes.name}
-              sx={{ width: 300 }}
+             
               renderOption={(props, option) => (
                 <Box component="li" key={option.id} {...props}>
                   {option.name}
@@ -66,7 +67,7 @@ export const SearchUserBlood = () => {
               )}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={10} md={3}>
             <Autocomplete
               fullWidth
               disablePortal
@@ -74,7 +75,6 @@ export const SearchUserBlood = () => {
               onChange={HandleState}
               options={City}
               getOptionLabel={(City) => City.name}
-              sx={{ width: 300 }}
               renderOption={(props, option) => (
                 <Box component="li" key={option.id} {...props}>
                   {option.name}
@@ -85,44 +85,45 @@ export const SearchUserBlood = () => {
               )}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={10} md={3}>
             <Autocomplete
               fullWidth
               disablePortal
               id="combo-box-demo"
               options={TypeBlood}
-              sx={{ width: 300 }}
               renderInput={(params) => (
                 <TextField {...params} label="فصيلة الدم" variant="outlined" />
               )}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={10} md={2}> 
             <Button
               variant="contained"
-              sx={{ width: "150px", marginTop: "8px" }}
+              fullWidth
+              sx={{marginTop:"10px"}}
             >
               بــحــث
             </Button>
           </Grid>
         </Grid>
-      </Paper>
       <Grid
         container
-        spacing={3}
+        spacing={4}
         justifyContent="center"
         sx={{ marginTop: "20px" }}
       >
-        <Grid item>
+        <Grid item xs={10} md={3}>
           <CardSearch />
         </Grid>
-        <Grid item>
+        <Grid item xs={10} md={3}>
           <CardSearch />
         </Grid>
-        <Grid item>
+        <Grid item xs={10} md={3}>
           <CardSearch />
         </Grid>
       </Grid>
+      </Paper>
     </Box>
+    </>
   );
 };
