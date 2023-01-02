@@ -8,6 +8,7 @@ import { Box } from "@mui/system";
 import LottieApp from "../../lottie";
 import { LOGO_LOTTIE } from "../../../constant/media";
 import { ProfileAvatar } from "../profile-avatar/index.jsx";
+import { useAuthContext } from "../../../context/auth-context";
 const sidebar = {
   open: (height = 1000) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px 40px)`,
@@ -30,9 +31,6 @@ const sidebar = {
 
 export const EmotionList = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
-
-  // TODO -- authentication
-  const isAuth = true;
   const containerRef = useRef(null);
   return (
     <motion.nav
@@ -58,7 +56,8 @@ export const EmotionList = () => {
           height: "100px",
         }}
       >
-        {isAuth ? <ProfileAvatar /> : <LottieApp animationpath={LOGO_LOTTIE} />}
+        <ProfileAvatar />
+        {/* <LottieApp animationpath={LOGO_LOTTIE} />} */}
       </Box>
     </motion.nav>
   );

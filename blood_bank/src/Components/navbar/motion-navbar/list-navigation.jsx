@@ -13,17 +13,7 @@ const navItems = [
   {
     id: 1,
     name: "الرئيسية",
-    href: "#",
-  },
-  {
-    id: 2,
-    name: "انشاء حساب",
-    href: "#",
-  },
-  {
-    id: 3,
-    name: "تسجيل الدخول",
-    href: "#",
+    href: "/",
   },
   {
     id: 2,
@@ -34,6 +24,11 @@ const navItems = [
     id: 3,
     name: "تبرع",
     href: "#about",
+  },
+  {
+    id: 4,
+    name: "البحث عن متبرع",
+    href: "/search",
   },
 ];
 export const Navigation = ({ isOpen }) => (

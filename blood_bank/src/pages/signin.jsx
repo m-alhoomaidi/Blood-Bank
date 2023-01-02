@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -19,18 +18,13 @@ import { IconButton, InputAdornment } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { SECONDARY_COLOR } from "../constant/color";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../utils/firebase";
-import { AlertSnackBar } from "../Components/common/alert-snackbar";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/auth-context";
 export default function SignInSide() {
   const [passwordShow, setPasswordShow] = useState(false);
   const [isRememberMe, setIsRememberMe] = useState(false);
-
-  const [showTost, setShowTost] = useState(false);
-  const [tost, setTost] = useState({
-    tostMsg: "",
-    tostType: "success",
-  });
+  const navigate = useNavigate();
+  const { signIn } = useAuthContext();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -43,37 +37,17 @@ export default function SignInSide() {
       password: Yup.string().max(255).required("كلمة السر مطلوبة"),
     }),
     onSubmit: ({ username, password }) => {
-      login({ username, password });
+      signIn({ username, password }).then((data) => {
+        navigate("/");
+      });
     },
   });
-  const login = async ({ username, password }) => {
-    const docRf = query(
-      collection(db, "donors"),
-      where("email", "==", username),
-      where("password", "==", password)
-    );
-
-    const querySnapshot = await getDocs(docRf);
-    if (querySnapshot?.docs?.length == 0) {
-      setShowTost(true);
-      setTost({
-        tostMsg: "عنوان البريد أو كلمة السر غير صحيحة",
-        tostType: "error",
-      });
-    }
-  };
 
   const handleChangeRemembeMe = (event) => {
     setIsRememberMe(event.target.checked);
   };
   return (
     <>
-      <AlertSnackBar
-        open={showTost}
-        handleClose={() => setShowTost(false)}
-        message={tost.tostMsg}
-        type={tost.tostType}
-      />
       <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
         <Grid item xs={12} md={6}>
           <Box

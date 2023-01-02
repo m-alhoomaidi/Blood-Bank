@@ -9,10 +9,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { SECONDARY_COLOR } from "../../../constant/color";
 import { useAuthContext } from "../../../context/auth-context";
-export const AccountPopover = (props) => {
+export const SingInSingOutPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
-  const { user, signOut } = useAuthContext();
 
+  const navigate = useNavigate();
   return (
     <Popover
       anchorEl={anchorEl}
@@ -36,10 +36,8 @@ export const AccountPopover = (props) => {
           px: 2,
         }}
       >
-        <Typography variant="overline">حسابك الشخصي</Typography>
-
-        <Typography color="text.secondary" variant="body2">
-          {user?.name}
+        <Typography variant="overline">
+          {"بنك الدم اليمني الإلكتروني"}
         </Typography>
       </Box>
       <MenuList
@@ -57,7 +55,7 @@ export const AccountPopover = (props) => {
       >
         <MenuItem>
           <Button
-            onClick={() => signOut()}
+            onClick={() => navigate("/signup")}
             fullWidth
             variant="contained"
             sx={{
@@ -68,7 +66,23 @@ export const AccountPopover = (props) => {
               },
             }}
           >
-            تسجيل الخروج
+            انشاء حساب
+          </Button>
+        </MenuItem>
+        <MenuItem>
+          <Button
+            onClick={() => navigate("/login")}
+            fullWidth
+            variant="contained"
+            sx={{
+              backgroundColor: SECONDARY_COLOR,
+
+              "&:hover": {
+                backgroundColor: SECONDARY_COLOR,
+              },
+            }}
+          >
+            تسجيل الدخول
           </Button>
         </MenuItem>
       </MenuList>

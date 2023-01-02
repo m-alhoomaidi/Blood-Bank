@@ -12,21 +12,12 @@ import { EmotionList } from "./motion-navbar";
 import { SECONDARY_COLOR } from "../../constant/color";
 import { ProfileAvatar } from "./profile-avatar/index.jsx";
 import { SearchBar } from "./search-bar";
+import { useAuthContext } from "../../context/auth-context";
 const navItems = [
   {
     id: 1,
     name: "الرئيسية",
     href: "/",
-  },
-  {
-    id: 2,
-    name: "انشاء حساب",
-    href: "/signup",
-  },
-  {
-    id: 3,
-    name: "تسجيل الدخول",
-    href: "/login",
   },
   {
     id: 2,
