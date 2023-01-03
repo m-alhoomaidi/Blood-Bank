@@ -1,15 +1,7 @@
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { create } from "jss";
-import rtl from "jss-rtl";
 import Grid from "@mui/material/Grid";
-import {
-  StylesProvider,
-  jssPreset,
-  ThemeProvider,
-  createTheme,
-} from "@material-ui/core/styles";
 import {
   Typography,
   Button,
@@ -67,8 +59,6 @@ const SignUp = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
-  const rtlTheme = createTheme({ direction: "rtl" });
   return (
     <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
       <Grid item xs={12} md={6}>
@@ -103,7 +93,6 @@ const SignUp = () => {
               width: { xs: "90%", md: "70%" },
             }}
           >
-              <StylesProvider jss={jss}>
                 <Stepper activeStep={activeStep} className={classes.IconSvging}>
                   {steps.map((label, index) => {
                     const stepProps = {};
@@ -181,7 +170,6 @@ const SignUp = () => {
                     </FormProvider>
                   </Box>
                 )}
-              </StylesProvider>
           </Box>
         </Box>
       </Grid>
