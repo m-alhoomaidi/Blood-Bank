@@ -205,6 +205,12 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.search_rounded),
               onPressed: () async {
+                print("object++++++++++++++++++");
+                await FirebaseFirestore.instance
+                    .collection("donors")
+                    .doc("H5PPBI8VBBNikBYvmifb")
+                    .get()
+                    .then((value) async => print(await value.data()));
                 // Navigator.of(context).pushNamed(SearchPage.routeName);
                 // Navigator.push(
                 //   context,
