@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:blood_bank_app/pages/setting_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -32,13 +34,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    pushFCMtoken();
-    initMessaging();
-    FirebaseMessaging.onMessage.listen((event) {
-      print("on backgrounnd");
-      print(event.data);
-      Fluttertoast.showToast(msg: event.data.values.first);
-    });
+    // initMessaging();
+    // FirebaseMessaging.onMessage.listen((event) {
+    //   print("on backgrounnd");
+    //   print(event.data);
+    //   Fluttertoast.showToast(msg: event.data.values.first);
+    // });
+    // pushFCMtoken();
     // LocationManager().interval = 1;
     // LocationManager().distanceFilter = 0;
     // LocationManager().notificationTitle = 'CARP Location Example';
@@ -49,72 +51,66 @@ class _HomePageState extends State<HomePage> {
     // location.enableBackgroundMode(enable: true);
   }
 
-// From Meduim "Push Notification In Flutter in Background"
-
-  void pushFCMtoken() async {
-    String? token = await messaging.getToken();
-    print(token);
-  }
-
-  void initMessaging() {
-    var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initSetting = InitializationSettings(android: androiInit);
-    fltNotification = FlutterLocalNotificationsPlugin();
-    fltNotification.initialize(initSetting);
-    var androidDetails =
-        const AndroidNotificationDetails('1', 'notification_channel_id');
-    var generalNotificationDetails =
-        NotificationDetails(android: androidDetails);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (android != null) {
-        fltNotification.show(notification.hashCode, notification?.title,
-            notification?.body, generalNotificationDetails);
-        print('notification initialized');
-      }
-    });
-  }
-
-  final List<String> tokens = [
-    'fJTVExhUSKe581773y-BSD:APA91bGW8hwjQ2SIaNrGDZS4mICEBD3S1Vg2mNU6vunhQWQZDLThOGQv3FQ5jCYqoxravvX4XDs4WEYACgnKecqe0xVNwdXsx5AIejcsvr9kaaTq-vtreoBaw7Wgnr5aGOL1zy4FN8b3',
-    'e_036JIcR7ei2e7SVOBYbl:APA91bFK_Ije-b8MiFRxKFN1yiwEwE9kvf2RFICGDeOjBm85NUMZ0UVt9yGmsmyjR313xPPoadPww0-AyNHzWJ0LwfEpM6dTZfTrlpQGGLpP16y0pYAJ77Y4sHWHeyLG9Wussp2B9v5d',
-  ];
-
-  Future<void> sendPushMessage() async {
-    if (tokens.isEmpty) {
-      print('Unable to send FCM message, no token exists.');
-      return;
-    }
-
-    try {
-      await http.post(
-        Uri.parse('https://api.rnfirebase.io/messaging/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: constructFCMPayload(tokens[1]),
-      );
-      print('FCM request for device sent!');
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  String constructFCMPayload(String? token) {
-    return jsonEncode({
-      'token': token,
-      'data': {
-        'via': 'FlutterFire Cloud Messaging!!!',
-        'count': '_messageCount.toString()',
-      },
-      'notification': {
-        'title': 'Hello FlutterFire!',
-        'body': 'This notification (#_messageCount) was created via FCM!',
-      },
-    });
-  }
-
+  // From Meduim "Push Notification In Flutter in Background"
+  // void pushFCMtoken() async {
+  //   String? token = await messaging.getToken();
+  //   print("======token=======");
+  //   print(token);
+  // }
+  // void initMessaging() {
+  //   var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
+  //   var initSetting = InitializationSettings(android: androiInit);
+  //   fltNotification = FlutterLocalNotificationsPlugin();
+  //   fltNotification.initialize(initSetting);
+  //   var androidDetails =
+  //       const AndroidNotificationDetails('1', 'notification_channel_id');
+  //   var generalNotificationDetails =
+  //       NotificationDetails(android: androidDetails);
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     RemoteNotification? notification = message.notification;
+  //     AndroidNotification? android = message.notification?.android;
+  //     if (android != null) {
+  //       fltNotification.show(notification.hashCode, notification?.title,
+  //           notification?.body, generalNotificationDetails);
+  //       print('notification initialized');
+  //     }
+  //   });
+  // }
+  // final List<String> tokens = [
+  //   'fJTVExhUSKe581773y-BSD:APA91bGW8hwjQ2SIaNrGDZS4mICEBD3S1Vg2mNU6vunhQWQZDLThOGQv3FQ5jCYqoxravvX4XDs4WEYACgnKecqe0xVNwdXsx5AIejcsvr9kaaTq-vtreoBaw7Wgnr5aGOL1zy4FN8b3',
+  //   'e_036JIcR7ei2e7SVOBYbl:APA91bFK_Ije-b8MiFRxKFN1yiwEwE9kvf2RFICGDeOjBm85NUMZ0UVt9yGmsmyjR313xPPoadPww0-AyNHzWJ0LwfEpM6dTZfTrlpQGGLpP16y0pYAJ77Y4sHWHeyLG9Wussp2B9v5d',
+  // ];
+  // Future<void> sendPushMessage() async {
+  //   if (tokens.isEmpty) {
+  //     print('Unable to send FCM message, no token exists.');
+  //     return;
+  //   }
+  //   try {
+  //     await http.post(
+  //       Uri.parse('https://api.rnfirebase.io/messaging/send'),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //       },
+  //       body: constructFCMPayload(tokens[1]),
+  //     );
+  //     print('FCM request for device sent!');
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  // String constructFCMPayload(String? token) {
+  //   return jsonEncode({
+  //     'token': token,
+  //     'data': {
+  //       'via': 'FlutterFire Cloud Messaging!!!',
+  //       'count': '_messageCount.toString()',
+  //     },
+  //     'notification': {
+  //       'title': 'Hello FlutterFire!',
+  //       'body': 'This notification (#_messageCount) was created via FCM!',
+  //     },
+  //   });
+  // }
   // _requestPermission() async {
   //   var status = await Permission.location.request();
   //   if (status.isGranted) {
@@ -216,21 +212,20 @@ class _HomePageState extends State<HomePage> {
                 //     builder: (BuildContext context) => const SearchMapPage(),
                 //   ),
                 // );
-                Navigator.of(context).pushNamed(OnBoardingView.routeName);
-                LocationPoint point1 = LocationPoint(
-                      lat: 13.9585003,
-                      lon: 44.1709884,
-                    ),
-                    point2 = LocationPoint(
-                      lat: 13.9556071,
-                      lon: 44.1708585,
-                    );
-                print(getNearbyPoints(
-                  base: point1,
-                  points: [point2],
-                  distanceKm: 0.4,
-                ).length); // 0.3220144142025769
-
+                // Navigator.of(context).pushNamed(OnBoardingView.routeName);
+                // LocationPoint point1 = LocationPoint(
+                //       lat: 13.9585003,
+                //       lon: 44.1709884,
+                //     ),
+                //     point2 = LocationPoint(
+                //       lat: 13.9556071,
+                //       lon: 44.1708585,
+                //     );
+                // print(getNearbyPoints(
+                //   base: point1,
+                //   points: [point2],
+                //   distanceKm: 0.4,
+                // ).length); // 0.3220144142025769
                 // // get the current location
                 // await LocationManager().getCurrentLocation();
                 // // start listen to location updates
@@ -248,47 +243,140 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
-// function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+// const data = [
+//   {
+//     coords: {
+//       lat: 13.974279144008882,
+//       lng: 44.16278508375451,
+//     },
+//     name: "محمد",
+//     bloodType: "O+",
+//     phoneNumber: "771511569",
+//   },
+//   {
+//     coords: {
+//       lat: 13.95925347982098,
+//       lng: 44.16640231857082,
+//     },
+//     name: "سامي",
+//     bloodType: "O+",
+//     phoneNumber: "771511542",
+//   },
+//   {
+//     coords: {
+//       lat: 13.971609757586048,
+//       lng: 44.157411483548415,
+//     },
+//     name: "خالد",
+//     bloodType: "O-",
+//     phoneNumber: "715015696",
+//   },
+//   {
+//     coords: {
+//       lat: 13.950156735486098,
+//       lng: 44.1669924226502,
+//     },
+//     name: "علي",
+//     bloodType: "A+",
+//     phoneNumber: "717015690",
+//   },
+//   {
+//     coords: {
+//       lat: 13.959390106818676,
+//       lng: 44.18167133616689,
+//     },
+//     name: "سامي",
+//     bloodType: "B+",
+//     phoneNumber: "71501569",
+//   },
+//   {
+//     coords: {
+//       lat: 13.964835321745667,
+//       lng: 44.193828479571074,
+//     },
+//     name: "راشد",
+//     bloodType: "O+",
+//     phoneNumber: "715017569",
+//   },
+//   {
+//     coords: {
+//       lat: 13.98106343411635,
+//       lng: 44.18574205386784,
+//     },
+//     name: "سعيد",
+//     bloodType: "O-",
+//     phoneNumber: "715017569",
+//   },
+//   {
+//     coords: {
+//       lat: 13.974390828998246,
+//       lng: 44.17589531780745,
+//     },
+//     name: "سالم",
+//     bloodType: "AB-",
+//     phoneNumber: "715017569",
+//   },
+//   {
+//     coords: {
+//       lat: 13.953817127862079,
+//       lng: 44.172464266417265,
+//     },
+//     name: "خليل",
+//     bloodType: "A+",
+//     phoneNumber: "715017569",
+//   },
+//   {
+//     coords: {
+//       lat: 13.920863446490008,
+//       lng: 44.173475415106225,
+//     },
+//     name: "أشرف",
+//     bloodType: "O+",
+//     phoneNumber: "715017569",
+//   },
+// ];
+
+  // function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 // }
 // function deg2rad(deg) {
 //   return deg * (Math.PI/180)
 // }
 
-  List<LocationPoint> getNearbyPoints({
-    required LocationPoint base,
-    required List<LocationPoint> points,
-    required double distanceKm,
-  }) {
-    List<LocationPoint> nearPoints = [];
-    for (var point in points) {
-      double far = getDistanceFromLatLonInKM(point1: base, point2: point);
-      print(far);
-      print(distanceKm);
-      if (far < distanceKm) {
-        nearPoints.add(point);
-      }
-    }
-    return nearPoints;
-  }
+  // List<LocationPoint> getNearbyPoints({
+  //   required LocationPoint base,
+  //   required List<LocationPoint> points,
+  //   required double distanceKm,
+  // }) {
+  //   List<LocationPoint> nearPoints = [];
+  //   for (var point in points) {
+  //     double far = getDistanceFromLatLonInKM(point1: base, point2: point);
+  //     print(far);
+  //     print(distanceKm);
+  //     if (far < distanceKm) {
+  //       nearPoints.add(point);
+  //     }
+  //   }
+  //   return nearPoints;
+  // }
 
-  getDistanceFromLatLonInKM({
-    required LocationPoint point1,
-    required LocationPoint point2,
-  }) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
-    var dLon = deg2rad(point2.lon - point1.lon);
-    var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
-        math.cos(deg2rad(point1.lat)) *
-            math.cos(deg2rad(point2.lat)) *
-            math.sin(dLon / 2) *
-            math.sin(dLon / 2);
-    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-    return d;
-  }
+  // getDistanceFromLatLonInKM({
+  //   required LocationPoint point1,
+  //   required LocationPoint point2,
+  // }) {
+  //   var R = 6371; // Radius of the earth in km
+  //   var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+  //   var dLon = deg2rad(point2.lon - point1.lon);
+  //   var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+  //       math.cos(deg2rad(point1.lat)) *
+  //           math.cos(deg2rad(point2.lat)) *
+  //           math.sin(dLon / 2) *
+  //           math.sin(dLon / 2);
+  //   var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+  //   var d = R * c; // Distance in km
+  //   return d;
+  // }
 
-  deg2rad(deg) {
-    return deg * (math.pi / 180);
-  }
+  // deg2rad(deg) {
+  //   return deg * (math.pi / 180);
+  // }
 }
