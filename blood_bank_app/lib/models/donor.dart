@@ -90,21 +90,21 @@ class Donor {
 
   factory Donor.fromMap(Map<String, dynamic> map) {
     return Donor(
-      id: map[DonorFields.id] as String,
-      email: map[DonorFields.email] as String,
-      password: map[DonorFields.password] as String,
-      name: map[DonorFields.name] as String,
-      phone: map[DonorFields.phone] as String,
-      bloodType: map[DonorFields.bloodType] as String,
-      state: map[DonorFields.state] as String,
-      district: map[DonorFields.district] as String,
-      neighborhood: map[DonorFields.neighborhood] as String,
-      image: map[DonorFields.image] as String,
-      brithDate: map[DonorFields.brithDate] as String,
-      isShown: map[DonorFields.isShown] as String,
-      isShownPhone: map[DonorFields.isShownPhone] as String,
-      isGpsOn: map[DonorFields.isGpsOn] as String,
-      token: map[DonorFields.token] as String,
+      id: map[DonorFields.id] ?? "",
+      email: map[DonorFields.email] ?? "",
+      password: map[DonorFields.password] ?? "",
+      name: map[DonorFields.name] ?? "",
+      phone: map[DonorFields.phone] ?? "",
+      bloodType: map[DonorFields.bloodType] ?? "",
+      state: map[DonorFields.state] ?? "",
+      district: map[DonorFields.district] ?? "",
+      neighborhood: map[DonorFields.neighborhood] ?? "",
+      image: map[DonorFields.image] ?? "",
+      brithDate: map[DonorFields.brithDate] ?? "",
+      isShown: map[DonorFields.isShown] ?? "",
+      isShownPhone: map[DonorFields.isShownPhone] ?? "",
+      isGpsOn: map[DonorFields.isGpsOn] ?? "",
+      token: map[DonorFields.token] ?? "",
     );
   }
 
