@@ -48,18 +48,20 @@ class IntroductionPage extends StatelessWidget {
         onSkip: () {
           // You can also override onSkip callback
         },
-        // showSkipButton: true,
-        showBackButton: true,
+        showSkipButton: true,
+        // showBackButton: true,
         next: const Icon(
           Icons.arrow_forward_outlined,
           size: 32,
         ),
-
-        back: const Icon(
-          Icons.arrow_back,
-          size: 32,
+        skip: const Text(
+          "skip",
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ),
-        done: const Text("Done", style: TextStyle(fontWeight: FontWeight.w600)),
+        done: const Text("Done",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         dotsDecorator: DotsDecorator(
             size: const Size.square(10.0),
             activeSize: const Size(20.0, 10.0),
