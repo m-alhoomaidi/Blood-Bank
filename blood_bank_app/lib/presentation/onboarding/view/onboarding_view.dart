@@ -25,12 +25,15 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   _bind() {
     _viewModel.start();
+    print("66666666666666666666666666666");
   }
 
   @override
   void initState() {
     _bind();
     super.initState();
+    print("4444444444444444444444444");
+    print(_viewModel.outputSliderViewObject.first);
   }
 
   @override
