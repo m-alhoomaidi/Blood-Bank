@@ -34,15 +34,13 @@ class ResultTabs extends StatelessWidget {
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         margin: const EdgeInsets.all(5),
-                        width: 70,
+                        width: state.selectedTabIndex == index ? 75 : 65,
                         height: 45,
                         decoration: BoxDecoration(
                           color: state.selectedTabIndex == index
                               ? Colors.white
                               : Colors.white70,
-                          borderRadius: state.selectedTabIndex == index
-                              ? BorderRadius.circular(10)
-                              : BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +62,17 @@ class ResultTabs extends StatelessWidget {
                             ),
                             // ignore: prefer_const_constructors
                             Text(
-                              '5',
+                              state.donors
+                                  .where((donor) =>
+                                      donor.bloodType ==
+                                      BloodTypes.canReceiveFrom(
+                                          bloodType:
+                                              BlocProvider.of<SearchCubit>(
+                                                      context)
+                                                  .selectedBloodType!)[index])
+                                  .toList()
+                                  .length
+                                  .toString(),
                               style: const TextStyle(
                                 fontSize: 14,
                               ),
