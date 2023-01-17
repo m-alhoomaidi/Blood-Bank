@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:blood_bank_app/pages/setting_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/location_point.dart';
+import '../presentation/onboarding/introduction_page.dart';
 import '../presentation/onboarding/view/onboarding_view.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
@@ -165,79 +168,84 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("بنك الدم الإلكتروني"),
-        centerTitle: true,
-        elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const OnBoardingView(),
-                ),
-              );
-            },
-            icon: const Icon(
-              Icons.notifications,
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            HomeWelcome(),
-            HomeAbout(),
-            SizedBox(height: 20),
-          ],
-        ),
-      ),
-      drawer: const HomeDrower(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.search_rounded),
-        onPressed: () async {
-          // Navigator.of(context).pushNamed(SearchPage.routeName);
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute<void>(
-          //     builder: (BuildContext context) => const SearchMapPage(),
-          //   ),
-          // );
-          Navigator.of(context).pushNamed(OnBoardingView.routeName);
-          LocationPoint point1 = LocationPoint(
-                lat: 13.9585003,
-                lon: 44.1709884,
-              ),
-              point2 = LocationPoint(
-                lat: 13.9556071,
-                lon: 44.1708585,
-              );
-          print(getNearbyPoints(
-            base: point1,
-            points: [point2],
-            distanceKm: 0.4,
-          ).length); // 0.3220144142025769
+    bool firstTimeState = Hive.box(dataBoxName).get('introduction') ?? true;
 
-          // // get the current location
-          // await LocationManager().getCurrentLocation();
-          // // start listen to location updates
-          // StreamSubscription<LocationDto> locationSubscription =
-          //     LocationManager().locationStream.listen((LocationDto dto) {
-          //   print('======================');
-          //   print(dto.altitude);
-          //   print(dto.longitude);
-          // });
-          // // cancel listening and stop the location manager
-          // locationSubscription.cancel();
-          // LocationManager().stop();
-        },
-      ),
-    );
+    return firstTimeState
+        ? const IntroductionPage()
+        : Scaffold(
+            appBar: AppBar(
+              title: const Text("بنك الدم الإلكتروني"),
+              centerTitle: true,
+              elevation: 0,
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const OnBoardingView(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.notifications,
+                  ),
+                ),
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const <Widget>[
+                  HomeWelcome(),
+                  HomeAbout(),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+            drawer: const HomeDrower(),
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.search_rounded),
+              onPressed: () async {
+                // Navigator.of(context).pushNamed(SearchPage.routeName);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute<void>(
+                //     builder: (BuildContext context) => const SearchMapPage(),
+                //   ),
+                // );
+                Navigator.of(context).pushNamed(OnBoardingView.routeName);
+                LocationPoint point1 = LocationPoint(
+                      lat: 13.9585003,
+                      lon: 44.1709884,
+                    ),
+                    point2 = LocationPoint(
+                      lat: 13.9556071,
+                      lon: 44.1708585,
+                    );
+                print(getNearbyPoints(
+                  base: point1,
+                  points: [point2],
+                  distanceKm: 0.4,
+                ).length); // 0.3220144142025769
+
+                // // get the current location
+                // await LocationManager().getCurrentLocation();
+                // // start listen to location updates
+                // StreamSubscription<LocationDto> locationSubscription =
+                //     LocationManager().locationStream.listen((LocationDto dto) {
+                //   print('======================');
+                //   print(dto.altitude);
+                //   print(dto.longitude);
+                // });
+                // // cancel listening and stop the location manager
+                // locationSubscription.cancel();
+                // LocationManager().stop();
+              },
+            ),
+          );
   }
 
 // function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
