@@ -17,8 +17,8 @@ class Donor {
   String isShownPhone;
   String isGpsOn;
   String token;
-  // String lat;
-  // String lon;
+  String lat;
+  String lon;
   bool isExpanded;
 
   Donor({
@@ -31,8 +31,8 @@ class Donor {
     required this.state,
     required this.district,
     required this.neighborhood,
-    // this.lat = '',
-    // this.lon = '',
+    this.lat = '',
+    this.lon = '',
     this.token = '',
     this.brithDate = '',
     this.image = '',
@@ -41,36 +41,6 @@ class Donor {
     this.isGpsOn = "1",
     this.isExpanded = false,
   });
-
-  // static Map<String, String> toMap(Donor donor) => {
-  //       "name": donor.name,
-  //       "number": donor.phone,
-  //       "blood_type": donor.bloodType,
-  //       "state": donor.state,
-  //       "district": donor.district,
-  //       "neighborhood": donor.neighborhood,
-  //       "image": donor.image,
-  //       "brithdate": donor.brithDate,
-  //       "is_shown": donor.isShown,
-  //       "is_shown_phone": donor.isShownNumber,
-  //       "is_gps_on": donor.isGpsOn
-  //     };
-
-  // static Donor fromJson(donor) => Donor(
-  //       email: donor["email"],
-  //       password: donor["pass"],
-  //       name: donor["name"],
-  //       phone: donor["number"],
-  //       bloodType: donor["bloodType"],
-  //       state: donor["state"],
-  //       district: donor["district"],
-  //       neighborhood: donor["neighborhood"],
-  //       image: donor["image"],
-  //       brithDate: donor["brithDate"],
-  //       isShown: donor["is_shown"],
-  //       isShownNumber: donor["is_shown_phone"],
-  //       isGpsOn: donor["is_gps_on"],
-  //     );
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -89,8 +59,8 @@ class Donor {
       DonorFields.isShownPhone: isShownPhone,
       DonorFields.isGpsOn: isGpsOn,
       DonorFields.token: token,
-      // DonorFields.lat: lat,
-      // DonorFields.lon: lon,
+      DonorFields.lat: lat,
+      DonorFields.lon: lon,
     };
   }
 
@@ -111,13 +81,8 @@ class Donor {
       isShownPhone: map[DonorFields.isShownPhone] ?? "",
       isGpsOn: map[DonorFields.isGpsOn] ?? "",
       token: map[DonorFields.token] ?? "",
-<<<<<<< HEAD
-      // lat: map[DonorFields.lat].toString(),
-      // lon: map[DonorFields.lon].toString(),
-=======
       lat: map[DonorFields.lat].toString(),
       lon: map[DonorFields.lon].toString(),
->>>>>>> cf18522891cb430879e8a2633982fc16eaf0416a
     );
   }
 
@@ -144,6 +109,6 @@ class DonorFields {
   static const String isShownPhone = 'is_shown_phone';
   static const String isGpsOn = 'is_gps_on';
   static const String token = 'token';
-  // static const String lat = 'lat';
-  // static const String lon = 'lon';
+  static const String lat = 'lat';
+  static const String lon = 'lon';
 }
