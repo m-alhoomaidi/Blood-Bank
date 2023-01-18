@@ -11,6 +11,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 
 import '../widgets/home_drawer/home_drawer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 class SearchMapPage extends StatefulWidget {
   const SearchMapPage({Key? key}) : super(key: key);
@@ -34,6 +36,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
   late Position position;
   String long = "", lat = "";
   late StreamSubscription<Position> positionStream;
+  final UrlLauncherPlatform launcher = UrlLauncherPlatform.instance;
 
   @override
   void initState() {
@@ -167,7 +170,11 @@ class _SearchMapPageState extends State<SearchMapPage> {
             print(state.donors.length);
             for (var donor in state.donors) {
               listPorin.add(RecivePoint(
-                  latitude: donor.lat, longitude: donor.lon, name: donor.name));
+                  latitude: donor.lat,
+                  longitude: donor.lon,
+                  name: donor.name,
+                  phone: donor.phone,
+                  bloodType: donor.bloodType));
               print(donor.lon);
               print(donor.lat);
               print(listPorin.length);
@@ -182,8 +189,26 @@ class _SearchMapPageState extends State<SearchMapPage> {
               markerId: MarkerId("${index}"),
               position: LatLng(double.tryParse(listPorin[index].latitude)!,
                   double.tryParse(listPorin[index].longitude)!),
-              infoWindow:
-                  InfoWindow(title: "${listPorin[index].name}+ ${index}"),
+              infoWindow: InfoWindow(
+                onTap: () async {
+                  final Uri launchUri = Uri(
+                    scheme: 'tel',
+                    path: listPorin[index].phone,
+                  );
+                  await launcher.launch(
+                    launchUri.toString(),
+                    useSafariVC: false,
+                    useWebView: false,
+                    enableJavaScript: false,
+                    enableDomStorage: false,
+                    universalLinksOnly: true,
+                    headers: <String, String>{},
+                  );
+                },
+                title: "${listPorin[index].bloodType}",
+                snippet:
+                    "${listPorin[index].name} • 📞 ${listPorin[index].phone}",
+              ),
             );
           });
 
@@ -255,10 +280,14 @@ class RecivePoint {
   String latitude;
   String longitude;
   String name;
+  String bloodType;
+  String phone;
 
   RecivePoint({
     required this.latitude,
     required this.longitude,
     required this.name,
+    required this.bloodType,
+    required this.phone,
   });
 }
