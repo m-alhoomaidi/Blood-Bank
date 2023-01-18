@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/presentation/onboarding/introduction_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +24,32 @@ import 'pages/user_date_page.dart';
 import 'presentation/onboarding/view/onboarding_view.dart';
 import 'shared/style.dart';
 
-Future backgroundMessage(RemoteMessage message) async {
-  Fluttertoast.showToast(msg: message.data.values.first);
-}
+// Future backgroundMessage(RemoteMessage message) async {
+//   Fluttertoast.showToast(msg: message.notification!.body.toString());
+// }
+
+// Future updateLocation(RemoteMessage msg) async {
+//   print("==========onBackground==========");
+//   Fluttertoast.showToast(msg: "update location\n${msg.notification!.body}");
+//   await Firebase.initializeApp();
+//   print("=========update====location=======\n${msg.notification!.body}");
+//   await FirebaseFirestore.instance
+//       .collection("donors")
+//       .doc("H5PPBI8VBBNikBYvmifb")
+//       .update({
+//     "lan": 2.02121510,
+//     "lon": 2.42144775,
+//   }).then((value) {
+//     print("==========Done==========");
+//   });
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
-  FirebaseMessaging.onBackgroundMessage(backgroundMessage);
+  // FirebaseMessaging.onBackgroundMessage(updateLocation);
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => SignupCubit()),
@@ -80,7 +98,8 @@ class MyApp extends StatelessWidget {
         UserDataPage.routeName: (context) => const UserDataPage(),
         EditMainDataPage.routeName: (context) => const EditMainDataPage(),
         SearchMapPage.routeName: (context) => const SearchMapPage(),
-        OnBoardingView.routeName: (context) => const OnBoardingView()
+        // OnBoardingView.routeName: (context) => const OnBoardingView(),
+        IntroductionPage.routeName: (context) => const IntroductionPage()
       },
     );
   }

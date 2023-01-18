@@ -11,7 +11,8 @@ const Color eTextColor = Colors.black87;
 const Color eSearchFieldFillColor = Colors.white;
 Color eFieldFocusBorderColor = Colors.pink[200]!;
 Color eFieldBlurrBorderColor = Colors.white;
-Color eFieldFillColor = const Color.fromARGB(255, 245, 202, 211);
+Color eFieldFillColor =
+    Colors.white; // const Color.fromARGB(255, 245, 202, 211);
 
 const TextStyle bodyTextStyle = TextStyle();
 const TextStyle eHintStyle = TextStyle(

@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/models/blood_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,7 +40,14 @@ class _SearchResultState extends State<SearchResult> {
                   expandedHeaderPadding: EdgeInsets.zero,
                   elevation: 0,
                   dividerColor: Colors.white,
-                  children: state.donors.map<ExpansionPanel>((Donor donor) {
+                  children: state.donors
+                      .where((donor) =>
+                          donor.bloodType ==
+                          BloodTypes.canReceiveFrom(
+                              bloodType: BlocProvider.of<SearchCubit>(context)
+                                  .selectedBloodType!)[state.selectedTabIndex])
+                      .toList()
+                      .map<ExpansionPanel>((Donor donor) {
                     return ExpansionPanelRadio(
                       value: donor.bloodType,
                       backgroundColor: const Color.fromARGB(0, 255, 255, 255),

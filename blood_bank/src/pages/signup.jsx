@@ -1,31 +1,19 @@
 import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { create } from "jss";
-import rtl from "jss-rtl";
 import Grid from "@mui/material/Grid";
-import {
-  StylesProvider,
-  jssPreset,
-  ThemeProvider,
-  createTheme,
-} from "@material-ui/core/styles";
-import {
-  Typography,
-  Button,
-  Stepper,
-  Step,
-  StepLabel,
-  Box,
-} from "@material-ui/core";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 import { useForm, FormProvider } from "react-hook-form";
-import StepsCss from "../Components/stepper/StepsCss";
 import Steps1 from "../Components/stepper/Step1";
 import Step2 from "../Components/stepper/Step2";
 import LottieApp from "../Components/lottie";
 import { HEALTH_LOTTIE } from "../constant/media";
 const steps = ["حسابك", "بياناتك", "تأكيد"];
-const maincolor = "#e22c34";
 function getStepContent(step) {
   switch (step) {
     case 0:
@@ -37,7 +25,6 @@ function getStepContent(step) {
   }
 }
 const SignUp = () => {
-  const classes = StepsCss();
   const methods = useForm({
     defaultValues: {
       firstName: "",
@@ -67,8 +54,6 @@ const SignUp = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
-  const rtlTheme = createTheme({ direction: "rtl" });
   return (
     <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
       <Grid item xs={12} md={6}>
@@ -103,8 +88,17 @@ const SignUp = () => {
               width: { xs: "90%", md: "70%" },
             }}
           >
-              <StylesProvider jss={jss}>
-                <Stepper activeStep={activeStep} className={classes.IconSvging}>
+                <Stepper activeStep={activeStep} 
+                  sx={{
+                    '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-active ' :
+                    {
+                     color :"red",
+                    },
+                    '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed' :{
+                   color :"green",
+                    },
+                  }}
+                >
                   {steps.map((label, index) => {
                     const stepProps = {};
                     const labelProps = {};
@@ -115,7 +109,19 @@ const SignUp = () => {
                       <Step key={label} {...stepProps}>
                         <StepLabel
                           {...labelProps}
-                          className={classes.IconSvging}
+                          sx={{
+                            '& .css-1gdzht-MuiStepLabel-label' :
+                            {
+                              mr:"9px",
+                            },
+                            '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-active ' :
+                            {
+                             color :"red",
+                            },
+                            '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed' :{
+                           color :"green",
+                            },
+                          }}
                         >
                           {label}
                         </StepLabel>
@@ -144,27 +150,36 @@ const SignUp = () => {
                               color="inherit"
                               disabled={activeStep === 0}
                               onClick={handleBack}
-                              sx={{ mr: 1 }}
-                              style={{
-                                marginTop: "10px",
-                                border: "1px solid #e22c10",
-                                color: "white",
-                                borderRadius: "10px",
-                                backgroundColor: "#e22c34",
-                              }}
+                              sx={{
+                                 mr: 1,
+                                 mt: 3,
+                                 mb: 2,
+                                 bgcolor: "#e22c34",
+                                 color: "white",
+                                 borderRadius: "10px",
+                                 "&:hover": {
+                                   backgroundColor: "red",
+                                   textDecoration: "none",
+                                 },
+                                }}
                             >
                               <ArrowForwardIcon /> السابق
                             </Button>
                             <Box sx={{ flex: "1 1 auto" }} />
                             <Button
                               onClick={handleNext}
-                              style={{
-                                marginTop: "10px",
-                                border: "1px solid #e22c10",
+                              sx={{
+                                mr: 1,
+                                mt: 3,
+                                mb: 2,
+                                bgcolor: "#e22c34",
                                 color: "white",
                                 borderRadius: "10px",
-                                backgroundColor: "#e22c34",
-                              }}
+                                "&:hover": {
+                                  backgroundColor: "red",
+                                  textDecoration: "none",
+                                },
+                               }}
                             >
                               {activeStep === steps.length - 1 ? (
                                 " التأكيد"
@@ -181,7 +196,6 @@ const SignUp = () => {
                     </FormProvider>
                   </Box>
                 )}
-              </StylesProvider>
           </Box>
         </Box>
       </Grid>

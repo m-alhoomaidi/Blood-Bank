@@ -1,15 +1,12 @@
 import { makeStyles} from "@material-ui/core/styles";
 const StepsCss = makeStyles((theme) => ({
 
-    button: {
-      marginRight: theme.spacing(2),
-    },
+
     textField: {
      [ `& fieldset`] : {
         borderRadius: '7px',
         color :'black',
       },
-      marginBottom :theme.spacing(1),
       marginTop :theme.spacing(5),
       background :'rgb(251, 142, 99,0.6)',
       borderRadius: '7px',

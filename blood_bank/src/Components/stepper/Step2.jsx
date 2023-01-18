@@ -1,31 +1,6 @@
-  import { makeStyles} from "@material-ui/core/styles";
-  import {TextField} from "@material-ui/core";
-  import {ThemeProvider,createTheme} from "@material-ui/core/styles";
-const rtlTheme = createTheme({ direction: "rtl" });
-const useStyles = makeStyles((theme) => ({
-    button: {
-      marginRight: theme.spacing(5),
-    },
-    textField: {
-     [ `& fieldset`] : {
-        borderRadius: '7px',
-        color :'black', 
-      },
-      marginBottom :theme.spacing(1),
-      borderRadius: '7px',
-      color :'black',
-      fontWeight: 'bold',
-      '& .MuiSvgIcon-root' :{
-        fill :"black",
-          },
-  },
-  labels :{
-    color :'black',
-  fontWeight :'bold',
-  fontSize :'1.2em',
-  marginLeft :'20px',
-  }, 
-  }));
+
+import TextField from "@mui/material/TextField";
+
   const top100Films1 = [
     {label: 'Ibb'},
     { label: 'Taiz' },
@@ -47,10 +22,8 @@ const top100Films = [
   { label: 'O-'},
 ];
 const Step2 = () => {
-  const classes = useStyles();
     return (
       <>
-      <ThemeProvider theme={rtlTheme}>
        <TextField
          name="typeBlood"
          id="ckeckboxes-tags-demo"
@@ -96,7 +69,6 @@ const Step2 = () => {
          variant="outlined"
          label="أدخل إسم المنطقة"
        />  
-  </ThemeProvider>
        </>
     );
   };
