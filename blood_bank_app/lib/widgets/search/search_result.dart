@@ -49,7 +49,7 @@ class _SearchResultState extends State<SearchResult> {
                       .toList()
                       .map<ExpansionPanel>((Donor donor) {
                     return ExpansionPanelRadio(
-                      value: donor.bloodType,
+                      value: donor.phone,
                       backgroundColor: const Color.fromARGB(0, 255, 255, 255),
                       canTapOnHeader: true,
                       headerBuilder: (BuildContext context, bool isExpanded) {

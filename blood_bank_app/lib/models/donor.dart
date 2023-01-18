@@ -111,8 +111,8 @@ class Donor {
       isShownPhone: map[DonorFields.isShownPhone] ?? "",
       isGpsOn: map[DonorFields.isGpsOn] ?? "",
       token: map[DonorFields.token] ?? "",
-      lat: map[DonorFields.lat] ?? "",
-      lon: map[DonorFields.lon] ?? "",
+      lat: map[DonorFields.lat].toString(),
+      lon: map[DonorFields.lon].toString(),
     );
   }
 
