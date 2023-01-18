@@ -24,7 +24,7 @@ PageViewModel myPageViewModel(PageViewModelData pageViewModelData) {
             pageViewModelData.title,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Align(

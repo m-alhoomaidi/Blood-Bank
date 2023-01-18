@@ -17,8 +17,8 @@ class Donor {
   String isShownPhone;
   String isGpsOn;
   String token;
-  String lat;
-  String lon;
+  // String lat;
+  // String lon;
   bool isExpanded;
 
   Donor({
@@ -31,8 +31,8 @@ class Donor {
     required this.state,
     required this.district,
     required this.neighborhood,
-    this.lat = '',
-    this.lon = '',
+    // this.lat = '',
+    // this.lon = '',
     this.token = '',
     this.brithDate = '',
     this.image = '',
@@ -89,8 +89,8 @@ class Donor {
       DonorFields.isShownPhone: isShownPhone,
       DonorFields.isGpsOn: isGpsOn,
       DonorFields.token: token,
-      DonorFields.lat: lat,
-      DonorFields.lon: lon,
+      // DonorFields.lat: lat,
+      // DonorFields.lon: lon,
     };
   }
 
@@ -111,8 +111,8 @@ class Donor {
       isShownPhone: map[DonorFields.isShownPhone] ?? "",
       isGpsOn: map[DonorFields.isGpsOn] ?? "",
       token: map[DonorFields.token] ?? "",
-      lat: map[DonorFields.lat] ?? "",
-      lon: map[DonorFields.lon] ?? "",
+      // lat: map[DonorFields.lat].toString(),
+      // lon: map[DonorFields.lon].toString(),
     );
   }
 
@@ -139,6 +139,6 @@ class DonorFields {
   static const String isShownPhone = 'is_shown_phone';
   static const String isGpsOn = 'is_gps_on';
   static const String token = 'token';
-  static const String lat = 'lat';
-  static const String lon = 'lon';
+  // static const String lat = 'lat';
+  // static const String lon = 'lon';
 }

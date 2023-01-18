@@ -1,10 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 
 import '../widgets/home_drawer/home_drawer.dart';
 
@@ -34,7 +38,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
   @override
   void initState() {
     checkGps();
-    _marker.addAll(_markBrach);
     // getPolyPoints();
     super.initState();
   }
@@ -155,20 +158,49 @@ class _SearchMapPageState extends State<SearchMapPage> {
           ),
         ],
       ),
-      body: GoogleMap(
-        markers: Set<Marker>.of(_marker),
+      body: BlocConsumer<SearchCubit, SearchState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          // List<RecivePoint> listPorin = [];
+          // if (state is SearchSuccess) {
+          //   state.donors.map((donor) => listPorin.add(RecivePoint(
+          //       latitude: donor.lat, longitude: donor.lon, name: donor.name)));
+          // }
+          // listPorin = [
+          //   RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
+          //   RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
+          //   RecivePoint(latitude: "13.9556008", longitude: '44.1708603'),
+          //   RecivePoint(latitude: "13.9556071", longitude: '44.1708585'),
+          // ];
+          // TODO: implement listener
+          // final List<Marker> _markBrach =
+          //     List<Marker>.generate(listPorin.length, (index) {
+          //   return Marker(
+          //     markerId: MarkerId("${index}"),
+          //     position: LatLng(double.tryParse(listPorin[index].latitude)!,
+          //         double.tryParse(listPorin[index].longitude)!),
+          //     infoWindow:
+          //         InfoWindow(title: "${listPorin[index].name}+ ${index}"),
+          //   );
+          // });
 
-        // onMapCreated: ((GoogleMapController controller) {
-        //   _mapcontroller.complete(controller);
-        // }),
+          // _marker.addAll(_markBrach);
+          return GoogleMap(
+            markers: Set<Marker>.of(_marker),
 
-        initialCameraPosition:
-            const CameraPosition(target: sourcelocation, zoom: 13.5),
-        polylines: {
-          Polyline(
-              polylineId: const PolylineId("route"),
-              points: polylinCoordinates,
-              color: Colors.black)
+            // onMapCreated: ((GoogleMapController controller) {
+            //   _mapcontroller.complete(controller);
+            // }),
+
+            initialCameraPosition:
+                const CameraPosition(target: sourcelocation, zoom: 13.5),
+            polylines: {
+              Polyline(
+                  polylineId: const PolylineId("route"),
+                  points: polylinCoordinates,
+                  color: Colors.black)
+            },
+          );
         },
       ),
       drawer: const HomeDrower(),
@@ -177,9 +209,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
         onPressed: () async {
           if (kDebugMode) {
             print("++++++++++++++++++++");
-            print(_listPorin[0].latitude);
-            print("===============================");
-            print(_markBrach.length);
+
             print("0000000000000000000000000000000000");
           }
 
@@ -210,28 +240,16 @@ class _SearchMapPageState extends State<SearchMapPage> {
       ),
     );
   }
-
-  final List<Marker> _markBrach =
-      List<Marker>.generate(_listPorin.length, (index) {
-    return Marker(
-      markerId: MarkerId("${index}"),
-      position: LatLng(double.tryParse(_listPorin[index].latitude)!,
-          double.tryParse(_listPorin[index].longitude)!),
-      infoWindow: InfoWindow(title: "mohammed+ ${index}"),
-    );
-  });
 }
-
-final List<RecivePoint> _listPorin = [
-  RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
-  RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
-  RecivePoint(latitude: "13.9556008", longitude: '44.1708603'),
-  RecivePoint(latitude: "13.9556071", longitude: '44.1708585'),
-];
 
 class RecivePoint {
   String latitude;
   String longitude;
+  String name;
 
-  RecivePoint({required this.latitude, required this.longitude});
+  RecivePoint({
+    required this.latitude,
+    required this.longitude,
+    required this.name,
+  });
 }
