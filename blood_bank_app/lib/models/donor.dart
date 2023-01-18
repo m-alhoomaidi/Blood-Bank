@@ -111,8 +111,13 @@ class Donor {
       isShownPhone: map[DonorFields.isShownPhone] ?? "",
       isGpsOn: map[DonorFields.isGpsOn] ?? "",
       token: map[DonorFields.token] ?? "",
+<<<<<<< HEAD
       // lat: map[DonorFields.lat].toString(),
       // lon: map[DonorFields.lon].toString(),
+=======
+      lat: map[DonorFields.lat].toString(),
+      lon: map[DonorFields.lon].toString(),
+>>>>>>> cf18522891cb430879e8a2633982fc16eaf0416a
     );
   }
 
