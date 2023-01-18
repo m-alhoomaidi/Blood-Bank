@@ -161,30 +161,23 @@ class _SearchMapPageState extends State<SearchMapPage> {
       body: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {},
         builder: (context, state) {
-          // List<RecivePoint> listPorin = [];
-          // if (state is SearchSuccess) {
-          //   state.donors.map((donor) => listPorin.add(RecivePoint(
-          //       latitude: donor.lat, longitude: donor.lon, name: donor.name)));
-          // }
-          // listPorin = [
-          //   RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
-          //   RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
-          //   RecivePoint(latitude: "13.9556008", longitude: '44.1708603'),
-          //   RecivePoint(latitude: "13.9556071", longitude: '44.1708585'),
-          // ];
-          // TODO: implement listener
-          // final List<Marker> _markBrach =
-          //     List<Marker>.generate(listPorin.length, (index) {
-          //   return Marker(
-          //     markerId: MarkerId("${index}"),
-          //     position: LatLng(double.tryParse(listPorin[index].latitude)!,
-          //         double.tryParse(listPorin[index].longitude)!),
-          //     infoWindow:
-          //         InfoWindow(title: "${listPorin[index].name}+ ${index}"),
-          //   );
-          // });
+          List<RecivePoint> listPorin = [];
+          if (state is SearchSuccess) {
+            state.donors.map((donor) => listPorin.add(RecivePoint(
+                latitude: donor.lat, longitude: donor.lon, name: donor.name)));
+          }
+          final List<Marker> _markBrach =
+              List<Marker>.generate(listPorin.length, (index) {
+            return Marker(
+              markerId: MarkerId("${index}"),
+              position: LatLng(double.tryParse(listPorin[index].latitude)!,
+                  double.tryParse(listPorin[index].longitude)!),
+              infoWindow:
+                  InfoWindow(title: "${listPorin[index].name}+ ${index}"),
+            );
+          });
 
-          // _marker.addAll(_markBrach);
+          _marker.addAll(_markBrach);
           return GoogleMap(
             markers: Set<Marker>.of(_marker),
 
@@ -241,6 +234,12 @@ class _SearchMapPageState extends State<SearchMapPage> {
     );
   }
 }
+// listPorin = [
+//   RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
+//   RecivePoint(latitude: "13.9585003", longitude: '44.1709884'),
+//   RecivePoint(latitude: "13.9556008", longitude: '44.1708603'),
+//   RecivePoint(latitude: "13.9556071", longitude: '44.1708585'),
+// ];
 
 class RecivePoint {
   String latitude;
