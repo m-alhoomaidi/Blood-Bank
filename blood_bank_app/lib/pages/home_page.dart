@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin fltNotification =
       FlutterLocalNotificationsPlugin();
+  final db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -205,12 +206,15 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.search_rounded),
               onPressed: () async {
-                print("object++++++++++++++++++");
-                await FirebaseFirestore.instance
-                    .collection("donors")
-                    .doc("H5PPBI8VBBNikBYvmifb")
-                    .get()
-                    .then((value) async => print(await value.data()));
+                // Get a new write batch
+                // final batch = db.batch();
+                // for (var donorJson in list) {
+                //   var docRef = db.collection("donors").doc();
+                //   batch.set(docRef, donorJson);
+                // }
+                // batch.commit().then((_) {
+                //   print("======commit=done======");
+                // });
                 // Navigator.of(context).pushNamed(SearchPage.routeName);
                 // Navigator.push(
                 //   context,
@@ -248,6 +252,124 @@ class _HomePageState extends State<HomePage> {
             ),
           );
   }
+
+//   List list = jsonDecode('''[
+//      {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.16640231857082",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O-",
+//         "district": "العدين",
+//         "lat": "13.95925347982098",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Alsarrah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//     {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.16278508375451",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O-",
+//         "district": "العدين",
+//         "lat": "13.974279144008882",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Annah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//      {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.157411483548415",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "A+",
+//         "district": "الظهار",
+//         "lat": "13.971609757586048",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Alsabal",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//    {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.1669924226502",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O+",
+//         "district": "الظهار",
+//         "lat": "13.950156735486098",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Harathah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//      {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.18167133616689",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O+",
+//         "district": "الظهار",
+//         "lat": "13.959390106818676",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Qihzah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//  {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.193828479571074",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "A+",
+//         "district": "شرعب السلام",
+//         "lat": "13.964835321745667",
+//         "name": "Ezz",
+//         "state": "تعز",
+//         "neighborhood": "Altibha",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     }
+// ]
+// ''');
 
 // const data = [
 //   {
