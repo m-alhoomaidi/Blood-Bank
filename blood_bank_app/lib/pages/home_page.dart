@@ -464,47 +464,47 @@ class _HomePageState extends State<HomePage> {
 //   },
 // ];
 
-  // function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+//   function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 // }
 // function deg2rad(deg) {
 //   return deg * (Math.PI/180)
 // }
 
-  // List<LocationPoint> getNearbyPoints({
-  //   required LocationPoint base,
-  //   required List<LocationPoint> points,
-  //   required double distanceKm,
-  // }) {
-  //   List<LocationPoint> nearPoints = [];
-  //   for (var point in points) {
-  //     double far = getDistanceFromLatLonInKM(point1: base, point2: point);
-  //     print(far);
-  //     print(distanceKm);
-  //     if (far < distanceKm) {
-  //       nearPoints.add(point);
-  //     }
-  //   }
-  //   return nearPoints;
-  // }
+  List<LocationPoint> getNearbyPoints({
+    required LocationPoint base,
+    required List<LocationPoint> points,
+    required double distanceKm,
+  }) {
+    List<LocationPoint> nearPoints = [];
+    for (var point in points) {
+      double far = getDistanceFromLatLonInKM(point1: base, point2: point);
+      print(far);
+      print(distanceKm);
+      if (far < distanceKm) {
+        nearPoints.add(point);
+      }
+    }
+    return nearPoints;
+  }
 
-  // getDistanceFromLatLonInKM({
-  //   required LocationPoint point1,
-  //   required LocationPoint point2,
-  // }) {
-  //   var R = 6371; // Radius of the earth in km
-  //   var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
-  //   var dLon = deg2rad(point2.lon - point1.lon);
-  //   var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
-  //       math.cos(deg2rad(point1.lat)) *
-  //           math.cos(deg2rad(point2.lat)) *
-  //           math.sin(dLon / 2) *
-  //           math.sin(dLon / 2);
-  //   var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
-  //   var d = R * c; // Distance in km
-  //   return d;
-  // }
+  getDistanceFromLatLonInKM({
+    required LocationPoint point1,
+    required LocationPoint point2,
+  }) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+    var dLon = deg2rad(point2.lon - point1.lon);
+    var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(deg2rad(point1.lat)) *
+            math.cos(deg2rad(point2.lat)) *
+            math.sin(dLon / 2) *
+            math.sin(dLon / 2);
+    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
 
-  // deg2rad(deg) {
-  //   return deg * (math.pi / 180);
-  // }
+  deg2rad(deg) {
+    return deg * (math.pi / 180);
+  }
 }
