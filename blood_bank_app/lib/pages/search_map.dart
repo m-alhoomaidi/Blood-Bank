@@ -166,8 +166,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
         builder: (context, state) {
           List<RecivePoint> listPorin = [];
           if (state is SearchSuccess) {
-            print("1111111111111111111111111111111");
-            print(state.donors.length);
             for (var donor in state.donors) {
               listPorin.add(RecivePoint(
                   latitude: donor.lat,
@@ -175,13 +173,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
                   name: donor.name,
                   phone: donor.phone,
                   bloodType: donor.bloodType));
-              print(donor.lon);
-              print(donor.lat);
-              print(listPorin.length);
             }
-            print(listPorin);
-          } else {
-            print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
           }
           final List<Marker> _markBrach =
               List<Marker>.generate(listPorin.length, (index) {
