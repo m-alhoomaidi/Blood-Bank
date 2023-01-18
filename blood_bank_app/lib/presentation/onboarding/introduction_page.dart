@@ -47,6 +47,16 @@ class IntroductionPage extends StatelessWidget {
         onChange: (value) {},
         onSkip: () {
           // You can also override onSkip callback
+          print("++++++++++++++++++++++++");
+          print(box.get('introduction'));
+          box.put('introduction', false);
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const HomePage();
+              },
+            ),
+          );
         },
         showSkipButton: true,
         // showBackButton: true,

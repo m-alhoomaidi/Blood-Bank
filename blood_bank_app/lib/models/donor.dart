@@ -42,36 +42,6 @@ class Donor {
     this.isExpanded = false,
   });
 
-  // static Map<String, String> toMap(Donor donor) => {
-  //       "name": donor.name,
-  //       "number": donor.phone,
-  //       "blood_type": donor.bloodType,
-  //       "state": donor.state,
-  //       "district": donor.district,
-  //       "neighborhood": donor.neighborhood,
-  //       "image": donor.image,
-  //       "brithdate": donor.brithDate,
-  //       "is_shown": donor.isShown,
-  //       "is_shown_phone": donor.isShownNumber,
-  //       "is_gps_on": donor.isGpsOn
-  //     };
-
-  // static Donor fromJson(donor) => Donor(
-  //       email: donor["email"],
-  //       password: donor["pass"],
-  //       name: donor["name"],
-  //       phone: donor["number"],
-  //       bloodType: donor["bloodType"],
-  //       state: donor["state"],
-  //       district: donor["district"],
-  //       neighborhood: donor["neighborhood"],
-  //       image: donor["image"],
-  //       brithDate: donor["brithDate"],
-  //       isShown: donor["is_shown"],
-  //       isShownNumber: donor["is_shown_phone"],
-  //       isGpsOn: donor["is_gps_on"],
-  //     );
-
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       DonorFields.id: id,
