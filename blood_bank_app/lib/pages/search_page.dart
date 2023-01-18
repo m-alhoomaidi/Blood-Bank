@@ -11,41 +11,38 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-      child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Search Page'),
-            centerTitle: true,
-            elevation: 0,
-          ),
-          backgroundColor: eBackGroundColor,
-          body: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 190,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30),
-                      bottomRight: Radius.circular(30),
-                    ),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Search Page'),
+          centerTitle: true,
+          elevation: 0,
+        ),
+        backgroundColor: eBackGroundColor,
+        body: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 190,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
                   ),
-                  child: SearchOptions(),
                 ),
+                child: SearchOptions(),
               ),
-              const Expanded(
-                child: SearchResult(),
-              ),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.search_rounded),
-            onPressed: () async {
-              Navigator.pushNamed(context, SearchMapPage.routeName);
-            },
-          )),
-    );
+            ),
+            const Expanded(
+              child: SearchResult(),
+            ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.search_rounded),
+          onPressed: () async {
+            Navigator.pushNamed(context, SearchMapPage.routeName);
+          },
+        ));
   }
 }
