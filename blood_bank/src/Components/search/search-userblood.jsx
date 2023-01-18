@@ -40,7 +40,7 @@ export const SearchUserBlood = () => {
     <Box  sx={{ marginTop: "80px" }}>
       <Paper
         sx={{
-          p: 1,
+          p: 4,
           margin: "auto",
           flexGrow: 1,
           backgroundColor: (theme) =>
