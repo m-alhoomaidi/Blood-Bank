@@ -1,9 +1,9 @@
-import 'package:blood_bank_app/domain/models.dart';
-import 'package:blood_bank_app/presentation/onboarding/view_model/on_boarding_viewModel.dart';
-import 'package:blood_bank_app/presentation/resources/assets_manager.dart';
-import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
-import 'package:blood_bank_app/presentation/resources/values_manager.dart';
-import 'package:blood_bank_app/shared/style.dart';
+import '../../../domain/models.dart';
+import '../view_model/on_boarding_viewModel.dart';
+import '../../resources/assets_manager.dart';
+import '../../resources/strings_manager.dart';
+import '../../resources/values_manager.dart';
+import '../../../shared/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';

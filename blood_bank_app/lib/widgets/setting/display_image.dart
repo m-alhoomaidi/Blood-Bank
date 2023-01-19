@@ -1,7 +1,6 @@
-import 'dart:io';
+import 'package:flutter/material.dart';
 
 import '../../shared/style.dart';
-import 'package:flutter/material.dart';
 
 class DisplayImage extends StatelessWidget {
   dynamic imagePath;

@@ -1,8 +1,8 @@
-import '../../../models/home_statistics.dart';
-import 'indicator_widget.dart';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+
+import '../../../models/home_statistics.dart';
+import 'indicator_widget.dart';
 
 class HomeCharts extends StatelessWidget {
   const HomeCharts({

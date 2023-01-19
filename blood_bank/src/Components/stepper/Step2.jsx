@@ -1,4 +1,5 @@
 
+import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
   const top100Films1 = [
@@ -24,17 +25,19 @@ const top100Films = [
 const Step2 = () => {
     return (
       <>
-       <TextField
+       <Autocomplete
          name="typeBlood"
          id="ckeckboxes-tags-demo"
          margin="normal"
+         marginTop="60px"
          required
          fullWidth 
          options={top100Films}
          disableCloseOnSelect  
          disableClearable
-         label="فصيلة دمك ؟"
+         
          variant="outlined"
+         renderInput={(params) => <TextField {...params} label="فصيلة دمك ؟" />}
        />          
        <TextField
          name="city"

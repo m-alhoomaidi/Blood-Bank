@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
-import 'package:blood_bank_app/pages/setting_page.dart';
+import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin fltNotification =
       FlutterLocalNotificationsPlugin();
+  final db = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -205,12 +206,15 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.search_rounded),
               onPressed: () async {
-                print("object++++++++++++++++++");
-                await FirebaseFirestore.instance
-                    .collection("donors")
-                    .doc("H5PPBI8VBBNikBYvmifb")
-                    .get()
-                    .then((value) async => print(await value.data()));
+                // Get a new write batch
+                // final batch = db.batch();
+                // for (var donorJson in list) {
+                //   var docRef = db.collection("donors").doc();
+                //   batch.set(docRef, donorJson);
+                // }
+                // batch.commit().then((_) {
+                //   print("======commit=done======");
+                // });
                 // Navigator.of(context).pushNamed(SearchPage.routeName);
                 // Navigator.push(
                 //   context,
@@ -248,6 +252,124 @@ class _HomePageState extends State<HomePage> {
             ),
           );
   }
+
+//   List list = jsonDecode('''[
+//      {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.16640231857082",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O-",
+//         "district": "العدين",
+//         "lat": "13.95925347982098",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Alsarrah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//     {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.16278508375451",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O-",
+//         "district": "العدين",
+//         "lat": "13.974279144008882",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Annah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//      {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.157411483548415",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "A+",
+//         "district": "الظهار",
+//         "lat": "13.971609757586048",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Alsabal",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//    {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.1669924226502",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O+",
+//         "district": "الظهار",
+//         "lat": "13.950156735486098",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Harathah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//      {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.18167133616689",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "O+",
+//         "district": "الظهار",
+//         "lat": "13.959390106818676",
+//         "name": "Ezz",
+//         "state": "إب",
+//         "neighborhood": "Qihzah",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     },
+//  {
+//         "image": "",
+//         "is_gps_on": "1",
+//         "gender": "male",
+//         "is_shown_phone": "1",
+//         "brith_date": "",
+//         "lon": "44.193828479571074",
+//         "password": "123456",
+//         "is_shown": "1",
+//         "phone": "714296685",
+//         "blood_type": "A+",
+//         "district": "شرعب السلام",
+//         "lat": "13.964835321745667",
+//         "name": "Ezz",
+//         "state": "تعز",
+//         "neighborhood": "Altibha",
+//         "id": "WL5996o2WbQwld7YJol11znInkq1",
+//         "email": "e@g.com"
+//     }
+// ]
+// ''');
 
 // const data = [
 //   {
@@ -342,47 +464,47 @@ class _HomePageState extends State<HomePage> {
 //   },
 // ];
 
-  // function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+//   function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 // }
 // function deg2rad(deg) {
 //   return deg * (Math.PI/180)
 // }
 
-  // List<LocationPoint> getNearbyPoints({
-  //   required LocationPoint base,
-  //   required List<LocationPoint> points,
-  //   required double distanceKm,
-  // }) {
-  //   List<LocationPoint> nearPoints = [];
-  //   for (var point in points) {
-  //     double far = getDistanceFromLatLonInKM(point1: base, point2: point);
-  //     print(far);
-  //     print(distanceKm);
-  //     if (far < distanceKm) {
-  //       nearPoints.add(point);
-  //     }
-  //   }
-  //   return nearPoints;
-  // }
+  List<LocationPoint> getNearbyPoints({
+    required LocationPoint base,
+    required List<LocationPoint> points,
+    required double distanceKm,
+  }) {
+    List<LocationPoint> nearPoints = [];
+    for (var point in points) {
+      double far = getDistanceFromLatLonInKM(point1: base, point2: point);
+      print(far);
+      print(distanceKm);
+      if (far < distanceKm) {
+        nearPoints.add(point);
+      }
+    }
+    return nearPoints;
+  }
 
-  // getDistanceFromLatLonInKM({
-  //   required LocationPoint point1,
-  //   required LocationPoint point2,
-  // }) {
-  //   var R = 6371; // Radius of the earth in km
-  //   var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
-  //   var dLon = deg2rad(point2.lon - point1.lon);
-  //   var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
-  //       math.cos(deg2rad(point1.lat)) *
-  //           math.cos(deg2rad(point2.lat)) *
-  //           math.sin(dLon / 2) *
-  //           math.sin(dLon / 2);
-  //   var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
-  //   var d = R * c; // Distance in km
-  //   return d;
-  // }
+  getDistanceFromLatLonInKM({
+    required LocationPoint point1,
+    required LocationPoint point2,
+  }) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+    var dLon = deg2rad(point2.lon - point1.lon);
+    var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(deg2rad(point1.lat)) *
+            math.cos(deg2rad(point2.lat)) *
+            math.sin(dLon / 2) *
+            math.sin(dLon / 2);
+    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
 
-  // deg2rad(deg) {
-  //   return deg * (math.pi / 180);
-  // }
+  deg2rad(deg) {
+    return deg * (math.pi / 180);
+  }
 }

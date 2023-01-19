@@ -8,10 +8,12 @@ class SearchInitial extends SearchState {}
 
 class SearchSuccess extends SearchState {
   List<Donor> donors;
+  List<Donor> donorsInState;
   int selectedTabIndex;
   SearchSuccess({
-    required this.selectedTabIndex,
     required this.donors,
+    required this.donorsInState,
+    required this.selectedTabIndex,
   });
 }
 
