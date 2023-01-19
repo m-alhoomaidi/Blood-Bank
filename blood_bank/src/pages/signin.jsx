@@ -20,9 +20,18 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { SECONDARY_COLOR } from "../constant/color";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/auth-context";
+import { auth } from "../utils/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { AlertSnackBar } from "../Components/common/alert-snackbar";
 export default function SignInSide() {
   const [passwordShow, setPasswordShow] = useState(false);
   const [isRememberMe, setIsRememberMe] = useState(false);
+  const [showTost, setShowTost] = useState(false);
+  const [tost, setTost] = useState({
+      tostMsg: "",
+      tostType: "success",
+  });
+  
   const navigate = useNavigate();
   const { signIn } = useAuthContext();
   const formik = useFormik({
@@ -36,10 +45,19 @@ export default function SignInSide() {
         .required("اسم المستخدم أو معرف البريد الإلكتروني مطلوب"),
       password: Yup.string().max(255).required("كلمة السر مطلوبة"),
     }),
-    onSubmit: ({ username, password }) => {
-      signIn({ username, password }).then((data) => {
+    onSubmit: ({username,password}) => {
+      signInWithEmailAndPassword(auth,username,password)
+      .then((userCredential)=>{
         navigate("/");
-      });
+        console.log(auth.currentUser.uid);
+         })
+      .catch((error) => {
+        setShowTost(true);
+        setTost({
+            tostMsg: "عنوان البريد أو كلمة السر غير صحيحة",
+            tostType: "error",
+        });
+      })
     },
   });
 
@@ -48,6 +66,12 @@ export default function SignInSide() {
   };
   return (
     <>
+      <AlertSnackBar
+                open={showTost}
+                handleClose={() => setShowTost(false)}
+                message={tost.tostMsg}
+                type={tost.tostType}
+        />
       <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
         <Grid item xs={12} md={6}>
           <Box
@@ -105,7 +129,7 @@ export default function SignInSide() {
                 name="username"
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                type="text"
+                type="email"
                 value={formik.values.username}
                 variant="outlined"
                 autoComplete="off"

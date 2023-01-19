@@ -13,11 +13,9 @@ import  Alert  from '@mui/material/Alert';
 import  CardHeader  from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { storage,db } from '../../utils/firebase';
-
-
-import {addDoc, collection,getDocs, query, where,doc,updateDoc} from "firebase/firestore";
-import { useAuthContext } from '../../context/auth-context';
+import { storage,db ,auth } from '../../utils/firebase';
+import {AlertSnackBar} from '../common/alert-snackbar';
+import {addDoc, collection,getDocs, query, where,doc,updateDoc,getDoc,onSnapshot} from "firebase/firestore";
 import {v4 } from "uuid";
 import {ref,uploadBytes,listAll,getDownloadURL} from "firebase/storage";
 
@@ -39,26 +37,29 @@ const Profile =()=>{
   const [name , setName]=useState('');
   const [neighborhood,setNeighborhood] = useState('');
   const [email , setEmail]=useState('');
-  const [id , setId]= useState('');
   const [typeBlood , setTypeBlood]=useState('');
   const [district , setdistrict]=useState('');
   const [phone,setPhone] = useState('');
   const [state,setState] = useState('');
   const [imageProfile , setimageProfile]=useState('');
-  const [ImagesList,setImagesList]=useState([]);
+  const [imagess,setImages]=useState(null);
+  const [showTost, setShowTost] = useState(false);
+  const [tost, setTost] = useState({
+      tostMsg: "لم يتم تحديث البيانات",
+      tostType: "error",
+  });
 
   const Openfile = (event) =>{
-    const FileImage=URL.createObjectURL(event.target.files[0]);
-    setState(FileImage);
+    // const FileImage=URL.createObjectURL(event.target.files[0]);
+    // setImages(FileImage);
     setimageProfile(event.target.files[0]);
   }
   // const uploadimages = () =>{
   //   const imageRef = ref(storage,`images/${imageProfile.name + v4()}`);
   //   uploadBytes(imageRef,imageProfile).then((snapshot)=>{
   //     getDownloadURL(snapshot.ref).then((url)=>{
-  //       setImagesList([url])
+  //       setImages(url)
   //     });
-  //     alert('True Upload image');
   //   })
   // } 
   // const ImageListRef =ref(storage,"images");
@@ -71,28 +72,62 @@ const Profile =()=>{
   //     });
   //   });
   // }
-  const { user } = useAuthContext();
 const UpdataProfiles =  async (e) =>{
   e.preventDefault()
   if(name === ' '){
-    console.log('no conecct');
   }
-  const userDoc = doc (db,"test", id);
+  const userDoc = doc (db,"donors", auth.currentUser.uid);
   const newProfile ={
   name : name,
+  neighborhood :neighborhood,
+  district :district,
+  typeBlood :typeBlood,
+  state :state,
+  phone :phone,
+  image :imagess,
+  email :email,
   }
-  updateDoc(userDoc , newProfile);
+  updateDoc(userDoc , newProfile).then((response) =>{
+    setShowTost(true);
+    setTost({
+        tostMsg: "لقد تم تحديث البيانات بنجاح",
+        tostType: "success",
+    });
+  });
+  const imageRef = ref(storage,`images/${imageProfile.name + v4()}`);
+  uploadBytes(imageRef,imageProfile).then((snapshot)=>{
+    getDownloadURL(snapshot.ref).then((url)=>{
+      setImages(url)
+    });
+  })
 };
-  useEffect(()=>{
-    setTypeBlood(user.blood_type);
-    setName(user.name);
-    setEmail(user.email);
-    setNeighborhood(user.neighborhood);
-    setState(user.state);
-    setdistrict(user.district);
-    setPhone(user.phone);
-    console.log(user.id);
-  },[user.blood_type]);
+const GetDataApi = async ()=>{
+  const docRef = doc(db, "donors", auth.currentUser.uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    setName(docSnap.data().name);
+    setNeighborhood(docSnap.data().neighborhood);
+    setTypeBlood(docSnap.data().blood_type);
+    setEmail(docSnap.data().email);
+    setState(docSnap.data().state);
+    setdistrict(docSnap.data().district);
+    setPhone(docSnap.data().phone);
+    setImages(docSnap.data().image);
+  }  
+}
+useEffect(()=>{
+  GetDataApi();
+},[])
+  //   setTypeBlood(user.blood_type);
+  //   setName(user.name);
+  //   setEmail(user.email);
+  //   setNeighborhood(user.neighborhood);
+  //   setState(user.state);
+  //   setdistrict(user.district);
+  //   setPhone(user.phone);
+  //   console.log(user.id);
+  // },[user.blood_type]);
     return(
         <Box sx={{marginTop:"70px" ,p:{xs:"0px",md:"20px"}}}>
           <Grid container spacing={2} justifyContent="center">
@@ -105,8 +140,8 @@ const UpdataProfiles =  async (e) =>{
     justifyContent: 'center',marginBottom:"30px"}}>معلومات الحساب</Typography>
           <Grid container spacing={4} flexDirection="row" justifyContent="center" alignItems= 'center' >
             <Grid item xs={4} md={3} >
-                    <Avatar sx={{height:{xs:"100px",md:"150px"},width:{xs:"100px",md:"150px"}}}> <CardMedia component='img'  image={Imagesss} height="180" /></Avatar>     
-            </Grid>
+                    <Avatar sx={{height:{xs:"100px",md:"150px"},width:{xs:"100px",md:"150px"}}}> <CardMedia component='img'  image={imagess} height="180" /></Avatar>     
+            </Grid>  
             <Grid item xs={8} md={4} marginTop="30px">
               <TextField fullWidth type='file' onChange={Openfile} sx={{display:"none"}} id="uploadImage" />
                <Button fullWidth variant="contained" onClick={ClickOpenFile} sx={{fontSize:{xs:"-0.125rem",md:"1.0rem"},padding:{xs:"5px"} }} >تحديث صورة الملف الشخصي</Button>
@@ -140,7 +175,7 @@ const UpdataProfiles =  async (e) =>{
               <Grid container spacing={3} 
                   sx={{marginTop:"10px"}} justifyContent="center">
                     <Grid item xs={10} md={3.3}>
-                          <TextField fullWidth id="outlined-basic" label="المحافظة" variant="outlined"  onChange={(event) =>{ setId(event.target.value);}}/>
+                          <TextField fullWidth id="outlined-basic" label="المحافظة" variant="outlined" value={state} onChange={(event) =>{ setState(event.target.value);}}/>
                     </Grid>
                     <Grid item xs={10} md={3.3}>
                         <TextField fullWidth id="outlined-basic" label="المديرية" variant="outlined" value={district} onChange={(event) =>{ setdistrict(event.target.value);}}/>
@@ -169,6 +204,12 @@ const UpdataProfiles =  async (e) =>{
             </Card>
             </Grid>
             </Grid>
+            <AlertSnackBar
+                open={showTost}
+                handleClose={() => setShowTost(false)}
+                message={tost.tostMsg}
+                type={tost.tostType}
+        />
     </Box>
   );
 };

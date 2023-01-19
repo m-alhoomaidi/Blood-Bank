@@ -17,12 +17,12 @@ export const AuthGuard = (props) => {
             const checkAuth = async () => {
                 const username = localStorage.getItem('blood-bank-username')
                 const password = localStorage.getItem('blood-bank-password')
-                checkIfAuthenticated({ username, password })
+                checkIfAuthenticated()
                     .then((data) => {
-                        setChecked(true)
-                        const path = getOrigin()
-                        if (path == 'login')
-                            navigate('/')
+                         setChecked(true)
+                        // const path = getOrigin()
+                        // if (path == 'login')
+                        //     navigate('/')
                     })
                     .catch((err) => {
                         console.log(err)
