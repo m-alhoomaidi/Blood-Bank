@@ -1,12 +1,12 @@
-import 'setting_page.dart';
-import '../widgets/edit_main_data/address.dart';
-import '../widgets/forms/my_button.dart';
-import '../widgets/forms/my_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../widgets/edit_main_data/address.dart';
 import '../widgets/edit_main_data/blood_type.dart';
+import '../widgets/forms/my_button.dart';
+import '../widgets/forms/my_text_form_field.dart';
+import 'setting_page.dart';
 
 class EditMainDataPage extends StatefulWidget {
   const EditMainDataPage({super.key});

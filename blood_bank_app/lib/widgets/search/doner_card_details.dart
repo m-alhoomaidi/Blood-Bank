@@ -17,36 +17,31 @@ class DonerCardDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              Align(
-                alignment: Alignment.centerRight,
-                child: Wrap(
-                  children: [
-                    Text(
-                      donerName,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Wrap(
-                  children: [
-                    const Text(
-                      "المنطقة  : ",
-                    ),
-                    Text(donerCity,
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          )
+          Align(
+            alignment: Alignment.centerRight,
+            child: Wrap(
+              children: [
+                const Text("الاسم  : "),
+                Text(
+                  donerName,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Wrap(
+              children: [
+                const Text("المنطقة  : "),
+                Text(donerCity),
+              ],
+            ),
+          ),
         ],
       ),
     );
