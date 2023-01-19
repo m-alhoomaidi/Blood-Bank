@@ -4,9 +4,9 @@ import { MedialInstructionsSection } from "../Components/home/medical-instructio
 const HomePage = (props) => {
   return (
     <>
-      <GreetingSection />
+      <GreetingSection /> 
       <MedialInstructionsSection />
-      <AboutUsSection />
+       <AboutUsSection />
     </>
   );
 };
