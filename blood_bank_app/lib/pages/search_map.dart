@@ -12,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
+import 'package:location/location.dart' as loc;
 
 import '../widgets/home_drawer/home_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -33,6 +34,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
 //---------------------------------
 
 //--------------------------
+  bool hasCurrentLocation = false;
   bool servicestatus = false;
   bool haspermission = false;
   late LocationPermission permission;
@@ -40,7 +42,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
   String long = "", lat = "";
   late StreamSubscription<Position> positionStream;
   final UrlLauncherPlatform launcher = UrlLauncherPlatform.instance;
-
+  var location = loc.Location();
   @override
   void initState() {
     checkGps();
@@ -50,7 +52,9 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
   checkGps() async {
     print("=================1==================");
-    servicestatus = await Geolocator.isLocationServiceEnabled();
+    servicestatus = await location.serviceEnabled();
+    print("-----------------------------");
+    print(servicestatus);
     if (servicestatus) {
       print("=================2==================");
       permission = await Geolocator.checkPermission();
@@ -85,6 +89,14 @@ class _SearchMapPageState extends State<SearchMapPage> {
         getLocation();
       }
     } else {
+      if (!await location.serviceEnabled()) {
+        await location.requestService();
+        checkGps();
+        // print("111111111111111111111111111");
+
+        // print(servicestatus);
+      } else {}
+
       print("=================11==================");
       if (kDebugMode) {
         print("GPS Service is not enabled, turn on GPS location");
@@ -106,6 +118,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
     long = position.longitude.toString();
     lat = position.latitude.toString();
     setState(() {
+      hasCurrentLocation = true;
       //refresh UI
     });
     LocationSettings locationSettings = const LocationSettings(
@@ -249,14 +262,14 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
           listPorin =
               getNearbyPoints(base: me, points: listPorin, distanceKm: 5.0);
-          //
+
           // print("===========points length after filtering");
           // print(listPorin.length);
 
           final List<Marker> _markBrach =
               List<Marker>.generate(listPorin.length, (index) {
             return Marker(
-              markerId: MarkerId("${index}"),
+              markerId: MarkerId("$index"),
               position: LatLng(listPorin[index].lat, listPorin[index].lon),
               infoWindow: InfoWindow(
                 onTap: () async {
@@ -274,7 +287,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
                     headers: <String, String>{},
                   );
                 },
-                title: "${listPorin[index].bloodType}",
+                title: listPorin[index].bloodType,
                 snippet:
                     "${listPorin[index].name} • 📞 ${listPorin[index].phone}",
               ),
@@ -282,22 +295,36 @@ class _SearchMapPageState extends State<SearchMapPage> {
           });
 
           _marker.addAll(_markBrach);
-          return GoogleMap(
-            markers: Set<Marker>.of(_marker),
+          return (hasCurrentLocation)
+              ? GoogleMap(
+                  markers: Set<Marker>.of(_marker),
 
-            // onMapCreated: ((GoogleMapController controller) {
-            //   _mapcontroller.complete(controller);
-            // }),
+                  // onMapCreated: ((GoogleMapController controller) {
+                  //   _mapcontroller.complete(controller);
+                  // }),
 
-            initialCameraPosition:
-                const CameraPosition(target: sourcelocation, zoom: 13.5),
-            polylines: {
-              Polyline(
-                  polylineId: const PolylineId("route"),
-                  points: polylinCoordinates,
-                  color: Colors.black)
-            },
-          );
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(position.latitude, position.longitude),
+                      zoom: 13.5),
+                  polylines: {
+                    Polyline(
+                        polylineId: const PolylineId("route"),
+                        points: polylinCoordinates,
+                        color: Colors.black)
+                  },
+                )
+              : const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Text(
+                      "يرجى تشغيل الموقع GPS ومنح صلاحية للوصول إلى الموقع",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                );
         },
       ),
       drawer: const HomeDrower(),

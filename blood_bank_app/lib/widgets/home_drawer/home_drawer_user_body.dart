@@ -1,6 +1,6 @@
-import 'home_drawer_menu_item.dart';
-
 import 'package:flutter/material.dart';
+
+import 'home_drawer_menu_item.dart';
 
 class HomeDrawerUserBody extends StatelessWidget {
   const HomeDrawerUserBody({

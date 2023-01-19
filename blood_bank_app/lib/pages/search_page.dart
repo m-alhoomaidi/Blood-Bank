@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/pages/search_map.dart';
+import 'search_map.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/style.dart';

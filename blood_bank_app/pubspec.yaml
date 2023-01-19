@@ -26,22 +26,21 @@ dependencies:
   flutter_local_notifications: ^12.0.4
   flutter_localizations:
     sdk: flutter
+  flutter_polyline_points: ^1.0.0
   flutter_svg: ^1.1.4
   fluttertoast: ^8.1.1
   geolocator: ^9.0.2
+  google_maps_flutter: ^2.2.1
   hive: null
   hive_flutter: null
   http: ^0.13.5
   image_cropper: ^3.0.1
   image_picker: ^0.8.6
+  introduction_screen: ^3.1.4
   location: ^4.4.0
   modal_progress_hud_nsn: ^0.3.0
   permission_handler: ^10.2.0
-  google_maps_flutter: ^2.2.1
-  flutter_polyline_points: ^1.0.0
-  introduction_screen: ^3.1.4
   url_launcher: ^6.1.7
-  # carp_background_location: ^3.0.1
 
 dev_dependencies:
   build_runner: null

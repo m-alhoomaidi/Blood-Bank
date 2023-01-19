@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/models/blood_types.dart';
+import '../../models/blood_types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
