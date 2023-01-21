@@ -21,7 +21,9 @@ class SingInCubit extends Cubit<SignInState> {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((userCredential) {
+        print("010101111111111111111");
         if (userCredential.user != null) {
+          print("020202222222222222");
           emit(SigninSuccess());
           currentUser = userCredential.user;
         }
@@ -31,6 +33,9 @@ class SingInCubit extends Cubit<SignInState> {
         emit(SigninFailure(error: "تاكد من صحة البيانات المدخلة"));
       } else if (e.code == 'wrong-password') {
         emit(SigninFailure(error: "كلمة المرور خاطئة"));
+      } else if (e.code == 'too-many-request') {
+        emit(SigninFailure(
+            error: "لقد حاولت مرات عديدةالرجاءالمحاولة بعد حمس دقائق"));
       }
     }
   }

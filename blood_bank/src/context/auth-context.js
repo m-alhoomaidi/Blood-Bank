@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom'
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import { collection, query, where, getDocs, getDoc,doc } from "firebase/firestore";
+import { db,auth } from "../utils/firebase";
 import { AlertSnackBar } from '../Components/common/alert-snackbar';
 import { getOrigin } from '../utils/get-origin';
 const HANDLERS = {
@@ -93,38 +93,37 @@ export const AuthProvider = (props) => {
     };
 
 
-    const signIn = async ({ username, password }) => {
-        const docRf = query(
-            collection(db, "donors"),
-            where("email", "==", username),
-            where("password", "==", password)
-        );
-        const querySnapshot = await getDocs(docRf);
-        if (querySnapshot?.docs?.length == 0) {
-            const path = getOrigin()
-            console.log(path)
-            if (path == 'login') {
-                setShowTost(true);
-                setTost({
-                    tostMsg: "عنوان البريد أو كلمة السر غير صحيحة",
-                    tostType: "error",
-                });
-            }
-            throw Error("there is an error")
-        }
-        else {
-            const user = querySnapshot.docs[0].data()
-            console.log(user.email)
-            localStorage.setItem('blood-bank-username', user.email)
-            localStorage.setItem('blood-bank-password', user.password)
-            delete user.password
-            dispatch({
-                type: HANDLERS.SIGN_IN,
-                payload: user
-            });
-            return true
-        }
-    };
+    const signIn = async () => {
+        // const docRf = query(
+        //     collection(db, "donors"),
+        //     where("uid", "==", auth.currentUser.uid),
+        // );
+        // const querySnapshot = await getDocs(docRf);
+        // if (querySnapshot?.docs?.length == 0) {
+        //     const path = getOrigin()
+        //     console.log(path)
+            // if (path == 'login') {
+            //     setShowTost(true);
+            //     setTost({
+            //         tostMsg: "عنوان البريد أو كلمة السر غير صحيحة",
+            //         tostType: "error",
+            //     });
+            // }
+    //         throw Error("there is an error")
+    //     }
+    //     else {
+    //         const user = querySnapshot.docs[0].data()
+    //         console.log(user.email)
+    //         localStorage.setItem('blood-bank-username', user.email)
+    //         localStorage.setItem('blood-bank-password', user.password)
+    //         delete user.password
+    //         dispatch({
+    //             type: HANDLERS.SIGN_IN,
+    //             payload: user
+    //         });
+    //         return true
+    //     }
+     };
 
     const signOut = async () => {
         localStorage.setItem('blood-bank-username', '')
@@ -142,25 +141,36 @@ export const AuthProvider = (props) => {
         })
     }
 
-    const checkIfAuthenticated = async ({ username, password }) => {
-        const docRf = query(
-            collection(db, "donors"),
-            where("email", "==", username),
-            where("password", "==", password)
-        );
-        const querySnapshot = await getDocs(docRf);
-        if (!querySnapshot?.docs?.length == 0) {
-            const user = querySnapshot.docs[0].data()
-            console.log(user.email)
-            localStorage.setItem('blood-bank-username', user.email)
-            localStorage.setItem('blood-bank-password', user.password)
-            delete user.password
+    const checkIfAuthenticated = async () => {
+        // const docRf = query(
+        //     collection(db, "donors"),
+        //     where("email", "==", username),
+        //     where("password", "==", password)
+        // );
+        const docRef = doc(db, "donors", auth?.currentUser?.uid);
+        const docSnap = await getDoc(docRef);
+        const user = docSnap.data();
+    console.log(auth.currentUser.uid);
+        // if (!querySnapshot?.docs?.length == 0) {
+        //     const user = querySnapshot.docs[0].data()
+        //     console.log(user.email)
+        //     localStorage.setItem('blood-bank-username', user.email)
+        //     localStorage.setItem('blood-bank-password', user.password)
+        //     delete user.password
+        //     dispatch({
+        //         type: HANDLERS.SIGN_IN,
+        //         payload: user
+        //     });
+        //     return true
+        // }
+        if (docSnap.exists()) {
             dispatch({
-                type: HANDLERS.SIGN_IN,
-                payload: user
-            });
-            return true
-        }
+                        type: HANDLERS.SIGN_IN,
+                        payload: user
+                    });
+                    return true
+            
+          } 
         else
             throw Error("there is an error")
     }

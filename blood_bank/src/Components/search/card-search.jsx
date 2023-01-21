@@ -1,40 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Avatar, Box, Card,Grid, Typography} from '@mui/material';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Button from '@mui/material/Button';
 import ClockIcon from '@mui/icons-material/AccessTime';
 import MessageIcon from '@mui/icons-material/Message';
-const CardSearch = (props) => {    
+const CardSearch = ({nameSearch,bloodType,neighborhood}) => {    
+  const [name , setName]=useState('');
+  const [typeBlood , setTypeBlood]=useState('');
+  const [neighborhoodd , setneighborhood]=useState('');
+useEffect(()=>{
+  setName(nameSearch);
+  setTypeBlood(bloodType);
+  setneighborhood(neighborhood);
+},[]);
     return (
       <>
     <Box >
        <Card sx={{ height: '100%' }}>
           <Grid container spacing={3} >
-            <Grid item>
+            <Grid item >
                 <Avatar
                    sx={{backgroundColor: 'error.main',marginRight:"20px"}}>
-                     A+
+                     {typeBlood}
                 </Avatar>
              </Grid>
             <Grid item>
-                <Typography sx={{marginTop:"8px"}}>عبدالله احمد</Typography>
+                <Typography sx={{marginTop:"8px"}}>{name}</Typography>
             </Grid>
            
             </Grid>
-          <Grid container spacing={2} justifyContent="center" flexDirection="column">
+          <Grid container spacing={2} sx={{justifyContent:"center",flexDirection:"column" }} >
           <Grid item >
-            <Box container sx={{marginTop:"3px"}}>
+            <Box sx={{marginTop:"3px"}}>
             <ClockIcon sx={{color:"dimgrey", margin :"-5px 80px 15px 0px", fontSize :"15px"}}/>
+            {/* TODO --- fetch Data */}
               <Typography sx={{margin:"-40px 100px 0px 0px",color:"dimgrey"}}>10/12/2022 </Typography>
             </Box>
             </Grid>
            <Grid item >
-              <Typography sx={{marginRight:"80px"}}>المنطقة - السبل</Typography>
+              <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhoodd}</Typography>
             </Grid>
            
           </Grid>
-          <Box container sx={{margin:"20px 20px",display:"flex",justifyContent:'center'}}>
-            <Grid container spacing={6} justifyContent="center">
+          <Box  sx={{margin:"20px 20px",display:"flex",justifyContent:'center'}}>
+            <Grid container spacing={6} sx={{justifyContent:"center"}}>
             <Grid item >
                <Button variant="contained" sx={{background:"green", "&:hover": {
                   backgroundColor: "#69af69",
