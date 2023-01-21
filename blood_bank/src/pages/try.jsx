@@ -13,6 +13,7 @@ import StepLabel from '@mui/material/StepLabel';
 import { useForm, FormProvider } from "react-hook-form";
 import LottieApp from "../Components/lottie";
 import { HEALTH_LOTTIE } from "../constant/media";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 const bloodTypes = [
    'A+' ,
    'B+' ,
