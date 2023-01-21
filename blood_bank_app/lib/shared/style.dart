@@ -10,7 +10,7 @@ const Color eOnbBackground = Colors.white70;
 const Color eTextColor = Colors.black87;
 const Color eSearchFieldFillColor = Colors.white;
 Color eFieldFocusBorderColor = Colors.pink[200]!;
-Color eFieldBlurrBorderColor = Colors.white;
+Color eFieldBlurrBorderColor = Colors.grey;
 Color eFieldFillColor =
     Colors.white; // const Color.fromARGB(255, 245, 202, 211);
 
