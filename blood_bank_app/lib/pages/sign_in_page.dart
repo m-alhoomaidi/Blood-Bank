@@ -102,7 +102,7 @@ class SignInPage extends StatelessWidget {
                                 blurrBorderColor: eFieldBlurrBorderColor,
                                 focusBorderColor: eFieldFocusBorderColor,
                                 fillColor: eFieldFillColor,
-                                keyBoardType: TextInputType.phone,
+                                // keyBoardType: TextInputType.phone,
                                 onSave: (value) {
                                   email = value;
                                 },
@@ -191,13 +191,22 @@ class SignInPage extends StatelessWidget {
                                           .validate()) {
                                     _formState.currentState!.save();
                                     _formStateEmail.currentState!.save();
+                                    print(
+                                        "+++++++++++++++++++0000000000000000000");
+                                    print(email);
                                     if (email!.isValidPhone) {
+                                      print(
+                                          "+++++++++++++++++++11111111111111111");
+                                      print(email);
                                       BlocProvider.of<SingInCubit>(context)
                                           .isPhoneRegisterd(
                                               phone: email!,
                                               type: "signin",
                                               password: password!);
                                     } else {
+                                      print(
+                                          "+++++++++++++++++++22222222222222222222");
+                                      print(email);
                                       BlocProvider.of<SingInCubit>(context)
                                           .signIn(
                                               email: email!,
