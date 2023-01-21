@@ -57,23 +57,16 @@ class SignInPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Stack(
-                        children: [
-                          Container(
-                            child: Image.asset("assets/images/login.png"),
-                            //  CircleAvatar(
-                            //   backgroundImage:
-                            //       AssetImage("assets/images/login.png"),
-                            //   radius: 70,
-                            // ),
-                            height: 200,
+                        children: const [
+                          SizedBox(
+                            height: 250,
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("assets/images/login.png"),
+                              radius: 150,
+                            ),
                           ),
-
-                          // SvgPicture.asset(
-                          //   ,
-                          //   color: ePrimColor,
-                          //   height: 100,
-                          // ),
-                          const Positioned(
+                          Positioned(
                             bottom: 7,
                             right: 0,
                             child: Icon(
@@ -85,7 +78,6 @@ class SignInPage extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     const SizedBox(height: 20),
                     Form(
                       key: _formState,
@@ -161,17 +153,17 @@ class SignInPage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                if (_formStateEmail.currentState!.validate()) {
-                                  _formStateEmail.currentState!.save();
-                                  if (email!.isValidPhone) {
-                                    BlocProvider.of<SingInCubit>(context)
-                                        .isPhoneRegisterd(
-                                            phone: email!, type: "forget");
-                                  } else {
-                                    BlocProvider.of<SingInCubit>(context)
-                                        .resetPassword(email: email!);
-                                  }
-                                }
+                                // if (_formStateEmail.currentState!.validate()) {
+                                //   _formStateEmail.currentState!.save();
+                                //   if (email!.isValidPhone) {
+                                //     BlocProvider.of<SingInCubit>(context)
+                                //         .isPhoneRegisterd(
+                                //             phone: email!, type: "forget");
+                                //   } else {
+                                //     BlocProvider.of<SingInCubit>(context)
+                                //         .resetPassword(email: email!);
+                                //   }
+                                // }
                               },
                             ),
                           ),
@@ -179,46 +171,42 @@ class SignInPage extends StatelessWidget {
                           Row(
                             children: [
                               const SizedBox(width: 50.0),
-                              // const Text(
-                              //   "ليس لديك حساب؟  ",
-                              // ),
                               MyButton(
                                 title: "الدخول",
-                                color: Color(0xFFE57373),
+                                color: Theme.of(context).primaryColor,
                                 onPressed: () {
                                   if (_formState.currentState!.validate() &&
                                       _formStateEmail.currentState!
                                           .validate()) {
                                     _formState.currentState!.save();
                                     _formStateEmail.currentState!.save();
-                                    print(
-                                        "+++++++++++++++++++0000000000000000000");
-                                    print(email);
-                                    if (email!.isValidPhone) {
-                                      print(
-                                          "+++++++++++++++++++11111111111111111");
-                                      print(email);
-                                      BlocProvider.of<SingInCubit>(context)
-                                          .isPhoneRegisterd(
-                                              phone: email!,
-                                              type: "signin",
-                                              password: password!);
-                                    } else {
-                                      print(
-                                          "+++++++++++++++++++22222222222222222222");
-                                      print(email);
-                                      BlocProvider.of<SingInCubit>(context)
-                                          .signIn(
-                                              email: email!,
-                                              password: password!);
-                                    }
+                                    BlocProvider.of<SingInCubit>(context)
+                                        .signIn(
+                                            email: email!, password: password!);
                                   }
+
+                                  // if (_formState.currentState!.validate() &&
+                                  //     _formStateEmail.currentState!
+                                  //         .validate()) {
+                                  //   _formState.currentState!.save();
+                                  //   _formStateEmail.currentState!.save();
+                                  //   if (email!.isValidPhone) {
+                                  //     BlocProvider.of<SingInCubit>(context)
+                                  //         .isPhoneRegisterd(
+                                  //             phone: email!,
+                                  //             type: "signin",
+                                  //             password: password!);
+                                  //   } else {
+                                  //     BlocProvider.of<SingInCubit>(context)
+                                  //         .signIn(
+                                  //             email: email!,
+                                  //             password: password!);
+                                  //   }
+                                  // }
                                 },
                                 minWidth: 150,
                               ),
-                              SizedBox(
-                                width: 20,
-                              ),
+                              const SizedBox(width: 20),
                               MyButton(
                                 title: "إنشاء حساب",
                                 color: Colors.black,
@@ -228,56 +216,11 @@ class SignInPage extends StatelessWidget {
                                 },
                                 minWidth: 150,
                               ),
-                              // GestureDetector(
-                              //   child: const Text(
-                              //     "إنشاء حساب",
-                              //     style: TextStyle(
-                              //       color: Colors.blue,
-                              //       fontWeight: FontWeight.bold,
-                              //     ),
-                              //   ),
-                              //   onTap: () {
-                              //     Navigator.of(context).pushReplacementNamed(
-                              //         SignUpPage.routeName);
-                              //   },
-                              // ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    // const SizedBox(height: 30),
-
-                    // MyOutlinedIconButton(
-                    //   label: const Padding(
-                    //     padding: EdgeInsets.symmetric(horizontal: 50.0),
-                    //     child: Text(
-                    //       "تسجيل دخول",
-                    //       style: TextStyle(
-                    //         fontSize: 18,
-                    //         color: eSecondColor,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   onPressed: () {
-                    //     if (_formState.currentState!.validate() &&
-                    //         _formStateEmail.currentState!.validate()) {
-                    //       _formState.currentState!.save();
-                    //       _formStateEmail.currentState!.save();
-                    //       if (email!.isValidPhone) {
-                    //         BlocProvider.of<SingInCubit>(context)
-                    //             .isPhoneRegisterd(
-                    //                 phone: email!,
-                    //                 type: "signin",
-                    //                 password: password!);
-                    //       } else {
-                    //         BlocProvider.of<SingInCubit>(context)
-                    //             .signIn(email: email!, password: password!);
-                    //       }
-                    //     }
-                    //   },
-                    //   borderColor: eSecondColor,
-                    // ),
                   ],
                 ),
               ),

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-import '../../models/donor.dart';
+import '../domain/entities/donor.dart';
 import '../../pages/setting_page.dart';
 
 class CompareHiveAndFireStore {

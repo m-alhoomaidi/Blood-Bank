@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:blood_bank_app/models/blood_types.dart';
-import 'package:blood_bank_app/models/donor.dart';
+import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -7,7 +7,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../cubit/signup_cubit/signup_cubit.dart';
 import '../models/blood_types.dart';
-import '../models/donor.dart';
+import '../domain/entities/donor.dart';
 import '../models/my_stepper.dart' as my_stepper;
 import '../pages/home_page.dart';
 import '../pages/sing_up_center_page.dart';

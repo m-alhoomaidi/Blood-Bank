@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import '../../models/donor.dart';
+import '../../domain/entities/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 part 'search_state.dart';
 

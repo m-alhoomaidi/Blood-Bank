@@ -1,3 +1,7 @@
+import 'package:blood_bank_app/data/repositories/sign_in_repository_impl.dart';
+import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
+import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
+
 import 'presentation/onboarding/introduction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +26,7 @@ import 'pages/sign_up_page.dart';
 import 'pages/sing_up_center_page.dart';
 import 'pages/user_date_page.dart';
 import 'presentation/onboarding/view/onboarding_view.dart';
+import 'dependecy_injection.dart' as di;
 import 'shared/style.dart';
 
 // Future backgroundMessage(RemoteMessage message) async {
@@ -47,13 +52,14 @@ import 'shared/style.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await di.init();
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
   // FirebaseMessaging.onBackgroundMessage(updateLocation);
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => SignupCubit()),
-      BlocProvider(create: (BuildContext context) => SingInCubit()),
+      BlocProvider(create: (BuildContext context) => di.sl<SingInCubit>()),
       BlocProvider(create: (BuildContext context) => SearchCubit()),
       BlocProvider(create: (BuildContext context) => ProfileCubit())
     ],

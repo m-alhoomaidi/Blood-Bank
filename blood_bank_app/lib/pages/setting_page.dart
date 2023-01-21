@@ -1,4 +1,4 @@
-import '../models/donor.dart';
+import '../domain/entities/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';

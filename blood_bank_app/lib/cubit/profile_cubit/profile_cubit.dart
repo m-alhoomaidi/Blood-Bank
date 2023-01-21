@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/donor.dart';
+import '../../domain/entities/donor.dart';
 
 part 'profile_state.dart';
 
