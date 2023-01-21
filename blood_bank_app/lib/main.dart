@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/presentation/onboarding/introduction_page.dart';
+import 'presentation/onboarding/introduction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

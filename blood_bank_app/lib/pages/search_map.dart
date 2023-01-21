@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:blood_bank_app/models/blood_types.dart';
+import 'package:blood_bank_app/models/donor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
+import 'package:location/location.dart' as loc;
 
 import '../widgets/home_drawer/home_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,6 +34,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
 //---------------------------------
 
 //--------------------------
+  bool hasCurrentLocation = false;
   bool servicestatus = false;
   bool haspermission = false;
   late LocationPermission permission;
@@ -37,7 +42,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
   String long = "", lat = "";
   late StreamSubscription<Position> positionStream;
   final UrlLauncherPlatform launcher = UrlLauncherPlatform.instance;
-
+  var location = loc.Location();
   @override
   void initState() {
     checkGps();
@@ -46,40 +51,57 @@ class _SearchMapPageState extends State<SearchMapPage> {
   }
 
   checkGps() async {
-    servicestatus = await Geolocator.isLocationServiceEnabled();
+    print("=================1==================");
+    servicestatus = await location.serviceEnabled();
+    print("-----------------------------");
+    print(servicestatus);
     if (servicestatus) {
+      print("=================2==================");
       permission = await Geolocator.checkPermission();
-
       if (permission == LocationPermission.denied) {
+        print("=================3==================");
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
+          print("=================4==================");
           if (kDebugMode) {
+            print("=================5==================");
             print('Location permissions are denied');
           }
         } else if (permission == LocationPermission.deniedForever) {
+          print("=================6==================");
           if (kDebugMode) {
+            print("=================7==================");
             print("'Location permissions are permanently denied");
           }
         } else {
+          print("=================8==================");
           haspermission = true;
         }
       } else {
+        print("=================9==================");
         haspermission = true;
       }
-
       if (haspermission) {
+        print("=================10==================");
         setState(() {
           //refresh the UI
         });
-
         getLocation();
       }
     } else {
+      if (!await location.serviceEnabled()) {
+        await location.requestService();
+        checkGps();
+        // print("111111111111111111111111111");
+
+        // print(servicestatus);
+      } else {}
+
+      print("=================11==================");
       if (kDebugMode) {
         print("GPS Service is not enabled, turn on GPS location");
       }
     }
-
     setState(() {
       //refresh the UI
     });
@@ -88,23 +110,21 @@ class _SearchMapPageState extends State<SearchMapPage> {
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+    print("=================12==================");
     if (kDebugMode) {
       print(position.longitude); //Output: 80.24599079
       print(position.latitude); //Output: 29.6593457
     }
-
     long = position.longitude.toString();
     lat = position.latitude.toString();
-
     setState(() {
+      hasCurrentLocation = true;
       //refresh UI
     });
-
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high, //accuracy of the location data
       distanceFilter: 100, //minimum distance (measured in meters) a
     );
-
     StreamSubscription<Position> positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
@@ -114,6 +134,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
       long = position.longitude.toString();
       lat = position.latitude.toString();
 
+      print("=================13==================");
       setState(() {
         //refresh UI on update
       });
@@ -166,21 +187,90 @@ class _SearchMapPageState extends State<SearchMapPage> {
         builder: (context, state) {
           List<RecivePoint> listPorin = [];
           if (state is SearchSuccess) {
-            for (var donor in state.donors) {
+            // print("===========donorsInState length before filtering");
+            // print(state.donorsInState.length);
+
+            List<Donor> suitableDonors = state.donorsInState
+                .where((donor) =>
+                    donor.bloodType ==
+                    BloodTypes.canReceiveFrom(
+                        bloodType: BlocProvider.of<SearchCubit>(context)
+                            .selectedBloodType!)[state.selectedTabIndex])
+                .toList();
+            for (var donor in suitableDonors) {
               listPorin.add(RecivePoint(
-                  latitude: donor.lat,
-                  longitude: donor.lon,
-                  name: donor.name,
-                  phone: donor.phone,
-                  bloodType: donor.bloodType));
+                lat: double.tryParse(donor.lat) ?? 0.0,
+                lon: double.tryParse(donor.lon) ?? 0.0,
+                name: donor.name,
+                phone: donor.phone,
+                bloodType: donor.bloodType,
+              ));
             }
           }
+
+          RecivePoint me = RecivePoint(
+            lat: 13.9585005, //currentLatLon.latitude,
+            lon: 44.1709885, //currentLatLon.longitude,
+            name: "أنا",
+            bloodType: "",
+            phone: "",
+          );
+
+          // print("===========points length before filtering");
+          // print(listPorin.length);
+
+          // Filtering Points
+          deg2rad(deg) {
+            return deg * (math.pi / 180);
+          }
+
+          getDistanceFromLatLonInKM({
+            required RecivePoint point1,
+            required RecivePoint point2,
+          }) {
+            var R = 6371; // Radius of the earth in km
+            var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+            var dLon = deg2rad(point2.lon - point1.lon);
+            var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+                math.cos(deg2rad(point1.lat)) *
+                    math.cos(deg2rad(point2.lat)) *
+                    math.sin(dLon / 2) *
+                    math.sin(dLon / 2);
+            var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+            var d = R * c; // Distance in km
+            return d;
+          }
+
+          List<RecivePoint> getNearbyPoints({
+            required RecivePoint base,
+            required List<RecivePoint> points,
+            required double distanceKm,
+          }) {
+            List<RecivePoint> nearPoints = [];
+            for (var point in points) {
+              double far =
+                  getDistanceFromLatLonInKM(point1: base, point2: point);
+              print("========far====distanceKm=====");
+              print(far);
+              print(distanceKm);
+              if (far < distanceKm) {
+                nearPoints.add(point);
+              }
+            }
+            return nearPoints;
+          }
+
+          listPorin =
+              getNearbyPoints(base: me, points: listPorin, distanceKm: 5.0);
+
+          // print("===========points length after filtering");
+          // print(listPorin.length);
+
           final List<Marker> _markBrach =
               List<Marker>.generate(listPorin.length, (index) {
             return Marker(
-              markerId: MarkerId("${index}"),
-              position: LatLng(double.tryParse(listPorin[index].latitude)!,
-                  double.tryParse(listPorin[index].longitude)!),
+              markerId: MarkerId("$index"),
+              position: LatLng(listPorin[index].lat, listPorin[index].lon),
               infoWindow: InfoWindow(
                 onTap: () async {
                   final Uri launchUri = Uri(
@@ -197,7 +287,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
                     headers: <String, String>{},
                   );
                 },
-                title: "${listPorin[index].bloodType}",
+                title: listPorin[index].bloodType,
                 snippet:
                     "${listPorin[index].name} • 📞 ${listPorin[index].phone}",
               ),
@@ -205,22 +295,36 @@ class _SearchMapPageState extends State<SearchMapPage> {
           });
 
           _marker.addAll(_markBrach);
-          return GoogleMap(
-            markers: Set<Marker>.of(_marker),
+          return (hasCurrentLocation)
+              ? GoogleMap(
+                  markers: Set<Marker>.of(_marker),
 
-            // onMapCreated: ((GoogleMapController controller) {
-            //   _mapcontroller.complete(controller);
-            // }),
+                  // onMapCreated: ((GoogleMapController controller) {
+                  //   _mapcontroller.complete(controller);
+                  // }),
 
-            initialCameraPosition:
-                const CameraPosition(target: sourcelocation, zoom: 13.5),
-            polylines: {
-              Polyline(
-                  polylineId: const PolylineId("route"),
-                  points: polylinCoordinates,
-                  color: Colors.black)
-            },
-          );
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(position.latitude, position.longitude),
+                      zoom: 13.5),
+                  polylines: {
+                    Polyline(
+                        polylineId: const PolylineId("route"),
+                        points: polylinCoordinates,
+                        color: Colors.black)
+                  },
+                )
+              : const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Text(
+                      "يرجى تشغيل الموقع GPS ومنح صلاحية للوصول إلى الموقع",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                );
         },
       ),
       drawer: const HomeDrower(),
@@ -269,15 +373,15 @@ class _SearchMapPageState extends State<SearchMapPage> {
 // ];
 
 class RecivePoint {
-  String latitude;
-  String longitude;
+  double lat;
+  double lon;
   String name;
   String bloodType;
   String phone;
 
   RecivePoint({
-    required this.latitude,
-    required this.longitude,
+    required this.lat,
+    required this.lon,
     required this.name,
     required this.bloodType,
     required this.phone,

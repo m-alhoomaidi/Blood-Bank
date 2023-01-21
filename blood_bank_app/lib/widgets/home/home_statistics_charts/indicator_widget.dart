@@ -1,5 +1,6 @@
-import '../../../models/home_statistics.dart';
 import 'package:flutter/material.dart';
+
+import '../../../models/home_statistics.dart';
 
 class IndicatorWidget extends StatelessWidget {
   const IndicatorWidget({Key? key}) : super(key: key);

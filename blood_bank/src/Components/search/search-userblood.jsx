@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -6,8 +6,32 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Grid";
 import Countryes from "../../Local/Data.json";
 import Paper from "@mui/material/Paper";
+import {NotFoundData} from "./not-fondData";
 import CardSearch from "./card-search";
+import {db } from "../../utils/firebase";
+import {collection,getDocs, query, where} from "firebase/firestore";
 export const SearchUserBlood = () => {
+  
+  const [searchBlood,setsearchBlood] =useState([]);
+  const [district,setdistrict] = useState('');
+  const [NotData,setNotData] = useState(false);
+  const [typeBlood , setTypeBlood]=useState('');
+  const [state,setState] = useState('');
+  const SearhBloold = async ()=>{
+    const docRf = query(
+      collection(db, "donors"),
+      where("blood_type", "==",typeBlood),
+      where("state", "==",state),
+     where("district","==",district), 
+  );
+  
+  getDocs(docRf).then((response) =>{
+    const DataUser = response.docs.map((doc) => ({data:doc.data(),id : doc.id}));
+    setsearchBlood(DataUser);
+    setNotData(true);
+  })
+  
+    }
   const TypeBlood = [
     { label: "A+" },
     { label: "B+" },
@@ -20,7 +44,6 @@ export const SearchUserBlood = () => {
   ];
   const [Stateid, setStateid] = useState([]);
   const [City, setCity] = useState([]);
-  const [StateCityid, setStateCityid] = useState("");
 
   const HandleCountry = (event, e) => {
     const getStateid = e.id;
@@ -29,12 +52,12 @@ export const SearchUserBlood = () => {
     ).city;
     setCity(getCitydata);
     setStateid(getStateid);
-    console.log(getStateid);
+    setState(e.name);
   };
-  const HandleState = (e) => {
-    const Stateid = e.target.value;
-    setStateCityid(Stateid);
+  const HandleState = (event,e) => {
+    setdistrict(e.name);
   };
+     const HandleBloodType=(event,e)=>{setTypeBlood(e.label);}
   return (
     <>
     <Box  sx={{ marginTop: "80px" }}>
@@ -56,7 +79,6 @@ export const SearchUserBlood = () => {
               onChange={HandleCountry}
               options={Countryes}
               getOptionLabel={(Countryes) => Countryes.name}
-             
               renderOption={(props, option) => (
                 <Box component="li" key={option.id} {...props}>
                   {option.name}
@@ -74,7 +96,7 @@ export const SearchUserBlood = () => {
               id="City"
               onChange={HandleState}
               options={City}
-              getOptionLabel={(City) => City.name}
+              getOptionLabel={(City) => City.name }
               renderOption={(props, option) => (
                 <Box component="li" key={option.id} {...props}>
                   {option.name}
@@ -89,6 +111,7 @@ export const SearchUserBlood = () => {
             <Autocomplete
               fullWidth
               disablePortal
+              onChange={HandleBloodType}
               id="combo-box-demo"
               options={TypeBlood}
               renderInput={(params) => (
@@ -101,6 +124,7 @@ export const SearchUserBlood = () => {
               variant="contained"
               fullWidth
               sx={{marginTop:"10px"}}
+              onClick={SearhBloold}
             >
               بــحــث
             </Button>
@@ -109,18 +133,13 @@ export const SearchUserBlood = () => {
       <Grid
         container
         spacing={4}
-        justifyContent="center"
-        sx={{ marginTop: "20px" }}
-      >
-        <Grid item xs={10} md={3}>
-          <CardSearch />
-        </Grid>
-        <Grid item xs={10} md={3}>
-          <CardSearch />
-        </Grid>
-        <Grid item xs={10} md={3}>
-          <CardSearch />
-        </Grid>
+        sx={{ marginTop: "20px",justifyContent:"center" }}
+      > {NotData ?  searchBlood.map((user,index)=>{
+        return(
+          <Grid item xs={10} md={3} key={index} >
+          <CardSearch nameSearch={user.data.name} bloodType={user.data.blood_type} neighborhood={user.data.neighborhood} sx={{margin:"10px"}} key={user.id}/>
+          </Grid> );}) : <NotFoundData/> }
+        
       </Grid>
       </Paper>
     </Box>
