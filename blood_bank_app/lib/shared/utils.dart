@@ -8,9 +8,7 @@ class Utils {
   }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          msg,
-        ),
+        content: Text(msg),
         backgroundColor: color,
       ),
     );

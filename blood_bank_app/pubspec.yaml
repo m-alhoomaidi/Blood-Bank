@@ -66,7 +66,7 @@ flutter:
     - assets/images/right_arrow_ic.svg
 
   fonts:
-    - family: Almarai
+    - family: Montserrat
       fonts:
         - asset: assets/fonts/Almarai-Regular.ttf
           weight: 400

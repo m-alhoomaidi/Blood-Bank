@@ -34,20 +34,13 @@ class HomeWelcome extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'مرحباً',
-                  style: TextStyle(
-                    fontSize: 36,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.displayLarge,
                 ),
-                const Text(
+                Text(
                   'ومن أحياها فكأنما أحيا الناس جميعاً',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
                 MyTextFormField(
                   hint: 'البحث عن متبرع',

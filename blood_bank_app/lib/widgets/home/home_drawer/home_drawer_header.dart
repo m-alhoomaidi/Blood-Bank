@@ -1,4 +1,4 @@
-import '../../shared/style.dart';
+import '../../../shared/style.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawerHeader extends StatelessWidget {

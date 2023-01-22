@@ -15,7 +15,7 @@ ThemeData getApplicationTheme() {
     splashColor: ColorManager.lightPrimary,
 
     // cardview theme
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       color: ColorManager.white,
       shadowColor: ColorManager.grey,
       elevation: AppSize.s4,
@@ -24,16 +24,17 @@ ThemeData getApplicationTheme() {
     // app bar theme
     appBarTheme: AppBarTheme(
         color: ColorManager.primary,
+        centerTitle: true,
         elevation: AppSize.s4,
         shadowColor: ColorManager.lightPrimary,
-        titleTextStyle: getRegularStyle(
+        titleTextStyle: getBoldStyle(
           fontSize: FontSize.s16,
           color: ColorManager.white,
         )),
 
     // button theme
-    buttonTheme: ButtonThemeData(
-        shape: const StadiumBorder(),
+    buttonTheme: const ButtonThemeData(
+        shape: StadiumBorder(),
         disabledColor: ColorManager.grey1,
         buttonColor: ColorManager.primary,
         splashColor: ColorManager.lightPrimary),
@@ -50,18 +51,23 @@ ThemeData getApplicationTheme() {
     ),
     // text theme
     textTheme: TextTheme(
-        displayLarge: getSemiBoldStyle(
-            color: ColorManager.darkGrey, fontSize: FontSize.s16),
-        headlineLarge: getSemiBoldStyle(
-          color: ColorManager.darkGrey,
-          fontSize: FontSize.s16,
-        ),
-        titleMedium: getMediumStyle(
-            color: ColorManager.lightGrey, fontSize: FontSize.s14),
-        headlineMedium: getRegularStyle(
-            color: ColorManager.darkGrey, fontSize: FontSize.s14),
-        bodyLarge: getRegularStyle(color: ColorManager.grey1),
-        bodySmall: getRegularStyle(color: ColorManager.grey)),
+      displayLarge:
+          getSemiBoldStyle(color: ColorManager.white, fontSize: FontSize.s30),
+      headlineLarge: getSemiBoldStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s16,
+      ),
+      titleMedium:
+          getMediumStyle(color: ColorManager.lightGrey, fontSize: FontSize.s14),
+      headlineMedium:
+          getRegularStyle(color: ColorManager.darkGrey, fontSize: FontSize.s14),
+      bodyLarge: getRegularStyle(color: ColorManager.grey1),
+      bodySmall: getRegularStyle(color: ColorManager.grey),
+      displaySmall: getRegularStyle(
+        color: ColorManager.white,
+        fontSize: FontSize.s22,
+      ),
+    ),
 
     // input decorarion theme(text form field)
 
@@ -69,38 +75,38 @@ ThemeData getApplicationTheme() {
       contentPadding: const EdgeInsets.all(AppPadding.p8),
       // hintstyle
       hintStyle:
-          getRegularStyle(color: ColorManager.grey, fontSize: FontSize.s14),
+          getRegularStyle(color: ColorManager.grey, fontSize: FontSize.s20),
       // label style
       labelStyle:
           getMediumStyle(color: ColorManager.grey, fontSize: FontSize.s14),
       //erore style
       errorStyle: getRegularStyle(color: ColorManager.error),
       // enable border style
-      enabledBorder: OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: ColorManager.grey, width: AppSize.s1_5),
-          borderRadius: const BorderRadius.all(Radius.circular(AppSize.s18))),
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s18))),
 // focused border style
-      focusedBorder: OutlineInputBorder(
+      focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorManager.grey,
             width: AppSize.s1_5,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
 
 // error border style
-      errorBorder: OutlineInputBorder(
+      errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorManager.error,
             width: AppSize.s1_5,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
       // focusedError Border style
-      focusedErrorBorder: OutlineInputBorder(
+      focusedErrorBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorManager.primary,
             width: AppSize.s1_5,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
     ),
   );
 }

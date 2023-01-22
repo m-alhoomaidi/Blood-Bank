@@ -1,6 +1,7 @@
 import 'package:blood_bank_app/data/repositories/sign_in_repository_impl.dart';
 import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
 import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
+import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
 
 import 'presentation/onboarding/introduction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -52,7 +53,7 @@ import 'shared/style.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await di.init();
+  await di.initApp();
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
   // FirebaseMessaging.onBackgroundMessage(updateLocation);
@@ -75,17 +76,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        primaryColor: ePrimColor,
-        fontFamily: "Almarai",
-        // textTheme: Theme.of(context).textTheme.copyWith(
-        //       bodyText2: TextStyle(
-        //         color: eTextColor,
-        //         fontFamily: 'Almarai',
-        //       ),
-        //     ),
-      ),
+      theme: getApplicationTheme(),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.red,
+      //   primaryColor: ePrimColor,
+      //   fontFamily: "Almarai",
+      //   // textTheme: Theme.of(context).textTheme.copyWith(
+      //   //       bodyText2: TextStyle(
+      //   //         color: eTextColor,
+      //   //         fontFamily: 'Almarai',
+      //   //       ),
+      //   //     ),
+      // ),
       locale: const Locale("ar", "AE"),
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
@@ -97,7 +99,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
-        SignInPage.routeName: (context) => SignInPage(),
+        SignInPage.routeName: (context) => const SignInPage(),
         SignUpCenter.routeName: (context) => const SignUpCenter(),
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),

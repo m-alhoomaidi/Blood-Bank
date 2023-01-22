@@ -9,21 +9,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
-  // Cubits
-  sl.registerFactory(
-      () => SingInCubit(signInUseCase: sl(), resetPasswordUseCase: sl()));
-
-  // UseCases
-  sl.registerLazySingleton(() => SignInUseCase(authRepository: sl()));
-
-  sl.registerLazySingleton(
-      () => ResetPasswordUseCase(resetPasswordRepository: sl()));
-
-  // Repositories
-  sl.registerLazySingleton<SignInRepository>(
-      () => SignInRepositoryImpl(networkInfo: sl()));
-
+Future<void> initApp() async {
   /// Core
 
   // NetworkInfo
@@ -35,4 +21,21 @@ Future<void> init() async {
   // Internet Info Checker
   sl.registerLazySingleton(() => InternetConnectionChecker.createInstance(
       checkTimeout: const Duration(seconds: 15)));
+}
+
+initSignIn() {
+  if (!GetIt.I.isRegistered<SingInCubit>()) {
+    sl.registerFactory(
+        () => SingInCubit(signInUseCase: sl(), resetPasswordUseCase: sl()));
+
+    // UseCases
+    sl.registerFactory(() => SignInUseCase(authRepository: sl()));
+
+    sl.registerFactory(
+        () => ResetPasswordUseCase(resetPasswordRepository: sl()));
+
+    // Repositories
+    sl.registerFactory<SignInRepository>(
+        () => SignInRepositoryImpl(networkInfo: sl()));
+  }
 }

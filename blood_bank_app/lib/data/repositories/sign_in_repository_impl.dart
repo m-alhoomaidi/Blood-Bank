@@ -16,8 +16,6 @@ class SignInRepositoryImpl implements SignInRepository {
   @override
   Future<Either<Failure, UserCredential>> signIn(
       {required String email, required String password}) async {
-    print("await networkInfo.isConnected");
-    print(await networkInfo.isConnected);
     if (await networkInfo.isConnected) {
       try {
         return await _firebaseAuth
@@ -55,8 +53,6 @@ class SignInRepositoryImpl implements SignInRepository {
 
   @override
   Future<Either<Failure, void>> resetPassword({required String email}) async {
-    print("await networkInfo.isConnected");
-    print(await networkInfo.isConnected);
     if (await networkInfo.isConnected) {
       try {
         return await _firebaseAuth
@@ -64,11 +60,9 @@ class SignInRepositoryImpl implements SignInRepository {
           email: email,
         )
             .then((userCredential) async {
-          return Right(unit);
+          return const Right(unit);
         });
-      } on FirebaseException catch (fireError) {
-        return Left(UnknownFailure());
-      } on ServerException {
+      } on FirebaseException {
         return Left(ServerFailure());
       } catch (e) {
         return Left(UnknownFailure());
@@ -76,6 +70,5 @@ class SignInRepositoryImpl implements SignInRepository {
     } else {
       return Left(OffLineFailure());
     }
-    // return Left(OffLineFailure());
   }
 }
