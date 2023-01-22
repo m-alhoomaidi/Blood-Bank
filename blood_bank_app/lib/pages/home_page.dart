@@ -16,7 +16,7 @@ import '../presentation/onboarding/introduction_page.dart';
 import '../presentation/onboarding/view/onboarding_view.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
-import '../widgets/home_drawer/home_drawer.dart';
+import '../widgets/home/home_drawer/home_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

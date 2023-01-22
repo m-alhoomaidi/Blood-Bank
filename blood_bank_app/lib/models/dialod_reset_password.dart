@@ -1,35 +1,37 @@
 import 'dart:ffi';
 
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/home_page.dart';
 import '../widgets/forms/my_button.dart';
 
 class DialogResetPassWord {
-  static Void? Dialog(BuildContext context) {
+  static void resetPasswordDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text("جاري التحقق "),
-        content: const Text(
-          "راجع الرسائل الواردة في بريدك الالكتروني يمكن ان تكون في قائمة المهملات او spam ومن ثم قم بتغير كلمة السر وسجل الدخول في التطبيق من جديد",
-          style: TextStyle(height: 1.5),
+        title: const Text(AppStrings.resetPasswordDialogTitle),
+        content: Text(
+          AppStrings.resetPasswordDialogMessage,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         actions: <Widget>[
           MyButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const HomePage(),
-                ),
-              );
-            },
-            title: 'تم',
+            onPressed: _moveToHomePage(context),
+            title: AppStrings.resetPasswordDialogOkButton,
           ),
         ],
       ),
     );
-    return null;
+  }
+
+  static _moveToHomePage(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const HomePage(),
+      ),
+    );
   }
 }

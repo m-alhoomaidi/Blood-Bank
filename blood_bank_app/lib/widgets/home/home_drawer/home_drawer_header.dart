@@ -1,4 +1,4 @@
-import '../../shared/style.dart';
+import '../../../shared/style.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawerHeader extends StatelessWidget {
@@ -24,7 +24,7 @@ class HomeDrawerHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   color: Colors.white,
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(
                     Icons.emoji_emotions,
                     size: 50,
@@ -33,12 +33,9 @@ class HomeDrawerHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 "اسم المستخدم",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
           ),

@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/donor.dart';
+import '../../domain/entities/donor.dart';
 
 part 'profile_state.dart';
 
@@ -22,9 +22,6 @@ class ProfileCubit extends Cubit<ProfileState> {
             .doc("H5PPBI8VBBNikBYvmifb")
             .get()
             .then((value) async {
-          print(value.data());
-          print("object+++++++++++++++++++++");
-          print(currentUser.uid);
           donors = Donor.fromMap(value.data()!);
 
           emit(ProfileGetData(donors: donors!));

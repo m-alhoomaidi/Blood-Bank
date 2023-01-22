@@ -1,4 +1,4 @@
-import '../models/donor.dart';
+import '../domain/entities/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
@@ -48,14 +48,8 @@ class _SettingPageState extends State<SettingPage> {
             .doc("H5PPBI8VBBNikBYvmifb")
             .get()
             .then((value) async {
-          print(value.data());
-          print("object+++++++++++++++++++++");
-          print(currentUser.uid);
           donor = Donor.fromMap(value.data()!);
-          print("------------------------");
-          print(donor!.email);
           await dataBox!.add(donor!);
-          print("=======================");
           // print(dataBox!.get("data_profile"));
         });
       } else {
@@ -119,7 +113,6 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     () async {
       _permissionStatus = await Permission.storage.status;
