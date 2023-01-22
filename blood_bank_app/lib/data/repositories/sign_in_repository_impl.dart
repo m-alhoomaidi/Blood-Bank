@@ -52,4 +52,30 @@ class SignInRepositoryImpl implements SignInRepository {
     }
     // return Left(OffLineFailure());
   }
+
+  @override
+  Future<Either<Failure, void>> resetPassword({required String email}) async {
+    print("await networkInfo.isConnected");
+    print(await networkInfo.isConnected);
+    if (await networkInfo.isConnected) {
+      try {
+        return await _firebaseAuth
+            .sendPasswordResetEmail(
+          email: email,
+        )
+            .then((userCredential) async {
+          return Right(unit);
+        });
+      } on FirebaseException catch (fireError) {
+        return Left(UnknownFailure());
+      } on ServerException {
+        return Left(ServerFailure());
+      } catch (e) {
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+    // return Left(OffLineFailure());
+  }
 }

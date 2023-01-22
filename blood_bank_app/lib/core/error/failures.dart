@@ -26,3 +26,8 @@ class UnknownFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class WrongEmailFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}

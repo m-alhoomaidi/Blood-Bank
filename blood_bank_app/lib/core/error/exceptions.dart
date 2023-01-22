@@ -7,3 +7,5 @@ class ServerException implements Exception {}
 class WrongDataException implements Exception {}
 
 class UnknownException implements Exception {}
+
+class WrongEmailFailure implements Exception {}

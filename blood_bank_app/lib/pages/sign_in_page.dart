@@ -41,7 +41,7 @@ class SignInPage extends StatelessWidget {
               Utils.showSnackBar(context: context, msg: state.error);
             } else if (state is SigninSuccessResetPass) {
               DialogResetPassWord.Dialog(context);
-              // MaterialPageRoute(builder: (context) => const HomePage());
+              MaterialPageRoute(builder: (context) => const HomePage());
             }
 
             // TODO: implement listener
@@ -153,17 +153,17 @@ class SignInPage extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                // if (_formStateEmail.currentState!.validate()) {
-                                //   _formStateEmail.currentState!.save();
-                                //   if (email!.isValidPhone) {
-                                //     BlocProvider.of<SingInCubit>(context)
-                                //         .isPhoneRegisterd(
-                                //             phone: email!, type: "forget");
-                                //   } else {
-                                //     BlocProvider.of<SingInCubit>(context)
-                                //         .resetPassword(email: email!);
-                                //   }
-                                // }
+                                if (_formStateEmail.currentState!.validate()) {
+                                  _formStateEmail.currentState!.save();
+                                  //   if (email!.isValidPhone) {
+                                  //     BlocProvider.of<SingInCubit>(context)
+                                  //         .isPhoneRegisterd(
+                                  //             phone: email!, type: "forget");
+                                  //   } else {
+                                  BlocProvider.of<SingInCubit>(context)
+                                      .resetPassword(email: email!);
+                                  // }
+                                }
                               },
                             ),
                           ),

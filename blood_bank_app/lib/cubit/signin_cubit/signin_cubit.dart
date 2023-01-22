@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
-import 'package:blood_bank_app/core/error/failures.dart';
 import 'package:flutter/material.dart';
 
+import 'package:blood_bank_app/core/error/failures.dart';
+import 'package:blood_bank_app/domain/usecases/reset_password_use_case.dart';
 import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
 
 part 'signin_state.dart';
@@ -10,9 +11,11 @@ part 'signin_state.dart';
 class SingInCubit extends Cubit<SignInState> {
   SingInCubit({
     required this.signInUseCase,
+    required this.resetPasswordUseCase,
   }) : super(SigninInitial());
 
   final SignInUseCase signInUseCase;
+  final ResetPasswordUseCase resetPasswordUseCase;
 
   Future<void> signIn({
     required String email,
@@ -27,22 +30,24 @@ class SingInCubit extends Cubit<SignInState> {
           (userCredential) => emit(SigninSuccess()),
         );
       });
+    } catch (e) {
+      //  emit(SigninFailure(error:"تحقق من صحة بريدك الالكتروني"));
     }
-    //  on FirebaseAuthException catch (e) {
-    //   if (e.code == 'user-not-found') {
-    //     emit(SigninFailure(error: "تاكد من صحة البيانات المدخلة"));
-    //   } else if (e.code == 'wrong-password') {
-    //     emit(SigninFailure(error: "كلمة المرور خاطئة"));
-    //   } else if (e.code == 'too-many-request') {
-    //     emit(SigninFailure(
-    //         error: "لقد حاولت مرات عديدةالرجاءالمحاولة بعد خمس دقائق"));
-    //   } else {
-    //     emit(SigninFailure(error: e.code));
-    //   }
-    // }
-    catch (e) {
-      print("==============Sign in Cubit==========");
-      print(e);
+  }
+
+  Future<void> resetPassword({
+    required String email,
+  }) async {
+    emit(SigninLoading());
+    try {
+      await resetPasswordUseCase(email: email).then((unitOrFailuer) {
+        unitOrFailuer.fold(
+          (failure) => emit(SigninFailure(error: _getFailureMessage(failure))),
+          (_) => emit(SigninSuccessResetPass()),
+        );
+      });
+    } catch (e) {
+      emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
     }
   }
 
@@ -58,10 +63,30 @@ class SingInCubit extends Cubit<SignInState> {
         return "لا يوجد بيانات محلية";
       case UnknownFailure:
         return "خطأ غير معروف";
+      case WrongEmailFailure:
+        return "تحقق من صحة بريدك الالكتروني";
       default:
         return "خطأ غير معروف";
     }
   }
+
+  //  on FirebaseAuthException catch (e) {
+  //   if (e.code == 'user-not-found') {
+  //     emit(SigninFailure(error: "تاكد من صحة البيانات المدخلة"));
+  //   } else if (e.code == 'wrong-password') {
+  //     emit(SigninFailure(error: "كلمة المرور خاطئة"));
+  //   } else if (e.code == 'too-many-request') {
+  //     emit(SigninFailure(
+  //         error: "لقد حاولت مرات عديدةالرجاءالمحاولة بعد خمس دقائق"));
+  //   } else {
+  //     emit(SigninFailure(error: e.code));
+  //   }
+  // }
+  // catch (e) {
+  //     print("==============Sign in Cubit==========");
+  //     print(e);
+  //   }
+  // }
 
   // final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   // FirebaseAuth auth = FirebaseAuth.instance;
@@ -98,6 +123,7 @@ class SingInCubit extends Cubit<SignInState> {
   //     emit(SigninLoading());
   //     await auth.sendPasswordResetEmail(email: email).then((value) {
   //       emit(SigninSuccessResetPass());
+
   //     });
   //   } catch (e) {
   //     emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
@@ -137,5 +163,5 @@ class SingInCubit extends Cubit<SignInState> {
   //     emit(SigninFailure(error: "راجع البيانات المدخلة "));
   //   }
   //   return result;
-  // }
+  //
 }

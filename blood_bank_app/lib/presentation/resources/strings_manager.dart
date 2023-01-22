@@ -1,5 +1,8 @@
 class AppStrings {
   static const noFound = "No Route Found";
+
+  //-----------------------------------------------------
+  //------- OoBoarding Page
   static const noBoardingTitle1 = "SEE THE BEST COURSE #1";
   static const noBoardingTitle2 = "SEE THE BEST COURSE #2";
   static const noBoardingTitle3 = "SEE THE BEST COURSE #3";
@@ -14,4 +17,8 @@ class AppStrings {
   static const noBoardingSubTitle4 =
       "Tut app is an awesome flutter using clean architecture #4";
   static const skip = "skip";
+
+  //-------------------------------------------------------
+  //-------- Sing In Page
+
 }
