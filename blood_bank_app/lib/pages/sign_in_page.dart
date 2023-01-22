@@ -14,7 +14,6 @@ import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
 import '../shared/utils.dart';
 import '../widgets/forms/my_text_form_field.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
