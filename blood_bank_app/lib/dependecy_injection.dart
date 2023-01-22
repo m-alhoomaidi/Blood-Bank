@@ -1,8 +1,10 @@
+import 'package:blood_bank_app/core/network/network_info.dart';
 import 'package:blood_bank_app/cubit/signin_cubit/signin_cubit.dart';
 import 'package:blood_bank_app/data/repositories/sign_in_repository_impl.dart';
 import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
 import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
 import 'package:get_it/get_it.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 final sl = GetIt.instance;
 
@@ -14,7 +16,18 @@ Future<void> init() async {
   sl.registerLazySingleton(() => SignInUseCase(authRepository: sl()));
 
   // Repositories
-  sl.registerLazySingleton<SignInRepository>(() => SignInRepositoryImpl());
+  sl.registerLazySingleton<SignInRepository>(
+      () => SignInRepositoryImpl(networkInfo: sl()));
 
-  // External
+  /// Core
+
+  // NetworkInfo
+  sl.registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoChecker(connectionChecker: sl()));
+
+  /// External
+
+  // Internet Info Checker
+  sl.registerLazySingleton(() => InternetConnectionChecker.createInstance(
+      checkTimeout: const Duration(seconds: 20)));
 }
