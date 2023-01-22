@@ -3,22 +3,28 @@ class AppStrings {
 
   //-----------------------------------------------------
   //------- OoBoarding Page
-  static const noBoardingTitle1 = "SEE THE BEST COURSE #1";
-  static const noBoardingTitle2 = "SEE THE BEST COURSE #2";
-  static const noBoardingTitle3 = "SEE THE BEST COURSE #3";
-  static const noBoardingTitle4 = "SEE THE BEST COURSE #4";
+  static const String noBoardingTitle1 = "SEE THE BEST COURSE #1";
+  static const String noBoardingTitle2 = "SEE THE BEST COURSE #2";
+  static const String noBoardingTitle3 = "SEE THE BEST COURSE #3";
+  static const String noBoardingTitle4 = "SEE THE BEST COURSE #4";
 
-  static const noBoardingSubTitle1 =
+  static const String noBoardingSubTitle1 =
       "Tut app is an awesome flutter using clean architecture #1";
-  static const noBoardingSubTitle2 =
+  static const String noBoardingSubTitle2 =
       "Tut app is an awesome flutter using clean architecture #2";
-  static const noBoardingSubTitle3 =
+  static const String noBoardingSubTitle3 =
       "Tut app is an awesome flutter using clean architecture #3";
-  static const noBoardingSubTitle4 =
+  static const String noBoardingSubTitle4 =
       "Tut app is an awesome flutter using clean architecture #4";
-  static const skip = "skip";
+  static const String skip = "skip";
 
   //-------------------------------------------------------
   //-------- Sing In Page
+  static const String signInAppBarTitle = "تسجيل دخول";
+  static const String resetPasswordDialogTitle = "جاري التحقق";
+  static const String resetPasswordDialogMessage =
+      "راجع الرسائل الواردة في بريدك الالكتروني يمكن ان تكون في قائمة المهملات او spam ومن ثم قم بتغير كلمة السر وسجل الدخول في التطبيق من جديد";
 
+  static const String resetPasswordDialogOkButton = "تم";
+  static const String signInEmailFieldHint = "البريد الإلكتروني";
 }

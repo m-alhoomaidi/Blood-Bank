@@ -1,6 +1,7 @@
 import 'package:blood_bank_app/data/repositories/sign_in_repository_impl.dart';
 import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
 import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
+import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
 
 import 'presentation/onboarding/introduction_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -75,17 +76,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-        primaryColor: ePrimColor,
-        fontFamily: "Almarai",
-        // textTheme: Theme.of(context).textTheme.copyWith(
-        //       bodyText2: TextStyle(
-        //         color: eTextColor,
-        //         fontFamily: 'Almarai',
-        //       ),
-        //     ),
-      ),
+      theme: getApplicationTheme(),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.red,
+      //   primaryColor: ePrimColor,
+      //   fontFamily: "Almarai",
+      //   // textTheme: Theme.of(context).textTheme.copyWith(
+      //   //       bodyText2: TextStyle(
+      //   //         color: eTextColor,
+      //   //         fontFamily: 'Almarai',
+      //   //       ),
+      //   //     ),
+      // ),
       locale: const Locale("ar", "AE"),
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
