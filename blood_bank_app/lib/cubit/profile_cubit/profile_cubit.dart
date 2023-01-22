@@ -22,9 +22,6 @@ class ProfileCubit extends Cubit<ProfileState> {
             .doc("H5PPBI8VBBNikBYvmifb")
             .get()
             .then((value) async {
-          print(value.data());
-          print("object+++++++++++++++++++++");
-          print(currentUser.uid);
           donors = Donor.fromMap(value.data()!);
 
           emit(ProfileGetData(donors: donors!));

@@ -8,7 +8,6 @@ import '../pages/sign_up_page.dart';
 import '../shared/utils.dart';
 import '../shared/style.dart';
 import '../widgets/forms/my_text_form_field.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
@@ -43,8 +42,6 @@ class SignInPage extends StatelessWidget {
               DialogResetPassWord.Dialog(context);
               MaterialPageRoute(builder: (context) => const HomePage());
             }
-
-            // TODO: implement listener
           },
           builder: (context, state) {
             return ModalProgressHUD(
