@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useAuthContext } from './auth-context';
 import { getOrigin } from '../utils/get-origin';
+import { auth, db } from '../utils/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 // import { useNotificationContext } from '../contexts/notification-context';
 export const AuthGuard = (props) => {
     const { children } = props;
-    const { checkIfAuthenticated, user, signIn } = useAuthContext();
+    const { checkIfAuthenticated, user, signIn,updateUser } = useAuthContext();
     // const { requestForToken } = useNotificationContext();
     const ignore = useRef(false);
     const [checked, setChecked] = useState(false);
@@ -15,18 +17,21 @@ export const AuthGuard = (props) => {
     useEffect(
         () => {
             const checkAuth = async () => {
-                const username = localStorage.getItem('blood-bank-username')
-                const password = localStorage.getItem('blood-bank-password')
                 checkIfAuthenticated()
                     .then((data) => {
                          setChecked(true)
-                        // const path = getOrigin()
-                        // if (path == 'login')
-                        //     navigate('/')
+                        const path = getOrigin()
+                        if (path == 'login')
+                            navigate('/')
                     })
                     .catch((err) => {
                         console.log(err)
                     })
+                // const docRef = doc(db, "donors", auth?.currentUser?.uid);
+                // const docSnap = await getDoc(docRef);
+                // const user = docSnap.data(); 
+                // updateUser(user);
+                // console.log("jhgfjdb")
             }
             if (!checked) {
                 checkAuth();
