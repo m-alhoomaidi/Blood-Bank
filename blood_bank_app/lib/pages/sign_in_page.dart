@@ -12,7 +12,6 @@ import '../models/dialod_reset_password.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
 import '../shared/utils.dart';
-import '../shared/style.dart';
 import '../widgets/forms/my_text_form_field.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,22 +20,60 @@ import 'package:email_validator/email_validator.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SignInPage extends StatefulWidget {
-  SignInPage({Key? key}) : super(key: key);
-  static const String routeName = "sign-in";
+  const SignInPage({Key? key}) : super(key: key);
+  static const String routeName = "/sign-in";
 
   @override
   State<SignInPage> createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
-  // bool _saving = false;
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   final GlobalKey<FormState> _emailState = GlobalKey<FormState>();
-
-  // final GlobalKey<FormState> _formStateEmail = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isPasswordVisible = false;
+
+  String? emailValidator(value) {
+    if (value != null && EmailValidator.validate(value)) {
+      return null;
+    } else if (!EmailValidator.validate(value!)) {
+      return AppStrings.signInPasswordFieldValidatorError;
+    }
+    return null;
+  }
+
+  String? passwordValidator(value) {
+    if (value!.length < minCharsOfPassword) {
+      return AppStrings.signInPasswordFieldHint;
+    }
+    return null;
+  }
+
+  _toggleIsPasswordVisible() {
+    setState(() => isPasswordVisible = !isPasswordVisible);
+  }
+
+  _sendRestPassword() {
+    if (_emailState.currentState!.validate()) {
+      BlocProvider.of<SingInCubit>(context)
+          .resetPassword(email: emailController.text);
+    }
+  }
+
+  _submitSignIn() {
+    if (_emailState.currentState!.validate() &
+        _formState.currentState!.validate()) {
+      BlocProvider.of<SingInCubit>(context).signIn(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+    }
+  }
+
+  _moveToSignUp() {
+    Navigator.of(context).pushReplacementNamed(SignUpPage.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,140 +107,9 @@ class _SignInPageState extends State<SignInPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(height: AppSize.s30),
-                    Padding(
-                      padding: const EdgeInsets.all(AppPadding.p10),
-                      child: Stack(
-                        children: const [
-                          SizedBox(
-                            height: signInImageHight,
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  AssetImage(ImageAssets.signInImage),
-                              radius: signInImageRadius,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: AppSize.s8,
-                            right: AppSize.s0,
-                            child: Icon(
-                              Icons.add,
-                              size: AppSize.s70,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    _buildHeaderImage(),
                     const SizedBox(height: AppSize.s20),
-                    Form(
-                      key: _formState,
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: AppMargin.m40),
-                            child: Form(
-                              key: _emailState,
-                              child: MyTextFormField(
-                                hint: AppStrings.signInEmailFieldHint,
-                                hintStyle:
-                                    Theme.of(context).textTheme.bodyMedium!,
-                                blurrBorderColor: ColorManager.grey,
-                                focusBorderColor: ColorManager.lightPrimary,
-                                fillColor: ColorManager.white,
-                                validator: (value) {
-                                  if (value != null &&
-                                      EmailValidator.validate(value)) {
-                                    return null;
-                                  } else if (value!.isValidPhone) {
-                                    return null;
-                                  } else if (!EmailValidator.validate(value) ||
-                                      !value.isValidPhone) {
-                                    return "اكتب بريد إيميل او رقم هاتف صحيح";
-                                  }
-                                  return null;
-                                },
-                                icon: const Icon(Icons.phone_android),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 40),
-                            child: MyTextFormField(
-                              hint: "كلمة المرور",
-                              hintStyle: eHintStyle,
-                              isPassword: true,
-                              blurrBorderColor: eFieldBlurrBorderColor,
-                              focusBorderColor: eFieldFocusBorderColor,
-                              fillColor: eFieldFillColor,
-                              validator: (value) {
-                                if (value!.length < 6) {
-                                  return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
-                                }
-                                return null;
-                              },
-                              icon: const Icon(Icons.key_outlined),
-                            ),
-                          ),
-                          // const SizedBox(height: 5),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 50.0,
-                              vertical: 10.0,
-                            ),
-                            alignment: Alignment.centerRight,
-                            child: GestureDetector(
-                              child: const Text(
-                                "نسيت كلمة المرور؟",
-                                style: TextStyle(
-                                  // color: Colors.blue,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              onTap: () {
-                                if (_emailState.currentState!.validate()) {
-                                  BlocProvider.of<SingInCubit>(context)
-                                      .resetPassword(
-                                          email: emailController.text);
-                                }
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 40.0),
-                          Row(
-                            children: [
-                              const SizedBox(width: 50.0),
-                              MyButton(
-                                title: "الدخول",
-                                color: Theme.of(context).primaryColor,
-                                onPressed: () {
-                                  if (_emailState.currentState!.validate() &
-                                      _formState.currentState!.validate()) {
-                                    BlocProvider.of<SingInCubit>(context)
-                                        .signIn(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                    );
-                                  }
-                                },
-                                minWidth: 150,
-                              ),
-                              const SizedBox(width: 20),
-                              MyButton(
-                                title: "إنشاء حساب",
-                                color: Colors.black,
-                                onPressed: () {
-                                  Navigator.of(context).pushReplacementNamed(
-                                      SignUpPage.routeName);
-                                },
-                                minWidth: 150,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    _buildSignInForm(context),
                   ],
                 ),
               ),
@@ -211,6 +117,134 @@ class _SignInPageState extends State<SignInPage> {
           },
         ),
       ),
+    );
+  }
+
+  Form _buildSignInForm(BuildContext context) {
+    return Form(
+      key: _formState,
+      child: Column(
+        children: [
+          _buildEmailField(context),
+          const SizedBox(height: AppSize.s10),
+          _buildPasswordField(context),
+          // const SizedBox(height: 5),
+          _buildResetPasswordTextButton(context),
+          const SizedBox(height: AppSize.s40),
+          Row(
+            children: [
+              const SizedBox(width: AppSize.s50),
+              _buildSubmitButton(context),
+              const SizedBox(width: AppSize.s20),
+              _buildSignUpButton(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding _buildHeaderImage() {
+    return Padding(
+      padding: const EdgeInsets.all(AppPadding.p10),
+      child: Stack(
+        children: [
+          const SizedBox(
+            height: signInImageHight,
+            child: CircleAvatar(
+              backgroundImage: AssetImage(ImageAssets.signInImage),
+              radius: signInImageRadius,
+            ),
+          ),
+          Positioned(
+            bottom: AppSize.s8,
+            right: AppSize.s0,
+            child: Icon(
+              Icons.add,
+              size: AppSize.s70,
+              color: ColorManager.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildEmailField(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: AppMargin.m40),
+      child: Form(
+        key: _emailState,
+        child: MyTextFormField(
+          hint: AppStrings.signInEmailFieldHint,
+          hintStyle: Theme.of(context).inputDecorationTheme.hintStyle!,
+          blurrBorderColor: ColorManager.grey,
+          focusBorderColor: ColorManager.secondary,
+          fillColor: ColorManager.white,
+          validator: emailValidator,
+          icon: const Icon(Icons.phone_android),
+        ),
+      ),
+    );
+  }
+
+  Container _buildResetPasswordTextButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppPadding.p50,
+        vertical: AppPadding.p10,
+      ),
+      alignment: Alignment.centerRight,
+      child: GestureDetector(
+        onTap: _sendRestPassword,
+        child: Text(
+          AppStrings.signInForgetPasswordTextButton,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+      ),
+    );
+  }
+
+  Container _buildPasswordField(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 40),
+      child: MyTextFormField(
+        hint: AppStrings.signInPasswordFieldHint,
+        hintStyle: Theme.of(context).inputDecorationTheme.hintStyle!,
+        isPassword: isPasswordVisible,
+        blurrBorderColor: ColorManager.grey,
+        focusBorderColor: ColorManager.secondary,
+        fillColor: ColorManager.white,
+        validator: passwordValidator,
+        icon: IconButton(
+          icon: _buildPasswordIcon(),
+          onPressed: _toggleIsPasswordVisible,
+        ),
+      ),
+    );
+  }
+
+  Icon _buildPasswordIcon() {
+    return Icon(isPasswordVisible
+        ? Icons.visibility_outlined
+        : Icons.visibility_off_outlined);
+  }
+
+  MyButton _buildSubmitButton(BuildContext context) {
+    return MyButton(
+      title: AppStrings.signInSubmitButton,
+      color: Theme.of(context).primaryColor,
+      onPressed: _submitSignIn,
+      minWidth: AppSize.s150,
+    );
+  }
+
+  MyButton _buildSignUpButton() {
+    return MyButton(
+      title: AppStrings.signInSignUpButton,
+      color: Colors.black,
+      onPressed: _moveToSignUp,
+      minWidth: AppSize.s150,
     );
   }
 }

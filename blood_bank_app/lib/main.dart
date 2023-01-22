@@ -99,7 +99,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
-        SignInPage.routeName: (context) => SignInPage(),
+        SignInPage.routeName: (context) => const SignInPage(),
         SignUpCenter.routeName: (context) => const SignUpCenter(),
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),

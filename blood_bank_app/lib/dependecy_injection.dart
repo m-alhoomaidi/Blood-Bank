@@ -24,8 +24,7 @@ Future<void> initApp() async {
 }
 
 initSignIn() {
-  if (!GetIt.I.isRegistered()) {
-    // Cubits
+  if (!GetIt.I.isRegistered<SingInCubit>()) {
     sl.registerFactory(
         () => SingInCubit(signInUseCase: sl(), resetPasswordUseCase: sl()));
 

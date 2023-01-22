@@ -27,4 +27,11 @@ class AppStrings {
 
   static const String resetPasswordDialogOkButton = "تم";
   static const String signInEmailFieldHint = "البريد الإلكتروني";
+  static const String signInEmailFieldValidatorError = "اكتب بريد إيميل صحيح";
+  static const String signInPasswordFieldHint = "كلمة المرور";
+  static const String signInPasswordFieldValidatorError =
+      "يجب أن يكون طول كلمة المرور ستة أو أكثر";
+  static const String signInForgetPasswordTextButton = "نسيت كلمة المرور؟";
+  static const String signInSubmitButton = "دخول";
+  static const String signInSignUpButton = "إنشاء حساب";
 }
