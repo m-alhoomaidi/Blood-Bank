@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'font_manager.dart';
 
@@ -20,7 +21,11 @@ TextStyle getRegularStyle(
 // medium style
 TextStyle getMediumStyle(
     {double fontSize = FontSize.s12, required Color color}) {
-  return _getTextStyle(fontSize, FontWeightManager.medium, color);
+  return _getTextStyle(
+    fontSize,
+    FontWeightManager.medium,
+    color,
+  );
 }
 
 // Light style
