@@ -31,6 +31,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   // bool _saving = false;
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
+  final GlobalKey<FormState> _emailState = GlobalKey<FormState>();
 
   // final GlobalKey<FormState> _formStateEmail = GlobalKey<FormState>();
 
@@ -101,26 +102,29 @@ class _SignInPageState extends State<SignInPage> {
                           Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: AppMargin.m40),
-                            child: MyTextFormField(
-                              hint: AppStrings.signInEmailFieldHint,
-                              hintStyle: Theme.of(context).textTheme.bodySmall!,
-                              blurrBorderColor: ColorManager.grey,
-                              focusBorderColor: ColorManager.lightPrimary,
-                              fillColor: ColorManager.white,
-                              validator: (value) {
-                                if (value != null &&
-                                    EmailValidator.validate(value)) {
+                            child: Form(
+                              key: _emailState,
+                              child: MyTextFormField(
+                                hint: AppStrings.signInEmailFieldHint,
+                                hintStyle:
+                                    Theme.of(context).textTheme.bodyMedium!,
+                                blurrBorderColor: ColorManager.grey,
+                                focusBorderColor: ColorManager.lightPrimary,
+                                fillColor: ColorManager.white,
+                                validator: (value) {
+                                  if (value != null &&
+                                      EmailValidator.validate(value)) {
+                                    return null;
+                                  } else if (value!.isValidPhone) {
+                                    return null;
+                                  } else if (!EmailValidator.validate(value) ||
+                                      !value.isValidPhone) {
+                                    return "اكتب بريد إيميل او رقم هاتف صحيح";
+                                  }
                                   return null;
-                                } else if (value!.isValidPhone) {
-                                  return null;
-                                } else if (!EmailValidator.validate(value) ||
-                                    !value.isValidPhone) {
-                                  return "اكتب بريد إيميل او رقم هاتف صحيح";
-                                }
-
-                                return null;
-                              },
-                              icon: const Icon(Icons.phone_android),
+                                },
+                                icon: const Icon(Icons.phone_android),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -158,23 +162,11 @@ class _SignInPageState extends State<SignInPage> {
                                 ),
                               ),
                               onTap: () {
-                                // if (_formStateEmail.currentState!.validate()) {
-                                // _formStateEmail.currentState!.save();
-                                //   if (email!.isValidPhone) {
-                                //     BlocProvider.of<SingInCubit>(context)
-                                //         .isPhoneRegisterd(
-                                //             phone: email!, type: "forget");
-                                //   } else {
-                                if (EmailValidator.validate(
-                                    emailController.text)) {
-                                  Utils.showSnackBar(
-                                    context: context,
-                                    msg: "أدخل إيميل صحيح",
-                                  );
+                                if (_emailState.currentState!.validate()) {
+                                  BlocProvider.of<SingInCubit>(context)
+                                      .resetPassword(
+                                          email: emailController.text);
                                 }
-                                BlocProvider.of<SingInCubit>(context)
-                                    .resetPassword(email: emailController.text);
-                                // }
                               },
                             ),
                           ),
@@ -186,38 +178,14 @@ class _SignInPageState extends State<SignInPage> {
                                 title: "الدخول",
                                 color: Theme.of(context).primaryColor,
                                 onPressed: () {
-                                  if (_formState.currentState!.validate()
-                                      //  &&
-                                      //     _formStateEmail.currentState!
-                                      //         .validate()
-                                      ) {
-                                    // _formState.currentState!.save();
-                                    // _formStateEmail.currentState!.save();
+                                  if (_emailState.currentState!.validate() &
+                                      _formState.currentState!.validate()) {
                                     BlocProvider.of<SingInCubit>(context)
                                         .signIn(
                                       email: emailController.text,
                                       password: passwordController.text,
                                     );
                                   }
-
-                                  // if (_formState.currentState!.validate() &&
-                                  //     _formStateEmail.currentState!
-                                  //         .validate()) {
-                                  //   _formState.currentState!.save();
-                                  //   _formStateEmail.currentState!.save();
-                                  //   if (email!.isValidPhone) {
-                                  //     BlocProvider.of<SingInCubit>(context)
-                                  //         .isPhoneRegisterd(
-                                  //             phone: email!,
-                                  //             type: "signin",
-                                  //             password: password!);
-                                  //   } else {
-                                  //     BlocProvider.of<SingInCubit>(context)
-                                  //         .signIn(
-                                  //             email: email!,
-                                  //             password: password!);
-                                  //   }
-                                  // }
                                 },
                                 minWidth: 150,
                               ),
@@ -246,3 +214,35 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 }
+
+                                // forget password onTap
+                                
+                                // if (_formStateEmail.currentState!.validate()) {
+                                // _formStateEmail.currentState!.save();
+                                //   if (email!.isValidPhone) {
+                                //     BlocProvider.of<SingInCubit>(context)
+                                //         .isPhoneRegisterd(
+                                //             phone: email!, type: "forget");
+                                //   }
+
+
+                                // signin button onPress
+
+                                  // if (_formState.currentState!.validate() &&
+                                  //     _formStateEmail.currentState!
+                                  //         .validate()) {
+                                  //   _formState.currentState!.save();
+                                  //   _formStateEmail.currentState!.save();
+                                  //   if (email!.isValidPhone) {
+                                  //     BlocProvider.of<SingInCubit>(context)
+                                  //         .isPhoneRegisterd(
+                                  //             phone: email!,
+                                  //             type: "signin",
+                                  //             password: password!);
+                                  //   } else {
+                                  //     BlocProvider.of<SingInCubit>(context)
+                                  //         .signIn(
+                                  //             email: email!,
+                                  //             password: password!);
+                                  //   }
+                                  // }

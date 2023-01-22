@@ -53,7 +53,7 @@ import 'shared/style.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await di.init();
+  await di.initApp();
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
   // FirebaseMessaging.onBackgroundMessage(updateLocation);

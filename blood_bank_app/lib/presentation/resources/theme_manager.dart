@@ -51,18 +51,19 @@ ThemeData getApplicationTheme() {
     ),
     // text theme
     textTheme: TextTheme(
-        displayLarge: getSemiBoldStyle(
-            color: ColorManager.darkGrey, fontSize: FontSize.s16),
-        headlineLarge: getSemiBoldStyle(
-          color: ColorManager.darkGrey,
-          fontSize: FontSize.s16,
-        ),
-        titleMedium: getMediumStyle(
-            color: ColorManager.lightGrey, fontSize: FontSize.s14),
-        headlineMedium: getRegularStyle(
-            color: ColorManager.darkGrey, fontSize: FontSize.s14),
-        bodyLarge: getRegularStyle(color: ColorManager.grey1),
-        bodySmall: getRegularStyle(color: ColorManager.grey)),
+      displayLarge: getSemiBoldStyle(
+          color: ColorManager.darkGrey, fontSize: FontSize.s16),
+      headlineLarge: getSemiBoldStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s16,
+      ),
+      titleMedium:
+          getMediumStyle(color: ColorManager.lightGrey, fontSize: FontSize.s14),
+      headlineMedium:
+          getRegularStyle(color: ColorManager.darkGrey, fontSize: FontSize.s14),
+      bodyLarge: getRegularStyle(color: ColorManager.grey1),
+      bodySmall: getRegularStyle(color: ColorManager.grey),
+    ),
 
     // input decorarion theme(text form field)
 
@@ -70,7 +71,7 @@ ThemeData getApplicationTheme() {
       contentPadding: const EdgeInsets.all(AppPadding.p8),
       // hintstyle
       hintStyle:
-          getRegularStyle(color: ColorManager.grey, fontSize: FontSize.s14),
+          getRegularStyle(color: ColorManager.grey, fontSize: FontSize.s20),
       // label style
       labelStyle:
           getMediumStyle(color: ColorManager.grey, fontSize: FontSize.s14),
