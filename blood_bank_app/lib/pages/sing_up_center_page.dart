@@ -194,7 +194,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اسم المركز الطبي",
-                  hintStyle: eHintStyle,
                   blurrBorderColor: eFieldBlurrBorderColor,
                   focusBorderColor: eFieldFocusBorderColor,
                   fillColor: eFieldFillColor,
@@ -213,7 +212,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "البريد الإلكتروني",
-                  hintStyle: eHintStyle,
                   blurrBorderColor: eFieldBlurrBorderColor,
                   focusBorderColor: eFieldFocusBorderColor,
                   fillColor: eFieldFillColor,
@@ -231,7 +229,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "كلمة المرور",
-                  hintStyle: eHintStyle,
                   blurrBorderColor: eFieldBlurrBorderColor,
                   focusBorderColor: eFieldFocusBorderColor,
                   fillColor: eFieldFillColor,
@@ -324,7 +321,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "العنوان",
-                  hintStyle: eHintStyle,
                   blurrBorderColor: eFieldBlurrBorderColor,
                   focusBorderColor: eFieldFocusBorderColor,
                   fillColor: eFieldFillColor,

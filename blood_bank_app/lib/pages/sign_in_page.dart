@@ -8,7 +8,6 @@ import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import '../widgets/forms/my_button.dart';
 
 import '../cubit/signin_cubit/signin_cubit.dart';
-import '../models/extention.dart';
 import '../models/dialod_reset_password.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
@@ -38,14 +37,14 @@ class _SignInPageState extends State<SignInPage> {
     if (value != null && EmailValidator.validate(value)) {
       return null;
     } else if (!EmailValidator.validate(value!)) {
-      return AppStrings.signInPasswordFieldValidatorError;
+      return AppStrings.signInEmailFieldValidatorError;
     }
     return null;
   }
 
   String? passwordValidator(value) {
     if (value!.length < minCharsOfPassword) {
-      return AppStrings.signInPasswordFieldHint;
+      return AppStrings.signInPasswordFieldValidatorError;
     }
     return null;
   }
@@ -176,7 +175,7 @@ class _SignInPageState extends State<SignInPage> {
         key: _emailState,
         child: MyTextFormField(
           hint: AppStrings.signInEmailFieldHint,
-          blurrBorderColor: ColorManager.grey,
+          blurrBorderColor: ColorManager.lightGrey,
           focusBorderColor: ColorManager.secondary,
           fillColor: ColorManager.white,
           validator: emailValidator,
@@ -192,7 +191,7 @@ class _SignInPageState extends State<SignInPage> {
       child: MyTextFormField(
         hint: AppStrings.signInPasswordFieldHint,
         isPassword: isPasswordVisible,
-        blurrBorderColor: ColorManager.grey,
+        blurrBorderColor: ColorManager.lightGrey,
         focusBorderColor: ColorManager.secondary,
         fillColor: ColorManager.white,
         validator: passwordValidator,
@@ -251,8 +250,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 }
 
-                                // forget password onTap
-                                
+                                // forget password onTap 
                                 // if (_formStateEmail.currentState!.validate()) {
                                 // _formStateEmail.currentState!.save();
                                 //   if (email!.isValidPhone) {
@@ -261,9 +259,7 @@ class _SignInPageState extends State<SignInPage> {
                                 //             phone: email!, type: "forget");
                                 //   }
 
-
                                 // signin button onPress
-
                                   // if (_formState.currentState!.validate() &&
                                   //     _formStateEmail.currentState!
                                   //         .validate()) {

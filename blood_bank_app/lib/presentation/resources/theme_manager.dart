@@ -73,11 +73,11 @@ ThemeData getApplicationTheme() {
         color: ColorManager.grey1,
         fontSize: FontSize.s16,
       ),
-      titleMedium: getSemiBoldStyle(
+      titleMedium: getRegularStyle(
         color: ColorManager.darkGrey,
         fontSize: FontSize.s14,
       ),
-      headlineMedium: getRegularStyle(
+      headlineMedium: getSemiBoldStyle(
         color: ColorManager.darkGrey,
         fontSize: FontSize.s14,
       ),
@@ -85,7 +85,10 @@ ThemeData getApplicationTheme() {
         color: ColorManager.link,
         fontSize: FontSize.s14,
       ),
-      bodyLarge: getRegularStyle(color: ColorManager.grey1),
+      bodyLarge: getRegularStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s16,
+      ),
       bodySmall: getRegularStyle(color: ColorManager.grey),
     ),
 
