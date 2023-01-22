@@ -22,8 +22,8 @@ class HomeDrawerBody extends StatelessWidget {
           HomeDrawerMenuItem(
             title: "تسجيل دخول",
             icon: Icons.login_rounded,
-            onTap: () async {
-              await di.initSignIn();
+            onTap: () {
+              di.initSignIn();
               Navigator.of(context).pushNamed(SignInPage.routeName);
             },
           ),

@@ -18,10 +18,7 @@ class HomeDrawerMenuItem extends StatelessWidget {
       leading: Icon(icon),
       title: Text(
         title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
+        style: Theme.of(context).textTheme.titleMedium,
       ),
       onTap: onTap,
     );

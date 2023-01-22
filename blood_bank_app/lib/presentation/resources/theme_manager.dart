@@ -14,6 +14,10 @@ ThemeData getApplicationTheme() {
     disabledColor: ColorManager.grey1,
     splashColor: ColorManager.lightPrimary,
 
+    //
+    colorScheme:
+        ColorScheme.fromSwatch().copyWith(secondary: ColorManager.secondary),
+
     // cardview theme
     cardTheme: const CardTheme(
       color: ColorManager.white,
@@ -23,21 +27,23 @@ ThemeData getApplicationTheme() {
 
     // app bar theme
     appBarTheme: AppBarTheme(
-        color: ColorManager.primary,
-        centerTitle: true,
-        elevation: AppSize.s4,
-        shadowColor: ColorManager.lightPrimary,
-        titleTextStyle: getBoldStyle(
-          fontSize: FontSize.s16,
-          color: ColorManager.white,
-        )),
+      color: ColorManager.primary,
+      centerTitle: true,
+      elevation: AppSize.s4,
+      shadowColor: ColorManager.lightPrimary,
+      titleTextStyle: getBoldStyle(
+        fontSize: FontSize.s16,
+        color: ColorManager.white,
+      ),
+    ),
 
     // button theme
     buttonTheme: const ButtonThemeData(
-        shape: StadiumBorder(),
-        disabledColor: ColorManager.grey1,
-        buttonColor: ColorManager.primary,
-        splashColor: ColorManager.lightPrimary),
+      shape: StadiumBorder(),
+      disabledColor: ColorManager.grey1,
+      buttonColor: ColorManager.primary,
+      splashColor: ColorManager.lightPrimary,
+    ),
 
     // elevated button theme
 
@@ -51,22 +57,36 @@ ThemeData getApplicationTheme() {
     ),
     // text theme
     textTheme: TextTheme(
-      displayLarge:
-          getSemiBoldStyle(color: ColorManager.white, fontSize: FontSize.s30),
-      headlineLarge: getSemiBoldStyle(
-        color: ColorManager.darkGrey,
-        fontSize: FontSize.s16,
+      displayLarge: getSemiBoldStyle(
+        color: ColorManager.white,
+        fontSize: FontSize.s30,
       ),
-      titleMedium:
-          getMediumStyle(color: ColorManager.lightGrey, fontSize: FontSize.s14),
-      headlineMedium:
-          getRegularStyle(color: ColorManager.darkGrey, fontSize: FontSize.s14),
-      bodyLarge: getRegularStyle(color: ColorManager.grey1),
-      bodySmall: getRegularStyle(color: ColorManager.grey),
       displaySmall: getRegularStyle(
         color: ColorManager.white,
         fontSize: FontSize.s22,
       ),
+      headlineLarge: getSemiBoldStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s16,
+      ),
+      titleLarge: getSemiBoldStyle(
+        color: ColorManager.grey1,
+        fontSize: FontSize.s16,
+      ),
+      titleMedium: getSemiBoldStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s14,
+      ),
+      headlineMedium: getRegularStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s14,
+      ),
+      labelMedium: getRegularStyle(
+        color: ColorManager.link,
+        fontSize: FontSize.s14,
+      ),
+      bodyLarge: getRegularStyle(color: ColorManager.grey1),
+      bodySmall: getRegularStyle(color: ColorManager.grey),
     ),
 
     // input decorarion theme(text form field)
@@ -85,15 +105,14 @@ ThemeData getApplicationTheme() {
       enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: ColorManager.grey, width: AppSize.s1_5),
           borderRadius: BorderRadius.all(Radius.circular(AppSize.s18))),
-// focused border style
+      // focused border style
       focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorManager.grey,
             width: AppSize.s1_5,
           ),
           borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
-
-// error border style
+      // error border style
       errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorManager.error,
