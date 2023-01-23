@@ -37,14 +37,14 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _fourthFormState = GlobalKey<FormState>();
 
   String? selectedGovernorate, selectedDistrict;
-  String? email,
-      password,
-      name,
-      phone,
-      bloodType,
-      stateName,
-      district,
-      neighborhood;
+  TextEditingController emailController = TextEditingController(),
+      passwordController = TextEditingController(),
+      nameController = TextEditingController(),
+      phoneController = TextEditingController(),
+      stateNameController = TextEditingController(),
+      districtController = TextEditingController(),
+      neighborhoodController = TextEditingController();
+  String? bloodType;
 
   final double stepContentHeight = 300.0;
   int _activeStepIndex = 0;
@@ -69,14 +69,14 @@ class _SignUpPageState extends State<SignUpPage> {
     if (formData!.validate()) {
       BlocProvider.of<SignupCubit>(context).signUp(
         donor: Donor(
-          email: email!,
-          password: Encryption.encode(password!),
-          name: name!,
-          phone: phone!,
+          email: emailController.text,
+          password: Encryption.encode(passwordController.text),
+          name: nameController.text,
+          phone: phoneController.text,
           bloodType: bloodType!,
-          state: stateName!,
-          district: district!,
-          neighborhood: neighborhood!,
+          state: stateNameController.text,
+          district: districtController.text,
+          neighborhood: neighborhoodController.text,
         ),
       );
     }
@@ -95,7 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void validateForm({int? stepIndex}) {
     FormState? formData = currentFormState();
-    if (_activeStepIndex == 2 && district == null) {
+    if (_activeStepIndex == 2 && districtController == null) {
       Fluttertoast.showToast(msg: 'يجب اختيار المحافظة والمديرية');
     } else {
       if (formData!.validate()) {
@@ -298,12 +298,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "بريدك الإلكتروني",
+                  controller: emailController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  onSave: (value) {
-                    email = value;
-                  },
                   validator: (value) =>
                       value != null && EmailValidator.validate(value)
                           ? null
@@ -317,6 +315,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "أنشئ كلمة مرور",
+                  controller: passwordController,
                   isPassword: isPasswordVisible,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
@@ -326,9 +325,6 @@ class _SignUpPageState extends State<SignUpPage> {
                     icon: _buildPasswordIcon(),
                     onPressed: _toggleIsPasswordVisible,
                   ),
-                  onSave: (value) {
-                    password = value;
-                  },
                 ),
               ),
             ],
@@ -356,12 +352,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اسمك",
+                  controller: nameController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  onSave: (value) {
-                    name = value;
-                  },
                   validator: (value) {
                     if (value!.length < 2) {
                       return "لا يمكن أن يكون الاسم أقل من حرفين";
@@ -376,12 +370,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "رقم هاتفك",
+                  controller: phoneController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  onSave: (value) {
-                    phone = value;
-                  },
                   validator: (value) {
                     if (value!.length != 9) {
                       return "يجب أن يكون عدد الأرقام 9";
@@ -407,7 +399,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
                   icon: const Icon(Icons.bloodtype_outlined),
-                  onChange: (value) => setState(() => bloodType = value),
+                  onChange: (value) => setState(() => bloodType = value!),
                 ),
               ),
             ],
@@ -469,10 +461,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   dropdownDialogRadius: 10.0,
                   searchBarRadius: 10.0,
                   onStateChanged: (value) {
-                    stateName = value;
+                    stateNameController.text = value!;
                   },
                   onCityChanged: (value) {
-                    district = value;
+                    districtController.text = value!;
                   },
                 ),
               ),
@@ -481,13 +473,11 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "المنطقة",
+                  controller: neighborhoodController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
                   icon: const Icon(Icons.my_location_outlined),
-                  onSave: (value) {
-                    neighborhood = value;
-                  },
                   validator: (value) {
                     if (value!.length < 2) {
                       return "يرجى كتابة قريتك أو حارتك";
@@ -518,24 +508,24 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 buildDonorDetail(
                   key: "اسم المتبرع",
-                  value: name ?? '',
+                  value: nameController.text,
                 ),
                 buildDonorDetail(
                   key: "رقم الهاتف",
-                  value: phone ?? '',
+                  value: phoneController.text,
                 ),
                 buildDonorDetail(
                   key: "فصيلة الدم",
-                  value: bloodType ?? '',
+                  value: bloodType ?? "غير محدد",
                 ),
                 buildDonorDetail(
                   key: "العنوان",
                   value:
-                      '${stateName ?? ''} - ${district ?? ''} - ${neighborhood ?? ''}',
+                      '${stateNameController.text} - ${districtController.text} - ${neighborhoodController.text}',
                 ),
                 buildDonorDetail(
                   key: "البريد الإلكتروني",
-                  value: email ?? '',
+                  value: emailController.text,
                 ),
               ],
             ),
