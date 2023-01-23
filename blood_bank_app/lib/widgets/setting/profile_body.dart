@@ -51,15 +51,23 @@ class _ProfileBodyState extends State<ProfileBody> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.donor == null) {}
     fillProfileLocalData();
     // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
   }
 
   fillProfileLocalData() {
-    profileLocalData!.date = widget.donor!.brithDate;
-    profileLocalData!.isShown = widget.donor!.isShown;
-    profileLocalData!.is_shown_phone = widget.donor!.isShownPhone;
-    profileLocalData!.is_gps_on = widget.donor!.isGpsOn;
+    print("888888888888888888888888888888888888");
+    print(widget.donor);
+    profileLocalData = ProfileLocalData(
+        date: widget.donor!.brithDate,
+        isShown: widget.donor!.isShown,
+        is_gps_on: widget.donor!.isGpsOn,
+        is_shown_phone: widget.donor!.isShownPhone);
+    // profileLocalData!.date = widget.donor!.brithDate;
+    // profileLocalData!.isShown = widget.donor!.isShown;
+    // profileLocalData!.is_shown_phone = widget.donor!.isShownPhone;
+    // profileLocalData!.is_gps_on = widget.donor!.isGpsOn;
   }
 
   @override
@@ -118,7 +126,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         ),
         Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
             child: Column(
               children: [
                 MyTextFormField(
@@ -141,11 +149,12 @@ class _ProfileBodyState extends State<ProfileBody> {
                     });
                   },
                 ),
-                const SizedBox(height: 20),
+                // const SizedBox(height: 20),
               ],
             )),
         MyButton(
             title: "حفظ",
+            minWidth: MediaQuery.of(context).size.width * 0.85,
             onPressed: (() {
               if (profileLocalData != null) {
                 BlocProvider.of<ProfileCubit>(context)
@@ -188,6 +197,7 @@ class editBasicData extends StatelessWidget {
       ),
       onTap: () {
         print("00000000000000000000000000000");
+        print(";;;;;;;");
         print(donor);
         Navigator.of(context).push(MaterialPageRoute<void>(
             builder: (BuildContext context) => EditMainDataPage(donor: donor)));
@@ -201,7 +211,20 @@ class ProfileLocalData {
   String? date;
   String? is_gps_on;
   String? is_shown_phone;
+  String? name;
+  String? bloodType;
+  String? district;
+  String? state;
+  String? neighborhood;
 
   ProfileLocalData(
-      {this.isShown, this.date, this.is_gps_on, this.is_shown_phone});
+      {this.name,
+      this.bloodType,
+      this.district,
+      this.neighborhood,
+      this.state,
+      this.isShown,
+      this.date,
+      this.is_gps_on,
+      this.is_shown_phone});
 }

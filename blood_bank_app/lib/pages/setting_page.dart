@@ -1,5 +1,6 @@
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 
 import '../domain/entities/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -114,9 +115,14 @@ class _SettingPageState extends State<SettingPage> {
 
   PermissionStatus? _permissionStatus;
 
+  getData() async {
+    await BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+  }
+
   @override
   void initState() {
     super.initState();
+    // getData();
     () async {
       _permissionStatus = await Permission.storage.status;
 
@@ -139,6 +145,9 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("------------------------------");
+    // print(donors);
+    // print(FirebaseAuth.instance.currentUser!.uid);
     permission();
     return Scaffold(
       appBar: AppBar(
@@ -146,26 +155,30 @@ class _SettingPageState extends State<SettingPage> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          if (state is ProfileGetData) {
-            donors = state.donors;
-          } else if (state is ProfileFailure) {
-            Utils.showSnackBar(
-              context: context,
-              msg: state.error,
-              color: ColorManager.error,
-            );
-          } else if (state is ProfileSuccess) {
-            Utils.showSnackBar(
-              context: context,
-              msg: "تم تحديث الاعدادات بشكل صحيح",
-              color: ColorManager.error,
-            );
-          }
-        },
-        builder: (context, state) {
-          return ListView(
+      body:
+          BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
+        if (state is ProfileGetData) {
+          print("llllllllllllllllllllllllllllllllllllll0000000000");
+          print(state.donors);
+          donors = state.donors;
+        } else if (state is ProfileFailure) {
+          print("0000sssssssssssssssssssssssss");
+          Utils.showSnackBar(
+            context: context,
+            msg: state.error,
+            color: ColorManager.error,
+          );
+        } else if (state is ProfileSuccess) {
+          print("sdsdss00000000000000000");
+          Utils.showSnackBar(
+            context: context,
+            msg: "تم تحديث الاعدادات بشكل صحيح",
+            color: ColorManager.error,
+          );
+        }
+      }, builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
             children: [
               const Padding(
                 padding: EdgeInsets.only(bottom: 10),
@@ -173,9 +186,8 @@ class _SettingPageState extends State<SettingPage> {
               InkWell(
                 onTap: () {
                   // _showSelectPhotoOptions(context);
-                  BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
-                  print(";;;;;;;;;;;;;;;;;;;wwwwwwwwwwwww");
-                  print(donor);
+                  // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+
                   // putDataTodataProfileTable();
                 },
                 child: DisplayImage(
@@ -189,15 +201,15 @@ class _SettingPageState extends State<SettingPage> {
               const SizedBox(
                 height: 10,
               ),
-              (state is ProfileFailure)
-                  ? const Center(
-                      child: Text("dssssss"),
+              (state is ProfileGetData)
+                  ? ProfileBody(donor: state.donors)
+                  : const Center(
+                      child: CircularProgressIndicator(),
                     )
-                  : ProfileBody(donor: donors!),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      }),
     );
   }
 }

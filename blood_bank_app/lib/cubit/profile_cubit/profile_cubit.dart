@@ -17,10 +17,12 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> getDataToProfilePage() async {
     try {
       User? currentUser = _auth.currentUser;
+      print("000000000000000000000000000000");
+      print(currentUser!.uid);
       if (currentUser != null) {
         await _fireStore
             .collection('donors')
-            .doc(currentUser.uid)
+            .doc("9U74upZiSOJugT9wrDnu")
             .get()
             .then((value) async {
           donors = Donor.fromMap(value.data()!);
