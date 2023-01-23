@@ -147,10 +147,11 @@ export const AuthProvider = (props) => {
         //     where("email", "==", username),
         //     where("password", "==", password)
         // );
-        const docRef = doc(db, "donors", auth?.currentUser?.uid);
+        const docRef = doc(db, "donors",'9U74upZiSOJugT9wrDnu' );
         const docSnap = await getDoc(docRef);
-        const user = docSnap.data();
-    console.log(auth.currentUser.uid);
+        const user = docSnap.data(); 
+        updateUser(user);
+        console.log("jhgfjdb")
         // if (!querySnapshot?.docs?.length == 0) {
         //     const user = querySnapshot.docs[0].data()
         //     console.log(user.email)
@@ -181,7 +182,6 @@ export const AuthProvider = (props) => {
             payload: user
         });
     }
-
     return (
         <AuthContext.Provider
             value={{

@@ -1,3 +1,6 @@
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +49,20 @@ class _SignUpPageState extends State<SignUpPage> {
   final double stepContentHeight = 300.0;
   int _activeStepIndex = 0;
   bool didConfirm = false;
-
+  bool isPasswordVisible = false;
   bool isFirstStep() => _activeStepIndex == 0;
-
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
+
+  String? passwordValidator(value) {
+    if (value!.length < minCharsOfPassword) {
+      return AppStrings.signInPasswordFieldValidatorError;
+    }
+    return null;
+  }
+
+  _toggleIsPasswordVisible() {
+    setState(() => isPasswordVisible = !isPasswordVisible);
+  }
 
   Future<void> submit() async {
     FormState? formData = _fourthFormState.currentState;
@@ -268,7 +281,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 0,
-      title: const Text("حسابك", style: TextStyle(fontSize: 12)),
+      title: Text("حسابك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
         height: stepContentHeight,
         child: Form(
@@ -276,19 +289,18 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 "بخطواتـك هذه قد تـنـقـذ حيـاة إنــسان",
-                style: TextStyle(fontSize: 18),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(height: 40.0),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "بريدك الإلكتروني",
-                  hintStyle: eHintStyle,
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
                   onSave: (value) {
                     email = value;
                   },
@@ -305,21 +317,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "أنشئ كلمة مرور",
-                  hintStyle: eHintStyle,
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
-                  isPassword: true,
+                  isPassword: isPasswordVisible,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
+                  validator: passwordValidator,
+                  icon: IconButton(
+                    icon: _buildPasswordIcon(),
+                    onPressed: _toggleIsPasswordVisible,
+                  ),
                   onSave: (value) {
                     password = value;
                   },
-                  validator: (value) {
-                    if (value!.length < 6) {
-                      return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
-                    }
-                    return null;
-                  },
-                  icon: const Icon(Icons.password),
                 ),
               ),
             ],
@@ -335,7 +344,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 1,
-      title: const Text("بياناتك", style: TextStyle(fontSize: 12)),
+      title: Text("بياناتك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
         height: stepContentHeight,
         child: Form(
@@ -347,10 +356,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "اسمك",
-                  hintStyle: eHintStyle,
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
                   onSave: (value) {
                     name = value;
                   },
@@ -368,10 +376,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "رقم هاتفك",
-                  hintStyle: eHintStyle,
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
                   onSave: (value) {
                     phone = value;
                   },
@@ -396,9 +403,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   value: bloodType,
                   hintColor: eTextColor,
                   items: BloodTypes.bloodTypes,
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) => setState(() => bloodType = value),
                 ),
@@ -416,7 +423,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 2,
-      title: const Text("عنوانك", style: TextStyle(fontSize: 12)),
+      title: Text("عنوانك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
         height: stepContentHeight,
         child: Form(
@@ -433,14 +440,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: Colors.red[100],
+                    color: ColorManager.white,
                     border: Border.all(
-                      color: Colors.white,
+                      color: ColorManager.lightGrey,
                       width: 1,
                     ),
                   ),
                   dropDownPadding: const EdgeInsets.all(12),
-                  // dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
                   spaceBetween: 20.0,
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -457,19 +463,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
                   defaultCountry: DefaultCountry.Yemen,
-
-                  selectedItemStyle: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                  ),
-                  dropdownHeadingStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  dropdownItemStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
+                  selectedItemStyle: Theme.of(context).textTheme.headlineLarge,
+                  dropdownHeadingStyle: Theme.of(context).textTheme.titleMedium,
+                  dropdownItemStyle: Theme.of(context).textTheme.titleMedium,
                   dropdownDialogRadius: 10.0,
                   searchBarRadius: 10.0,
                   onStateChanged: (value) {
@@ -485,10 +481,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
                   hint: "المنطقة",
-                  hintStyle: eHintStyle,
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
                   icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {
                     neighborhood = value;
@@ -512,13 +507,14 @@ class _SignUpPageState extends State<SignUpPage> {
     return my_stepper.Step(
       state: my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 3,
-      title: const Text("تأكيد", style: TextStyle(fontSize: 12)),
+      title: Text("تأكيد", style: Theme.of(context).textTheme.bodySmall),
       content: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         height: stepContentHeight,
         child: Column(
           children: [
             Wrap(
+              runSpacing: 10.0,
               children: [
                 buildDonorDetail(
                   key: "اسم المتبرع",
@@ -553,7 +549,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: const Text(
                         "سياسات الخصوصية",
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: ColorManager.link,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -571,24 +567,29 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  SizedBox buildDonorDetail({
+  Icon _buildPasswordIcon() {
+    return Icon(isPasswordVisible
+        ? Icons.visibility_outlined
+        : Icons.visibility_off_outlined);
+  }
+
+  Wrap buildDonorDetail({
     required String key,
     required String value,
   }) {
-    return SizedBox(
-      height: 28,
-      child: Wrap(
-        children: [
-          Text(
-            "$key:  ",
-          ),
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          const SizedBox(width: 20.0),
-        ],
-      ),
+    return Wrap(
+      runSpacing: 5.0,
+      children: [
+        Text(
+          "$key:  ",
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+        const SizedBox(width: 30.0),
+      ],
     );
   }
 }

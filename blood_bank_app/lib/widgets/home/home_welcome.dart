@@ -56,7 +56,7 @@ class HomeWelcome extends StatelessWidget {
                 ),
                 MyButton(
                   title: 'إنشاء حساب متبرع',
-                  color: eSecondColor,
+                  color: Theme.of(context).colorScheme.secondary,
                   onPressed: () {
                     Navigator.of(context).pushNamed(SignUpPage.routeName);
                   },

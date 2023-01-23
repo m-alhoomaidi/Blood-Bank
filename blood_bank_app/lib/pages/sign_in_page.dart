@@ -1,13 +1,13 @@
 import 'package:blood_bank_app/presentation/resources/assets_manager.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
+import 'package:blood_bank_app/presentation/resources/font_manager.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 
 import '../widgets/forms/my_button.dart';
 
 import '../cubit/signin_cubit/signin_cubit.dart';
-import '../models/extention.dart';
 import '../models/dialod_reset_password.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
@@ -37,14 +37,14 @@ class _SignInPageState extends State<SignInPage> {
     if (value != null && EmailValidator.validate(value)) {
       return null;
     } else if (!EmailValidator.validate(value!)) {
-      return AppStrings.signInPasswordFieldValidatorError;
+      return AppStrings.signInEmailFieldValidatorError;
     }
     return null;
   }
 
   String? passwordValidator(value) {
     if (value!.length < minCharsOfPassword) {
-      return AppStrings.signInPasswordFieldHint;
+      return AppStrings.signInPasswordFieldValidatorError;
     }
     return null;
   }
@@ -125,12 +125,11 @@ class _SignInPageState extends State<SignInPage> {
       child: Column(
         children: [
           _buildEmailField(context),
-          const SizedBox(height: AppSize.s10),
+          const SizedBox(height: AppSize.s20),
           _buildPasswordField(context),
-          // const SizedBox(height: 5),
           _buildResetPasswordTextButton(context),
-          const SizedBox(height: AppSize.s40),
-          Row(
+          const SizedBox(height: AppSize.s30),
+          Column(
             children: [
               const SizedBox(width: AppSize.s50),
               _buildSubmitButton(context),
@@ -147,8 +146,8 @@ class _SignInPageState extends State<SignInPage> {
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p10),
       child: Stack(
-        children: [
-          const SizedBox(
+        children: const [
+          SizedBox(
             height: signInImageHight,
             child: CircleAvatar(
               backgroundImage: AssetImage(ImageAssets.signInImage),
@@ -176,12 +175,29 @@ class _SignInPageState extends State<SignInPage> {
         key: _emailState,
         child: MyTextFormField(
           hint: AppStrings.signInEmailFieldHint,
-          hintStyle: Theme.of(context).inputDecorationTheme.hintStyle!,
-          blurrBorderColor: ColorManager.grey,
+          blurrBorderColor: ColorManager.lightGrey,
           focusBorderColor: ColorManager.secondary,
           fillColor: ColorManager.white,
           validator: emailValidator,
           icon: const Icon(Icons.phone_android),
+        ),
+      ),
+    );
+  }
+
+  Container _buildPasswordField(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 40),
+      child: MyTextFormField(
+        hint: AppStrings.signInPasswordFieldHint,
+        isPassword: isPasswordVisible,
+        blurrBorderColor: ColorManager.lightGrey,
+        focusBorderColor: ColorManager.secondary,
+        fillColor: ColorManager.white,
+        validator: passwordValidator,
+        icon: IconButton(
+          icon: _buildPasswordIcon(),
+          onPressed: _toggleIsPasswordVisible,
         ),
       ),
     );
@@ -198,26 +214,7 @@ class _SignInPageState extends State<SignInPage> {
         onTap: _sendRestPassword,
         child: Text(
           AppStrings.signInForgetPasswordTextButton,
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-      ),
-    );
-  }
-
-  Container _buildPasswordField(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 40),
-      child: MyTextFormField(
-        hint: AppStrings.signInPasswordFieldHint,
-        hintStyle: Theme.of(context).inputDecorationTheme.hintStyle!,
-        isPassword: isPasswordVisible,
-        blurrBorderColor: ColorManager.grey,
-        focusBorderColor: ColorManager.secondary,
-        fillColor: ColorManager.white,
-        validator: passwordValidator,
-        icon: IconButton(
-          icon: _buildPasswordIcon(),
-          onPressed: _toggleIsPasswordVisible,
+          style: Theme.of(context).textTheme.labelMedium,
         ),
       ),
     );
@@ -232,24 +229,28 @@ class _SignInPageState extends State<SignInPage> {
   MyButton _buildSubmitButton(BuildContext context) {
     return MyButton(
       title: AppStrings.signInSubmitButton,
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).colorScheme.secondary,
       onPressed: _submitSignIn,
-      minWidth: AppSize.s150,
+      minWidth: AppSize.s300,
     );
   }
 
   MyButton _buildSignUpButton() {
     return MyButton(
       title: AppStrings.signInSignUpButton,
-      color: Colors.black,
+      color: ColorManager.grey1,
       onPressed: _moveToSignUp,
-      minWidth: AppSize.s150,
+      minWidth: AppSize.s300,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.secondary,
+        fontSize: FontSize.s14,
+        fontFamily: FontConstants.fontFamily,
+      ),
     );
   }
 }
 
-                                // forget password onTap
-                                
+                                // forget password onTap 
                                 // if (_formStateEmail.currentState!.validate()) {
                                 // _formStateEmail.currentState!.save();
                                 //   if (email!.isValidPhone) {
@@ -258,9 +259,7 @@ class _SignInPageState extends State<SignInPage> {
                                 //             phone: email!, type: "forget");
                                 //   }
 
-
                                 // signin button onPress
-
                                   // if (_formState.currentState!.validate() &&
                                   //     _formStateEmail.currentState!
                                   //         .validate()) {
