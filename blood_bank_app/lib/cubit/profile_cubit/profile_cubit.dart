@@ -18,8 +18,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       emit(ProfileLoading());
       User? currentUser = _auth.currentUser;
-      print("000000000000000000000000000000");
-      print(currentUser!.uid);
       if (currentUser != null) {
         await _fireStore
             .collection('donors')

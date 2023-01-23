@@ -53,7 +53,6 @@ class HomeDrawerBody extends StatelessWidget {
                 Utils.showSnackBar(
                   context: context,
                   msg: "الرجاء تسجيل الدخول اولا",
-                  color: ColorManager.error,
                 );
                 di.initSignIn();
                 Navigator.of(context).pushNamed(SignInPage.routeName);

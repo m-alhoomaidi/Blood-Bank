@@ -49,7 +49,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final double stepContentHeight = 300.0;
   int _activeStepIndex = 0;
   bool didConfirm = false;
-  bool isPasswordVisible = false;
+  bool isPasswordVisible = true;
   bool isFirstStep() => _activeStepIndex == 0;
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
@@ -107,6 +107,18 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       }
     }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    phoneController.dispose();
+    stateNameController.dispose();
+    districtController.dispose();
+    neighborhoodController.dispose();
+    super.dispose();
   }
 
   @override
@@ -461,10 +473,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   dropdownDialogRadius: 10.0,
                   searchBarRadius: 10.0,
                   onStateChanged: (value) {
-                    stateNameController.text = value!;
+                    if (value != null) {
+                      stateNameController.text = value;
+                    }
                   },
                   onCityChanged: (value) {
-                    districtController.text = value!;
+                    if (value != null) {
+                      districtController.text = value;
+                    }
                   },
                 ),
               ),

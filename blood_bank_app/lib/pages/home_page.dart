@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
     // initMessaging();
     // FirebaseMessaging.onMessage.listen((event) {
     //   print("on backgrounnd");
