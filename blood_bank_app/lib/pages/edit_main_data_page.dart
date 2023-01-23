@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/widgets/setting/profile_body.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -33,6 +35,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   final GlobalKey<FormState> _formStateBloodType = GlobalKey<FormState>();
   String? bloodType;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -55,10 +58,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
           padding: const EdgeInsets.all(20.0),
           child: ListView(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Text("الاسم"),
-              ),
+              myPadding("الاسم"),
               Form(
                 key: _formState,
                 child: MyTextFormField(
@@ -79,18 +79,10 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                 ),
               ),
               const SizedBox(height: 15.0),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Text("الفصيلة"),
-              ),
+              myPadding("الفصيلة"),
               myDropdownButtonFormField(profileLocalData!),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Text("العنوان"),
-              ),
-              addressData(
-                  profileLocalData: profileLocalData,
-                  formStateBloodType: _formStateBloodType),
+              myPadding("العنوان"),
+              AddressData(),
               const SizedBox(height: 30.0),
               MyButton(
                   title: "حفظ",
@@ -99,6 +91,9 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                         _formStateBloodType.currentState!.validate()) {
                       _formState.currentState!.save();
                       _formStateBloodType.currentState!.save();
+                      print("++++++++++++++++++++++++++++++++++++++");
+                      BlocProvider.of<ProfileCubit>(context)
+                          .sendBasicDataProfileSectionOne(profileLocalData!);
                     }
                   }))
             ],
@@ -106,47 +101,14 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
         ));
   }
 
-  MyDropdownButtonFormField myDropdownButtonFormField(
-      ProfileLocalData profileLocalData) {
-    return MyDropdownButtonFormField(
-      hint: "فصيلة دمك",
-      validator: (value) {
-        return (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
-      },
-      value: (profileLocalData.bloodType == null)
-          // (box.get("blood_type") == null)
-          ? bloodType
-          : profileLocalData.bloodType,
-      // : box.get("blood_type"),
-      hintColor: eTextColor,
-      items: BloodTypes.bloodTypes,
-      blurrBorderColor: eFieldBlurrBorderColor,
-      focusBorderColor: eFieldFocusBorderColor,
-      fillColor: eFieldFillColor,
-      icon: const Icon(Icons.bloodtype_outlined),
-      onChange: (value) => setState(() {
-        bloodType = value;
-        // box.put("blood_type", bloodType);
-        profileLocalData.bloodType = value;
-      }),
+  Padding myPadding(String title) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Text(title),
     );
   }
-}
 
-// ignore: camel_case_types
-class addressData extends StatelessWidget {
-  const addressData({
-    Key? key,
-    required this.profileLocalData,
-    required GlobalKey<FormState> formStateBloodType,
-  })  : _formStateBloodType = formStateBloodType,
-        super(key: key);
-
-  final ProfileLocalData? profileLocalData;
-  final GlobalKey<FormState> _formStateBloodType;
-
-  @override
-  Widget build(BuildContext context) {
+  Column AddressData() {
     return Column(
       children: [
         SizedBox(
@@ -202,22 +164,32 @@ class addressData extends StatelessWidget {
                   ),
                   dropdownDialogRadius: 10.0,
                   searchBarRadius: 10.0,
-                  currentState: (profileLocalData!.state == null)
-                      ? null
-                      : profileLocalData!.state!,
-                  currentCity: (profileLocalData!.district == null)
-                      ? null
-                      : profileLocalData!.district,
+
+                  currentState:
+                      // (widget.donor!.state == null)
+                      //     ? null
+                      //     :
+                      profileLocalData!.state,
+                  currentCity:
+                      // (widget.donor!.district == null)
+                      //     ? null
+                      //     :
+                      profileLocalData!.district,
                   onStateChanged: (value) {
                     // stateName = value;
                     print(profileLocalData!.state);
                     // box.put("state_name", value);
-                    profileLocalData!.state = value;
+                    setState(() {
+                      if (value != null) profileLocalData!.state = value;
+                    });
                   },
                   onCityChanged: (value) {
                     // district = value;
                     // box.put("district", value);
-                    profileLocalData!.district = value;
+                    print(profileLocalData!.district);
+                    setState(() {
+                      if (value != null) profileLocalData!.district = value;
+                    });
                   },
                 ),
               ),
@@ -256,6 +228,32 @@ class addressData extends StatelessWidget {
         ),
         const SizedBox(height: 15.0),
       ],
+    );
+  }
+
+  MyDropdownButtonFormField myDropdownButtonFormField(
+      ProfileLocalData profileLocalData) {
+    return MyDropdownButtonFormField(
+      hint: "فصيلة دمك",
+      validator: (value) {
+        return (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
+      },
+      value: (profileLocalData.bloodType == null)
+          // (box.get("blood_type") == null)
+          ? bloodType
+          : profileLocalData.bloodType,
+      // : box.get("blood_type"),
+      hintColor: eTextColor,
+      items: BloodTypes.bloodTypes,
+      blurrBorderColor: eFieldBlurrBorderColor,
+      focusBorderColor: eFieldFocusBorderColor,
+      fillColor: eFieldFillColor,
+      icon: const Icon(Icons.bloodtype_outlined),
+      onChange: (value) => setState(() {
+        bloodType = value;
+        // box.put("blood_type", bloodType);
+        profileLocalData.bloodType = value;
+      }),
     );
   }
 }
