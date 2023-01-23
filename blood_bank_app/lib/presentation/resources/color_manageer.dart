@@ -20,4 +20,5 @@ class ColorManager {
   static const Color black = Color(0x00000000);
   static const Color link = Color(0xff33aaff);
   static const Color error = Color(0xffff0000);
+  static const Color success = Color(0xff00ff00);
 }
