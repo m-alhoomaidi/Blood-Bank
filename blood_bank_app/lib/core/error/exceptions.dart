@@ -9,3 +9,5 @@ class WrongDataException implements Exception {}
 class UnknownException implements Exception {}
 
 class WrongEmailFailure implements Exception {}
+
+class DoesnotSaveData implements Exception {}

@@ -2,6 +2,7 @@
 import 'package:blood_bank_app/core/error/failures.dart';
 import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
+import 'package:blood_bank_app/widgets/setting/profile_body.dart';
 import 'package:dartz/dartz.dart';
 
 class ProfileUseCase {
@@ -12,5 +13,11 @@ class ProfileUseCase {
 
   Future<Either<Failure, Donor>> call() {
     return profileRepository.getDataToProfilePage();
+  }
+
+  Future<Either<Failure, Unit>> callsendDataSectionOne(
+      {required ProfileLocalData profileLocalData}) {
+    return profileRepository.sendDataProfileSectionOne(
+        profileLocalData: profileLocalData);
   }
 }

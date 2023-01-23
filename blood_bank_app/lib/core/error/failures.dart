@@ -46,3 +46,8 @@ class FirebaseNullValueFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class DoesnotSaveData extends Failure {
+  @override
+  List<Object?> get props => [];
+}
