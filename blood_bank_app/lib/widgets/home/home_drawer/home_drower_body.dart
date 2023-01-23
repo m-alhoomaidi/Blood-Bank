@@ -45,7 +45,8 @@ class HomeDrawerBody extends StatelessWidget {
             title: "إعدادات",
             onTap: () {
               // CompareHiveAndFireStore().compareHiveAndFirestore();
-              // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+
+              BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
               if (FirebaseAuth.instance.currentUser != null) {
                 Navigator.of(context).pushNamed(SettingPage.routeName);
               } else {
