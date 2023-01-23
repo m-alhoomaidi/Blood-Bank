@@ -38,6 +38,8 @@ class SignInRepositoryImpl implements SignInRepository {
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());
         } else {
+          print(";;;;;;;lllllllllllllllllllllllllll");
+          print(fireError.code);
           return Left(UnknownFailure());
         }
       } on ServerException {

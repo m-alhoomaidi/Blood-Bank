@@ -7,7 +7,10 @@ import 'package:blood_bank_app/domain/entities/donor.dart';
 import '../../cubit/profile_cubit/profile_cubit.dart';
 import '../../pages/edit_main_data_page.dart';
 import '../../pages/setting_page.dart';
+import '../../presentation/resources/color_manageer.dart';
 import '../../shared/style.dart';
+import '../../shared/utils.dart';
+import '../forms/my_button.dart';
 import '../forms/my_switchlist_tile.dart';
 import '../forms/my_text_form_field.dart';
 
@@ -48,7 +51,15 @@ class _ProfileBodyState extends State<ProfileBody> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    fillProfileLocalData();
     // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+  }
+
+  fillProfileLocalData() {
+    profileLocalData!.date = widget.donor!.brithDate;
+    profileLocalData!.isShown = widget.donor!.isShown;
+    profileLocalData!.is_shown_phone = widget.donor!.isShownPhone;
+    profileLocalData!.is_gps_on = widget.donor!.isGpsOn;
   }
 
   @override
@@ -58,88 +69,97 @@ class _ProfileBodyState extends State<ProfileBody> {
       const SizedBox(
         height: 10,
       ),
-      // editBasicData(
-      //   donor: widget.donor!,
-      // ),
+      editBasicData(
+        donor: widget.donor!,
+      ),
       valueListenableBuilder(widget.donor!),
     ]));
   }
 
-  ValueListenableBuilder<Box<dynamic>> valueListenableBuilder(Donor donor) {
-    return ValueListenableBuilder<Box>(
-        valueListenable: Hive.box(dataBoxName).listenable(),
-        builder: (context, box, widget) {
-          return Column(
-            children: [
-              MySwitchListTile(
-                title: "متاح",
-                subTitle: "الظهور في قائمة المتبرعين",
-                // onchangValue: (box.get("is_shown", defaultValue: "1") == "1")
-                //     ? true
-                //     : false,
-                onchangValue: (donor.isShown.toString() == "1") ? true : false,
-                onChange: (val) {
-                  // box.put("is_shown", val == true ? "1" : 0);
-                  profileLocalData!.isShown = val == true ? "1" : "0";
-                },
-              ),
-              MySwitchListTile(
-                title: "اضهار رقمي",
-                subTitle: "سيظهر رقمك للجميع",
-                onChange: (val) {
-                  // box.put("is_shown_phone", val == true ? "1" : 0);
-                  profileLocalData!.is_shown_phone = val == true ? "1" : "0";
-                },
-                // onchangValue:
-                //     (box.get("is_shown_phone", defaultValue: "1") == "1")
-                //         ? true
-                //         : false,
-                onchangValue:
-                    (donor.isShownPhone.toString() == "1") ? true : false,
-              ),
-              MySwitchListTile(
-                title: "استخدام الموقع",
-                subTitle: "تشغيل gbs",
-                onChange: (val) {
-                  // box.put("is_gps_on", val == true ? "1" : 0);
-                  profileLocalData!.is_gps_on = val == true ? "1" : "0";
-                },
-                onchangValue: (donor.isGpsOn == "1") ? true : false,
-                // onchangValue: (box.get("is_gps_on", defaultValue: "1") == "1")
-                //     ? true
-                //     : false,
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 20.0),
-                  child: Column(
-                    children: [
-                      MyTextFormField(
-                        hint: 'تاريخ الميلاد',
-                        hintStyle: eHintStyle,
-                        suffixIcon: true,
-                        blurrBorderColor: Colors.grey,
-                        focusBorderColor: eSecondColor,
-                        icon: const Icon(
-                          Icons.calendar_month,
-                          color: eSecondColor,
-                        ),
-                        readOnly: true,
-                        onTap: () {
-                          showDateTimePicker(context).then((value) {
-                            if (value != "") {
-                              // box.put("date", value);
-                              profileLocalData!.date = value;
-                            }
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ))
-            ],
-          );
-        });
+  valueListenableBuilder(Donor donor) {
+    return Column(
+      children: [
+        MySwitchListTile(
+          title: "متاح",
+          subTitle: "الظهور في قائمة المتبرعين",
+          // onchangValue: (box.get("is_shown", defaultValue: "1") == "1")
+          //     ? true
+          //     : false,
+          onchangValue: (donor.isShown.toString() == "1") ? true : false,
+          onChange: (val) {
+            // box.put("is_shown", val == true ? "1" : 0);
+            profileLocalData!.isShown = val == true ? "1" : "0";
+          },
+        ),
+        MySwitchListTile(
+          title: "اضهار رقمي",
+          subTitle: "سيظهر رقمك للجميع",
+          onChange: (val) {
+            // box.put("is_shown_phone", val == true ? "1" : 0);
+            profileLocalData!.is_shown_phone = val == true ? "1" : "0";
+          },
+          // onchangValue:
+          //     (box.get("is_shown_phone", defaultValue: "1") == "1")
+          //         ? true
+          //         : false,
+          onchangValue: (donor.isShownPhone.toString() == "1") ? true : false,
+        ),
+        MySwitchListTile(
+          title: "استخدام الموقع",
+          subTitle: "تشغيل gbs",
+          onChange: (val) {
+            // box.put("is_gps_on", val == true ? "1" : 0);
+            profileLocalData!.is_gps_on = val == true ? "1" : "0";
+          },
+          onchangValue: (donor.isGpsOn == "1") ? true : false,
+          // onchangValue: (box.get("is_gps_on", defaultValue: "1") == "1")
+          //     ? true
+          //     : false,
+        ),
+        Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
+            child: Column(
+              children: [
+                MyTextFormField(
+                  hint: 'تاريخ الميلاد',
+                  hintStyle: eHintStyle,
+                  suffixIcon: true,
+                  blurrBorderColor: Colors.grey,
+                  focusBorderColor: eSecondColor,
+                  icon: const Icon(
+                    Icons.calendar_month,
+                    color: eSecondColor,
+                  ),
+                  readOnly: true,
+                  onTap: () {
+                    showDateTimePicker(context).then((value) {
+                      if (value != "") {
+                        // box.put("date", value);
+                        profileLocalData!.date = value;
+                      }
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+              ],
+            )),
+        MyButton(
+            title: "حفظ",
+            onPressed: (() {
+              if (profileLocalData != null) {
+                BlocProvider.of<ProfileCubit>(context)
+                    .sendDataProfileSectionOne(profileLocalData!);
+              } else {
+                Utils.showSnackBar(
+                  context: context,
+                  msg: "تاكد من ضبط كل الخيارات بشكل صحيح",
+                  color: ColorManager.error,
+                );
+              }
+            }))
+      ],
+    );
   }
 }
 
@@ -169,8 +189,8 @@ class editBasicData extends StatelessWidget {
       onTap: () {
         print("00000000000000000000000000000");
         print(donor);
-        // Navigator.of(context).push(MaterialPageRoute<void>(
-        //     builder: (BuildContext context) => EditMainDataPage(donor: donor)));
+        Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (BuildContext context) => EditMainDataPage(donor: donor)));
       },
     );
   }
