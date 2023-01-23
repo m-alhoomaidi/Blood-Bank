@@ -24,7 +24,7 @@ import '../widgets/forms/my_text_form_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
-  static const String routeName = "sign-up";
+  static const String routeName = "/sign-up";
 
   @override
   _SignUpPageState createState() => _SignUpPageState();

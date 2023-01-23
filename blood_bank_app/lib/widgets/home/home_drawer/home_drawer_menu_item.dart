@@ -18,7 +18,7 @@ class HomeDrawerMenuItem extends StatelessWidget {
       leading: Icon(icon),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.headlineMedium,
       ),
       onTap: onTap,
     );

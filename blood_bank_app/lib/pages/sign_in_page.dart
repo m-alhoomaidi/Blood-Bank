@@ -31,7 +31,7 @@ class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _emailState = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool isPasswordVisible = false;
+  bool isPasswordVisible = true;
 
   String? emailValidator(value) {
     if (value != null && EmailValidator.validate(value)) {
