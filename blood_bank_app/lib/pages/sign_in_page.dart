@@ -4,6 +4,7 @@ import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:blood_bank_app/presentation/resources/font_manager.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/forms/my_button.dart';
 
@@ -60,7 +61,18 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  _submitSignIn() {
+  _submitSignIn() async {
+    // print("llllllllllllllllllllllllllllllllll");
+    // print(emailController.text);
+    // print(passwordController.text);
+    // await FirebaseAuth.instance
+    //     .signInWithEmailAndPassword(
+    //         email: emailController.text, password: passwordController.text)
+    //     .then((value) {
+    //   print(value);
+    // }).onError((error, stackTrace) {
+    //   print(error);
+    // });
     if (_emailState.currentState!.validate() &
         _formState.currentState!.validate()) {
       BlocProvider.of<SingInCubit>(context).signIn(
@@ -175,6 +187,7 @@ class _SignInPageState extends State<SignInPage> {
         key: _emailState,
         child: MyTextFormField(
           hint: AppStrings.signInEmailFieldHint,
+          controller: emailController,
           blurrBorderColor: ColorManager.lightGrey,
           focusBorderColor: ColorManager.secondary,
           fillColor: ColorManager.white,
@@ -190,6 +203,7 @@ class _SignInPageState extends State<SignInPage> {
       margin: const EdgeInsets.symmetric(horizontal: 40),
       child: MyTextFormField(
         hint: AppStrings.signInPasswordFieldHint,
+        controller: passwordController,
         isPassword: isPasswordVisible,
         blurrBorderColor: ColorManager.lightGrey,
         focusBorderColor: ColorManager.secondary,
