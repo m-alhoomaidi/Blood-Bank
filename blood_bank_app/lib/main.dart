@@ -1,24 +1,14 @@
-import 'package:blood_bank_app/data/repositories/sign_in_repository_impl.dart';
-import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
-import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
-import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
-
 import 'presentation/onboarding/introduction_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
 import 'cubit/profile_cubit/profile_cubit.dart';
 import 'cubit/search_cubit/search_cubit.dart';
 import 'cubit/signin_cubit/signin_cubit.dart';
-import 'cubit/signup_cubit/signup_cubit.dart';
-import 'pages/edit_main_data_page.dart';
 import 'pages/home_page.dart';
 import 'pages/search_map.dart';
 import 'pages/search_page.dart';
@@ -61,7 +51,7 @@ void main() async {
   // FirebaseMessaging.onBackgroundMessage(updateLocation);
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(create: (BuildContext context) => SignupCubit()),
+      BlocProvider(create: (BuildContext context) => di.sl<SignUpCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SingInCubit>()),
       BlocProvider(create: (BuildContext context) => SearchCubit()),
       BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>())

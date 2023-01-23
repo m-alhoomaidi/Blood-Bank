@@ -67,7 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> submit() async {
     FormState? formData = _fourthFormState.currentState;
     if (formData!.validate()) {
-      BlocProvider.of<SignupCubit>(context).signUp(
+      BlocProvider.of<SignUpCubit>(context).signUp(
         donor: Donor(
           email: emailController.text,
           password: Encryption.encode(passwordController.text),
@@ -128,16 +128,16 @@ class _SignUpPageState extends State<SignUpPage> {
         title: const Text('إنشاء حساب متبرع'),
         centerTitle: true,
       ),
-      body: BlocConsumer<SignupCubit, SignupState>(
+      body: BlocConsumer<SignUpCubit, SignupState>(
         listener: (context, state) {
-          if (state is SignupSuccess) {
+          if (state is SignUpSuccess) {
             Utils.showSnackBar(
               context: context,
               msg: 'تم إنشاء حساب بنجاح',
               color: Colors.green,
             );
             Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-          } else if (state is SignupFailure) {
+          } else if (state is SignUpFailure) {
             Utils.showSnackBar(context: context, msg: state.error);
           }
         },

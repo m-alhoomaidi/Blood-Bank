@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInUseCase {
-  final SignInRepository authRepository;
+  final AuthRepository authRepository;
   SignInUseCase({
     required this.authRepository,
   });
