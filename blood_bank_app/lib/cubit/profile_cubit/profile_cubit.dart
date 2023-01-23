@@ -16,6 +16,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> getDataToProfilePage() async {
     try {
+      emit(ProfileLoading());
       User? currentUser = _auth.currentUser;
       print("000000000000000000000000000000");
       print(currentUser!.uid);
@@ -46,9 +47,9 @@ class ProfileCubit extends Cubit<ProfileState> {
             .collection('donors')
             .doc("9U74upZiSOJugT9wrDnu")
             .update({
-          DonorFields.isGpsOn: profileLocalData.is_gps_on,
+          DonorFields.isGpsOn: profileLocalData.isGpsOn,
           DonorFields.isShown: profileLocalData.isShown,
-          DonorFields.isShownPhone: profileLocalData.is_shown_phone,
+          DonorFields.isShownPhone: profileLocalData.isShownPhone,
           DonorFields.brithDate: profileLocalData.date,
         }).then((value) async {
           emit(ProfileSuccess());

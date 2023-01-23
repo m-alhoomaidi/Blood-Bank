@@ -88,9 +88,129 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Text("العنوان"),
               ),
-              addressData(
-                  profileLocalData: profileLocalData,
-                  formStateBloodType: _formStateBloodType),
+              Column(
+                children: [
+                  SizedBox(
+                    // height: stepContentHeight,
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          // margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: CSCPicker(
+                            layout: Layout.vertical,
+                            showStates: true,
+                            showCities: true,
+                            flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
+                            dropdownDecoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.red[100],
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1,
+                              ),
+                            ),
+                            dropDownPadding: const EdgeInsets.all(12),
+                            // dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
+                            spaceBetween: 15.0,
+                            disabledDropdownDecoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              color: Colors.grey.shade300,
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            countrySearchPlaceholder: "الدولة",
+                            stateSearchPlaceholder: "المحافطة",
+                            citySearchPlaceholder: "المديرية",
+                            countryDropdownLabel: "الدولة",
+                            stateDropdownLabel: "المحافطة",
+                            cityDropdownLabel: "المديرية",
+                            defaultCountry: DefaultCountry.Yemen,
+
+                            selectedItemStyle: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                            ),
+                            dropdownHeadingStyle: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                            dropdownItemStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                            dropdownDialogRadius: 10.0,
+                            searchBarRadius: 10.0,
+
+                            currentState:
+                                // (widget.donor!.state == null)
+                                //     ? null
+                                //     :
+                                widget.donor!.state,
+                            currentCity:
+                                // (widget.donor!.district == null)
+                                //     ? null
+                                //     :
+                                widget.donor!.district,
+                            onStateChanged: (value) {
+                              // stateName = value;
+                              print(profileLocalData!.state);
+                              // box.put("state_name", value);
+                              setState(() {
+                                widget.donor!.state = value!;
+                              });
+                            },
+                            onCityChanged: (value) {
+                              // district = value;
+                              // box.put("district", value);
+                              print(profileLocalData!.district);
+                              setState(() {
+                                widget.donor!.district = value!;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 15.0),
+                        SizedBox(
+                          // margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Form(
+                            key: _formStateBloodType,
+                            child: MyTextFormField(
+                              initialValue:
+                                  ((profileLocalData!.neighborhood == null)
+                                      ? null
+                                      : profileLocalData!.neighborhood),
+                              hint: "المنطقة",
+                              hintStyle: eHintStyle,
+                              blurrBorderColor: eFieldBlurrBorderColor,
+                              focusBorderColor: eFieldFocusBorderColor,
+                              fillColor: eFieldFillColor,
+                              suffixIcon: false,
+                              icon: const Icon(Icons.my_location_outlined),
+                              onSave: (value) {
+                                // neighborhood = value;
+                                // box.put("neighborhood", value);
+                                profileLocalData!.neighborhood = value;
+                              },
+                              validator: (value) {
+                                if (value!.length < 2) {
+                                  return "يرجى كتابة قريتك أو حارتك";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                ],
+              ),
               const SizedBox(height: 30.0),
               MyButton(
                   title: "حفظ",
@@ -99,6 +219,20 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                         _formStateBloodType.currentState!.validate()) {
                       _formState.currentState!.save();
                       _formStateBloodType.currentState!.save();
+                      print("++++++++++++++++++++++++++++++++++++++");
+                      print(profileLocalData!.bloodType);
+                      print(widget.donor!.bloodType);
+                      print(profileLocalData!.name);
+                      print("object");
+                      print(profileLocalData!.state);
+                      print(widget.donor!.state);
+
+                      print(profileLocalData!.district);
+                      print(widget.donor!.district);
+
+                      print(profileLocalData!.neighborhood);
+                      print("object");
+                      print(widget.donor!.neighborhood);
                     }
                   }))
             ],
@@ -147,6 +281,8 @@ class addressData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(";;;;;;0");
+    print(profileLocalData!.state);
     return Column(
       children: [
         SizedBox(
@@ -217,6 +353,7 @@ class addressData extends StatelessWidget {
                   onCityChanged: (value) {
                     // district = value;
                     // box.put("district", value);
+                    print(profileLocalData!.district);
                     profileLocalData!.district = value;
                   },
                 ),

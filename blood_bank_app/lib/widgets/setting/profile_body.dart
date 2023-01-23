@@ -60,12 +60,8 @@ class _ProfileBodyState extends State<ProfileBody> {
     profileLocalData = ProfileLocalData(
         date: widget.donor!.brithDate,
         isShown: widget.donor!.isShown,
-        is_gps_on: widget.donor!.isGpsOn,
-        is_shown_phone: widget.donor!.isShownPhone);
-    // profileLocalData!.date = widget.donor!.brithDate;
-    // profileLocalData!.isShown = widget.donor!.isShown;
-    // profileLocalData!.is_shown_phone = widget.donor!.isShownPhone;
-    // profileLocalData!.is_gps_on = widget.donor!.isGpsOn;
+        isGpsOn: widget.donor!.isGpsOn,
+        isShownPhone: widget.donor!.isShownPhone);
   }
 
   @override
@@ -75,7 +71,7 @@ class _ProfileBodyState extends State<ProfileBody> {
       const SizedBox(
         height: 10,
       ),
-      editBasicData(
+      EditBasicData(
         donor: widget.donor!,
       ),
       valueListenableBuilder(widget.donor!),
@@ -88,11 +84,7 @@ class _ProfileBodyState extends State<ProfileBody> {
         MySwitchListTile(
           title: "متاح",
           subTitle: "الظهور في قائمة المتبرعين",
-          // onchangValue: (box.get("is_shown", defaultValue: "1") == "1")
-          //     ? true
-          //     : false,
           onChange: (val) {
-            // box.put("is_shown", val == true ? "1" : 0);
             setState(() {
               profileLocalData!.isShown = val == true ? "1" : "0";
             });
@@ -103,31 +95,21 @@ class _ProfileBodyState extends State<ProfileBody> {
           title: "اضهار رقمي",
           subTitle: "سيظهر رقمك للجميع",
           onChange: (val) {
-            // box.put("is_shown_phone", val == true ? "1" : 0);
             setState(() {
-              profileLocalData!.is_shown_phone = val == true ? "1" : "0";
+              profileLocalData!.isShownPhone = val == true ? "1" : "0";
             });
           },
-          // onchangValue:
-          //     (box.get("is_shown_phone", defaultValue: "1") == "1")
-          //         ? true
-          //         : false,
-          onchangValue:
-              (profileLocalData!.is_shown_phone == "1") ? true : false,
+          onchangValue: (profileLocalData!.isShownPhone == "1") ? true : false,
         ),
         MySwitchListTile(
           title: "استخدام الموقع",
           subTitle: "تشغيل gbs",
           onChange: (val) {
-            // box.put("is_gps_on", val == true ? "1" : 0);
             setState(() {
-              profileLocalData!.is_gps_on = val == true ? "1" : "0";
+              profileLocalData!.isGpsOn = val == true ? "1" : "0";
             });
           },
-          onchangValue: (profileLocalData!.is_gps_on == "1") ? true : false,
-          // onchangValue: (box.get("is_gps_on", defaultValue: "1") == "1")
-          //     ? true
-          //     : false,
+          onchangValue: (profileLocalData!.isGpsOn == "1") ? true : false,
         ),
         Padding(
             padding:
@@ -148,13 +130,11 @@ class _ProfileBodyState extends State<ProfileBody> {
                   onTap: () {
                     showDateTimePicker(context).then((value) {
                       if (value != "") {
-                        // box.put("date", value);
                         profileLocalData!.date = value;
                       }
                     });
                   },
                 ),
-                // const SizedBox(height: 20),
               ],
             )),
         MyButton(
@@ -162,17 +142,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             minWidth: MediaQuery.of(context).size.width * 0.85,
             onPressed: (() {
               if (profileLocalData != null) {
-                // print("_________________");
-                // print(profileLocalData!.isShown);
-                // print(profileLocalData!.date);
-                // print(profileLocalData!.is_gps_on);
-                // print(profileLocalData!.is_shown_phone);
                 BlocProvider.of<ProfileCubit>(context)
-                    .sendDataProfileSectionOne(profileLocalData!)
-                    .then((value) {
-                  print("success ssssssssssssssssssssssssss");
-                  // print(value!);
-                });
+                    .sendDataProfileSectionOne(profileLocalData!);
               } else {
                 Utils.showSnackBar(
                   context: context,
@@ -186,9 +157,9 @@ class _ProfileBodyState extends State<ProfileBody> {
   }
 }
 
-class editBasicData extends StatelessWidget {
+class EditBasicData extends StatelessWidget {
   Donor donor;
-  editBasicData({
+  EditBasicData({
     Key? key,
     required this.donor,
   }) : super(key: key);
@@ -210,9 +181,6 @@ class editBasicData extends StatelessWidget {
         ),
       ),
       onTap: () {
-        print("00000000000000000000000000000");
-        print(";;;;;;;");
-        print(donor);
         Navigator.of(context).push(MaterialPageRoute<void>(
             builder: (BuildContext context) => EditMainDataPage(donor: donor)));
       },
@@ -223,8 +191,8 @@ class editBasicData extends StatelessWidget {
 class ProfileLocalData {
   String? isShown;
   String? date;
-  String? is_gps_on;
-  String? is_shown_phone;
+  String? isGpsOn;
+  String? isShownPhone;
   String? name;
   String? bloodType;
   String? district;
@@ -239,6 +207,6 @@ class ProfileLocalData {
       this.state,
       this.isShown,
       this.date,
-      this.is_gps_on,
-      this.is_shown_phone});
+      this.isGpsOn,
+      this.isShownPhone});
 }
