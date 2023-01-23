@@ -9,11 +9,11 @@ import 'package:blood_bank_app/core/error/failures.dart';
 import 'package:blood_bank_app/core/network/network_info.dart';
 import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
 
-class SignInRepositoryImpl implements SignInRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final NetworkInfo networkInfo;
-  SignInRepositoryImpl({
+  AuthRepositoryImpl({
     required this.networkInfo,
   });
   @override
@@ -119,13 +119,7 @@ class SignInRepositoryImpl implements SignInRepository {
           }
         });
       } on FirebaseException catch (fireError) {
-        if (fireError.code == 'invalid-email') {
-          return Left(InvalidEmailFailure());
-        } else if (fireError.code == 'weak-password') {
-          return Left(WeekPasswordFailure());
-        } else if (fireError.code == 'email-already-in-use') {
-          return Left(EmailAlreadyRegisteredFailure());
-        } else if (fireError.code == 'unknown') {
+        if (fireError.code == 'unknown') {
           return Left(ServerFailure());
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());

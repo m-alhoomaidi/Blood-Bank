@@ -34,4 +34,9 @@ class AppStrings {
   static const String signInForgetPasswordTextButton = "نسيت كلمة المرور؟";
   static const String signInSubmitButton = "دخول";
   static const String signInSignUpButton = "إنشاء حساب";
+
+  //-------------------------------------------------------
+  //-------- Sing Up Page
+  // static const String signInAppBarTitle = "تسجيل دخول";
+  // static const String resetPasswordDialogTitle = "جاري التحقق";
 }

@@ -5,13 +5,12 @@ import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
 import 'package:dartz/dartz.dart';
 
 class SignUpUseCase {
-  final SignInRepository authRepository;
+  final AuthRepository authRepository;
   SignUpUseCase({
     required this.authRepository,
   });
   Future<Either<Failure, Unit>> call({
     required Donor donor,
-    required String uId,
   }) async {
     return await authRepository.signUpDonor(
       donor: donor,
