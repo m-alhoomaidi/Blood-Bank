@@ -116,10 +116,6 @@ class _SettingPageState extends State<SettingPage> {
 
   PermissionStatus? _permissionStatus;
 
-  getData() async {
-    await BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
-  }
-
   @override
   void initState() {
     super.initState();

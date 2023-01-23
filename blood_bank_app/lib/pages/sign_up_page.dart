@@ -1,6 +1,7 @@
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _fourthFormState = GlobalKey<FormState>();
 
-  String? selectedGovernorate, selectedDistrict;
   TextEditingController emailController = TextEditingController(),
       passwordController = TextEditingController(),
       nameController = TextEditingController(),
@@ -44,11 +44,10 @@ class _SignUpPageState extends State<SignUpPage> {
       stateNameController = TextEditingController(),
       districtController = TextEditingController(),
       neighborhoodController = TextEditingController();
-  String? bloodType;
 
-  final double stepContentHeight = 300.0;
+  String? selectedGovernorate, selectedDistrict, bloodType;
+
   int _activeStepIndex = 0;
-  bool didConfirm = false;
   bool isPasswordVisible = true;
   bool isFirstStep() => _activeStepIndex == 0;
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
@@ -295,7 +294,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isActive: _activeStepIndex >= 0,
       title: Text("حسابك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _firstFormState,
           child: Column(
@@ -354,7 +353,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isActive: _activeStepIndex >= 1,
       title: Text("بياناتك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _secondFormState,
           child: Column(
@@ -429,7 +428,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isActive: _activeStepIndex >= 2,
       title: Text("عنوانك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _thirdFormState,
           child: Column(
@@ -516,7 +515,7 @@ class _SignUpPageState extends State<SignUpPage> {
       title: Text("تأكيد", style: Theme.of(context).textTheme.bodySmall),
       content: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Column(
           children: [
             Wrap(

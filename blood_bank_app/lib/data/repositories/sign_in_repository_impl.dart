@@ -88,6 +88,8 @@ class AuthRepositoryImpl implements AuthRepository {
             .then((userCredential) async {
           if (userCredential.user != null) {
             try {
+              print("donor.toMap()");
+              print(donor.toMap());
               return await _fireStore
                   .collection('donors')
                   .doc(userCredential.user!.uid)
