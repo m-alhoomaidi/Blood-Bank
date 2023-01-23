@@ -1,6 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:blood_bank_app/domain/entities/donor.dart';
 
 import '../widgets/edit_main_data/address.dart';
 import '../widgets/edit_main_data/blood_type.dart';
@@ -9,7 +12,11 @@ import '../widgets/forms/my_text_form_field.dart';
 import 'setting_page.dart';
 
 class EditMainDataPage extends StatefulWidget {
-  const EditMainDataPage({super.key});
+  Donor? donor;
+  EditMainDataPage({
+    Key? key,
+    required this.donor,
+  }) : super(key: key);
   static const String routeName = "edit_main_data";
 
   @override
@@ -24,7 +31,6 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("تعديل البيانات الاساسية"),
-          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -50,7 +56,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                           return null;
                         },
                         onSave: ((newValue) {
-                          box.put("name", newValue);
+                          // box.put("name", newValue);
                         }),
                       ),
                     ),

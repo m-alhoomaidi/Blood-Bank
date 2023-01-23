@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../cubit/profile_cubit/profile_cubit.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
     // initMessaging();
     // FirebaseMessaging.onMessage.listen((event) {
     //   print("on backgrounnd");

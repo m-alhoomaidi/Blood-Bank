@@ -56,6 +56,7 @@ void main() async {
   await di.initApp();
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
+
   // FirebaseMessaging.onBackgroundMessage(updateLocation);
   runApp(MultiBlocProvider(
     providers: [
@@ -104,7 +105,6 @@ class MyApp extends StatelessWidget {
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),
         UserDataPage.routeName: (context) => const UserDataPage(),
-        EditMainDataPage.routeName: (context) => const EditMainDataPage(),
         SearchMapPage.routeName: (context) => const SearchMapPage(),
         // OnBoardingView.routeName: (context) => const OnBoardingView(),
         IntroductionPage.routeName: (context) => const IntroductionPage()
