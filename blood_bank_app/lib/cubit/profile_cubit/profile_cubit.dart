@@ -26,16 +26,12 @@ class ProfileCubit extends Cubit<ProfileState> {
             .get()
             .then((value) async {
           donors = Donor.fromMap(value.data()!);
-          print(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
-          print(donors);
           emit(ProfileGetData(donors: donors!));
         });
       } else {
-        print("1111111111111111111111111");
         emit(ProfileFailure(error: "tttt"));
       }
     } catch (e) {
-      print("222222222222222222222222222222222");
       emit(ProfileFailure(error: "pppppppppppp"));
     }
   }
@@ -43,15 +39,20 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> sendDataProfileSectionOne(
       ProfileLocalData profileLocalData) async {
     try {
+      emit(ProfileLoading());
       User? currentUser = _auth.currentUser;
       if (currentUser != null) {
-        await _fireStore.collection('donors').doc(currentUser.uid).update({
+        await _fireStore
+            .collection('donors')
+            .doc("9U74upZiSOJugT9wrDnu")
+            .update({
           DonorFields.isGpsOn: profileLocalData.is_gps_on,
           DonorFields.isShown: profileLocalData.isShown,
           DonorFields.isShownPhone: profileLocalData.is_shown_phone,
           DonorFields.brithDate: profileLocalData.date,
         }).then((value) async {
           emit(ProfileSuccess());
+          getDataToProfilePage();
         });
       } else {
         print("1111111111111111111111111");
