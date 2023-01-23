@@ -63,7 +63,7 @@ class SingInCubit extends Cubit<SignInState> {
         return "لا يوجد بيانات محلية";
       case UnknownFailure:
         return "خطأ غير معروف";
-      case WrongEmailFailure:
+      case InvalidEmailFailure:
         return "تحقق من صحة بريدك الالكتروني";
       default:
         return "خطأ غير معروف";
@@ -123,7 +123,6 @@ class SingInCubit extends Cubit<SignInState> {
   //     emit(SigninLoading());
   //     await auth.sendPasswordResetEmail(email: email).then((value) {
   //       emit(SigninSuccessResetPass());
-
   //     });
   //   } catch (e) {
   //     emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));

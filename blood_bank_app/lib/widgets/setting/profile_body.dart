@@ -196,9 +196,6 @@ class editBasicData extends StatelessWidget {
         ),
       ),
       onTap: () {
-        print("00000000000000000000000000000");
-        print(";;;;;;;");
-        print(donor);
         Navigator.of(context).push(MaterialPageRoute<void>(
             builder: (BuildContext context) => EditMainDataPage(donor: donor)));
       },

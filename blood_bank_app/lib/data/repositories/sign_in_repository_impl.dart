@@ -41,8 +41,6 @@ class SignInRepositoryImpl implements SignInRepository {
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());
         } else {
-          print(";;;;;;;lllllllllllllllllllllllllll");
-          print(fireError.code);
           return Left(UnknownFailure());
         }
       } on ServerException {
@@ -79,20 +77,50 @@ class SignInRepositoryImpl implements SignInRepository {
   @override
   Future<Either<Failure, Unit>> signUpDonor({
     required Donor donor,
-    required String uId,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        return await _fireStore
-            .collection('donors')
-            .doc(uId)
-            .set(donor.toMap())
-            .then((_) async {
-          return const Right(unit);
+        return await _firebaseAuth
+            .createUserWithEmailAndPassword(
+          email: donor.email,
+          password: donor.password,
+        )
+            .then((userCredential) async {
+          if (userCredential.user != null) {
+            try {
+              return await _fireStore
+                  .collection('donors')
+                  .doc(userCredential.user!.uid)
+                  .set(donor.toMap())
+                  .then((_) async {
+                return const Right(unit);
+              });
+            } on FirebaseException catch (fireError) {
+              if (fireError.code == 'invalid-email') {
+                return Left(InvalidEmailFailure());
+              } else if (fireError.code == 'weak-password') {
+                return Left(WeekPasswordFailure());
+              } else if (fireError.code == 'email-already-in-use') {
+                return Left(EmailAlreadyRegisteredFailure());
+              } else if (fireError.code == 'unknown') {
+                return Left(ServerFailure());
+              } else if (fireError.code == 'too-many-request') {
+                return Left(ServerFailure());
+              } else {
+                return Left(UnknownFailure());
+              }
+            } on ServerException {
+              return Left(ServerFailure());
+            } catch (e) {
+              return Left(UnknownFailure());
+            }
+          } else {
+            return left(WrongDataFailure());
+          }
         });
       } on FirebaseException catch (fireError) {
         if (fireError.code == 'invalid-email') {
-          // return Left(WrongEmailFailure());
+          return Left(InvalidEmailFailure());
         } else if (fireError.code == 'weak-password') {
           return Left(WeekPasswordFailure());
         } else if (fireError.code == 'email-already-in-use') {
@@ -112,7 +140,5 @@ class SignInRepositoryImpl implements SignInRepository {
     } else {
       return Left(OffLineFailure());
     }
-
-    throw UnimplementedError();
   }
 }

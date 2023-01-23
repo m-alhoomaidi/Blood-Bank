@@ -27,7 +27,7 @@ class UnknownFailure extends Failure {
   List<Object?> get props => [];
 }
 
-class WrongEmailFailure extends Failure {
+class InvalidEmailFailure extends Failure {
   @override
   List<Object?> get props => [];
 }

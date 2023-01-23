@@ -173,7 +173,6 @@ class _SettingPageState extends State<SettingPage> {
           Utils.showSnackBar(
             context: context,
             msg: "تم تحديث الاعدادات بشكل صحيح",
-            color: ColorManager.error,
           );
         }
       }, builder: (context, state) {

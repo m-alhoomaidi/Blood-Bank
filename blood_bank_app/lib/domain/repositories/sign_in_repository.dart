@@ -14,7 +14,6 @@ abstract class SignInRepository {
   });
 
   Future<Either<Failure, Unit>> signUpDonor({
-    required String uId,
     required Donor donor,
   });
 }
