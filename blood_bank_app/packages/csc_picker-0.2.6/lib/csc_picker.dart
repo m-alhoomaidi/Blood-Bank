@@ -169,20 +169,20 @@ class CSCPickerState extends State<CSCPicker> {
             widget.flagState == CountryFlag.SHOW_IN_DROP_DOWN_ONLY
         ? response
             .map((map) => Country.fromJson(map))
-            .where(
-                (item) => item.emoji + "    " + item.name == _selectedCountry)
+            .where((item) =>
+                item.emoji + "    " + item.nameController == _selectedCountry)
             .map((item) => item.state)
             .toList()
         : response
             .map((map) => Country.fromJson(map))
-            .where((item) => item.name == _selectedCountry)
+            .where((item) => item.nameController == _selectedCountry)
             .map((item) => item.state)
             .toList();
     var states = takeState as List;
     states.forEach((f) {
       if (!mounted) return;
       setState(() {
-        var name = f.map((item) => item.name).toList();
+        var name = f.map((item) => item.nameController).toList();
         for (var stateName in name) {
           //print(stateName.toString());
           _states.add(stateName.toString());
@@ -201,23 +201,23 @@ class CSCPickerState extends State<CSCPicker> {
             widget.flagState == CountryFlag.SHOW_IN_DROP_DOWN_ONLY
         ? response
             .map((map) => Country.fromJson(map))
-            .where(
-                (item) => item.emoji + "    " + item.name == _selectedCountry)
+            .where((item) =>
+                item.emoji + "    " + item.nameController == _selectedCountry)
             .map((item) => item.state)
             .toList()
         : response
             .map((map) => Country.fromJson(map))
-            .where((item) => item.name == _selectedCountry)
+            .where((item) => item.nameController == _selectedCountry)
             .map((item) => item.state)
             .toList();
     var cities = takeCity as List;
     cities.forEach((f) {
-      var name = f.where((item) => item.name == _selectedState);
+      var name = f.where((item) => item.nameController == _selectedState);
       var cityName = name.map((item) => item.city).toList();
       cityName.forEach((ci) {
         if (!mounted) return;
         setState(() {
-          var citiesName = ci.map((item) => item.name).toList();
+          var citiesName = ci.map((item) => item.nameController).toList();
           for (var cityName in citiesName) {
             //print(cityName.toString());
             _cities.add(cityName.toString());

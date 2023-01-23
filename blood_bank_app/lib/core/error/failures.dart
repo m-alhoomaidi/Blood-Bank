@@ -31,3 +31,18 @@ class WrongEmailFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class WeekPasswordFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
+class EmailAlreadyRegisteredFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
+class FirebaseNullValueFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
