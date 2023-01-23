@@ -57,8 +57,6 @@ class _ProfileBodyState extends State<ProfileBody> {
   }
 
   fillProfileLocalData() {
-    print("888888888888888888888888888888888888");
-    print(widget.donor);
     profileLocalData = ProfileLocalData(
         date: widget.donor!.brithDate,
         isShown: widget.donor!.isShown,
@@ -93,33 +91,40 @@ class _ProfileBodyState extends State<ProfileBody> {
           // onchangValue: (box.get("is_shown", defaultValue: "1") == "1")
           //     ? true
           //     : false,
-          onchangValue: (donor.isShown.toString() == "1") ? true : false,
           onChange: (val) {
             // box.put("is_shown", val == true ? "1" : 0);
-            profileLocalData!.isShown = val == true ? "1" : "0";
+            setState(() {
+              profileLocalData!.isShown = val == true ? "1" : "0";
+            });
           },
+          onchangValue: (profileLocalData!.isShown == "1") ? true : false,
         ),
         MySwitchListTile(
           title: "اضهار رقمي",
           subTitle: "سيظهر رقمك للجميع",
           onChange: (val) {
             // box.put("is_shown_phone", val == true ? "1" : 0);
-            profileLocalData!.is_shown_phone = val == true ? "1" : "0";
+            setState(() {
+              profileLocalData!.is_shown_phone = val == true ? "1" : "0";
+            });
           },
           // onchangValue:
           //     (box.get("is_shown_phone", defaultValue: "1") == "1")
           //         ? true
           //         : false,
-          onchangValue: (donor.isShownPhone.toString() == "1") ? true : false,
+          onchangValue:
+              (profileLocalData!.is_shown_phone == "1") ? true : false,
         ),
         MySwitchListTile(
           title: "استخدام الموقع",
           subTitle: "تشغيل gbs",
           onChange: (val) {
             // box.put("is_gps_on", val == true ? "1" : 0);
-            profileLocalData!.is_gps_on = val == true ? "1" : "0";
+            setState(() {
+              profileLocalData!.is_gps_on = val == true ? "1" : "0";
+            });
           },
-          onchangValue: (donor.isGpsOn == "1") ? true : false,
+          onchangValue: (profileLocalData!.is_gps_on == "1") ? true : false,
           // onchangValue: (box.get("is_gps_on", defaultValue: "1") == "1")
           //     ? true
           //     : false,
@@ -157,8 +162,17 @@ class _ProfileBodyState extends State<ProfileBody> {
             minWidth: MediaQuery.of(context).size.width * 0.85,
             onPressed: (() {
               if (profileLocalData != null) {
+                // print("_________________");
+                // print(profileLocalData!.isShown);
+                // print(profileLocalData!.date);
+                // print(profileLocalData!.is_gps_on);
+                // print(profileLocalData!.is_shown_phone);
                 BlocProvider.of<ProfileCubit>(context)
-                    .sendDataProfileSectionOne(profileLocalData!);
+                    .sendDataProfileSectionOne(profileLocalData!)
+                    .then((value) {
+                  print("success ssssssssssssssssssssssssss");
+                  // print(value!);
+                });
               } else {
                 Utils.showSnackBar(
                   context: context,
@@ -204,7 +218,7 @@ class editBasicData extends StatelessWidget {
 }
 
 class ProfileLocalData {
-  late final String? isShown;
+  String? isShown;
   String? date;
   String? is_gps_on;
   String? is_shown_phone;
