@@ -156,7 +156,12 @@ class _SettingPageState extends State<SettingPage> {
               msg: state.error,
               color: ColorManager.error,
             );
-            checkErrorFromSata = false;
+          } else if (state is ProfileSuccess) {
+            Utils.showSnackBar(
+              context: context,
+              msg: "تم تحديث الاعدادات بشكل صحيح",
+              color: ColorManager.error,
+            );
           }
         },
         builder: (context, state) {
@@ -188,7 +193,7 @@ class _SettingPageState extends State<SettingPage> {
                   ? const Center(
                       child: Text("dssssss"),
                     )
-                  : ProfileBody(donor: donors!)
+                  : ProfileBody(donor: donors!),
             ],
           );
         },
