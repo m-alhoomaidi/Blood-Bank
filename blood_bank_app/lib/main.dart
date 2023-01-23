@@ -54,7 +54,7 @@ void main() async {
       BlocProvider(create: (BuildContext context) => di.sl<SignUpCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SingInCubit>()),
       BlocProvider(create: (BuildContext context) => SearchCubit()),
-      BlocProvider(create: (BuildContext context) => ProfileCubit())
+      BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>())
     ],
     child: const MyApp(),
   ));
