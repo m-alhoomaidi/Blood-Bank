@@ -58,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (formData!.validate()) {
       Donor newDonor = Donor(
         email: emailController.text,
-        password: Encryption.encode(passwordController.text),
+        password: passwordController.text,
         name: nameController.text,
         phone: phoneController.text,
         bloodType: bloodType!,
@@ -66,7 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
         district: districtController.text,
         neighborhood: neighborhoodController.text,
       );
-      BlocProvider.of<SignUpCubit>(context).signUp(
+      BlocProvider.of<SignUpCubit>(context).signUpDonor(
         donor: newDonor,
       );
     }
