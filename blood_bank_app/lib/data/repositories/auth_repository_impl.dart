@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:blood_bank_app/core/error/exceptions.dart';
-import 'package:blood_bank_app/domain/entities/center.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
 import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';

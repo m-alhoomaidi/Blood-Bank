@@ -6,7 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 
 import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/center.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
 import 'package:blood_bank_app/domain/usecases/sign_up_center_usecase.dart';
 import 'package:blood_bank_app/domain/usecases/sign_up_donor_usecase.dart';
 

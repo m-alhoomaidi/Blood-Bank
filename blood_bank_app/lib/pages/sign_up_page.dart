@@ -16,7 +16,6 @@ import '../domain/entities/donor.dart';
 import '../models/my_stepper.dart' as my_stepper;
 import '../pages/home_page.dart';
 import '../pages/sing_up_center_page.dart';
-import '../shared/encryption.dart';
 import '../shared/style.dart';
 import '../shared/utils.dart';
 import '../widgets/forms/my_checkbox_form_field.dart';
@@ -245,7 +244,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   .copyWith(color: Theme.of(context).primaryColor)
               : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: AppSize.s300,
+        height: signUpStepHight,
         child: Form(
           key: _firstFormState,
           child: Column(
@@ -307,7 +306,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   .copyWith(color: Theme.of(context).primaryColor)
               : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: AppSize.s300,
+        height: signUpStepHight,
         child: Form(
           key: _secondFormState,
           child: Column(
@@ -376,7 +375,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   .copyWith(color: Theme.of(context).primaryColor)
               : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: AppSize.s300,
+        height: signUpStepHight,
         child: Form(
           key: _thirdFormState,
           child: Column(
@@ -456,7 +455,7 @@ class _SignUpPageState extends State<SignUpPage> {
               : Theme.of(context).textTheme.bodySmall),
       content: Container(
         padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-        height: AppSize.s300,
+        height: signUpStepHight,
         child: Column(
           children: [
             Wrap(

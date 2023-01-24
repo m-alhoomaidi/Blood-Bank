@@ -1,5 +1,5 @@
 import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
-import 'package:blood_bank_app/domain/entities/center.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
 import 'package:blood_bank_app/pages/home_page.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
@@ -14,7 +14,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../models/my_stepper.dart' as my_stepper;
-import '../shared/style.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_text_form_field.dart';
 
@@ -125,77 +124,79 @@ class _SignUpCenterState extends State<SignUpCenter> {
   }
 
   Container _buildNavigationButtons(
-      BuildContext context, my_stepper.ControlsDetails controls) {
+    BuildContext context,
+    my_stepper.ControlsDetails controls,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
       child: Column(
         children: [
           Stack(
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 60,
+                height: AppSize.s60,
               ),
               if (!isFirstStep())
                 Positioned(
-                  right: 20,
+                  right: AppSize.s20,
                   child: SizedBox(
-                    width: 140,
+                    width: AppSize.s140,
                     child: MyOutlinedIconButton(
                       onPressed: controls.onStepCancel,
-                      borderColor: Colors.orange,
-                      icon: const Icon(
+                      borderColor: Theme.of(context).primaryColor,
+                      icon: Icon(
                         Icons.arrow_back,
-                        color: Colors.orange,
+                        color: Theme.of(context).primaryColor,
                       ),
-                      label: const Text(
-                        'السابق',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.orange,
-                        ),
+                      label: Text(
+                        AppStrings.signUpPreviousButton,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ),
                 ),
-              const SizedBox(width: 20),
+              const SizedBox(width: AppSize.s20),
               Positioned(
-                left: 20,
+                left: AppSize.s20,
                 child: SizedBox(
-                  width: 140,
+                  width: AppSize.s140,
                   child: (isLastStep())
                       ? MyOutlinedIconButton(
-                          icon: const Text(
-                            'إنشاء',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.green,
-                            ),
+                          icon: Text(
+                            AppStrings.signUpCreateButton,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(color: ColorManager.success),
                           ),
                           label: const Icon(
                             Icons.check_rounded,
-                            color: Colors.green,
+                            color: ColorManager.success,
                           ),
                           onPressed: _submit,
-                          borderColor: Colors.green,
+                          borderColor: ColorManager.success,
                         )
                       : MyOutlinedIconButton(
-                          icon: const Text(
-                            'التالي',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.blue,
-                            ),
+                          icon: Text(
+                            AppStrings.signUpNextButton,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                           ),
-                          label: const Icon(
+                          label: Icon(
                             Icons.arrow_forward,
-                            color: Colors.blue,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
-                          onPressed: controls.onStepContinue,
-                          borderColor: Colors.blue,
+                          onPressed: _validateForm,
+                          borderColor: Theme.of(context).colorScheme.secondary,
                         ),
                 ),
               ),
@@ -225,7 +226,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   .copyWith(color: Theme.of(context).primaryColor)
               : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: AppSize.s300,
+        height: signUpStepHight,
         child: Form(
           key: _firstFormState,
           child: Column(
@@ -296,7 +297,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   .copyWith(color: Theme.of(context).primaryColor)
               : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: AppSize.s300,
+        height: signUpStepHight,
         child: Form(
           key: _secondFormState,
           child: Column(
@@ -363,10 +364,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
     );
   }
 
-  void _onStepTapped(int index) {
-    _validateForm(stepIndex: index);
-  }
-
   void _validateForm({int? stepIndex}) {
     FormState? formData = currentFormState();
     if (_activeStepIndex == 2 && districtController.text == "") {
@@ -381,6 +378,10 @@ class _SignUpCenterState extends State<SignUpCenter> {
         }
       }
     }
+  }
+
+  void _onStepTapped(int index) {
+    _validateForm(stepIndex: index);
   }
 
   void _onStepCancel() {
@@ -415,22 +416,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
     );
   }
 
-  _toggleIsPasswordVisible() {
-    setState(() => isPasswordHidden = !isPasswordHidden);
-  }
-
-  String? _emailValidator(value) =>
-      value != null && EmailValidator.validate(value)
-          ? null
-          : AppStrings.signUpEmailValidator;
-
-  String? _passwordValidator(value) => (value!.length < minCharsOfPassword)
-      ? AppStrings.firebasePasswordValidatorError
-      : null;
-
-  String? _nameValidator(String? value) =>
-      (value!.length < minCharsOfName) ? AppStrings.signUpNameValidator : null;
-
   void _onCityChanged(value) {
     if (value != null) {
       districtController.text = value;
@@ -443,6 +428,22 @@ class _SignUpCenterState extends State<SignUpCenter> {
     }
   }
 
+  _toggleIsPasswordVisible() {
+    setState(() => isPasswordHidden = !isPasswordHidden);
+  }
+
+  String? _nameValidator(String? value) =>
+      (value!.length < minCharsOfName) ? AppStrings.signUpNameValidator : null;
+
+  String? _emailValidator(value) =>
+      value != null && EmailValidator.validate(value)
+          ? null
+          : AppStrings.signUpEmailValidator;
+
+  String? _passwordValidator(value) => (value!.length < minCharsOfPassword)
+      ? AppStrings.firebasePasswordValidatorError
+      : null;
+
   String? _phoneNumberValidator(String? value) {
     String pattern = r"^\+?7[0|1|3|7|8][0-9]{7}$";
     RegExp regex = RegExp(pattern);
@@ -451,12 +452,5 @@ class _SignUpCenterState extends State<SignUpCenter> {
     } else {
       return null;
     }
-  }
-
-  String? _neighborhoodValidator(value) {
-    if (value!.length < 2) {
-      return AppStrings.signUpNeighborhoodValidator;
-    }
-    return null;
   }
 }
