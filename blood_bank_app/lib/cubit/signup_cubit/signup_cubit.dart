@@ -6,7 +6,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 
 import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/usecases/sign_up_usecase.dart';
+import 'package:blood_bank_app/domain/entities/center.dart';
+import 'package:blood_bank_app/domain/usecases/sign_up_center_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/sign_up_donor_usecase.dart';
 
 import '../../domain/entities/donor.dart';
 
@@ -14,19 +16,37 @@ part 'signup_state.dart';
 
 class SignUpCubit extends Cubit<SignupState> {
   SignUpCubit({
-    required this.signUpUseCase,
+    required this.signUpDonorUseCase,
+    required this.signUpCenterUseCase,
   }) : super(SignupInitial());
   FirebaseAuth fireAuth = FirebaseAuth.instance;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   User? currentUser;
-  final SignUpUseCase signUpUseCase;
+  final SignUpDonorUseCase signUpDonorUseCase;
+  final SignUpCenterUseCase signUpCenterUseCase;
 
-  Future<void> signUp({
+  Future<void> signUpDonor({
     required Donor donor,
   }) async {
     emit(SignupLoading());
     try {
-      await signUpUseCase(donor: donor).then((value) {
+      await signUpDonorUseCase(donor: donor).then((value) {
+        value.fold(
+            (failure) =>
+                emit(SignUpFailure(error: _getFailureMessage(failure))),
+            (userCredential) => emit(SignUpSuccess()));
+      });
+    } catch (e) {
+      emit(SignUpFailure(error: e.toString()));
+    }
+  }
+
+  Future<void> signUpCenter({
+    required BloodCenter center,
+  }) async {
+    emit(SignupLoading());
+    try {
+      await signUpCenterUseCase(center: center).then((value) {
         value.fold(
             (failure) =>
                 emit(SignUpFailure(error: _getFailureMessage(failure))),

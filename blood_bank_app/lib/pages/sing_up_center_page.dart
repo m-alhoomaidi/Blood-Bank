@@ -1,11 +1,20 @@
+import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
+import 'package:blood_bank_app/domain/entities/center.dart';
+import 'package:blood_bank_app/pages/home_page.dart';
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:blood_bank_app/shared/utils.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../models/my_stepper.dart' as my_stepper;
 import '../shared/style.dart';
-import '../widgets/forms/my_checkbox_form_field.dart';
 import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_text_form_field.dart';
 
@@ -18,154 +27,181 @@ class SignUpCenter extends StatefulWidget {
 }
 
 class _SignUpCenterState extends State<SignUpCenter> {
-  bool _saving = false;
   final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _secondFormState = GlobalKey<FormState>();
-  final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
 
-  String? selectedGovernorate;
-  String? selectedDistrict;
-  String? selectedBloodType;
+  TextEditingController emailController = TextEditingController(),
+      passwordController = TextEditingController(),
+      nameController = TextEditingController(),
+      phoneController = TextEditingController(),
+      stateNameController = TextEditingController(),
+      districtController = TextEditingController(),
+      neighborhoodController = TextEditingController();
 
   final double stepContentHeight = 200.0;
   int _activeStepIndex = 0;
-  bool didConfirm = false;
+  bool isPasswordHidden = true;
 
-  // Future submit() async {
-  //   FormState? formData = _firstFormState.currentState;
-  //   if (formData!.validate()) {
-  //     formData.save();
-  //     setState(() => _saving = true);
-  //     // await function();
-  //   } else {
-  //     print("Not Valid");
-  //   }
-  // }
+  Future<void> _submit() async {
+    FormState? formData = _secondFormState.currentState;
+    if (formData!.validate()) {
+      BloodCenter newCenter = BloodCenter(
+        name: nameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        phone: phoneController.text,
+        state: stateNameController.text,
+        district: districtController.text,
+        neighborhood: neighborhoodController.text,
+        image: "",
+        lastUpdate: "",
+        lat: "",
+        lon: "",
+        token: "",
+        aPlus: 0,
+        aMinus: 0,
+        bPlus: 0,
+        bMinus: 0,
+        abPlus: 0,
+        abMinus: 0,
+        oPlus: 0,
+        oMinus: 0,
+      );
+      BlocProvider.of<SignUpCubit>(context).signUpCenter(
+        center: newCenter,
+      );
+    }
+  }
 
   bool isFirstStep() => _activeStepIndex == 0;
 
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
+  FormState? currentFormState() {
+    if (_activeStepIndex == 0) {
+      return _firstFormState.currentState;
+    } else if (_activeStepIndex == 1) {
+      return _secondFormState.currentState;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('إنشاء حساب مركز طبي'),
-        centerTitle: true,
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: _saving,
-        child: my_stepper.Stepper(
-          svgPictureAsset: "assets/images/blood_drop.svg",
-          iconColor: Theme.of(context).primaryColor,
-          elevation: 0,
-          type: my_stepper.StepperType.horizontal,
-          currentStep: _activeStepIndex,
-          steps: stepList(),
-          onStepContinue: () {
-            if (_activeStepIndex < (stepList().length - 1)) {
-              setState(() {
-                _activeStepIndex += 1;
-              });
-            }
-          },
-          onStepCancel: () {
-            if (isFirstStep()) {
-              return;
-            }
-            setState(() {
-              _activeStepIndex -= 1;
-            });
-          },
-          onStepTapped: (int index) {
-            setState(() {
-              _activeStepIndex = index;
-            });
-          },
-          controlsBuilder:
-              (BuildContext context, my_stepper.ControlsDetails controls) {
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
+        appBar: AppBar(
+          title: const Text('إنشاء حساب مركز طبي'),
+          centerTitle: true,
+        ),
+        body:
+            BlocConsumer<SignUpCubit, SignupState>(listener: (context, state) {
+          if (state is SignUpSuccess) {
+            Utils.showSuccessSnackBar(
+                context: context, msg: AppStrings.signUpSuccessMessage);
+            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+          } else if (state is SignUpFailure) {
+            Utils.showFalureSnackBar(context: context, msg: state.error);
+          }
+        }, builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: (state is SignupLoading),
+            child: my_stepper.Stepper(
+              svgPictureAsset: "assets/images/blood_drop.svg",
+              iconColor: Theme.of(context).primaryColor,
+              elevation: 0,
+              type: my_stepper.StepperType.horizontal,
+              currentStep: _activeStepIndex,
+              steps: stepList(),
+              onStepContinue: _onStepContinue,
+              onStepCancel: _onStepCancel,
+              onStepTapped: _onStepTapped,
+              controlsBuilder:
+                  (BuildContext context, my_stepper.ControlsDetails controls) {
+                return _buildNavigationButtons(context, controls);
+              },
+            ),
+          );
+        }));
+  }
+
+  Container _buildNavigationButtons(
+      BuildContext context, my_stepper.ControlsDetails controls) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 60,
+              ),
+              if (!isFirstStep())
+                Positioned(
+                  right: 20,
+                  child: SizedBox(
+                    width: 140,
+                    child: MyOutlinedIconButton(
+                      onPressed: controls.onStepCancel,
+                      borderColor: Colors.orange,
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.orange,
                       ),
-                      if (!isFirstStep())
-                        Positioned(
-                          right: 20,
-                          child: SizedBox(
-                            width: 140,
-                            child: MyOutlinedIconButton(
-                              onPressed: controls.onStepCancel,
-                              borderColor: Colors.orange,
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.orange,
-                              ),
-                              label: const Text(
-                                'السابق',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Colors.orange,
-                                ),
-                              ),
+                      label: const Text(
+                        'السابق',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.orange,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              const SizedBox(width: 20),
+              Positioned(
+                left: 20,
+                child: SizedBox(
+                  width: 140,
+                  child: (isLastStep())
+                      ? MyOutlinedIconButton(
+                          icon: const Text(
+                            'إنشاء',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.green,
                             ),
                           ),
+                          label: const Icon(
+                            Icons.check_rounded,
+                            color: Colors.green,
+                          ),
+                          onPressed: _submit,
+                          borderColor: Colors.green,
+                        )
+                      : MyOutlinedIconButton(
+                          icon: const Text(
+                            'التالي',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          label: const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.blue,
+                          ),
+                          onPressed: controls.onStepContinue,
+                          borderColor: Colors.blue,
                         ),
-                      const SizedBox(width: 20),
-                      Positioned(
-                        left: 20,
-                        child: SizedBox(
-                          width: 140,
-                          child: (isLastStep())
-                              ? MyOutlinedIconButton(
-                                  icon: const Text(
-                                    'إنشاء',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                  label: const Icon(
-                                    Icons.check_rounded,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () {
-                                    _thirdFormState.currentState!.validate();
-                                  },
-                                  borderColor: Colors.green,
-                                )
-                              : MyOutlinedIconButton(
-                                  icon: const Text(
-                                    'التالي',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  label: const Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.blue,
-                                  ),
-                                  onPressed: controls.onStepContinue,
-                                  borderColor: Colors.blue,
-                                ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            );
-          },
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -173,7 +209,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
   List<my_stepper.Step> stepList() => <my_stepper.Step>[
         firstStep(),
         secondStep(),
-        thirdStep(),
       ];
 
   my_stepper.Step firstStep() {
@@ -182,65 +217,62 @@ class _SignUpCenterState extends State<SignUpCenter> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 0,
-      title: const Text("حسابك", style: TextStyle(fontSize: 12)),
+      title: Text(AppStrings.signUpFirstStepTitle,
+          style: _activeStepIndex >= 0
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).primaryColor)
+              : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _firstFormState,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "اسم المركز الطبي",
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
-                  onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length < 2) {
-                      return "لا يمكن أن يكون الاسم أقل من حرفين";
-                    }
-                    return null;
-                  },
-                  icon: const Icon(Icons.person),
+                  hint: AppStrings.signUpCenterNameHint,
+                  controller: nameController,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
+                  validator: _nameValidator,
+                  icon: const Icon(Icons.local_hospital_outlined),
+                  keyBoardType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSize.s20),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "البريد الإلكتروني",
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
-                  onSave: (value) {},
-                  validator: (value) =>
-                      value != null && EmailValidator.validate(value)
-                          ? null
-                          : "اكتب بريد إيميل صحيح",
+                  hint: AppStrings.signUpEmailHint,
+                  controller: emailController,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
+                  validator: _emailValidator,
                   icon: const Icon(Icons.email),
                   keyBoardType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSize.s20),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "كلمة المرور",
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
-                  isPassword: true,
-                  onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length < 6) {
-                      return "يجب أن يكون طول كلمة المرور ستة أو أكثر";
-                    }
-                    return null;
-                  },
-                  icon: const Icon(Icons.password),
+                  hint: AppStrings.signUpPasswordHint,
+                  controller: passwordController,
+                  isPassword: isPasswordHidden,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
+                  validator: _passwordValidator,
+                  icon: IconButton(
+                    icon: _buildPasswordIcon(),
+                    onPressed: _toggleIsPasswordVisible,
+                  ),
                 ),
               ),
             ],
@@ -256,9 +288,15 @@ class _SignUpCenterState extends State<SignUpCenter> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 1,
-      title: const Text("عنوانك", style: TextStyle(fontSize: 12)),
+      title: Text(AppStrings.signUpThirdStepTitle,
+          style: _activeStepIndex >= 1
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).primaryColor)
+              : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _secondFormState,
           child: Column(
@@ -273,20 +311,19 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   flagState: CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: Colors.red[100],
+                    color: ColorManager.white,
                     border: Border.all(
-                      color: Colors.white,
+                      color: ColorManager.lightGrey,
                       width: 1,
                     ),
                   ),
-                  dropDownPadding: const EdgeInsets.all(12),
-                  // dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
-                  spaceBetween: 20.0,
+                  dropDownPadding: const EdgeInsets.all(AppPadding.p12),
+                  spaceBetween: AppSize.s20,
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: Colors.grey.shade300,
+                    color: ColorManager.grey1,
                     border: Border.all(
-                      color: Colors.grey.shade300,
+                      color: ColorManager.grey1,
                       width: 1,
                     ),
                   ),
@@ -297,41 +334,26 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   stateDropdownLabel: "المحافطة",
                   cityDropdownLabel: "المديرية",
                   defaultCountry: DefaultCountry.Yemen,
-                  selectedItemStyle: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                  ),
-                  dropdownHeadingStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                  dropdownItemStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
-                  dropdownDialogRadius: 10.0,
-                  searchBarRadius: 10.0,
-                  onCountryChanged: (value) {},
-                  onStateChanged: (value) {},
-                  onCityChanged: (value) {},
+                  selectedItemStyle: Theme.of(context).textTheme.headlineLarge,
+                  dropdownHeadingStyle: Theme.of(context).textTheme.titleMedium,
+                  dropdownItemStyle: Theme.of(context).textTheme.titleMedium,
+                  dropdownDialogRadius: AppRadius.r10,
+                  searchBarRadius: AppRadius.r10,
+                  onStateChanged: _onStateChange,
+                  onCityChanged: _onCityChanged,
                 ),
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: AppSize.s20),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "العنوان",
-                  blurrBorderColor: eFieldBlurrBorderColor,
-                  focusBorderColor: eFieldFocusBorderColor,
-                  fillColor: eFieldFillColor,
-                  icon: const Icon(Icons.my_location_outlined),
-                  onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length != 9) {
-                      return "يجب أن يكون عدد الأرقام 9";
-                    }
-                    return null;
-                  },
+                  hint: AppStrings.signUpPhoneHint,
+                  controller: phoneController,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
+                  icon: const Icon(Icons.call),
+                  validator: _phoneNumberValidator,
                 ),
               ),
             ],
@@ -341,66 +363,45 @@ class _SignUpCenterState extends State<SignUpCenter> {
     );
   }
 
-  my_stepper.Step thirdStep() {
-    return my_stepper.Step(
-      state: my_stepper.StepState.complete,
-      isActive: _activeStepIndex >= 2,
-      title: const Text("تأكيد", style: TextStyle(fontSize: 12)),
-      content: SizedBox(
-        height: stepContentHeight,
-        child: Form(
-          key: _thirdFormState,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  "حرصاً على سلامة البيانات يرجى منكم إرفاق وثيقة تثبت هوية المركز كالترخيص مثلاً",
-                  style: TextStyle(fontSize: 16, height: 2),
-                ),
-              ),
-              const SizedBox(height: 20),
-              MyOutlinedIconButton(
-                label: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.0),
-                  child: Text(
-                    "صورة إثبات هوية المركز",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blue,
-                    ),
-                  ),
-                ),
-                borderColor: Colors.blue,
-                onPressed: () {},
-              ),
-              MyCheckboxFormField(
-                title: Row(
-                  children: [
-                    const Text("أوافق على "),
-                    GestureDetector(
-                      child: const Text(
-                        "سياسات الخصوصية",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-                onSaved: (value) {},
-                validator: (value) {
-                  if (!value!) return "يجب أن تؤكد موافقتك";
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _onStepTapped(int index) {
+    _validateForm(stepIndex: index);
+  }
+
+  void _validateForm({int? stepIndex}) {
+    FormState? formData = currentFormState();
+    if (_activeStepIndex == 2 && districtController.text == "") {
+      Fluttertoast.showToast(msg: AppStrings.signUpStateCityValidator);
+    } else {
+      if (formData!.validate()) {
+        formData.save();
+        if (stepIndex == null) {
+          setState(() => _activeStepIndex++);
+        } else {
+          setState(() => _activeStepIndex = stepIndex);
+        }
+      }
+    }
+  }
+
+  void _onStepCancel() {
+    if (isFirstStep()) {
+      return;
+    }
+    setState(() => _activeStepIndex -= 1);
+  }
+
+  void _onStepContinue() {
+    if (_activeStepIndex < (stepList().length - 1)) {
+      setState(() {
+        _activeStepIndex += 1;
+      });
+    }
+  }
+
+  Icon _buildPasswordIcon() {
+    return Icon(isPasswordHidden
+        ? Icons.visibility_outlined
+        : Icons.visibility_off_outlined);
   }
 
   Text buildDonorDetail(String detail) {
@@ -412,5 +413,50 @@ class _SignUpCenterState extends State<SignUpCenter> {
         height: 1.4,
       ),
     );
+  }
+
+  _toggleIsPasswordVisible() {
+    setState(() => isPasswordHidden = !isPasswordHidden);
+  }
+
+  String? _emailValidator(value) =>
+      value != null && EmailValidator.validate(value)
+          ? null
+          : AppStrings.signUpEmailValidator;
+
+  String? _passwordValidator(value) => (value!.length < minCharsOfPassword)
+      ? AppStrings.firebasePasswordValidatorError
+      : null;
+
+  String? _nameValidator(String? value) =>
+      (value!.length < minCharsOfName) ? AppStrings.signUpNameValidator : null;
+
+  void _onCityChanged(value) {
+    if (value != null) {
+      districtController.text = value;
+    }
+  }
+
+  void _onStateChange(value) {
+    if (value != null) {
+      stateNameController.text = value;
+    }
+  }
+
+  String? _phoneNumberValidator(String? value) {
+    String pattern = r"^\+?7[0|1|3|7|8][0-9]{7}$";
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value!)) {
+      return AppStrings.signUpPhoneValidator;
+    } else {
+      return null;
+    }
+  }
+
+  String? _neighborhoodValidator(value) {
+    if (value!.length < 2) {
+      return AppStrings.signUpNeighborhoodValidator;
+    }
+    return null;
   }
 }

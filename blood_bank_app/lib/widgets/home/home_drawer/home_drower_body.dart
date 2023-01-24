@@ -34,7 +34,7 @@ class HomeDrawerBody extends StatelessWidget {
             title: "إنشاء حساب",
             icon: Icons.person_add_outlined,
             onTap: () {
-              di.initSignUn();
+              di.initSignUp();
               Navigator.of(context).pushNamed(SignUpPage.routeName);
             },
           ),

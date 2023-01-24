@@ -62,6 +62,7 @@ class AppStrings {
   static const String signUpConfirmNameLabel = "اسم المتبرع";
   static const String signUpConfirmPhoneLabel = "رقم الهاتف";
   static const String signUpConfirmBloodTypeLabel = "فصيلة الدم";
+  static const String signUpBloodTypeValidator = 'يرجى اختيار فصيلة الدم';
   static const String signUpConfirmAddressLabel = "العنوان";
   static const String signUpConfirmEmailLabel = "البريد الإلكتروني";
   static const String signUpIConfirmThat = "أوافق على ";
@@ -72,6 +73,7 @@ class AppStrings {
   static const String signUpCreateButton = "إنشاء";
   static const String signUpNextButton = "التالي";
   static const String signUpAsCenterLink = "إنشاء حساب كمركز طبي";
+  static const String signUpCenterNameHint = "اسم المركز الطبي";
 
   //----------------------------------------------------------------
   // Profile Page
