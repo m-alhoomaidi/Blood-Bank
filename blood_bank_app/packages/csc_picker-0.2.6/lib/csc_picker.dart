@@ -213,7 +213,7 @@ class CSCPickerState extends State<CSCPicker> {
     var cities = takeCity as List;
     cities.forEach((f) {
       var name = f.where((item) => item.name == _selectedState);
-      var cityName = name.map((item) => item.district).toList();
+      var cityName = name.map((item) => item.city).toList();
       cityName.forEach((ci) {
         if (!mounted) return;
         setState(() {

@@ -41,8 +41,8 @@ class _SignUpCenterState extends State<SignUpCenter> {
     if (formData!.validate()) {
       BloodCenter newCenter = BloodCenter(
         name: "name",
-        email: "email",
-        password: "password",
+        email: "blood@center.com",
+        password: "123456",
         phone: "phone",
         state: "state",
         district: "district",
@@ -61,6 +61,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
         oPlus: "oPlus",
         oMinus: "oMinus",
       );
+      print("11");
       BlocProvider.of<SignUpCubit>(context).signUpCenter(
         center: newCenter,
       );
@@ -359,12 +360,6 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   fillColor: eFieldFillColor,
                   icon: const Icon(Icons.my_location_outlined),
                   onSave: (value) {},
-                  validator: (value) {
-                    if (value!.length != 9) {
-                      return "يجب أن يكون عدد الأرقام 9";
-                    }
-                    return null;
-                  },
                 ),
               ),
             ],
