@@ -53,19 +53,6 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isFirstStep() => _activeStepIndex == 0;
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
-  String? _emailValidator(value) =>
-      value != null && EmailValidator.validate(value)
-          ? null
-          : AppStrings.signUpEmailValidator;
-
-  String? _passwordValidator(value) => (value!.length < minCharsOfPassword)
-      ? AppStrings.firebasePasswordValidatorError
-      : null;
-
-  _toggleIsPasswordVisible() {
-    setState(() => isPasswordVisible = !isPasswordVisible);
-  }
-
   Future<void> _submit() async {
     FormState? formData = _fourthFormState.currentState;
     if (formData!.validate()) {
@@ -83,37 +70,6 @@ class _SignUpPageState extends State<SignUpPage> {
         donor: newDonor,
       );
     }
-  }
-
-  FormState? currentFormState() {
-    if (_activeStepIndex == 0) {
-      return _firstFormState.currentState;
-    } else if (_activeStepIndex == 1) {
-      return _secondFormState.currentState;
-    } else if (_activeStepIndex == 2) {
-      return _thirdFormState.currentState;
-    }
-    return null;
-  }
-
-  void _validateForm({int? stepIndex}) {
-    FormState? formData = currentFormState();
-    if (_activeStepIndex == 2 && districtController.text == "") {
-      Fluttertoast.showToast(msg: AppStrings.signUpStateCityValidator);
-    } else {
-      if (formData!.validate()) {
-        formData.save();
-        if (stepIndex == null) {
-          setState(() => _activeStepIndex++);
-        } else {
-          setState(() => _activeStepIndex = stepIndex);
-        }
-      }
-    }
-  }
-
-  void _moveToSignUpAsCenter() {
-    Navigator.of(context).pushReplacementNamed(SignUpCenter.routeName);
   }
 
   @override
@@ -391,24 +347,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  validator: (value) {
-                    if (value!.length != 9) {
-                      return "يجب أن يكون عدد الأرقام 9";
-                    }
-                    return null;
-                  },
+                  validator: _phoneNumberValidator,
                   icon: const Icon(Icons.phone_android),
                   keyBoardType: TextInputType.number,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSize.s20),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyDropdownButtonFormField(
-                  hint: "فصيلة دمك",
-                  validator: (value) {
-                    return (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
-                  },
+                  hint: AppStrings.signUpBloodTypeHint,
+                  validator: _bloodTypeValidator,
                   value: bloodType,
                   hintColor: eTextColor,
                   items: BloodTypes.bloodTypes,
@@ -426,16 +375,19 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  String? _nameValidator(value) =>
-      (value!.length < 2) ? AppStrings.signUpNameValidator : null;
-
   my_stepper.Step thirdStep() {
     return my_stepper.Step(
       state: _activeStepIndex <= 2
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 2,
-      title: Text("عنوانك", style: Theme.of(context).textTheme.bodySmall),
+      title: Text(AppStrings.signUpThirdStepTitle,
+          style: _activeStepIndex >= 2
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).primaryColor)
+              : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
         height: AppSize.s300,
         child: Form(
@@ -458,13 +410,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: 1,
                     ),
                   ),
-                  dropDownPadding: const EdgeInsets.all(12),
-                  spaceBetween: 20.0,
+                  dropDownPadding: const EdgeInsets.all(AppPadding.p12),
+                  spaceBetween: AppSize.s20,
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: Colors.grey.shade300,
+                    color: ColorManager.grey1,
                     border: Border.all(
-                      color: Colors.grey.shade300,
+                      color: ColorManager.grey1,
                       width: 1,
                     ),
                   ),
@@ -478,36 +430,23 @@ class _SignUpPageState extends State<SignUpPage> {
                   selectedItemStyle: Theme.of(context).textTheme.headlineLarge,
                   dropdownHeadingStyle: Theme.of(context).textTheme.titleMedium,
                   dropdownItemStyle: Theme.of(context).textTheme.titleMedium,
-                  dropdownDialogRadius: 10.0,
-                  searchBarRadius: 10.0,
-                  onStateChanged: (value) {
-                    if (value != null) {
-                      stateNameController.text = value;
-                    }
-                  },
-                  onCityChanged: (value) {
-                    if (value != null) {
-                      districtController.text = value;
-                    }
-                  },
+                  dropdownDialogRadius: AppRadius.r10,
+                  searchBarRadius: AppRadius.r10,
+                  onStateChanged: _onStateChange,
+                  onCityChanged: _onCityChanged,
                 ),
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: AppSize.s20),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "المنطقة",
+                  hint: AppStrings.signUpNeighborhoodHint,
                   controller: neighborhoodController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
                   icon: const Icon(Icons.my_location_outlined),
-                  validator: (value) {
-                    if (value!.length < 2) {
-                      return "يرجى كتابة قريتك أو حارتك";
-                    }
-                    return null;
-                  },
+                  validator: _neighborhoodValidator,
                 ),
               ),
             ],
@@ -521,34 +460,41 @@ class _SignUpPageState extends State<SignUpPage> {
     return my_stepper.Step(
       state: my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 3,
-      title: Text("تأكيد", style: Theme.of(context).textTheme.bodySmall),
+      title: Text(AppStrings.signUpFourthStepTitle,
+          style: _activeStepIndex >= 3
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).primaryColor)
+              : Theme.of(context).textTheme.bodySmall),
       content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
         height: AppSize.s300,
         child: Column(
           children: [
             Wrap(
-              runSpacing: 10.0,
+              runSpacing: AppSize.s16,
+              alignment: WrapAlignment.center,
               children: [
                 buildDonorDetail(
-                  key: "اسم المتبرع",
+                  key: AppStrings.signUpConfirmNameLabel,
                   value: nameController.text,
                 ),
                 buildDonorDetail(
-                  key: "رقم الهاتف",
+                  key: AppStrings.signUpConfirmPhoneLabel,
                   value: phoneController.text,
                 ),
                 buildDonorDetail(
-                  key: "فصيلة الدم",
-                  value: bloodType ?? "غير محدد",
+                  key: AppStrings.signUpConfirmBloodTypeLabel,
+                  value: bloodType ?? AppStrings.unDefined,
                 ),
                 buildDonorDetail(
-                  key: "العنوان",
+                  key: AppStrings.signUpConfirmAddressLabel,
                   value:
                       '${stateNameController.text} - ${districtController.text} - ${neighborhoodController.text}',
                 ),
                 buildDonorDetail(
-                  key: "البريد الإلكتروني",
+                  key: AppStrings.signUpConfirmEmailLabel,
                   value: emailController.text,
                 ),
               ],
@@ -558,21 +504,21 @@ class _SignUpPageState extends State<SignUpPage> {
               child: MyCheckboxFormField(
                 title: Row(
                   children: [
-                    const Text("أوافق على "),
+                    const Text(AppStrings.signUpIConfirmThat),
                     GestureDetector(
-                      child: const Text(
-                        "سياسات الخصوصية",
-                        style: TextStyle(
-                          color: ColorManager.link,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      onTap: _moveToPrivacyPolicyPage,
+                      child: Text(
+                        AppStrings.signUpPrivacyPolicy,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(color: ColorManager.link),
                       ),
-                      onTap: () {},
                     ),
                   ],
                 ),
                 onSaved: (value) {},
-                validator: (value) => !value! ? "يجب أن تؤكد موافقتك" : null,
+                validator: _confirmValidator,
               ),
             ),
           ],
@@ -580,6 +526,9 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+
+  String? _confirmValidator(value) =>
+      !value! ? AppStrings.signUpYouHaveToConfirm : null;
 
   Icon _buildPasswordIcon() {
     return Icon(isPasswordVisible
@@ -606,4 +555,85 @@ class _SignUpPageState extends State<SignUpPage> {
       ],
     );
   }
+
+  _toggleIsPasswordVisible() {
+    setState(() => isPasswordVisible = !isPasswordVisible);
+  }
+
+  String? _emailValidator(value) =>
+      value != null && EmailValidator.validate(value)
+          ? null
+          : AppStrings.signUpEmailValidator;
+
+  String? _passwordValidator(value) => (value!.length < minCharsOfPassword)
+      ? AppStrings.firebasePasswordValidatorError
+      : null;
+
+  String? _nameValidator(String? value) =>
+      (value!.length < 2) ? AppStrings.signUpNameValidator : null;
+
+  String? _bloodTypeValidator(value) =>
+      (value == null) ? 'يرجى اختيار فصيلة الدم' : null;
+
+  String? _phoneNumberValidator(String? value) {
+    String pattern = r"^\+?7[0|1|3|7|8][0-9]{7}$";
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value!)) {
+      return AppStrings.signUpPhoneValidator;
+    } else {
+      return null;
+    }
+  }
+
+  String? _neighborhoodValidator(value) {
+    if (value!.length < 2) {
+      return AppStrings.signUpNeighborhoodValidator;
+    }
+    return null;
+  }
+
+  void _onCityChanged(value) {
+    if (value != null) {
+      districtController.text = value;
+    }
+  }
+
+  void _onStateChange(value) {
+    if (value != null) {
+      stateNameController.text = value;
+    }
+  }
+
+  FormState? currentFormState() {
+    if (_activeStepIndex == 0) {
+      return _firstFormState.currentState;
+    } else if (_activeStepIndex == 1) {
+      return _secondFormState.currentState;
+    } else if (_activeStepIndex == 2) {
+      return _thirdFormState.currentState;
+    }
+    return null;
+  }
+
+  void _validateForm({int? stepIndex}) {
+    FormState? formData = currentFormState();
+    if (_activeStepIndex == 2 && districtController.text == "") {
+      Fluttertoast.showToast(msg: AppStrings.signUpStateCityValidator);
+    } else {
+      if (formData!.validate()) {
+        formData.save();
+        if (stepIndex == null) {
+          setState(() => _activeStepIndex++);
+        } else {
+          setState(() => _activeStepIndex = stepIndex);
+        }
+      }
+    }
+  }
+
+  void _moveToSignUpAsCenter() {
+    Navigator.of(context).pushReplacementNamed(SignUpCenter.routeName);
+  }
+
+  void _moveToPrivacyPolicyPage() {}
 }
