@@ -59,9 +59,38 @@ class ProfileReopsitoryImpl implements ProfileRepository {
             DonorFields.isShownPhone: profileLocalData.isShownPhone,
             DonorFields.brithDate: profileLocalData.date,
           }).then((value) async {
-            // emit(ProfileSuccess());
-            // getDataToProfilePage();
-            return Right(unit);
+            return const Right(unit);
+          });
+        } else {
+          return Left(DoesnotSaveData());
+          // emit(ProfileFailure(
+          //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> sendBasicDataProfileSectionOne(
+      {required ProfileLocalData profileLocalData}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('donors')
+              .doc("9U74upZiSOJugT9wrDnu")
+              .update({
+            DonorFields.name: profileLocalData.name,
+            DonorFields.bloodType: profileLocalData.bloodType,
+            DonorFields.state: profileLocalData.state,
+            DonorFields.district: profileLocalData.district,
+            DonorFields.neighborhood: profileLocalData.neighborhood,
+          }).then((value) async {
+            return const Right(unit);
           });
         } else {
           return Left(DoesnotSaveData());

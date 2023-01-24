@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:blood_bank_app/domain/entities/donor.dart';
-
+import 'package:blood_bank_app/dependecy_injection.dart' as di;
 import '../../cubit/profile_cubit/profile_cubit.dart';
 import '../../pages/edit_main_data_page.dart';
 import '../../pages/setting_page.dart';
@@ -71,9 +71,7 @@ class _ProfileBodyState extends State<ProfileBody> {
       const SizedBox(
         height: 10,
       ),
-      EditBasicData(
-        donor: widget.donor!,
-      ),
+      EditBasicData(),
       valueListenableBuilder(widget.donor!),
     ]));
   }
@@ -158,10 +156,8 @@ class _ProfileBodyState extends State<ProfileBody> {
 }
 
 class EditBasicData extends StatelessWidget {
-  Donor donor;
   EditBasicData({
     Key? key,
-    required this.donor,
   }) : super(key: key);
 
   @override
@@ -181,8 +177,11 @@ class EditBasicData extends StatelessWidget {
         ),
       ),
       onTap: () {
+        // di.initProfile();
+        BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+
         Navigator.of(context).push(MaterialPageRoute<void>(
-            builder: (BuildContext context) => EditMainDataPage(donor: donor)));
+            builder: (BuildContext context) => EditMainDataPage()));
       },
     );
   }
