@@ -143,7 +143,6 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        print("44");
         return await _firebaseAuth
             .createUserWithEmailAndPassword(
           email: center.email,
@@ -160,8 +159,6 @@ class AuthRepositoryImpl implements AuthRepository {
                 return const Right(unit);
               });
             } on FirebaseException catch (fireError) {
-              print("fireError.code");
-              print(fireError.code);
               if (fireError.code == 'unknown') {
                 return Left(ServerFailure());
               } else if (fireError.code == 'too-many-request') {
@@ -179,8 +176,6 @@ class AuthRepositoryImpl implements AuthRepository {
           }
         });
       } on FirebaseException catch (fireError) {
-        print("fireError.code");
-        print(fireError.code);
         if (fireError.code == 'invalid-email') {
           return Left(InvalidEmailFailure());
         } else if (fireError.code == 'weak-password') {

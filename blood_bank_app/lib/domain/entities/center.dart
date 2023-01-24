@@ -14,14 +14,14 @@ class BloodCenter {
   String lat;
   String lon;
   String token;
-  String aPlus;
-  String aMinus;
-  String bPlus;
-  String bMinus;
-  String abPlus;
-  String abMinus;
-  String oPlus;
-  String oMinus;
+  int aPlus;
+  int aMinus;
+  int bPlus;
+  int bMinus;
+  int abPlus;
+  int abMinus;
+  int oPlus;
+  int oMinus;
   BloodCenter({
     required this.name,
     required this.email,
@@ -72,26 +72,26 @@ class BloodCenter {
 
   factory BloodCenter.fromMap(Map<String, dynamic> map) {
     return BloodCenter(
-      name: map[BloodCenterField.name] as String,
-      email: map[BloodCenterField.email] as String,
-      password: map[BloodCenterField.password] as String,
-      phone: map[BloodCenterField.phone] as String,
-      state: map[BloodCenterField.state] as String,
-      district: map[BloodCenterField.district] as String,
-      neighborhood: map[BloodCenterField.neighborhood] as String,
-      image: map[BloodCenterField.image] as String,
-      lastUpdate: map[BloodCenterField.lastUpdate] as String,
-      lat: map[BloodCenterField.lat] as String,
-      lon: map[BloodCenterField.lon] as String,
-      token: map[BloodCenterField.token] as String,
-      aPlus: map[BloodCenterField.aPlus] as String,
-      aMinus: map[BloodCenterField.aMinus] as String,
-      bPlus: map[BloodCenterField.bPlus] as String,
-      bMinus: map[BloodCenterField.bMinus] as String,
-      abPlus: map[BloodCenterField.abPlus] as String,
-      abMinus: map[BloodCenterField.abMinus] as String,
-      oPlus: map[BloodCenterField.oPlus] as String,
-      oMinus: map[BloodCenterField.oMinus] as String,
+      name: map[BloodCenterField.name] ?? "",
+      email: map[BloodCenterField.email] ?? "",
+      password: map[BloodCenterField.password] ?? "",
+      phone: map[BloodCenterField.phone] ?? "",
+      state: map[BloodCenterField.state] ?? "",
+      district: map[BloodCenterField.district] ?? "",
+      neighborhood: map[BloodCenterField.neighborhood] ?? "",
+      image: map[BloodCenterField.image] ?? "",
+      lastUpdate: map[BloodCenterField.lastUpdate] ?? "",
+      lat: map[BloodCenterField.lat] ?? "",
+      lon: map[BloodCenterField.lon] ?? "",
+      token: map[BloodCenterField.token] ?? "",
+      aPlus: map[BloodCenterField.aPlus] ?? 0,
+      aMinus: map[BloodCenterField.aMinus] ?? 0,
+      bPlus: map[BloodCenterField.bPlus] ?? 0,
+      bMinus: map[BloodCenterField.bMinus] ?? 0,
+      abPlus: map[BloodCenterField.abPlus] ?? 0,
+      abMinus: map[BloodCenterField.abMinus] ?? 0,
+      oPlus: map[BloodCenterField.oPlus] ?? 0,
+      oMinus: map[BloodCenterField.oMinus] ?? 0,
     );
   }
 

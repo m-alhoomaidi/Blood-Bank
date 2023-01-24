@@ -30,7 +30,6 @@ class SignUpCubit extends Cubit<SignupState> {
   }) async {
     emit(SignupLoading());
     try {
-      print("33");
       await signUpDonorUseCase(donor: donor).then((value) {
         value.fold(
             (failure) =>
@@ -46,7 +45,6 @@ class SignUpCubit extends Cubit<SignupState> {
     required BloodCenter center,
   }) async {
     emit(SignupLoading());
-    print("22");
     try {
       await signUpCenterUseCase(center: center).then((value) {
         value.fold(
