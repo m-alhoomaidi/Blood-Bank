@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/shared/utils.dart';
 import 'package:blood_bank_app/widgets/setting/profile_body.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -53,7 +55,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("تعديل البيانات الاساسية"),
+          title: const Text(AppStrings.profileEditMainDataPageTitle),
         ),
         body: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {
@@ -101,13 +103,13 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                       const Padding(
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Text("الفصيلة"),
+                        child: Text(AppStrings.profileBloodTypeTitle),
                       ),
                       MyDropdownButtonFormField(
-                        hint: "فصيلة دمك",
+                        hint: AppStrings.profileBloodTypeHint,
                         validator: (value) {
                           return (value == null)
-                              ? 'يرجى اختيار فصيلة الدم'
+                              ? AppStrings.profileValidatorCheckBloodType
                               : null;
                         },
                         value: (profileLocalData!.bloodType == null)
@@ -126,20 +128,15 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                           // box.put("blood_type", bloodType);
 
                           setState(() {
-                            print(value);
-                            print(";;;");
                             profileLocalData!.bloodType = bloodType;
-                            print(";");
-                            print(profileLocalData!.bloodType);
                           });
-
-                          print(";;;;;;;;;sssssssss");
                         }),
                       ),
                       const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Text("العنوان"),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppPadding.p10,
+                            vertical: AppPadding.p10),
+                        child: Text(AppStrings.profileAdressTitle),
                       ),
                       Column(
                         children: [
@@ -158,19 +155,20 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                                         CountryFlag.SHOW_IN_DROP_DOWN_ONLY,
                                     dropdownDecoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
+                                          Radius.circular(AppSize.s10)),
                                       color: Colors.red[100],
                                       border: Border.all(
                                         color: Colors.white,
                                         width: 1,
                                       ),
                                     ),
-                                    dropDownPadding: const EdgeInsets.all(12),
+                                    dropDownPadding:
+                                        const EdgeInsets.all(AppPadding.p12),
                                     // dropDownMargin: const EdgeInsets.symmetric(vertical: 4),
-                                    spaceBetween: 15.0,
+                                    spaceBetween: AppSize.s14,
                                     disabledDropdownDecoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
+                                          Radius.circular(AppSize.s10)),
                                       color: Colors.grey.shade300,
                                       border: Border.all(
                                         color: Colors.grey.shade300,
@@ -256,20 +254,18 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 15.0),
+                          const SizedBox(height: AppSize.s14),
                         ],
                       ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: AppSize.s30),
                       MyButton(
-                          title: "حفظ",
+                          title: AppStrings.profileButtonSave,
                           onPressed: (() {
                             if (_formState.currentState!.validate() |
                                 _formStateBloodType.currentState!.validate()) {
                               _formState.currentState!.save();
                               _formStateBloodType.currentState!.save();
                               if (profileLocalData != null) {
-                                print("+");
-                                print(profileLocalData!.bloodType);
                                 profileLocalData!.bloodType = bloodType;
                                 BlocProvider.of<ProfileCubit>(context)
                                     .sendBasicDataProfileSectionOne(
@@ -277,7 +273,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                               } else {
                                 Utils.showSnackBar(
                                   context: context,
-                                  msg: "تاكد من ضبط كل الخيارات بشكل صحيح",
+                                  msg: AppStrings.profileCheckChooseOption,
                                   color: ColorManager.error,
                                 );
                               }
