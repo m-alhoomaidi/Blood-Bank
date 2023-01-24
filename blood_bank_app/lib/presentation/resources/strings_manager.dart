@@ -19,6 +19,11 @@ class AppStrings {
       "Tut app is an awesome flutter using clean architecture #4";
   static const String skip = "skip";
 
+  //----------------------------------------------------------------
+  // Home Page
+  static const String homeAppBarTitle = "بنك الدم الإلكتروني";
+  static const String homeDrowerHeaderUserName = "اسم المستخدم";
+
   //-------------------------------------------------------
   //-------- Sing In Page
   static const String signInAppBarTitle = "تسجيل دخول";

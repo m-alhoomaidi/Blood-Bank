@@ -268,7 +268,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyBoardType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(height: AppSize.s20),
+              const SizedBox(height: signUpSpaceBetweenFields),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
@@ -324,7 +324,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   icon: const Icon(Icons.person),
                 ),
               ),
-              const SizedBox(height: AppSize.s20),
+              const SizedBox(height: signUpSpaceBetweenFields),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
@@ -338,7 +338,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   keyBoardType: TextInputType.number,
                 ),
               ),
-              const SizedBox(height: AppSize.s20),
+              const SizedBox(height: signUpSpaceBetweenFields),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyDropdownButtonFormField(
@@ -397,7 +397,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   dropDownPadding: const EdgeInsets.all(AppPadding.p12),
-                  spaceBetween: AppSize.s20,
+                  spaceBetween: signUpSpaceBetweenFields,
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     color: ColorManager.grey1,
@@ -422,7 +422,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   onCityChanged: _onCityChanged,
                 ),
               ),
-              const SizedBox(height: AppSize.s20),
+              const SizedBox(height: signUpSpaceBetweenFields),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(

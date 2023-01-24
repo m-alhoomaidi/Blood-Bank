@@ -1,4 +1,7 @@
-import '../../../shared/style.dart';
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeDrawerHeader extends StatelessWidget {
@@ -8,6 +11,7 @@ class HomeDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? currentUser = FirebaseAuth.instance.currentUser;
     return DrawerHeader(
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColor,
@@ -18,23 +22,23 @@ class HomeDrawerHeader extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 80,
-                width: 80,
+                height: AppSize.s80,
+                width: AppSize.s80,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(AppRadius.r50),
+                  color: ColorManager.white,
                 ),
-                child: const Center(
+                child: Center(
                   child: Icon(
                     Icons.emoji_emotions,
-                    size: 50,
-                    color: eSecondColor,
+                    size: AppSize.s50,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSize.s20),
               Text(
-                "اسم المستخدم",
+                currentUser!.email ?? AppStrings.homeDrowerHeaderUserName,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ],

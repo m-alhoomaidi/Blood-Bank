@@ -1,29 +1,20 @@
-import 'dart:convert';
-import 'dart:math' as math;
-
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../cubit/profile_cubit/profile_cubit.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
-import 'package:http/http.dart' as http;
 
-import '../models/location_point.dart';
 import '../presentation/onboarding/introduction_page.dart';
-import '../presentation/onboarding/view/onboarding_view.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
 import '../widgets/home/home_drawer/home_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-  static const String routeName = "home";
+  static const String routeName = "/home";
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -169,25 +160,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     bool firstTimeState = Hive.box(dataBoxName).get('introduction') ?? true;
-
     return firstTimeState
         ? const IntroductionPage()
         : Scaffold(
             appBar: AppBar(
-              title: const Text("بنك الدم الإلكتروني"),
+              title: const Text(AppStrings.homeAppBarTitle),
               centerTitle: true,
-              elevation: 0,
+              elevation: AppSize.s0,
               actions: [
                 IconButton(
-                  onPressed: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const OnBoardingView(),
-                      ),
-                    );
-                  },
+                  onPressed: () async {},
                   icon: const Icon(
                     Icons.notifications,
                   ),
@@ -201,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                 children: const <Widget>[
                   HomeWelcome(),
                   HomeAbout(),
-                  SizedBox(height: 20),
+                  SizedBox(height: AppSize.s20),
                 ],
               ),
             ),
@@ -473,41 +455,41 @@ class _HomePageState extends State<HomePage> {
 //   return deg * (Math.PI/180)
 // }
 
-  List<LocationPoint> getNearbyPoints({
-    required LocationPoint base,
-    required List<LocationPoint> points,
-    required double distanceKm,
-  }) {
-    List<LocationPoint> nearPoints = [];
-    for (var point in points) {
-      double far = getDistanceFromLatLonInKM(point1: base, point2: point);
-      print(far);
-      print(distanceKm);
-      if (far < distanceKm) {
-        nearPoints.add(point);
-      }
-    }
-    return nearPoints;
-  }
+  // List<LocationPoint> getNearbyPoints({
+  //   required LocationPoint base,
+  //   required List<LocationPoint> points,
+  //   required double distanceKm,
+  // }) {
+  //   List<LocationPoint> nearPoints = [];
+  //   for (var point in points) {
+  //     double far = getDistanceFromLatLonInKM(point1: base, point2: point);
+  //     print(far);
+  //     print(distanceKm);
+  //     if (far < distanceKm) {
+  //       nearPoints.add(point);
+  //     }
+  //   }
+  //   return nearPoints;
+  // }
 
-  getDistanceFromLatLonInKM({
-    required LocationPoint point1,
-    required LocationPoint point2,
-  }) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
-    var dLon = deg2rad(point2.lon - point1.lon);
-    var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
-        math.cos(deg2rad(point1.lat)) *
-            math.cos(deg2rad(point2.lat)) *
-            math.sin(dLon / 2) *
-            math.sin(dLon / 2);
-    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-    return d;
-  }
+  // getDistanceFromLatLonInKM({
+  //   required LocationPoint point1,
+  //   required LocationPoint point2,
+  // }) {
+  //   var R = 6371; // Radius of the earth in km
+  //   var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+  //   var dLon = deg2rad(point2.lon - point1.lon);
+  //   var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+  //       math.cos(deg2rad(point1.lat)) *
+  //           math.cos(deg2rad(point2.lat)) *
+  //           math.sin(dLon / 2) *
+  //           math.sin(dLon / 2);
+  //   var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+  //   var d = R * c; // Distance in km
+  //   return d;
+  // }
 
-  deg2rad(deg) {
-    return deg * (math.pi / 180);
-  }
+  // deg2rad(deg) {
+  //   return deg * (math.pi / 180);
+  // }
 }
