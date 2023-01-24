@@ -26,10 +26,10 @@ class AppStrings {
       "راجع الرسائل الواردة في بريدك الالكتروني يمكن ان تكون في قائمة المهملات او spam ومن ثم قم بتغير كلمة السر وسجل الدخول في التطبيق من جديد";
 
   static const String resetPasswordDialogOkButton = "تم";
-  static const String signInEmailFieldHint = "البريد الإلكتروني";
-  static const String signInEmailFieldValidatorError = "اكتب بريد إيميل صحيح";
-  static const String signInPasswordFieldHint = "كلمة المرور";
-  static const String signInPasswordFieldValidatorError =
+  static const String signInEmailHint = "البريد الإلكتروني";
+  static const String signInEmailValidatorError = "اكتب بريد إيميل صحيح";
+  static const String signInPasswordHint = "كلمة المرور";
+  static const String firebasePasswordValidatorError =
       "يجب أن يكون طول كلمة المرور ستة أو أكثر";
   static const String signInForgetPasswordTextButton = "نسيت كلمة المرور؟";
   static const String signInSubmitButton = "دخول";
@@ -37,6 +37,23 @@ class AppStrings {
 
   //-------------------------------------------------------
   //-------- Sing Up Page
-  // static const String signInAppBarTitle = "تسجيل دخول";
-  // static const String resetPasswordDialogTitle = "جاري التحقق";
+  static const String signUpAppBarTitle = "إنشاء حساب متبرع";
+  static const String signUpFirstStepTitle = "حسابك";
+  static const String signUpFirstStepMotivationPhrase =
+      "بخطواتـك هذه قد تـنـقـذ حيـاة إنــسان";
+  static const String signUpEmailHint = "بريدك الإلكتروني";
+  static const String signUpEmailValidator = "اكتب بريد إيميل صحيح";
+  static const String signUpPasswordHint = "أنشئ كلمة مرور";
+  static const String signUpSecondStepTitle = "بياناتك";
+  static const String signUpNameHint = "اسمك";
+  static const String signUpNameValidator =
+      "لا يمكن أن يكون الاسم أقل من حرفين";
+  static const String signUpPhoneHint = "رقم هاتفك";
+  static const String signUpStateCityValidator =
+      "يجب اختيار المحافظة والمديرية";
+  static const String signUpSuccessMessage = "تم إنشاء حساب بنجاح";
+  static const String signUpPreviousButton = "السابق";
+  static const String signUpCreateButton = "إنشاء";
+  static const String signUpNextButton = "التالي";
+  static const String signUpAsCenterLink = "إنشاء حساب كمركز طبي";
 }

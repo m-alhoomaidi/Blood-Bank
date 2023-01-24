@@ -1,6 +1,8 @@
+import 'package:blood_bank_app/presentation/resources/assets_manager.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
   final GlobalKey<FormState> _fourthFormState = GlobalKey<FormState>();
 
-  String? selectedGovernorate, selectedDistrict;
   TextEditingController emailController = TextEditingController(),
       passwordController = TextEditingController(),
       nameController = TextEditingController(),
@@ -44,40 +45,42 @@ class _SignUpPageState extends State<SignUpPage> {
       stateNameController = TextEditingController(),
       districtController = TextEditingController(),
       neighborhoodController = TextEditingController();
-  String? bloodType;
 
-  final double stepContentHeight = 300.0;
+  String? selectedGovernorate, selectedDistrict, bloodType;
+
   int _activeStepIndex = 0;
-  bool didConfirm = false;
   bool isPasswordVisible = true;
   bool isFirstStep() => _activeStepIndex == 0;
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
-  String? passwordValidator(value) {
-    if (value!.length < minCharsOfPassword) {
-      return AppStrings.signInPasswordFieldValidatorError;
-    }
-    return null;
-  }
+  String? _emailValidator(value) =>
+      value != null && EmailValidator.validate(value)
+          ? null
+          : AppStrings.signUpEmailValidator;
+
+  String? _passwordValidator(value) => (value!.length < minCharsOfPassword)
+      ? AppStrings.firebasePasswordValidatorError
+      : null;
 
   _toggleIsPasswordVisible() {
     setState(() => isPasswordVisible = !isPasswordVisible);
   }
 
-  Future<void> submit() async {
+  Future<void> _submit() async {
     FormState? formData = _fourthFormState.currentState;
     if (formData!.validate()) {
+      Donor newDonor = Donor(
+        email: emailController.text,
+        password: Encryption.encode(passwordController.text),
+        name: nameController.text,
+        phone: phoneController.text,
+        bloodType: bloodType!,
+        state: stateNameController.text,
+        district: districtController.text,
+        neighborhood: neighborhoodController.text,
+      );
       BlocProvider.of<SignUpCubit>(context).signUp(
-        donor: Donor(
-          email: emailController.text,
-          password: Encryption.encode(passwordController.text),
-          name: nameController.text,
-          phone: phoneController.text,
-          bloodType: bloodType!,
-          state: stateNameController.text,
-          district: districtController.text,
-          neighborhood: neighborhoodController.text,
-        ),
+        donor: newDonor,
       );
     }
   }
@@ -93,10 +96,10 @@ class _SignUpPageState extends State<SignUpPage> {
     return null;
   }
 
-  void validateForm({int? stepIndex}) {
+  void _validateForm({int? stepIndex}) {
     FormState? formData = currentFormState();
-    if (_activeStepIndex == 2 && districtController == null) {
-      Fluttertoast.showToast(msg: 'يجب اختيار المحافظة والمديرية');
+    if (_activeStepIndex == 2 && districtController.text == "") {
+      Fluttertoast.showToast(msg: AppStrings.signUpStateCityValidator);
     } else {
       if (formData!.validate()) {
         formData.save();
@@ -107,6 +110,10 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       }
     }
+  }
+
+  void _moveToSignUpAsCenter() {
+    Navigator.of(context).pushReplacementNamed(SignUpCenter.routeName);
   }
 
   @override
@@ -125,29 +132,25 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('إنشاء حساب متبرع'),
-        centerTitle: true,
+        title: const Text(AppStrings.signUpAppBarTitle),
       ),
       body: BlocConsumer<SignUpCubit, SignupState>(
         listener: (context, state) {
           if (state is SignUpSuccess) {
-            Utils.showSnackBar(
-              context: context,
-              msg: 'تم إنشاء حساب بنجاح',
-              color: Colors.green,
-            );
+            Utils.showSuccessSnackBar(
+                context: context, msg: AppStrings.signUpSuccessMessage);
             Navigator.of(context).pushReplacementNamed(HomePage.routeName);
           } else if (state is SignUpFailure) {
-            Utils.showSnackBar(context: context, msg: state.error);
+            Utils.showFalureSnackBar(context: context, msg: state.error);
           }
         },
         builder: (context, state) {
           return ModalProgressHUD(
             inAsyncCall: (state is SignupLoading),
             child: my_stepper.Stepper(
-              svgPictureAsset: "assets/images/blood_drop.svg",
+              svgPictureAsset: ImageAssets.bloodDrop,
               iconColor: Theme.of(context).primaryColor,
-              elevation: 0,
+              elevation: AppSize.s0,
               type: my_stepper.StepperType.horizontal,
               currentStep: _activeStepIndex,
               steps: stepList(),
@@ -165,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 setState(() => _activeStepIndex -= 1);
               },
               onStepTapped: (int index) {
-                validateForm(stepIndex: index);
+                _validateForm(stepIndex: index);
               },
               controlsBuilder:
                   (BuildContext context, my_stepper.ControlsDetails controls) {
@@ -179,79 +182,79 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Container buildNavigationButtons(
-      BuildContext context, my_stepper.ControlsDetails controls) {
+    BuildContext context,
+    my_stepper.ControlsDetails controls,
+  ) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
       child: Column(
         children: [
           Stack(
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: 60,
+                height: AppSize.s60,
               ),
               if (!isFirstStep())
                 Positioned(
-                  right: 20,
+                  right: AppSize.s20,
                   child: SizedBox(
-                    width: 140,
+                    width: AppSize.s140,
                     child: MyOutlinedIconButton(
                       onPressed: controls.onStepCancel,
-                      borderColor: Colors.orange,
-                      icon: const Icon(
+                      borderColor: Theme.of(context).primaryColor,
+                      icon: Icon(
                         Icons.arrow_back,
-                        color: Colors.orange,
+                        color: Theme.of(context).primaryColor,
                       ),
-                      label: const Text(
-                        'السابق',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.orange,
-                        ),
+                      label: Text(
+                        AppStrings.signUpPreviousButton,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ),
                 ),
-              const SizedBox(width: 20),
+              const SizedBox(width: AppSize.s20),
               Positioned(
-                left: 20,
+                left: AppSize.s20,
                 child: SizedBox(
-                  width: 140,
+                  width: AppSize.s140,
                   child: (isLastStep())
                       ? MyOutlinedIconButton(
-                          icon: const Text(
-                            'إنشاء',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.green,
-                            ),
+                          icon: Text(
+                            AppStrings.signUpCreateButton,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(color: ColorManager.success),
                           ),
                           label: const Icon(
                             Icons.check_rounded,
-                            color: Colors.green,
+                            color: ColorManager.success,
                           ),
-                          onPressed: () async {
-                            submit();
-                          },
-                          borderColor: Colors.green,
+                          onPressed: _submit,
+                          borderColor: ColorManager.success,
                         )
                       : MyOutlinedIconButton(
-                          icon: const Text(
-                            'التالي',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.blue,
-                            ),
+                          icon: Text(
+                            AppStrings.signUpNextButton,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
                           ),
-                          label: const Icon(
+                          label: Icon(
                             Icons.arrow_forward,
-                            color: Colors.blue,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
-                          onPressed: validateForm,
-                          borderColor: Colors.blue,
+                          onPressed: _validateForm,
+                          borderColor: Theme.of(context).colorScheme.secondary,
                         ),
                 ),
               ),
@@ -262,19 +265,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    child: const Text(
-                      "إنشاء حساب كمركز طبي",
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
+                    onPressed: _moveToSignUpAsCenter,
+                    child: Text(
+                      AppStrings.signUpAsCenterLink,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: ColorManager.link),
                     ),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed(SignUpCenter.routeName);
-                    },
                   ),
                 )
-              : Container(),
+              : const SizedBox(),
         ],
       ),
     );
@@ -293,46 +294,49 @@ class _SignUpPageState extends State<SignUpPage> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 0,
-      title: Text("حسابك", style: Theme.of(context).textTheme.bodySmall),
+      title: Text(AppStrings.signUpFirstStepTitle,
+          style: _activeStepIndex >= 0
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).primaryColor)
+              : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _firstFormState,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "بخطواتـك هذه قد تـنـقـذ حيـاة إنــسان",
+                AppStrings.signUpFirstStepMotivationPhrase,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
-              const SizedBox(height: 40.0),
+              const SizedBox(height: AppSize.s40),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "بريدك الإلكتروني",
+                  hint: AppStrings.signUpEmailHint,
                   controller: emailController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  validator: (value) =>
-                      value != null && EmailValidator.validate(value)
-                          ? null
-                          : "اكتب بريد إيميل صحيح",
+                  validator: _emailValidator,
                   icon: const Icon(Icons.email),
                   keyBoardType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSize.s20),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 child: MyTextFormField(
-                  hint: "أنشئ كلمة مرور",
+                  hint: AppStrings.signUpPasswordHint,
                   controller: passwordController,
                   isPassword: isPasswordVisible,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  validator: passwordValidator,
+                  validator: _passwordValidator,
                   icon: IconButton(
                     icon: _buildPasswordIcon(),
                     onPressed: _toggleIsPasswordVisible,
@@ -352,36 +356,37 @@ class _SignUpPageState extends State<SignUpPage> {
           ? my_stepper.StepState.editing
           : my_stepper.StepState.complete,
       isActive: _activeStepIndex >= 1,
-      title: Text("بياناتك", style: Theme.of(context).textTheme.bodySmall),
+      title: Text(AppStrings.signUpSecondStepTitle,
+          style: _activeStepIndex >= 1
+              ? Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Theme.of(context).primaryColor)
+              : Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _secondFormState,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "اسمك",
+                  hint: AppStrings.signUpNameHint,
                   controller: nameController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
                   fillColor: ColorManager.white,
-                  validator: (value) {
-                    if (value!.length < 2) {
-                      return "لا يمكن أن يكون الاسم أقل من حرفين";
-                    }
-                    return null;
-                  },
+                  validator: _nameValidator,
                   icon: const Icon(Icons.person),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSize.s20),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
                 child: MyTextFormField(
-                  hint: "رقم هاتفك",
+                  hint: AppStrings.signUpPhoneHint,
                   controller: phoneController,
                   blurrBorderColor: ColorManager.lightGrey,
                   focusBorderColor: ColorManager.secondary,
@@ -421,6 +426,9 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
+  String? _nameValidator(value) =>
+      (value!.length < 2) ? AppStrings.signUpNameValidator : null;
+
   my_stepper.Step thirdStep() {
     return my_stepper.Step(
       state: _activeStepIndex <= 2
@@ -429,7 +437,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isActive: _activeStepIndex >= 2,
       title: Text("عنوانك", style: Theme.of(context).textTheme.bodySmall),
       content: SizedBox(
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Form(
           key: _thirdFormState,
           child: Column(
@@ -516,7 +524,7 @@ class _SignUpPageState extends State<SignUpPage> {
       title: Text("تأكيد", style: Theme.of(context).textTheme.bodySmall),
       content: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        height: stepContentHeight,
+        height: AppSize.s300,
         child: Column(
           children: [
             Wrap(

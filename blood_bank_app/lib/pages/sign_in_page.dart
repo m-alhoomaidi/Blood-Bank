@@ -38,14 +38,14 @@ class _SignInPageState extends State<SignInPage> {
     if (value != null && EmailValidator.validate(value)) {
       return null;
     } else if (!EmailValidator.validate(value!)) {
-      return AppStrings.signInEmailFieldValidatorError;
+      return AppStrings.signInEmailValidatorError;
     }
     return null;
   }
 
   String? passwordValidator(value) {
     if (value!.length < minCharsOfPassword) {
-      return AppStrings.signInPasswordFieldValidatorError;
+      return AppStrings.firebasePasswordValidatorError;
     }
     return null;
   }
@@ -186,7 +186,7 @@ class _SignInPageState extends State<SignInPage> {
       child: Form(
         key: _emailState,
         child: MyTextFormField(
-          hint: AppStrings.signInEmailFieldHint,
+          hint: AppStrings.signInEmailHint,
           controller: emailController,
           blurrBorderColor: ColorManager.lightGrey,
           focusBorderColor: ColorManager.secondary,
@@ -202,7 +202,7 @@ class _SignInPageState extends State<SignInPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 40),
       child: MyTextFormField(
-        hint: AppStrings.signInPasswordFieldHint,
+        hint: AppStrings.signInPasswordHint,
         controller: passwordController,
         isPassword: isPasswordVisible,
         blurrBorderColor: ColorManager.lightGrey,

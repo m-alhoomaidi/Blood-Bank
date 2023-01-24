@@ -7,4 +7,5 @@ class ImageAssets {
   static const String solidCircleIc = "$imagePATH/solid_circle_ic.svg";
   static const String leftArrowIc = "$imagePATH/left_arrow_ic.svg";
   static const String rightArrowIc = "$imagePATH/right_arrow_ic.svg";
+  static const String bloodDrop = "$imagePATH/blood_drop.svg";
 }
