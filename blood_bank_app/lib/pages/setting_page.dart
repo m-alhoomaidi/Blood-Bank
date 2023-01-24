@@ -148,7 +148,6 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.profileAppBarTitle),
-        centerTitle: true,
         elevation: 0,
       ),
       body:

@@ -106,8 +106,9 @@ ThemeData getApplicationTheme() {
       errorStyle: getRegularStyle(color: ColorManager.error),
       // enable border style
       enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: ColorManager.grey, width: AppSize.s1_5),
-          borderRadius: BorderRadius.all(Radius.circular(AppSize.s18))),
+          borderSide:
+              BorderSide(color: ColorManager.primary, width: AppSize.s1_5),
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s10))),
       // focused border style
       focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
