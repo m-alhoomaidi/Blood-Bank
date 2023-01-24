@@ -13,6 +13,13 @@ class ProfileGetData extends ProfileState {
   });
 }
 
+class ProfileGetCenterData extends ProfileState {
+  BloodCenter bloodCenter;
+  ProfileGetCenterData({
+    required this.bloodCenter,
+  });
+}
+
 class ProfileSuccess extends ProfileState {}
 
 class ProfileLoading extends ProfileState {}

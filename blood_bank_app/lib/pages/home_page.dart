@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:blood_bank_app/dependecy_injection.dart' as di;
 import '../cubit/profile_cubit/profile_cubit.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

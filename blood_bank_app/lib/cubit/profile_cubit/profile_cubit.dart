@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:blood_bank_app/domain/usecases/profile_use_case.dart';
 import 'package:blood_bank_app/widgets/setting/profile_body.dart';
 
+import '../../domain/entities/blood_center.dart';
 import '../../domain/entities/donor.dart';
 import '../signin_cubit/signin_cubit.dart';
 
@@ -20,6 +21,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Donor? donors;
+  BloodCenter? bloodCenter;
 
   Future<void> getDataToProfilePage() async {
     try {
@@ -128,6 +130,28 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(ProfileFailure(
           error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+    }
+  }
+
+  Future<void> getProfileCenterData() async {
+    try {
+      print("++++++++++++++++++++++++++++++");
+      emit(ProfileLoading());
+      User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        await _fireStore
+            .collection('centers')
+            .doc("CWTU0qCghsDi132oDsMh")
+            .get()
+            .then((value) async {
+          bloodCenter = BloodCenter.fromMap(value.data()!);
+          emit(ProfileGetCenterData(bloodCenter: bloodCenter!));
+        });
+      } else {
+        emit(ProfileFailure(error: "tttt"));
+      }
+    } catch (e) {
+      emit(ProfileFailure(error: "pppppppppppp"));
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
 import 'presentation/onboarding/introduction_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -97,7 +98,8 @@ class MyApp extends StatelessWidget {
         UserDataPage.routeName: (context) => const UserDataPage(),
         SearchMapPage.routeName: (context) => const SearchMapPage(),
         // OnBoardingView.routeName: (context) => const OnBoardingView(),
-        IntroductionPage.routeName: (context) => const IntroductionPage()
+        IntroductionPage.routeName: (context) => const IntroductionPage(),
+        ProfileCenterPage.routeName: (context) => ProfileCenterPage(),
       },
     );
   }
