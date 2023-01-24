@@ -84,7 +84,6 @@ class ProfileCubit extends Cubit<ProfileState> {
       //       error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
       // }
     } catch (e) {
-      print("222222222222222222222222222222222");
       emit(ProfileFailure(
           error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
     }
@@ -94,28 +93,39 @@ class ProfileCubit extends Cubit<ProfileState> {
       ProfileLocalData profileLocalData) async {
     try {
       emit(ProfileLoading());
-      User? currentUser = _auth.currentUser;
-      if (currentUser != null) {
-        await _fireStore
-            .collection('donors')
-            .doc("9U74upZiSOJugT9wrDnu")
-            .update({
-          DonorFields.name: profileLocalData.name,
-          DonorFields.bloodType: profileLocalData.bloodType,
-          DonorFields.state: profileLocalData.state,
-          DonorFields.district: profileLocalData.district,
-          DonorFields.neighborhood: profileLocalData.neighborhood,
-        }).then((value) async {
-          emit(ProfileSuccess());
-          getDataToProfilePage();
-        });
-      } else {
-        print("1111111111111111111111111");
-        emit(ProfileFailure(
-            error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
-      }
+
+      await profileUseCase
+          .callsendBasicDataProfileSectionOne(
+              profileLocalData: profileLocalData)
+          .then((sendDataOrFailure) {
+        sendDataOrFailure.fold(
+            (failure) =>
+                emit(ProfileFailure(error: getFailureMessage(failure))),
+            (r) => emit(ProfileSuccess()));
+        getDataToProfilePage();
+      });
+      // User? currentUser = _auth.currentUser;
+      // if (currentUser != null) {
+      //   await _fireStore
+      //       .collection('donors')
+      //       .doc("9U74upZiSOJugT9wrDnu")
+      //       .update({
+      //     DonorFields.name: profileLocalData.name,
+      //     DonorFields.bloodType: profileLocalData.bloodType,
+      //     DonorFields.state: profileLocalData.state,
+      //     DonorFields.district: profileLocalData.district,
+      //     DonorFields.neighborhood: profileLocalData.neighborhood,
+      //   }).then((value) async {
+      //     emit(ProfileSuccess());
+      //     getDataToProfilePage();
+      //   });
+
+      // } else {
+      //   print("1111111111111111111111111");
+      //   emit(ProfileFailure(
+      //       error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+      // }
     } catch (e) {
-      print("222222222222222222222222222222222");
       emit(ProfileFailure(
           error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
     }

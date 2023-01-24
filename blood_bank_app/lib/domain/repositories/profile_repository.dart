@@ -11,4 +11,7 @@ abstract class ProfileRepository {
 
   Future<Either<Failure, Unit>> sendDataProfileSectionOne(
       {required ProfileLocalData profileLocalData});
+
+  Future<Either<Failure, Unit>> sendBasicDataProfileSectionOne(
+      {required ProfileLocalData profileLocalData});
 }

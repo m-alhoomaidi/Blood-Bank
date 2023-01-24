@@ -20,4 +20,10 @@ class ProfileUseCase {
     return profileRepository.sendDataProfileSectionOne(
         profileLocalData: profileLocalData);
   }
+
+  Future<Either<Failure, Unit>> callsendBasicDataProfileSectionOne(
+      {required ProfileLocalData profileLocalData}) {
+    return profileRepository.sendBasicDataProfileSectionOne(
+        profileLocalData: profileLocalData);
+  }
 }
