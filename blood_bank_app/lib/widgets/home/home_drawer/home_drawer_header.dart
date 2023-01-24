@@ -38,7 +38,7 @@ class HomeDrawerHeader extends StatelessWidget {
               ),
               const SizedBox(height: AppSize.s20),
               Text(
-                currentUser!.email ?? AppStrings.homeDrowerHeaderUserName,
+                currentUser!.email ?? AppStrings.homeDrawerHeaderUserName,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
