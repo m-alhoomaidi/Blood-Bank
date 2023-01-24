@@ -56,4 +56,25 @@ class AppStrings {
   static const String signUpCreateButton = "إنشاء";
   static const String signUpNextButton = "التالي";
   static const String signUpAsCenterLink = "إنشاء حساب كمركز طبي";
+
+  //----------------------------------------------------------------
+  // Profile Page
+  static const String profileAppBarTitle = "الاعدادات";
+  static const String profileSuccesMess = "تم تحديث الاعدادات بشكل صحيح";
+  static const String profileNullValue = "";
+  static const String profileSwitchListTile1 = "متاح";
+  static const String profileSwitchSubTitle1 = "الظهور في قائمة المتبرعين";
+  static const String profileSwitchListTile2 = "اضهار رقمي";
+  static const String profileSwitchSubTitle2 = "سيظهر رقمك للجميع";
+  static const String profileSwitchListTile3 = "استخدام الموقع";
+  static const String profileSwitchSubTitle3 = "تشغيل gbs";
+  static const String profileDataBrithday = "تاريخ الميلاد";
+  static const String profileButtonSave = "حفظ";
+  static const String profileEditMainDataPageTitle = "تعديل البيانات الاساسية";
+  static const String profileBloodTypeHint = "فصيلة دمك";
+  static const String profileBloodTypeTitle = "الفصيلة";
+  static const String profileValidatorCheckBloodType = "يرجى اختيار فصيلة الدم";
+  static const String profileAdressTitle = "العنوان";
+  static const String profileCheckChooseOption =
+      "تاكد من ضبط كل الخيارات بشكل صحيح";
 }

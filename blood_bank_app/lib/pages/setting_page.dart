@@ -1,17 +1,16 @@
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
+import 'package:blood_bank_app/presentation/resources/assets_manager.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../domain/entities/donor.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../presentation/resources/color_manageer.dart';
 import '../shared/utils.dart';
-import '../widgets/forms/my_switchlist_tile.dart';
 import '../widgets/setting/select_photo_options_screen.dart';
 import '../widgets/setting/profile_body.dart';
 import '../widgets/setting/display_image.dart';
@@ -148,7 +147,7 @@ class _SettingPageState extends State<SettingPage> {
     permission();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Setting Page'),
+        title: const Text(AppStrings.profileAppBarTitle),
         centerTitle: true,
         elevation: 0,
       ),
@@ -164,7 +163,7 @@ class _SettingPageState extends State<SettingPage> {
         } else if (state is ProfileSuccess) {
           Utils.showSnackBar(
             context: context,
-            msg: "تم تحديث الاعدادات بشكل صحيح",
+            msg: AppStrings.profileSuccesMess,
           );
         }
       }, builder: (context, state) {
@@ -174,7 +173,7 @@ class _SettingPageState extends State<SettingPage> {
             child: Column(
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: AppPadding.p10),
                 ),
                 InkWell(
                   onTap: () {
@@ -184,12 +183,12 @@ class _SettingPageState extends State<SettingPage> {
                     // putDataTodataProfileTable();
                   },
                   child: DisplayImage(
-                    imagePath: _image ?? "assets/images/1.jpg",
+                    imagePath: _image ?? ImageAssets.ProfileImage,
                     onPressed: () {},
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: AppSize.s10,
                 ),
                 if (state is ProfileGetData) ProfileBody(donor: state.donors),
                 if (state is ProfileFailure)

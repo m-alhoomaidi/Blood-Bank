@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -36,7 +38,7 @@ class _ProfileBodyState extends State<ProfileBody> {
       firstDate: DateTime(1900),
       lastDate: initDateTime,
     ).then((value) => newDate = value);
-    if (newDate == null) return "";
+    if (newDate == null) return AppStrings.profileNullValue;
     // final pickedDateTime = DateTime(
     //   newDate.year,
     //   newDate.month,
@@ -80,8 +82,8 @@ class _ProfileBodyState extends State<ProfileBody> {
     return Column(
       children: [
         MySwitchListTile(
-          title: "متاح",
-          subTitle: "الظهور في قائمة المتبرعين",
+          title: AppStrings.profileSwitchListTile1,
+          subTitle: AppStrings.profileSwitchSubTitle1,
           onChange: (val) {
             setState(() {
               profileLocalData!.isShown = val == true ? "1" : "0";
@@ -90,8 +92,8 @@ class _ProfileBodyState extends State<ProfileBody> {
           onchangValue: (profileLocalData!.isShown == "1") ? true : false,
         ),
         MySwitchListTile(
-          title: "اضهار رقمي",
-          subTitle: "سيظهر رقمك للجميع",
+          title: AppStrings.profileSwitchListTile2,
+          subTitle: AppStrings.profileSwitchSubTitle2,
           onChange: (val) {
             setState(() {
               profileLocalData!.isShownPhone = val == true ? "1" : "0";
@@ -100,8 +102,8 @@ class _ProfileBodyState extends State<ProfileBody> {
           onchangValue: (profileLocalData!.isShownPhone == "1") ? true : false,
         ),
         MySwitchListTile(
-          title: "استخدام الموقع",
-          subTitle: "تشغيل gbs",
+          title: AppStrings.profileSwitchListTile3,
+          subTitle: AppStrings.profileSwitchSubTitle3,
           onChange: (val) {
             setState(() {
               profileLocalData!.isGpsOn = val == true ? "1" : "0";
@@ -110,15 +112,15 @@ class _ProfileBodyState extends State<ProfileBody> {
           onchangValue: (profileLocalData!.isGpsOn == "1") ? true : false,
         ),
         Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppPadding.p30, vertical: AppPadding.p10),
             child: Column(
               children: [
                 MyTextFormField(
-                  hint: 'تاريخ الميلاد',
-                  hintStyle: eHintStyle,
+                  hint: AppStrings.profileDataBrithday,
+                  hintStyle: Theme.of(context).textTheme.bodyText1!,
                   suffixIcon: true,
-                  blurrBorderColor: Colors.grey,
+                  blurrBorderColor: ColorManager.grey,
                   focusBorderColor: eSecondColor,
                   icon: const Icon(
                     Icons.calendar_month,
@@ -136,7 +138,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               ],
             )),
         MyButton(
-            title: "حفظ",
+            title: AppStrings.profileButtonSave,
             minWidth: MediaQuery.of(context).size.width * 0.85,
             onPressed: (() {
               if (profileLocalData != null) {
@@ -145,7 +147,7 @@ class _ProfileBodyState extends State<ProfileBody> {
               } else {
                 Utils.showSnackBar(
                   context: context,
-                  msg: "تاكد من ضبط كل الخيارات بشكل صحيح",
+                  msg: AppStrings.profileSuccesMess,
                   color: ColorManager.error,
                 );
               }
@@ -167,14 +169,12 @@ class EditBasicData extends StatelessWidget {
         onPressed: () {},
         icon: const Icon(
           Icons.keyboard_arrow_left,
-          size: 30,
+          size: AppSize.s30,
         ),
       ),
-      title: const Text(
-        'تعديل البيانات الاساسية',
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-        ),
+      title: Text(
+        AppStrings.profileEditMainDataPageTitle,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
       onTap: () {
         // di.initProfile();
