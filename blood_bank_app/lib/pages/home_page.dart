@@ -166,21 +166,8 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
 
-  String? _phoneNumberValidator(String value) {
-    String pattern = r'/^(?(7)?(0|1|3|7|8))?[0-9]{7}$/';
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(value)) {
-      print("Wrong");
-      return 'Enter Valid Phone Number';
-    } else {
-      print("OK");
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    _phoneNumberValidator("714296685");
     bool firstTimeState = Hive.box(dataBoxName).get('introduction') ?? true;
 
     return firstTimeState

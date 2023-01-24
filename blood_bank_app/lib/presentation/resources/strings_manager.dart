@@ -1,5 +1,7 @@
 class AppStrings {
-  static const noFound = "No Route Found";
+  static const noFound = "لا يوجد محتوى";
+
+  static const unDefined = "غير محدد";
 
   //-----------------------------------------------------
   //------- OoBoarding Page
@@ -46,11 +48,25 @@ class AppStrings {
   static const String signUpPasswordHint = "أنشئ كلمة مرور";
   static const String signUpSecondStepTitle = "بياناتك";
   static const String signUpNameHint = "اسمك";
+  static const String signUpBloodTypeHint = "فصيلة دمك";
   static const String signUpNameValidator =
       "لا يمكن أن يكون الاسم أقل من حرفين";
   static const String signUpPhoneHint = "رقم هاتفك";
+  static const String signUpPhoneValidator = "أدخل رقم هاتف يمني صحيح";
+  static const String signUpThirdStepTitle = "عنوانك";
   static const String signUpStateCityValidator =
       "يجب اختيار المحافظة والمديرية";
+  static const String signUpNeighborhoodHint = "المنطقة";
+  static const String signUpNeighborhoodValidator = "يرجى كتابة قريتك أو حارتك";
+  static const String signUpFourthStepTitle = "تأكيد";
+  static const String signUpConfirmNameLabel = "اسم المتبرع";
+  static const String signUpConfirmPhoneLabel = "رقم الهاتف";
+  static const String signUpConfirmBloodTypeLabel = "فصيلة الدم";
+  static const String signUpConfirmAddressLabel = "العنوان";
+  static const String signUpConfirmEmailLabel = "البريد الإلكتروني";
+  static const String signUpIConfirmThat = "أوافق على ";
+  static const String signUpPrivacyPolicy = "سياسات الخصوصية";
+  static const String signUpYouHaveToConfirm = "يجب أن تؤكد موافقتك";
   static const String signUpSuccessMessage = "تم إنشاء حساب بنجاح";
   static const String signUpPreviousButton = "السابق";
   static const String signUpCreateButton = "إنشاء";
