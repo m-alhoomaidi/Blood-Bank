@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/dependecy_injection.dart' as di;
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,45 +24,77 @@ class HomeDrawerBody extends StatelessWidget {
         runSpacing: 10,
         children: [
           HomeDrawerMenuItem(
-            title: "تسجيل دخول",
+            title: AppStrings.homeDrawerSignIn,
             icon: Icons.login_rounded,
             onTap: () {
               di.initSignIn();
-              Navigator.of(context).pushNamed(SignInPage.routeName);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SignInPage(),
+                ),
+              );
             },
           ),
           HomeDrawerMenuItem(
-            title: "إنشاء حساب",
+            title: AppStrings.homeDrawerSignUp,
             icon: Icons.person_add_outlined,
             onTap: () {
               di.initSignUp();
-              Navigator.of(context).pushNamed(SignUpPage.routeName);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SignUpPage(),
+                ),
+              );
             },
           ),
           HomeDrawerMenuItem(
+            title: AppStrings.homeDrawerSettings,
             icon: Icons.settings_outlined,
-            title: "إعدادات",
             onTap: () {
               // CompareHiveAndFireStore().compareHiveAndFirestore();
               di.initProfile();
               BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
               if (FirebaseAuth.instance.currentUser != null) {
-                Navigator.of(context).pushNamed(SettingPage.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SettingPage(),
+                  ),
+                );
               } else {
                 Utils.showSnackBar(
                   context: context,
-                  msg: "الرجاء تسجيل الدخول اولا",
+                  msg: AppStrings.homeDrawerSignInFirstToast,
                 );
                 di.initSignIn();
-                Navigator.of(context).pushNamed(SignInPage.routeName);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SignInPage(),
+                  ),
+                );
               }
             },
           ),
+          HomeDrawerMenuItem(
+            title: AppStrings.homeDrawerUpdateBloodBank,
+            icon: Icons.sync,
+            onTap: () {},
+          ),
           const Divider(color: Colors.black54),
           HomeDrawerMenuItem(
-            title: "حول التبيق",
+            title: AppStrings.homeDrawerAboutApp,
             icon: Icons.info_outline,
-            onTap: () {},
+            onTap: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (_) => const ProfileCenterPage(),
+              //   ),
+              // );
+            },
           ),
         ],
       ),

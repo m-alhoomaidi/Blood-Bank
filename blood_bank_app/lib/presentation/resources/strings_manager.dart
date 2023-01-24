@@ -19,6 +19,17 @@ class AppStrings {
       "Tut app is an awesome flutter using clean architecture #4";
   static const String skip = "skip";
 
+  //----------------------------------------------------------------
+  // Home Page
+  static const String homeAppBarTitle = "بنك الدم الإلكتروني";
+  static const String homeDrawerHeaderUserName = "اسم المستخدم";
+  static const String homeDrawerSignIn = "تسجيل دخول";
+  static const String homeDrawerSignUp = "إنشاء حساب";
+  static const String homeDrawerSettings = "إعدادات";
+  static const String homeDrawerSignInFirstToast = "الرجاء تسجيل الدخول أولاً";
+  static const String homeDrawerUpdateBloodBank = "تعديل مخزون البنك";
+  static const String homeDrawerAboutApp = "حول التبيق";
+
   //-------------------------------------------------------
   //-------- Sing In Page
   static const String signInAppBarTitle = "تسجيل دخول";
