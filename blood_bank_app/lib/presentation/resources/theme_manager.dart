@@ -70,14 +70,14 @@ ThemeData getApplicationTheme() {
         fontSize: FontSize.s16,
       ),
       titleLarge: getSemiBoldStyle(
-        color: ColorManager.grey1,
+        color: ColorManager.white,
         fontSize: FontSize.s16,
       ),
-      titleMedium: getSemiBoldStyle(
+      titleMedium: getRegularStyle(
         color: ColorManager.darkGrey,
         fontSize: FontSize.s14,
       ),
-      headlineMedium: getRegularStyle(
+      headlineMedium: getSemiBoldStyle(
         color: ColorManager.darkGrey,
         fontSize: FontSize.s14,
       ),
@@ -85,7 +85,10 @@ ThemeData getApplicationTheme() {
         color: ColorManager.link,
         fontSize: FontSize.s14,
       ),
-      bodyLarge: getRegularStyle(color: ColorManager.grey1),
+      bodyLarge: getRegularStyle(
+        color: ColorManager.darkGrey,
+        fontSize: FontSize.s16,
+      ),
       bodySmall: getRegularStyle(color: ColorManager.grey),
     ),
 
@@ -103,8 +106,9 @@ ThemeData getApplicationTheme() {
       errorStyle: getRegularStyle(color: ColorManager.error),
       // enable border style
       enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: ColorManager.grey, width: AppSize.s1_5),
-          borderRadius: BorderRadius.all(Radius.circular(AppSize.s18))),
+          borderSide:
+              BorderSide(color: ColorManager.primary, width: AppSize.s1_5),
+          borderRadius: BorderRadius.all(Radius.circular(AppSize.s10))),
       // focused border style
       focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(

@@ -26,7 +26,7 @@ class SingInCubit extends Cubit<SignInState> {
       await signInUseCase(email: email, password: password)
           .then((userCredentialOrFailure) {
         userCredentialOrFailure.fold(
-          (failure) => emit(SigninFailure(error: _getFailureMessage(failure))),
+          (failure) => emit(SigninFailure(error: getFailureMessage(failure))),
           (userCredential) => emit(SigninSuccess()),
         );
       });
@@ -42,31 +42,12 @@ class SingInCubit extends Cubit<SignInState> {
     try {
       await resetPasswordUseCase(email: email).then((unitOrFailuer) {
         unitOrFailuer.fold(
-          (failure) => emit(SigninFailure(error: _getFailureMessage(failure))),
+          (failure) => emit(SigninFailure(error: getFailureMessage(failure))),
           (_) => emit(SigninSuccessResetPass()),
         );
       });
     } catch (e) {
       emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
-    }
-  }
-
-  String _getFailureMessage(Failure failur) {
-    switch (failur.runtimeType) {
-      case OffLineFailure:
-        return "لا يوجد إنترنت";
-      case WrongDataFailure:
-        return "تأكد من صحة البيانات المدخلة";
-      case ServerFailure:
-        return "خطأ في السرفر حاول مرة أخرى لاحقاً";
-      case EmptyCacheFailure:
-        return "لا يوجد بيانات محلية";
-      case UnknownFailure:
-        return "خطأ غير معروف";
-      case WrongEmailFailure:
-        return "تحقق من صحة بريدك الالكتروني";
-      default:
-        return "خطأ غير معروف";
     }
   }
 
@@ -123,7 +104,6 @@ class SingInCubit extends Cubit<SignInState> {
   //     emit(SigninLoading());
   //     await auth.sendPasswordResetEmail(email: email).then((value) {
   //       emit(SigninSuccessResetPass());
-
   //     });
   //   } catch (e) {
   //     emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
@@ -164,4 +144,25 @@ class SingInCubit extends Cubit<SignInState> {
   //   }
   //   return result;
   //
+}
+
+String getFailureMessage(Failure failur) {
+  switch (failur.runtimeType) {
+    case OffLineFailure:
+      return "لا يوجد إنترنت";
+    case WrongDataFailure:
+      return "تأكد من صحة البيانات المدخلة";
+    case ServerFailure:
+      return "خطأ في السرفر حاول مرة أخرى لاحقاً";
+    case EmptyCacheFailure:
+      return "لا يوجد بيانات محلية";
+    case UnknownFailure:
+      return "خطأ غير معروف";
+    case InvalidEmailFailure:
+      return "تحقق من صحة بريدك الالكتروني";
+    case DoesnotSaveData:
+      return "لم يتم تحديث البيانات";
+    default:
+      return "خطأ غير معروف";
+  }
 }

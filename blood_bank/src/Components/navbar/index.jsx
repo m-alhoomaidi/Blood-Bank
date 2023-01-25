@@ -21,8 +21,8 @@ const navItems = [
   },
   {
     id: 2,
-    name: "خدماتنا",
-    href: "#services",
+    name: "من نحن",
+    href: "/aboutus",
   },
   {
     id: 3,

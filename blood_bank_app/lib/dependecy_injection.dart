@@ -1,11 +1,19 @@
 import 'package:blood_bank_app/core/network/network_info.dart';
+import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
 import 'package:blood_bank_app/cubit/signin_cubit/signin_cubit.dart';
-import 'package:blood_bank_app/data/repositories/sign_in_repository_impl.dart';
-import 'package:blood_bank_app/domain/repositories/sign_in_repository.dart';
+import 'package:blood_bank_app/cubit/signup_cubit/signup_cubit.dart';
+import 'package:blood_bank_app/data/repositories/auth_repository_impl.dart';
+import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
+import 'package:blood_bank_app/domain/repositories/auth_repository.dart';
+import 'package:blood_bank_app/domain/usecases/profile_use_case.dart';
 import 'package:blood_bank_app/domain/usecases/reset_password_use_case.dart';
 import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/sign_up_center_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/sign_up_donor_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+
+import 'data/repositories/profile_repository_impl.dart';
 
 final sl = GetIt.instance;
 
@@ -35,7 +43,32 @@ initSignIn() {
         () => ResetPasswordUseCase(resetPasswordRepository: sl()));
 
     // Repositories
-    sl.registerFactory<SignInRepository>(
-        () => SignInRepositoryImpl(networkInfo: sl()));
+    sl.registerFactory<AuthRepository>(
+        () => AuthRepositoryImpl(networkInfo: sl()));
+  }
+}
+
+initSignUp() {
+  if (!GetIt.I.isRegistered<SignUpCubit>()) {
+    sl.registerFactory(
+        () => SignUpCubit(signUpDonorUseCase: sl(), signUpCenterUseCase: sl()));
+
+    // UseCases
+    sl.registerFactory(() => SignUpDonorUseCase(authRepository: sl()));
+    sl.registerFactory(() => SignUpCenterUseCase(authRepository: sl()));
+
+    // Repositories
+    sl.registerFactory<AuthRepository>(
+        () => AuthRepositoryImpl(networkInfo: sl()));
+  }
+}
+
+initProfile() {
+  if (!GetIt.I.isRegistered<ProfileCubit>()) {
+    sl.registerFactory(() => ProfileCubit(profileUseCase: sl()));
+    sl.registerFactory(() => ProfileUseCase(profileRepository: sl()));
+
+    sl.registerFactory<ProfileRepository>(
+        () => ProfileReopsitoryImpl(networkInfo: sl()));
   }
 }

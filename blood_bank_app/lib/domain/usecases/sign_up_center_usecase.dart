@@ -1,18 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:blood_bank_app/core/error/failures.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
+import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class SignInUseCase {
+class SignUpCenterUseCase {
   final AuthRepository authRepository;
-  SignInUseCase({
+  SignUpCenterUseCase({
     required this.authRepository,
   });
-  Future<Either<Failure, UserCredential>> call({
-    required String email,
-    required String password,
+  Future<Either<Failure, Unit>> call({
+    required BloodCenter center,
   }) async {
-    return await authRepository.signIn(email: email, password: password);
+    return await authRepository.signUpCenter(
+      center: center,
+    );
   }
 }

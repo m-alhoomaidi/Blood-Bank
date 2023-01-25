@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'profile_cubit.dart';
 
 @immutable
@@ -12,7 +13,16 @@ class ProfileGetData extends ProfileState {
   });
 }
 
+class ProfileGetCenterData extends ProfileState {
+  BloodCenter bloodCenter;
+  ProfileGetCenterData({
+    required this.bloodCenter,
+  });
+}
+
 class ProfileSuccess extends ProfileState {}
+
+class ProfileLoading extends ProfileState {}
 
 class ProfileFailure extends ProfileState {
   final String error;

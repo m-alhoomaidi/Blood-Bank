@@ -331,11 +331,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
-          if (kDebugMode) {
-            print("++++++++++++++++++++");
-
-            print("0000000000000000000000000000000000");
-          }
+          if (kDebugMode) {}
 
           // getPolyPoints();
           position = await Geolocator.getCurrentPosition(

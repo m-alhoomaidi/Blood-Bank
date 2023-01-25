@@ -1,16 +1,27 @@
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/dependecy_injection.dart' as di;
 import '../../cubit/profile_cubit/profile_cubit.dart';
 import '../../pages/edit_main_data_page.dart';
 import '../../pages/setting_page.dart';
+import '../../presentation/resources/color_manageer.dart';
 import '../../shared/style.dart';
+import '../../shared/utils.dart';
+import '../forms/my_button.dart';
 import '../forms/my_switchlist_tile.dart';
 import '../forms/my_text_form_field.dart';
 
 class ProfileBody extends StatefulWidget {
-  const ProfileBody({super.key});
+  ProfileBody({
+    Key? key,
+    required this.donor,
+  }) : super(key: key);
+  Donor? donor;
   @override
   State<ProfileBody> createState() => _ProfileBodyState();
 }
@@ -18,6 +29,7 @@ class ProfileBody extends StatefulWidget {
 class _ProfileBodyState extends State<ProfileBody> {
   DateTime? newDate;
   String? selectedGender;
+  ProfileLocalData? profileLocalData;
   Future<String> showDateTimePicker(context) async {
     final DateTime initDateTime = DateTime.now();
     newDate = await showDatePicker(
@@ -26,7 +38,7 @@ class _ProfileBodyState extends State<ProfileBody> {
       firstDate: DateTime(1900),
       lastDate: initDateTime,
     ).then((value) => newDate = value);
-    if (newDate == null) return "";
+    if (newDate == null) return AppStrings.profileNullValue;
     // final pickedDateTime = DateTime(
     //   newDate.year,
     //   newDate.month,
@@ -41,7 +53,17 @@ class _ProfileBodyState extends State<ProfileBody> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<ProfileCubit>(context).getDataProfile();
+    if (widget.donor == null) {}
+    fillProfileLocalData();
+    // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+  }
+
+  fillProfileLocalData() {
+    profileLocalData = ProfileLocalData(
+        date: widget.donor!.brithDate,
+        isShown: widget.donor!.isShown,
+        isGpsOn: widget.donor!.isGpsOn,
+        isShownPhone: widget.donor!.isShownPhone);
   }
 
   @override
@@ -51,90 +73,139 @@ class _ProfileBodyState extends State<ProfileBody> {
       const SizedBox(
         height: 10,
       ),
-      ListTile(
-        trailing: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.keyboard_arrow_left,
-            size: 30,
-          ),
-        ),
-        title: const Text(
-          'تعديل البيانات الاساسية',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        onTap: () {
-          Navigator.of(context).pushNamed(EditMainDataPage.routeName);
-        },
-      ),
-      ValueListenableBuilder<Box>(
-          valueListenable: Hive.box(dataBoxName).listenable(),
-          builder: (context, box, widget) {
-            return Column(
-              children: [
-                MySwitchListTile(
-                  title: "متاح",
-                  subTitle: "الظهور في قائمة المتبرعين",
-                  onchangValue: (box.get("is_shown", defaultValue: "1") == "1")
-                      ? true
-                      : false,
-                  onChange: (val) {
-                    box.put("is_shown", val == true ? "1" : 0);
-                  },
-                ),
-                MySwitchListTile(
-                  title: "اضهار رقمي",
-                  subTitle: "سيظهر رقمك للجميع",
-                  onChange: (val) {
-                    box.put("is_shown_phone", val == true ? "1" : 0);
-                  },
-                  onchangValue:
-                      (box.get("is_shown_phone", defaultValue: "1") == "1")
-                          ? true
-                          : false,
-                ),
-                MySwitchListTile(
-                  title: "استخدام الموقع",
-                  subTitle: "تشغيل gbs",
-                  onChange: (val) {
-                    box.put("is_gps_on", val == true ? "1" : 0);
-                  },
-                  onchangValue: (box.get("is_gps_on", defaultValue: "1") == "1")
-                      ? true
-                      : false,
-                ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 20.0),
-                    child: Column(
-                      children: [
-                        MyTextFormField(
-                          hint: 'تاريخ الميلاد',
-                          hintStyle: eHintStyle,
-                          suffixIcon: true,
-                          blurrBorderColor: Colors.grey,
-                          focusBorderColor: eSecondColor,
-                          icon: const Icon(
-                            Icons.calendar_month,
-                            color: eSecondColor,
-                          ),
-                          readOnly: true,
-                          onTap: () {
-                            showDateTimePicker(context).then((value) {
-                              if (value != "") {
-                                box.put("date", value);
-                              }
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ))
-              ],
-            );
-          }),
+      EditBasicData(),
+      valueListenableBuilder(widget.donor!),
     ]));
   }
+
+  valueListenableBuilder(Donor donor) {
+    return Column(
+      children: [
+        MySwitchListTile(
+          title: AppStrings.profileSwitchListTile1,
+          subTitle: AppStrings.profileSwitchSubTitle1,
+          onChange: (val) {
+            setState(() {
+              profileLocalData!.isShown = val == true ? "1" : "0";
+            });
+          },
+          onchangValue: (profileLocalData!.isShown == "1") ? true : false,
+        ),
+        MySwitchListTile(
+          title: AppStrings.profileSwitchListTile2,
+          subTitle: AppStrings.profileSwitchSubTitle2,
+          onChange: (val) {
+            setState(() {
+              profileLocalData!.isShownPhone = val == true ? "1" : "0";
+            });
+          },
+          onchangValue: (profileLocalData!.isShownPhone == "1") ? true : false,
+        ),
+        MySwitchListTile(
+          title: AppStrings.profileSwitchListTile3,
+          subTitle: AppStrings.profileSwitchSubTitle3,
+          onChange: (val) {
+            setState(() {
+              profileLocalData!.isGpsOn = val == true ? "1" : "0";
+            });
+          },
+          onchangValue: (profileLocalData!.isGpsOn == "1") ? true : false,
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppPadding.p30, vertical: AppPadding.p10),
+            child: Column(
+              children: [
+                MyTextFormField(
+                  hint: AppStrings.profileDataBrithday,
+                  hintStyle: Theme.of(context).textTheme.bodyText1!,
+                  suffixIcon: true,
+                  blurrBorderColor: ColorManager.grey,
+                  focusBorderColor: eSecondColor,
+                  icon: const Icon(
+                    Icons.calendar_month,
+                    color: eSecondColor,
+                  ),
+                  readOnly: true,
+                  onTap: () {
+                    showDateTimePicker(context).then((value) {
+                      if (value != "") {
+                        profileLocalData!.date = value;
+                      }
+                    });
+                  },
+                ),
+              ],
+            )),
+        MyButton(
+            title: AppStrings.profileButtonSave,
+            minWidth: MediaQuery.of(context).size.width * 0.85,
+            onPressed: (() {
+              if (profileLocalData != null) {
+                BlocProvider.of<ProfileCubit>(context)
+                    .sendDataProfileSectionOne(profileLocalData!);
+              } else {
+                Utils.showSnackBar(
+                  context: context,
+                  msg: AppStrings.profileSuccesMess,
+                  color: ColorManager.error,
+                );
+              }
+            }))
+      ],
+    );
+  }
+}
+
+class EditBasicData extends StatelessWidget {
+  EditBasicData({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          Icons.keyboard_arrow_left,
+          size: AppSize.s30,
+        ),
+      ),
+      title: Text(
+        AppStrings.profileEditMainDataPageTitle,
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+      onTap: () {
+        // di.initProfile();
+        BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+
+        Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (BuildContext context) => EditMainDataPage()));
+      },
+    );
+  }
+}
+
+class ProfileLocalData {
+  String? isShown;
+  String? date;
+  String? isGpsOn;
+  String? isShownPhone;
+  String? name;
+  String? bloodType;
+  String? district;
+  String? state;
+  String? neighborhood;
+
+  ProfileLocalData(
+      {this.name,
+      this.bloodType,
+      this.district,
+      this.neighborhood,
+      this.state,
+      this.isShown,
+      this.date,
+      this.isGpsOn,
+      this.isShownPhone});
 }

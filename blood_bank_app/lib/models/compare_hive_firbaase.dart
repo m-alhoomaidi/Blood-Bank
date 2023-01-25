@@ -16,7 +16,7 @@ class CompareHiveAndFireStore {
       if (currentUser != null) {
         await fireStore
             .collection(DonorFields.collectionName)
-            .doc("H5PPBI8VBBNikBYvmifb")
+            .doc(currentUser.uid)
             .get()
             .then((value) async {
           donor = Donor.fromMap(value.data()!);
@@ -42,7 +42,7 @@ class CompareHiveAndFireStore {
                     Hive.box(dataBoxName).get(DonorFields.neighborhood)) {
               await fireStore
                   .collection(DonorFields.collectionName)
-                  .doc("H5PPBI8VBBNikBYvmifb")
+                  .doc(currentUser.uid)
                   .update({
                 DonorFields.state: Hive.box(dataBoxName).get(DonorFields.state),
                 DonorFields.neighborhood:

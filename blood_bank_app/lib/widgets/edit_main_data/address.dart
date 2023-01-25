@@ -102,6 +102,7 @@ class AddressMainData extends StatelessWidget {
                           blurrBorderColor: eFieldBlurrBorderColor,
                           focusBorderColor: eFieldFocusBorderColor,
                           fillColor: eFieldFillColor,
+                          suffixIcon: false,
                           icon: const Icon(Icons.my_location_outlined),
                           onSave: (value) {
                             // neighborhood = value;

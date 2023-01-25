@@ -4,11 +4,11 @@ import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:blood_bank_app/presentation/resources/font_manager.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/forms/my_button.dart';
 
 import '../cubit/signin_cubit/signin_cubit.dart';
-import '../models/extention.dart';
 import '../models/dialod_reset_password.dart';
 import '../pages/home_page.dart';
 import '../pages/sign_up_page.dart';
@@ -32,20 +32,20 @@ class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _emailState = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool isPasswordVisible = false;
+  bool isPasswordVisible = true;
 
   String? emailValidator(value) {
     if (value != null && EmailValidator.validate(value)) {
       return null;
     } else if (!EmailValidator.validate(value!)) {
-      return AppStrings.signInPasswordFieldValidatorError;
+      return AppStrings.signInEmailValidatorError;
     }
     return null;
   }
 
   String? passwordValidator(value) {
     if (value!.length < minCharsOfPassword) {
-      return AppStrings.signInPasswordFieldHint;
+      return AppStrings.firebasePasswordValidatorError;
     }
     return null;
   }
@@ -61,7 +61,18 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
 
-  _submitSignIn() {
+  _submitSignIn() async {
+    // print("llllllllllllllllllllllllllllllllll");
+    // print(emailController.text);
+    // print(passwordController.text);
+    // await FirebaseAuth.instance
+    //     .signInWithEmailAndPassword(
+    //         email: emailController.text, password: passwordController.text)
+    //     .then((value) {
+    //   print(value);
+    // }).onError((error, stackTrace) {
+    //   print(error);
+    // });
     if (_emailState.currentState!.validate() &
         _formState.currentState!.validate()) {
       BlocProvider.of<SingInCubit>(context).signIn(
@@ -175,8 +186,9 @@ class _SignInPageState extends State<SignInPage> {
       child: Form(
         key: _emailState,
         child: MyTextFormField(
-          hint: AppStrings.signInEmailFieldHint,
-          blurrBorderColor: ColorManager.grey,
+          hint: AppStrings.signInEmailHint,
+          controller: emailController,
+          blurrBorderColor: ColorManager.lightGrey,
           focusBorderColor: ColorManager.secondary,
           fillColor: ColorManager.white,
           validator: emailValidator,
@@ -190,9 +202,10 @@ class _SignInPageState extends State<SignInPage> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 40),
       child: MyTextFormField(
-        hint: AppStrings.signInPasswordFieldHint,
+        hint: AppStrings.signInPasswordHint,
+        controller: passwordController,
         isPassword: isPasswordVisible,
-        blurrBorderColor: ColorManager.grey,
+        blurrBorderColor: ColorManager.lightGrey,
         focusBorderColor: ColorManager.secondary,
         fillColor: ColorManager.white,
         validator: passwordValidator,
@@ -251,8 +264,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 }
 
-                                // forget password onTap
-                                
+                                // forget password onTap 
                                 // if (_formStateEmail.currentState!.validate()) {
                                 // _formStateEmail.currentState!.save();
                                 //   if (email!.isValidPhone) {
@@ -261,9 +273,7 @@ class _SignInPageState extends State<SignInPage> {
                                 //             phone: email!, type: "forget");
                                 //   }
 
-
                                 // signin button onPress
-
                                   // if (_formState.currentState!.validate() &&
                                   //     _formStateEmail.currentState!
                                   //         .validate()) {
