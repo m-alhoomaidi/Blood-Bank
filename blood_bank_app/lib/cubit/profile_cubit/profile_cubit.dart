@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
@@ -144,7 +145,9 @@ class ProfileCubit extends Cubit<ProfileState> {
             .doc("CWTU0qCghsDi132oDsMh")
             .get()
             .then((value) async {
+          print(";;;;;;;;;;;;;;;;;;;;;;;;;");
           bloodCenter = BloodCenter.fromMap(value.data()!);
+          print(bloodCenter!.name);
           emit(ProfileGetCenterData(bloodCenter: bloodCenter!));
         });
       } else {
@@ -152,6 +155,77 @@ class ProfileCubit extends Cubit<ProfileState> {
       }
     } catch (e) {
       emit(ProfileFailure(error: "pppppppppppp"));
+    }
+  }
+
+  Future<void> sendProfileCenterData(
+      ProfileCenterData profileCenterData) async {
+    try {
+      print("++++++++++++++++++++++++++++++");
+      emit(ProfileLoading());
+      User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        await _fireStore
+            .collection('centers')
+            .doc("CWTU0qCghsDi132oDsMh")
+            .update({
+          BloodCenterField.aPlus: profileCenterData.aPlus,
+          BloodCenterField.aMinus: profileCenterData.aMinus,
+          BloodCenterField.abPlus: profileCenterData.abPlus,
+          BloodCenterField.oPlus: profileCenterData.oPlus,
+          BloodCenterField.oMinus: profileCenterData.oMinus,
+          BloodCenterField.bPlus: profileCenterData.bPlus,
+          BloodCenterField.bMinus: profileCenterData.bMinus,
+        }).then((value) async {
+          emit(ProfileSuccess());
+          getProfileCenterData();
+        });
+      } else {
+        emit(ProfileFailure(error: "tttt"));
+      }
+    } catch (e) {
+      emit(ProfileFailure(error: "pppppppppppp"));
+    }
+  }
+
+  Future<void> sendBasicCenterDataProfile(
+      ProfileCenterData profileCenterData) async {
+    try {
+      emit(ProfileLoading());
+
+      await profileUseCase
+          .callsendBasicCenterDataProfile(profileCenterData: profileCenterData)
+          .then((sendDataOrFailure) {
+        sendDataOrFailure.fold(
+            (failure) =>
+                emit(ProfileFailure(error: getFailureMessage(failure))),
+            (r) => emit(ProfileSuccess()));
+        getProfileCenterData();
+      });
+      // User? currentUser = _auth.currentUser;
+      // if (currentUser != null) {
+      //   await _fireStore
+      //       .collection('donors')
+      //       .doc("9U74upZiSOJugT9wrDnu")
+      //       .update({
+      //     DonorFields.name: profileLocalData.name,
+      //     DonorFields.bloodType: profileLocalData.bloodType,
+      //     DonorFields.state: profileLocalData.state,
+      //     DonorFields.district: profileLocalData.district,
+      //     DonorFields.neighborhood: profileLocalData.neighborhood,
+      //   }).then((value) async {
+      //     emit(ProfileSuccess());
+      //     getDataToProfilePage();
+      //   });
+
+      // } else {
+      //   print("1111111111111111111111111");
+      //   emit(ProfileFailure(
+      //       error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+      // }
+    } catch (e) {
+      emit(ProfileFailure(
+          error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
     }
   }
 }
