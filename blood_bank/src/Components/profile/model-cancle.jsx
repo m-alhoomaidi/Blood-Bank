@@ -5,6 +5,9 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import  Divider  from '@mui/material/Divider';
 import { IconButton,Card,CardHeader,Grid,Alert,Container,Modal } from '@mui/material';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../utils/firebase';
+import { AlertSnackBar } from '../common/alert-snackbar';
 
 const style = {
   position: 'absolute',
@@ -19,6 +22,13 @@ const style = {
   px:3,
 };   
 export const ModelCancle = ({opens,Hand,displayed}) =>{
+  const HideUser =  async () =>{
+   const isShown = "0";
+        const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+    updateDoc(userDoc ,{ is_shown : isShown}).then((response) =>{
+      console.log("trjhkjhckj")
+    });
+  };
     return(
         <div> 
         <Modal
@@ -66,7 +76,7 @@ export const ModelCancle = ({opens,Hand,displayed}) =>{
                     sx={{
                       margin:"20px",
                       width:"150px"
-                }} onClick={() => {displayed(false)}} >نعم
+                }} onClick={() => {displayed(false);HideUser();}} >نعم
                 </Button>
             </Box>
                   </Box>
@@ -75,7 +85,25 @@ export const ModelCancle = ({opens,Hand,displayed}) =>{
     );
 }
 export const CardSucces = ({displayed,Hand})=>{
+  const [showTost, setShowTost] = useState(false);
+  const [tost, setTost] = useState({
+    tostMsg: "لم يتم تنشيط حسابك! أعد المحاولة",
+    tostType: "error",
+});
+
+  const ShowUser =  async () =>{
+    const Shown = "1";
+         const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+     updateDoc(userDoc ,{ is_shown : Shown}).then((response) =>{
+      setShowTost(true);
+      setTost({
+          tostMsg: "لقد تم تنشيط حسابك بنجاح",
+          tostType: "success",
+      });
+     });
+   };
      return (
+      <Box>
              <Card sx={{marginTop:"20px",p:1}}>
                     <CardHeader 
                          title="تنشيط عملية التبرع" 
@@ -95,12 +123,21 @@ export const CardSucces = ({displayed,Hand})=>{
                                    fullWidth 
                                    variant="contained" 
                                    color="success" 
-                                   onClick={() => {displayed(true);Hand();}}
+                                   onClick={() => {displayed(true);
+                                                   Hand();
+                                                   ShowUser();
+                                                  }}
                                    >
                                  تنشيط عملية التبرع</Button>    
                         </Grid> 
             </Grid>
             </Card>
+            <AlertSnackBar
+                   open={showTost}
+                   handleClose={() => setShowTost(false)}
+                   message={tost.tostMsg}
+                   type={tost.tostType}/> 
+            </Box>
 
      );
 

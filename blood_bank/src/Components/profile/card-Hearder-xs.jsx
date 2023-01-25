@@ -17,7 +17,7 @@ export const CardHeaderXs =()=>{
                 <PersonOutlineSharpIcon  sx={{ fontSize:"30px"}}/>
                 <Typography sx={{
                                   marginRight :"20px",
-                                  fontSize: '25px',
+                                  fontSize: '20px',
                 }}>معلومات الحساب</Typography>
             </Card>
         </Box>
