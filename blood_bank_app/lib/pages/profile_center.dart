@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -34,16 +35,6 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getProfileCenterData();
-    // profileCenterDataa = ProfileCenterData(
-    //     aPlus: 5,
-    //     aMinus: 5,
-    //     abPlus: 5,
-    //     abMinus: 5,
-    //     oPlus: 5,
-    //     oMinus: 5,
-    //     bPlus: 5,
-    //     bMinus: 5);
   }
 
   @override
@@ -96,14 +87,14 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: AppPadding.p20),
                       child: Text(
-                        "فصائل الدم المتوفرة",
+                        AppStrings.profileCenterTitle,
                         style: Theme.of(context).textTheme.headlineLarge,
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: AppSize.s10,
                     ),
                     PrfileCenterBloodTypeCard(
                       bloodType: BloodCenterField.aPlus,
@@ -121,15 +112,15 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
                     PrfileCenterBloodTypeCard(
                         bloodType: BloodCenterField.oMinus),
                     const SizedBox(
-                      height: 20,
+                      height: AppSize.s20,
                     ),
                     MyButton(
-                      title: "Save",
+                      title: AppStrings.profileButtonSave,
                       onPressed: () {
                         BlocProvider.of<ProfileCubit>(context)
                             .sendProfileCenterData(profileCenterData!);
                       },
-                      minWidth: 300,
+                      minWidth: AppSize.s300,
                       color: ColorManager.secondary,
                     ),
                   ],
@@ -137,7 +128,7 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
               ),
             );
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -176,36 +167,37 @@ class _PrfileCenterBloodTypeCardState extends State<PrfileCenterBloodTypeCard> {
     return Column(
       children: [
         const SizedBox(
-          height: 20,
+          height: AppSize.s20,
         ),
         Container(
           color: ColorManager.white,
           child: Wrap(
             children: [
               SizedBox(
-                width: 65,
+                width: AppSize.s65,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 16.0, right: 10.0),
+                  padding: const EdgeInsets.only(
+                      top: AppSize.s16, right: AppSize.s10),
                   child: Text(
                     "${widget.bloodType}",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 24,
+                        fontSize: AppSize.s24,
                         color: ColorManager.primary),
                   ),
                 ),
               ),
               const SizedBox(
-                width: 30,
+                width: AppSize.s30,
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10.0,
-                  left: 8,
+                  top: AppSize.s10,
+                  left: AppSize.s8,
                 ),
                 child: SizedBox(
-                  width: 80,
-                  height: 35,
+                  width: AppSize.s80,
+                  height: AppSize.s35,
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -222,7 +214,7 @@ class _PrfileCenterBloodTypeCardState extends State<PrfileCenterBloodTypeCard> {
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(ColorManager.primary),
-                      elevation: MaterialStateProperty.all(5),
+                      elevation: MaterialStateProperty.all(AppSize.s5),
                       shadowColor:
                           MaterialStateProperty.all(ColorManager.primary),
                     ),
@@ -246,12 +238,12 @@ class _PrfileCenterBloodTypeCardState extends State<PrfileCenterBloodTypeCard> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 10.0,
-                  right: 8,
+                  top: AppSize.s10,
+                  right: AppSize.s8,
                 ),
                 child: SizedBox(
-                  width: 80,
-                  height: 35,
+                  width: AppSize.s80,
+                  height: AppSize.s35,
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
@@ -270,7 +262,7 @@ class _PrfileCenterBloodTypeCardState extends State<PrfileCenterBloodTypeCard> {
                       backgroundColor:
                           MaterialStateProperty.all(ColorManager.primary),
                       alignment: Alignment.topCenter,
-                      elevation: MaterialStateProperty.all(5),
+                      elevation: MaterialStateProperty.all(AppSize.s5),
                       shadowColor:
                           MaterialStateProperty.all(ColorManager.primary),
                     ),

@@ -92,7 +92,7 @@ class HomeDrawerBody extends StatelessWidget {
             },
           ),
           HomeDrawerMenuItem(
-            title: "edit center data",
+            title: AppStrings.homeDrawerEditProfileCenter,
             icon: Icons.sync,
             onTap: () {
               di.initProfile();

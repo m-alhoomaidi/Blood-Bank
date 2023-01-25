@@ -43,12 +43,6 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // profileLocalData = ProfileLocalData(
-    //     name: widget.donor!.name,
-    //     bloodType: widget.donor!.bloodType,
-    //     state: widget.donor!.state,
-    //     district: widget.donor!.district,
-    //     neighborhood: widget.donor!.neighborhood);
   }
 
   @override
@@ -58,9 +52,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
           title: const Text(AppStrings.profileEditMainDataPageTitle),
         ),
         body: BlocConsumer<ProfileCubit, ProfileState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is ProfileGetData) {
               profileLocalData = ProfileLocalData(
@@ -72,13 +64,14 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
               return ModalProgressHUD(
                 inAsyncCall: (state is ProfileLoading),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(AppPadding.p20),
                   child: ListView(
                     children: [
                       const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Text("الاسم"),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppPadding.p10,
+                            vertical: AppPadding.p10),
+                        child: Text(AppStrings.editMainDataTextName),
                       ),
                       Form(
                         key: _formState,
@@ -89,7 +82,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                           // (box.get("name") == null) ? null : box.get("name"),
                           validator: (value) {
                             if (value!.length < 2) {
-                              return "لا يمكن أن يكون الاسم أقل من حرفين";
+                              return AppStrings.editMainDataTextNameValidator;
                             }
                             return null;
                           },
@@ -99,10 +92,11 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                           }),
                         ),
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: AppSize.s14),
                       const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppPadding.p10,
+                            vertical: AppPadding.p10),
                         child: Text(AppStrings.profileBloodTypeTitle),
                       ),
                       MyDropdownButtonFormField(
@@ -156,9 +150,9 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                                     dropdownDecoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(AppSize.s10)),
-                                      color: Colors.red[100],
+                                      color: ColorManager.primary,
                                       border: Border.all(
-                                        color: Colors.white,
+                                        color: ColorManager.white,
                                         width: 1,
                                       ),
                                     ),
@@ -218,7 +212,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 15.0),
+                                const SizedBox(height: AppSize.s14),
                                 SizedBox(
                                   // margin: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Form(
