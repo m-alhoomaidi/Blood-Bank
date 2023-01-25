@@ -344,6 +344,20 @@ class _SignUpCenterState extends State<SignUpCenter> {
                   onCityChanged: _onCityChanged,
                 ),
               ),
+              // TODO add neighborhood TextFormField
+              const SizedBox(height: AppSize.s20),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
+                child: MyTextFormField(
+                  hint: AppStrings.signUpNeighborhoodHint,
+                  controller: neighborhoodController,
+                  blurrBorderColor: ColorManager.lightGrey,
+                  focusBorderColor: ColorManager.secondary,
+                  fillColor: ColorManager.white,
+                  icon: const Icon(Icons.my_location_outlined),
+                  validator: _neighborhoodValidator,
+                ),
+              ),
               const SizedBox(height: AppSize.s20),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: AppMargin.m20),
@@ -452,5 +466,12 @@ class _SignUpCenterState extends State<SignUpCenter> {
     } else {
       return null;
     }
+  }
+
+  String? _neighborhoodValidator(value) {
+    if (value!.length < 2) {
+      return AppStrings.signUpNeighborhoodValidator;
+    }
+    return null;
   }
 }
