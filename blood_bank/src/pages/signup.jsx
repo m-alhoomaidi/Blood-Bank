@@ -16,6 +16,8 @@ import { HEALTH_LOTTIE } from "../constant/media";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import {doc, setDoc } from "firebase/firestore";
 import {db} from "../utils/firebase";
+import {AlertSnackBar} from "../Components/common/alert-snackbar";
+import Link from "@mui/material/Link";
 const bloodTypes = [
    'A+' ,
    'B+' ,
@@ -51,6 +53,11 @@ const Try = (props) => {
   // const [bloodtype,setBloodtype]= useState("");
   // const [citiess,setCitiess]= useState("");
   // const [governerss,setGoverners]= useState("");
+  const [showTost, setShowTost] = useState(false);
+  const [tost, setTost] = useState({
+      tostMsg: " البريد الإلكتروني موجود مسبقًا",
+      tostType: "error",
+  });
   return (
     <CardContent>
       <Formik
@@ -59,11 +66,12 @@ const Try = (props) => {
           bloodType:'',cities:'',governer:'', address: '',
         }}
         validationSchema={Yup.object().shape({
-          name: Yup.string().required("مطلوب إدخال اسم"),
+          name: Yup.string().max(255).required("مطلوب إدخال اسم"),
           email: Yup.string().email().required("مطلوب إدخال ايميل"),
-          phone: Yup.string().matches(phoneRegExp, "مطلوب إدخال رقم هاتف").max(9),
+          // phone: Yup.string().max(9).matches(phoneRegExp, "مطلوب إدخال رقم هاتف"),
+          phone: Yup.string().max(9).min(9).matches(phoneRegExp, "مطلوب إدخال رقم هاتف").required("مطلوب إدخال رقم هاتف"),
           //phone: Yup.string().required( "مطلوب إدخال رقم هاتف"),
-          password: Yup.string().required("مطلوب  إدخال كلمة سر"),
+          password: Yup.string().min(6).required("مطلوب  إدخال كلمة سر"),
           bloodType: Yup.string().required("اختر فصيلة دم"),
           cities: Yup.string().required("اختر مدينتك الحالية"),
           governer: Yup.string().required("اختر مديريتك الحالية"),
@@ -72,7 +80,7 @@ const Try = (props) => {
         }
         onSubmit={(values, { setSubmitting }) => {
       
-            alert(JSON.stringify(values, null, 2));
+            
             setSubmitting(false);
             const auth = getAuth();
             createUserWithEmailAndPassword(auth,values.email,values.password)
@@ -96,9 +104,13 @@ const Try = (props) => {
                  token:"",
                 });
             }).catch((error) => {
-              console.log((error));
+              if(error.message === "Firebase: Error (auth/email-already-in-use).")
+               {
+                console.log(error.message);
+                setShowTost(true);
+               
+               }
             })
-          
         }}
       >
         {({
@@ -183,6 +195,15 @@ const Try = (props) => {
                   label=" كلمة السر "
                   variant="outlined"
                 />
+                <Link
+                  href="/SignUpCenter"
+                  variant="body2"
+                  sx={{
+                    color: "blue",
+                  }}
+                >
+                    تسجيل الدخول كبنك دم
+                </Link>
               </Box>
               <Box>
                 <Autocomplete
@@ -225,7 +246,7 @@ const Try = (props) => {
                      helperText={errors.cities && errors.cities}
                   />}
                   // value={citiess}
-                  onChange={(event,newCitiess)=> setFieldValue("cities",newCitiess) }
+                  onChange={(event,newCitiess)=> setFieldValue("cities",newCitiess)}
                 />
                 <Autocomplete
                   id="governer"
@@ -264,6 +285,12 @@ const Try = (props) => {
           </Form>
         )}
       </Formik>
+      <AlertSnackBar
+        open={showTost}
+        handleClose={() => setShowTost(false)}
+        message={tost.tostMsg}
+        type={tost.tostType}
+        />
     </CardContent>
   );
 };
@@ -290,7 +317,7 @@ const FormSteps = (props) => {
   }
   return (
     <>
-      <Grid container component="main" sx={{ height: "60vh", dir: "ltr",marginTop:"70px" }}>
+      <Grid container component="main" sx={{ height: "60vh", dir: "ltr",marginTop:"20px" }}>
         <Grid item xs={12} md={6}>
           <Box
             sx={{

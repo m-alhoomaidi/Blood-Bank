@@ -1,5 +1,6 @@
 import React, {useState,useEffect,useRef} from 'react'
 import { Box ,IconButton, Typography,Button} from '@mui/material';
+import CardSearch from './card-search';
 export const TypeBlood = [
     { label: "A+" },
     { label: "B+" },
@@ -50,10 +51,10 @@ export const Apositive = [
     { label: "O-" },
   ];
   export const Opositive = [
-    { label: "O-" },
     { label: "O+" },
+    { label: "O-" },
   ];
-  const style = {
+  export const style = {
     "& .css-wx798j-MuiButtonBase-root-MuiIconButton-root":{
       backgroundColor:"#f8f8f8",
       color :"black",
@@ -64,7 +65,7 @@ export const Apositive = [
       "&:hover":{background:"darkgray"}
     }
   }
-const styleFocus = {
+export const styleFocus = {
     backgroundColor:"white",
     color :"red",
     fontSize :"20px",
@@ -76,85 +77,26 @@ const styleFocus = {
   }
 
 };
-export const FunctionApi = ({TypesBlood})=>{
-  const [clickBloodType , setclickBloodType] =useState('');
-  const HandleTypeBlood = (e)=>{
-    setclickBloodType(e.currentTarget.value);
-  }
+
+export const FunctionApi = ({TypesBlood,searchSameBlood})=>{
+ 
 return (
-<Box sx={style}>
-{ TypesBlood === "A+" ?
-            Apositive.map((e,index)=>{
-                                return (
-                                  TypesBlood === e.label ? 
-                                   <IconButton 
-                                                key={index} 
-                                                sx={styleFocus} 
-                                                value={e.label}  
-                                                onClick={HandleTypeBlood}>{e.label} 
-                                          </IconButton > :<IconButton 
-                                                key={index} 
-                                                value={e.label}  
-                                                onClick={HandleTypeBlood}>{e.label} 
-                                          </IconButton > )}) :
- TypesBlood === "B+" ? 
-            Bpositive.map((e,index)=>{
-                                 return (<IconButton  
-                                               key={index} 
-                                               value={e.label}  
-                                               onClick={HandleTypeBlood}>{e.label}</IconButton >)}) :
-TypesBlood === "AB+" ? 
-            ABpositive.map((e,index)=>{
-                              return (<IconButton  
-                                            key={index} 
-                                            value={e.label}  
-                                            onClick={HandleTypeBlood}>{e.label}
-                                      </IconButton >)}) :
-TypesBlood === "O+" ?
-            Opositive.map((e,index)=>{
-                           return (<IconButton  
-                                          key={index} 
-                                          value={e.label}  
-                                          onClick={HandleTypeBlood}>{e.label}
-                                    </IconButton >)}) : 
-TypesBlood === "AB-" ? 
-             ABnegative.map((e,index)=>{
-                            return (<IconButton  
-                                           key={index} 
-                                           value={e.label}  
-                                           onClick={HandleTypeBlood}>{e.label}
-                                    </IconButton >)}) :
-TypesBlood === "A-" ? 
-            Anegative.map((e,index)=>{
-                             return (<IconButton  
-                                            key={index}
-                                            value={e.label}  
-                                            onClick={HandleTypeBlood}>{e.label}
-                                      </IconButton >)}) :
-TypesBlood === "B-" ? 
-            Bnegative.map((e,index)=>{
-                            return (<IconButton  
-                                          key={index}
-                                          value={e.label}  
-                                          onClick={HandleTypeBlood}>{e.label}
-                                    </IconButton >)}) :
-TypesBlood === "O-" ? 
-            Onegative.map((e,index)=>{
-                        return (<IconButton  
-                                      key={index}
-                                      value={e.label}  
-                                      onClick={HandleTypeBlood}>{e.label}
-                                </IconButton >)}) : 
-                          <Typography>
-                                "سوف تظهر الفصائل المشابهة للفصيلة   التي تم إختيارها هنا"
-                          </Typography>}
+<Box>
+                          <Box>{
+                             searchSameBlood.map((user,index)=>{
+                              return ( TypesBlood === user.data.blood_type && user.data.is_shown === "1" ?
+                              <CardSearch nameSearch={user.data.name} bloodType={user.data.blood_type} neighborhood={user.data.neighborhood} sx={{margin:"10px"}} key={index}/> : "");
+                            })} 
+                         
+                          </Box>
+                          <SearchBloodSame />
 </Box>
 );
 }
-export const SearchBloodSame = ()=>{
+export const SearchBloodSame = ({sss})=>{
     return (
         <Box>
-
+{sss}
         </Box>
 
     );

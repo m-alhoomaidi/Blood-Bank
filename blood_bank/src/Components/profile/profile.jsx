@@ -3,6 +3,8 @@ import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
+import Countryes from '../../Local/Data.json';
+import city from '../../Local/Data.json';
 import { ModelCancle,CardSucces } from './model-cancle';
 import { CardHeaderXs } from './card-Hearder-xs';
 import Imagesss from "../../Images/abdullah.jpg"
@@ -24,7 +26,8 @@ import {v4 } from "uuid";
 import {ref,uploadBytes,listAll,getDownloadURL} from "firebase/storage";
 import { Fade } from '@mui/material';
 import { useAuthContext } from '../../context/auth-context';
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
 const TypeBlood = [
     { label: 'A+'},
     { label: 'B+' },
@@ -38,19 +41,10 @@ const TypeBlood = [
   
  
 const Profile =()=>{
-
   const [open, setOpen] = useState(false);
   const HandleOpen = () =>{setOpen(true);}
   const handleClose = () => setOpen(false);
-  const [name , setName]=useState('');
-  const [neighborhood,setNeighborhood] = useState('');
-  const [email , setEmail]=useState('');
-  const [typeBlood , setTypeBlood]=useState('');
-  const [district , setdistrict]=useState('');
-  const [phone,setPhone] = useState('');
-  const [state,setState] = useState('');
-  const [imageProfile , setimageProfile]=useState('');
-  const [imagess,setImages]=useState('');
+  const [imagess,setImages]=useState("");
   const [progress,setProgress] = useState(false);
   const [showTost, setShowTost] = useState(false);
   const [displayNone , setDisplayNone] = useState(true);
@@ -58,48 +52,47 @@ const Profile =()=>{
       tostMsg: "لم يتم تحديث البيانات",
       tostType: "error",
   });
- 
-const UpdataProfiles =  async (e) =>{
-  e.preventDefault()
-  if(name === ' '){
-  }
-  const userDoc = doc (db,"donors",'hzbB8GJ2VWM0bMZlo2iyxwhKvPr2');
-  const newProfile ={
-  name : name,
-  neighborhood :neighborhood,
-  district :district,
-  typeBlood :typeBlood,
-  state :state,
-  phone :phone,
-  email :email,
-  image :imagess,
-  }
-  updateDoc(userDoc , newProfile).then((response) =>{
-    setShowTost(true);
-    setTost({
-        tostMsg: "لقد تم تحديث البيانات بنجاح",
-        tostType: "success",
-    });
-  });
-};
-const {user} =useAuthContext();
-
-const ClickOpenFile =()=>{
-  document.getElementById('uploadImage').click();
-  
-}
-const Openfile = (event) =>{
-  setimageProfile(event.target.files[0]);
-  setProgress(true);
-  const imageRef = ref(storage,`images/${imageProfile.name + v4()}`);
-    uploadBytes(imageRef,imageProfile).then((snapshot)=>{
+  const Openfile = (event) =>{
+  const ImgeProfiles = event.target.files[0];
+    const imageRef = ref(storage,`ImageTest/${ImgeProfiles.name + v4()}`);
+    uploadBytes(imageRef,ImgeProfiles).then((snapshot)=>{
+      setProgress(true);
       getDownloadURL(snapshot.ref).then((url)=>{
         setImages(url);
         setProgress(false);
       });
     })
-  
+    
+  }
+// const UpdataProfiles =  async (e) =>{
+//   e.preventDefault()
+//   if(name === ' '){
+//   }
+//     const newProfile ={
+//       name : name,
+//       neighborhood :neighborhood,
+//       district :district,
+//       typeBlood :typeBlood,
+//       state :state,
+//       phone :phone,
+//       email :email,
+//       image :imagess,
+//       }
+//       const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+//   updateDoc(userDoc , newProfile).then((response) =>{
+//     setShowTost(true);
+//     setTost({
+//         tostMsg: "لقد تم تحديث البيانات بنجاح",
+//         tostType: "success",
+//     });
+//   });
+// };
+const {user} =useAuthContext();
+
+const ClickOpenFile =()=>{
+  document.getElementById('uploadImage').click();
 }
+
 // const GetDataApi = async ()=>{
 //   const docRef = doc(db, "donors", 'hzbB8GJ2VWM0bMZlo2iyxwhKvPr2');
 //   const docSnap = await getDoc(docRef);
@@ -116,45 +109,114 @@ const Openfile = (event) =>{
 //     console.log(imagess);
 //   }  
 // }
+const formik = useFormik({
+  initialValues: {
+    username:  "",
+    neighborhood: user.neighborhood,
+    phone:user.phone,
+    state:{name:"",id:""},
+    district:{name:"",id:""},
+    email: user.email,
+    typeBlood:user.blood_type,
+  },
+  validationSchema: Yup.object({
+    username: Yup.string()
+      .max(255) 
+      .required("اسم المستخدم مطلوب"),
+      neighborhood: Yup.string().max(255).required("اسم المنطقة مطلوب"),
+      phone: Yup.string().max(255).required("رقم التلفون مطلوب"),
+      typeBlood: Yup.string().max(255).required("فصيلة الدم مطلوبة"),
+  }),
+  onSubmit:  (values) => {
+    console.log(values);
+    if(values.username === ' '){
+      console.log("error upload data");
+    }
+      const newProfile ={
+        name : values.username,
+        neighborhood :values.neighborhood,
+        district :values.district.name,
+        typeBlood :values.typeBlood,
+        state :values.state.name,
+        phone :values.phone,
+        email :values.email,
+        image :imagess,
+        }
+        const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+    updateDoc(userDoc , newProfile).then((response) =>{
+      setShowTost(true);
+      setTost({
+          tostMsg: "لقد تم تحديث البيانات بنجاح",
+          tostType: "success",
+      });
+    });
+    
+  },
+});
+const [City, setCity] = useState([]);
+const [State, setState] = useState("");
+const [District,setDistrict] =useState("");
+const [rowData ,setRowData] = useState([]);
 
-useEffect(()=>{
- 
-    setImages(user.image);
-    setTypeBlood(user.blood_type);
-    setName(user.name);
-    setEmail(user.email);
-    setNeighborhood(user.neighborhood);
-    setState(user.state); 
-    setdistrict(user.district);
-    setPhone(user.phone);
-    console.log(user.id);
-  },[user.blood_type]);
+useEffect(()=>{   
+  const GetState = Countryes?.filter((country)=>country?.name === user?.state );
+      const GetDistricts= GetState[0]?.city
+     
+     const GetDistrict = GetDistricts?.filter((district)=> district?.name === user?.district)|| null;
+    formik.setFieldValue('username',user.name) 
+    formik.setFieldValue('state',GetState[0]) 
+    formik.setFieldValue('neighborhood',user.neighborhood)
+    formik.setFieldValue('phone',user.phone)
+    formik.setFieldValue('email',user.email)
+    formik.setFieldValue('typeBlood',user.blood_type)
+    formik.setFieldValue('district',GetDistrict?GetDistrict[0]:null)
+   setImages(user.image);
+  },[user]);
+  
+
+const HandleCountry = (event, e) => {
+  const getStateid = e.id;
+  const getCitydata = Countryes.find(
+    (country) => country.id === getStateid
+  ).city;
+  setCity(getCitydata);
+  formik.setFieldValue('state',e) ;
+};
+    const HandleState = (event,e) => {
+      formik.setFieldValue('district',e) ;
+      };
     return(
         <Box 
              sx={{
               marginTop:"70px" ,
-              p:{xs:"20px",md:"20px"}}}>
-              <Grid container spacing={2} justifyContent="center">
-                    <Grid item xs={14} md={10}>
-                      <CardHeaderXs/>
-                         <Card
-                               sx={{
-                                justifyContent:"center",
-                                p:3}}>
-                                <Typography sx={{
-                                                  fontSize: '25px',
-                                                  display:{xs:"none",md:'flex'},
-                                                  justifyContent: 'center',
-                                                  marginBottom:"30px"}}>معلومات الحساب</Typography>
-                               <Grid container spacing={4} flexDirection="row"    justifyContent="center" alignItems= 'center' >
-                                           <Grid item xs={4} md={2.2} >
-                                               <Avatar sx={{
-                                                      height:{xs:"100px",md:"150px"},
-                                                      width:{xs:"100px",md:"150px"}}} src={imagess}>
-                                                      
-                                               </Avatar>     
-                                            </Grid>  
-                      <Grid item xs={8} md={4} marginTop="30px">
+              }}>
+                <Grid container justifyContent="center"  >
+                <Grid item md={10} xs={12}>
+                <CardHeaderXs/>
+                <Card sx={{p:2}}>
+                     <Box sx={{display:"flex",justifyContent:"center"}}>
+                         <Typography sx={{
+                                   fontSize: '25px',
+                                   display:{xs:"none",md:'flex'},
+                                   justifyContent: 'center',
+                                   marginBottom:"30px"}}>
+                                  معلومات الحساب</Typography>
+
+                      </Box>
+                      <Grid 
+                          container 
+                          spacing={2} 
+                          justifyContent="center" 
+                          alignItems= 'center' 
+                          flexDirection="row"> 
+                      <Grid item md={3} xs={4}  >
+                          {progress ? <CircularProgress/> :
+                         <Avatar sx={{
+                                height:{xs:"100px",md:"150px"},
+                                width:{xs:"100px",md:"150px"}}} src={imagess }>   
+                         </Avatar> }    
+                      </Grid> 
+                      <Grid item md={5} xs={8} marginTop="30px">
                            <TextField fullWidth type='file' onChange={Openfile}
                                      sx={{display:"none"}} id="uploadImage" />
                             <Button fullWidth variant="contained" onClick={ClickOpenFile} 
@@ -164,93 +226,137 @@ useEffect(()=>{
                             <Typography color="darkgray" 
                             sx={{ 
                                   fontSize:"12px",
-                                  marginRight:"20px"}}>مسموح بتنسيق jpg أو png أو GIF</Typography>
+                                  marginRight:"20px"}}>مسموح بتنسيق jpg أو png أو GIF</Typography> 
                     </Grid>
-               </Grid>
-         <Divider sx={{marginTop:"30px"}}/>
-         <Grid container spacing={3} 
+                      </Grid>
+                      <Divider sx={{marginTop:"30px"}}/>
+              
+        
+          <Grid container spacing={3} 
                  sx={{marginTop:"10px"}} justifyContent="center" >
-                   <Grid item xs={10} md={5}>
+                   <Grid item md={5} xs={10.5} >
                          <TextField 
+                          error={Boolean(
+                            formik.touched.username && formik.errors.username
+                          )}
+                            name="username"
                              fullWidth 
+                             helperText={formik.touched.username && formik.errors.username}
+                             onBlur={formik.handleBlur}
+                             onChange={formik.handleChange}
+                             value={formik.values.username || ""}
                              id="outlined-basic" 
                              label="الاسم الكامل" 
                              variant="outlined" 
-                             value={name}
-                              onChange={(event) => {setName(event.target.value);}} />
+                            />
                     </Grid>
-                  <Grid item xs={10} md={5}>
+                  <Grid item md={5} xs={10.5}>
                          <TextField 
-                            fullWidth 
+                               fullWidth 
+                               onBlur={formik.handleBlur}
+                               onChange={formik.handleChange}
+                               value={formik.values.email || ""}
                             id="outlined-basic"
+                            name="email"
                             label="البريد الالكتروني"
                             variant="outlined" 
                             type="email" 
-                            value={email} 
-                            onChange={(event) =>{ setEmail(event.target.value);}}/>
+                            error={Boolean(
+                              formik.touched.email && formik.errors.email
+                            )}
+                            />
                   </Grid>
-               <Grid item xs={10} md={5}>
+               <Grid item md={5} xs={10.5}>
                       <TextField 
-                           fullWidth 
+                            error={Boolean(
+                              formik.touched.phone && formik.errors.phone
+                            )}
+                            name="phone"
+                               fullWidth 
+                               helperText={formik.touched.phone && formik.errors.phone}
+                               onBlur={formik.handleBlur}
+                               onChange={formik.handleChange}
+                               value={formik.values.phone || ""}
                            id="outlined-basic"
                            label="رقم الهاتف"
+                         
                            variant="outlined" 
                            type="number" 
-                           value={phone} onChange={(event) =>{ setPhone(event.target.value);}}/>
+                          />
                  </Grid> 
-               <Grid item xs={10} md={5}>
+               <Grid item md={5} xs={10.5}>
                      <Autocomplete
                      fullWidth
-                     value={typeBlood} 
+                     name="typeBlood"
+                     value={formik.values.typeBlood || ""} 
                      options={TypeBlood}
-                     onChange={(e,event) =>{ setTypeBlood(event.target.value);}}
-                     renderInput={(params) => <TextField {...params} label="فصيلة الدم"   />}/>
+                     onChange={(e,event) =>{ formik.setFieldValue('typeBlood',event.label)} }
+                     renderInput={(params) => <TextField {...params} label="فصيلة الدم"     error={Boolean(
+                      formik.touched.typeBlood && formik.errors.typeBlood
+                    )} />}/>
                 </Grid>
          </Grid>
-      </Card >
-      </Grid>
-      <Grid item xs={14} md={10}>
-         <Card sx={{marginTop:"5px",paddingBottom:"20px"}}>
+         </Card> 
+         </Grid>
+         <Grid item md={10} xs={12}>
+         <Card sx={{marginTop:"15px",paddingBottom:"20px"}}>
               <Grid container spacing={3} 
                   sx={{marginTop:"10px"}} 
                   justifyContent="center">
                     <Grid item xs={10} md={3.3}>
-                          <TextField 
-                              fullWidth
-                              id="outlined-basic"
-                              label="المحافظة" 
-                              variant="outlined" 
-                              value={state} 
-                              onChange={(event) =>{ setState(event.target.value);}}/>
+                     <Autocomplete
+              fullWidth
+              disablePortal
+              name="state"
+              value={formik.values.state || null}
+              id="Country"
+              onChange={HandleCountry}
+              options={Countryes}
+              getOptionLabel={(Countryes) => Countryes.name || "" }
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="المحافظة"  />
+              )}
+            />
                      </Grid>
                     <Grid item xs={10} md={3.3}>
-                          <TextField 
-                              fullWidth 
-                              id="outlined-basic"
-                              label="المديرية" 
-                              variant="outlined" 
-                              value={district} 
-                              onChange={(event) =>{ setdistrict(event.target.value);}}/>
+                        <Autocomplete
+                           fullWidth
+                           disablePortal
+                           id="City"
+                           value={formik.values.district || null}
+                           onChange={HandleState}
+                           options={City}
+                           getOptionLabel={(City) => City.name || "" }
+                           renderInput={(params) => (
+                           <TextField {...params} variant="outlined" label="المديرية"/>)}/>
                      </Grid>
                     <Grid item xs={10} md={3.3}>
                            <TextField 
-                               fullWidth 
+                                error={Boolean(
+                                  formik.touched.neighborhood && formik.errors.neighborhood
+                                )}
+                                name="neighborhood"
+                                   fullWidth 
+                                   helperText={formik.touched.neighborhood && formik.errors.neighborhood}
+                                   onBlur={formik.handleBlur}
+                                   onChange={formik.handleChange}
+                                   value={formik.values.neighborhood || ""}
                                id="outlined-basic" 
                                label="المنطقة" 
                                variant="outlined" 
-                               value={neighborhood} 
-                               onChange={(event) =>{ setNeighborhood(event.target.value);}} />
+                               />
                     </Grid>
                     <Grid item xs={10} md={10}>
                           <Button 
                               fullWidth 
+                              type='submit' 
                               variant="contained" 
-                              onClick={UpdataProfiles}>حفظ التعديلات</Button>
+                              onClick={formik.handleSubmit}>حفظ التعديلات</Button>
                     </Grid>
               </Grid>
          </Card>
          </Grid>
-         <Grid item xs={14} md={10}>
+         <Grid item md={10} xs={12}>
           {displayNone ? 
             <Card sx={{marginTop:"10px",p:1}}>
                     <CardHeader 
@@ -275,19 +381,19 @@ useEffect(()=>{
                                 إلغاء تنشيط عملية التبرع</Button>    
                         </Grid> 
                         <Grid item  xs={10} md={10}>
-                        <ModelCancle opens={open} Hand={handleClose} displayed={setDisplayNone}/>
+                        <ModelCancle opens={open} Hand={handleClose} displayed={setDisplayNone} />
                         </Grid>
             </Grid>
             </Card> : <CardSucces  Hand={handleClose} displayed={setDisplayNone}/>}
             </Grid>
-            </Grid>
+            
                <AlertSnackBar
                    open={showTost}
                    handleClose={() => setShowTost(false)}
                    message={tost.tostMsg}
                    type={tost.tostType}/> 
+                   </Grid>
     </Box>
   );
 };
 export default Profile;
-
