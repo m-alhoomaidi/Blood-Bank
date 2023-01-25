@@ -138,21 +138,29 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       print("++++++++++++++++++++++++++++++");
       emit(ProfileLoading());
-      User? currentUser = _auth.currentUser;
-      if (currentUser != null) {
-        await _fireStore
-            .collection('centers')
-            .doc("CWTU0qCghsDi132oDsMh")
-            .get()
-            .then((value) async {
-          print(";;;;;;;;;;;;;;;;;;;;;;;;;");
-          bloodCenter = BloodCenter.fromMap(value.data()!);
-          print(bloodCenter!.name);
-          emit(ProfileGetCenterData(bloodCenter: bloodCenter!));
-        });
-      } else {
-        emit(ProfileFailure(error: "tttt"));
-      }
+      await profileUseCase.callCenterData().then((bloodCenterOrFailur) {
+        bloodCenterOrFailur.fold(
+            (failure) =>
+                emit(ProfileFailure(error: getFailureMessage(failure))),
+            (bloodCenter) =>
+                emit(ProfileGetCenterData(bloodCenter: bloodCenter)));
+      });
+      // User? currentUser = _auth.currentUser;
+      // if (currentUser != null) {
+      //   await _fireStore
+      //       .collection('centers')
+      //       .doc("CWTU0qCghsDi132oDsMh")
+      //       .get()
+      //       .then((value) async {
+      //     print(";;;;;;;;;;;;;;;;;;;;;;;;;");
+      //     bloodCenter = BloodCenter.fromMap(value.data()!);
+      //     print(bloodCenter!.name);
+      //     emit(ProfileGetCenterData(bloodCenter: bloodCenter!));
+      //   });
+
+      // } else {
+      //   emit(ProfileFailure(error: "tttt"));
+      // }
     } catch (e) {
       emit(ProfileFailure(error: "pppppppppppp"));
     }
@@ -161,28 +169,39 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> sendProfileCenterData(
       ProfileCenterData profileCenterData) async {
     try {
-      print("++++++++++++++++++++++++++++++");
       emit(ProfileLoading());
-      User? currentUser = _auth.currentUser;
-      if (currentUser != null) {
-        await _fireStore
-            .collection('centers')
-            .doc("CWTU0qCghsDi132oDsMh")
-            .update({
-          BloodCenterField.aPlus: profileCenterData.aPlus,
-          BloodCenterField.aMinus: profileCenterData.aMinus,
-          BloodCenterField.abPlus: profileCenterData.abPlus,
-          BloodCenterField.oPlus: profileCenterData.oPlus,
-          BloodCenterField.oMinus: profileCenterData.oMinus,
-          BloodCenterField.bPlus: profileCenterData.bPlus,
-          BloodCenterField.bMinus: profileCenterData.bMinus,
-        }).then((value) async {
-          emit(ProfileSuccess());
-          getProfileCenterData();
-        });
-      } else {
-        emit(ProfileFailure(error: "tttt"));
-      }
+      await profileUseCase
+          .callsendProfileCenterData(profileCenterData: profileCenterData)
+          .then((sendDataOrFailure) {
+        sendDataOrFailure.fold(
+            (failure) =>
+                emit(ProfileFailure(error: getFailureMessage(failure))),
+            (r) => emit(ProfileSuccess()));
+        getProfileCenterData();
+      });
+
+      // print("++++++++++++++++++++++++++++++");
+      // emit(ProfileLoading());
+      // User? currentUser = _auth.currentUser;
+      // if (currentUser != null) {
+      //   await _fireStore
+      //       .collection('centers')
+      //       .doc("CWTU0qCghsDi132oDsMh")
+      //       .update({
+      //     BloodCenterField.aPlus: profileCenterData.aPlus,
+      //     BloodCenterField.aMinus: profileCenterData.aMinus,
+      //     BloodCenterField.abPlus: profileCenterData.abPlus,
+      //     BloodCenterField.oPlus: profileCenterData.oPlus,
+      //     BloodCenterField.oMinus: profileCenterData.oMinus,
+      //     BloodCenterField.bPlus: profileCenterData.bPlus,
+      //     BloodCenterField.bMinus: profileCenterData.bMinus,
+      //   }).then((value) async {
+      //     emit(ProfileSuccess());
+      //     getProfileCenterData();
+      //   });
+      // } else {
+      //   emit(ProfileFailure(error: "tttt"));
+      // }
     } catch (e) {
       emit(ProfileFailure(error: "pppppppppppp"));
     }

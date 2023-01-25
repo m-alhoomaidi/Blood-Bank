@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/pages/about_page.dart';
 import 'package:blood_bank_app/pages/edit_main_center_data.dart';
 import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
@@ -102,6 +103,7 @@ class MyApp extends StatelessWidget {
         IntroductionPage.routeName: (context) => const IntroductionPage(),
         ProfileCenterPage.routeName: (context) => ProfileCenterPage(),
         EditMainCenterDataPage.routeName: (context) => EditMainCenterDataPage(),
+        AboutPage.routeName: (context) => const AboutPage()
       },
     );
   }

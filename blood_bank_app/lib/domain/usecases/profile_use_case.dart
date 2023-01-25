@@ -6,6 +6,8 @@ import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:blood_bank_app/widgets/setting/profile_body.dart';
 import 'package:dartz/dartz.dart';
 
+import '../entities/blood_center.dart';
+
 class ProfileUseCase {
   final ProfileRepository profileRepository;
   ProfileUseCase({
@@ -14,6 +16,10 @@ class ProfileUseCase {
 
   Future<Either<Failure, Donor>> call() {
     return profileRepository.getDataToProfilePage();
+  }
+
+  Future<Either<Failure, BloodCenter>> callCenterData() {
+    return profileRepository.getProfileCenterData();
   }
 
   Future<Either<Failure, Unit>> callsendDataSectionOne(
@@ -31,6 +37,12 @@ class ProfileUseCase {
   Future<Either<Failure, Unit>> callsendBasicCenterDataProfile(
       {required ProfileCenterData profileCenterData}) {
     return profileRepository.sendBasicCenterDataProfile(
+        profileCenterData: profileCenterData);
+  }
+
+  Future<Either<Failure, Unit>> callsendProfileCenterData(
+      {required ProfileCenterData profileCenterData}) {
+    return profileRepository.sendProfileCenterData(
         profileCenterData: profileCenterData);
   }
 }
