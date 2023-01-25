@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
 import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -17,6 +18,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
 
   final NetworkInfo networkInfo;
   Donor? donors;
+  BloodCenter? bloodCenter;
   ProfileReopsitoryImpl({
     required this.networkInfo,
     this.donors,
@@ -128,6 +130,66 @@ class ProfileReopsitoryImpl implements ProfileRepository {
           return Left(DoesnotSaveData());
           // emit(ProfileFailure(
           //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> sendProfileCenterData(
+      {required ProfileCenterData profileCenterData}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('centers')
+              .doc("CWTU0qCghsDi132oDsMh")
+              .update({
+            BloodCenterField.aPlus: profileCenterData.aPlus,
+            BloodCenterField.aMinus: profileCenterData.aMinus,
+            BloodCenterField.abPlus: profileCenterData.abPlus,
+            BloodCenterField.oPlus: profileCenterData.oPlus,
+            BloodCenterField.oMinus: profileCenterData.oMinus,
+            BloodCenterField.bPlus: profileCenterData.bPlus,
+            BloodCenterField.bMinus: profileCenterData.bMinus,
+          }).then((value) async {
+            return const Right(unit);
+          });
+        } else {
+          return Left(DoesnotSaveData());
+          // emit(ProfileFailure(
+          //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, BloodCenter>> getProfileCenterData() async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('centers')
+              .doc("CWTU0qCghsDi132oDsMh")
+              .get()
+              .then((value) async {
+            print(";;;;;;;;;;;;;;;;;;;;;;;;;");
+            bloodCenter = BloodCenter.fromMap(value.data()!);
+            print(bloodCenter!.name);
+
+            return Right(bloodCenter!);
+          });
+        } else {
+          return Left(DoesnotSaveData());
         }
       } catch (e) {
         return Left(DoesnotSaveData());
