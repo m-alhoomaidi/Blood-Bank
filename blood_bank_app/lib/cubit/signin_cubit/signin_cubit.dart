@@ -158,6 +158,8 @@ String getFailureMessage(Failure failur) {
       return "لا يوجد بيانات محلية";
     case UnknownFailure:
       return "خطأ غير معروف";
+    case FirebaseUnknownFailure:
+      return "خطأ من قاعدة البيانات غير معروف";
     case InvalidEmailFailure:
       return "تحقق من صحة بريدك الالكتروني";
     case DoesnotSaveData:

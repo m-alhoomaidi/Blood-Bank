@@ -98,7 +98,7 @@ class AuthRepositoryImpl implements AuthRepository {
               });
             } on FirebaseException catch (fireError) {
               if (fireError.code == 'unknown') {
-                return Left(ServerFailure());
+                return Left(FirebaseUnknownFailure());
               } else if (fireError.code == 'too-many-request') {
                 return Left(ServerFailure());
               } else {
@@ -121,7 +121,7 @@ class AuthRepositoryImpl implements AuthRepository {
         } else if (fireError.code == 'email-already-in-use') {
           return Left(EmailAlreadyRegisteredFailure());
         } else if (fireError.code == 'unknown') {
-          return Left(ServerFailure());
+          return Left(FirebaseUnknownFailure());
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());
         } else {
@@ -160,7 +160,7 @@ class AuthRepositoryImpl implements AuthRepository {
               });
             } on FirebaseException catch (fireError) {
               if (fireError.code == 'unknown') {
-                return Left(ServerFailure());
+                return Left(FirebaseUnknownFailure());
               } else if (fireError.code == 'too-many-request') {
                 return Left(ServerFailure());
               } else {
@@ -183,7 +183,7 @@ class AuthRepositoryImpl implements AuthRepository {
         } else if (fireError.code == 'email-already-in-use') {
           return Left(EmailAlreadyRegisteredFailure());
         } else if (fireError.code == 'unknown') {
-          return Left(ServerFailure());
+          return Left(FirebaseUnknownFailure());
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());
         } else {
