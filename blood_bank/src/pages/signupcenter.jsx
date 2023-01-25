@@ -1,165 +1,241 @@
-import React from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { create } from "jss";
-import rtl from "jss-rtl";
+import React from 'react';
+import { Field, Formik, Form } from "formik";
+import * as Yup from "yup";
+import { Box, Button, TextField } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
-import {
-  StylesProvider,
-  jssPreset,
-  ThemeProvider,
-  createTheme
-} from "@material-ui/core/styles";
-import {
-  Typography,
-  Button,
-  Stepper,
-  Step,
-  StepLabel,
-  Box,
-} from "@material-ui/core";
-import {
-  useForm,
-  FormProvider,
-} from "react-hook-form";
-import StepsCss from '../Components/stepper/StepsCss';
-import Steps1 from "../Components/stepper/Step1Center";
-import Step2 from "../Components/stepper/Step2Center";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
 import LottieApp from "../Components/lottie";
-import { HEALTH_LOTTIE} from "../constant/media";
-const steps = ['حسابك', 'بياناتك', 'تأكيد'];
-const maincolor="#e22c34";
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <Steps1 />;
-    case 1:
-      return <Step2 />;
-    default:
-      return  ;
-  }
-}
+import { HEALTH_LOTTIE } from "../constant/media";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {doc, setDoc } from "firebase/firestore";
+import {db} from "../utils/firebase";
+import { useState } from "react";
+import { AlertSnackBar } from '../Components/common/alert-snackbar';
+import { useNavigate } from "react-router-dom";
+const phoneRegExp = /7(1|7|3|8|0)([0-9]){7}/;
 const SignUpCenter = () => {
-  const classes = StepsCss();
-  const methods = useForm({
-    defaultValues: {
-      firstName: "",
-      phoneNumber: "",
-      TheNeighborhood: "",
-    },
-  });
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-  const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
-  const rtlTheme = createTheme({ direction: "rtl" });
-  return (
-    <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
-      <Grid item xs={12} md={6}> 
-      <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        >
-          <LottieApp animationpath={HEALTH_LOTTIE} />
-        </Box>
-        </Grid>
-        <Grid item xs={12} md={6}>
-        <Box
-          sx={{
-            display: "flex",
-            width: "100%",
-            height: "92%",
-            justifyContent: "center",
-            alignItems: "center",
-            pb: 8,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              justifyItems: "center",
-              flexDirection: "column",
-              width: { xs: "90%", md: "70%" },
-            }}
-          >
-      <StylesProvider jss={jss}>
-      <Stepper activeStep={activeStep} className={classes.IconSvging} sx={{marginTop:"45px"}}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
+  const [showTost, setShowTost] = useState(false);
+  const [tost, setTost] = useState({
+    tostMsg: " البريد الإلكتروني موجود مسبقًا",
+    tostType: "error",
+});
+const navigate = useNavigate();
+    return(
+        <>
+          <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <LottieApp animationpath={HEALTH_LOTTIE} />
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  height: "92%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  pb: 8,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                    flexDirection: "column",
+                    width: { xs: "90%", md: "70%" },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Avatar sx={{ m: 1, bgcolor: "#e12c34" }}>
+                      <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography>إنشاء حساب كبنك دم </Typography>
+                  </Box>
+                  <Formik
+          initialValues={{ centerName:'', centerEmail: '', 
+          centerPhoneNumber:'', centerPassword: '' }}
+          validationSchema={Yup.object().shape({
+            centerName: Yup.string().max(255).required("مطلوب إدخال اسم"),
+            centerEmail: Yup.string().email().required("مطلوب إدخال ايميل"),
+            centerPhoneNumber: Yup.string().max(9).min(9).matches(phoneRegExp, "مطلوب إدخال رقم هاتف").required("مطلوب إدخال رقم هاتف"),
+            centerPassword: Yup.string().min(6).required("مطلوب  إدخال كلمة سر"),
+          })
           }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps} className={classes.IconSvging}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <Typography variant="h1" align="center">
-       Thank You
-        </Typography>
-      ) : (
-      <Box>
-      <FormProvider {...methods} >
-        <form  >
-          
-      {getStepContent(activeStep)}
-        <React.Fragment>
-        
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 0 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1}}
-              style={{marginTop:"1px",border :"1px solid #e22c10",color :'white',borderRadius: '10px',backgroundColor:"#e22c34"}}
-            >
-            <ArrowForwardIcon/>  السابق
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleNext} style={{marginTop:"1px",border :"1px solid #e22c10",color :'white',borderRadius: '10px',backgroundColor:"#e22c34"}}>
-              {activeStep === steps.length -1 ? ( " التأكيد") :(<>التالي<ArrowBackIcon/></>)}
-            </Button>
-          </Box>
-        </React.Fragment>    
-        </form>
-       </FormProvider>
-      </Box>
-      )}
-      </StylesProvider>
-           </Box>
-          </Box>
-        </Grid>
-    </Grid> 
-  );
+          onSubmit={(values, { setSubmitting }) => {
+            setSubmitting(false);
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth,values.centerEmail,values.centerPassword)
+            .then((userCredential)=>{
+              const uid = userCredential.user.uid;
+              setDoc(doc(db, "centers", uid),JSON.stringify( {
+                
+                 name: values.centerName,
+                 email:values.centerEmail,
+                 phone:values.centerPhoneNumber,
+                 password:values.centerPassword,
+                "A+": 0,
+                "A-": 0,
+                "AB+": 0,
+                "AB-": 0,
+                "B+": 0,
+                "B-": 0,
+                "O+": 0,
+                "O-": 0,
+                 state:"",
+                 district:"",
+                 neighborhood:"",
+                 last_update:"",
+                 lon:"",
+                 lat:"",
+                 is_shown_phone:"1",
+                 is_shown:"1",
+                 is_gps_on:"1",
+                 image:"",
+                 token:"",
+                
+                }));
+            }).catch((error) => {
+              if(error.message === "Firebase: Error (auth/email-already-in-use).")
+               {
+                console.log(error.message);
+                setShowTost(true);
+               
+               }
+            })
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form onSubmit={handleSubmit}>
+              <Field
+                type="text"
+                name="centerName"
+                id="centerName"
+                fullWidth
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.centerName}
+                component={TextField}
+                error={errors.centerName ? true : false}
+                helperText={errors.centerName && errors.centerName}
+                margin="normal"
+                autoFocus
+                label="   اسم بنك الدم "
+                variant="outlined"
+              />
+              <Field
+                type="email"
+                name="centerEmail"
+                id="centerEmail"
+                fullWidth
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.centerEmail}
+                component={TextField}
+                error={errors.centerEmail ? true : false}
+                helperText={errors.centerEmail && errors.centerEmail}
+                margin="normal"
+                label=" البريد الاكتروني  "
+                variant="outlined"
+              />
+               <Field
+                 type="text"
+                 name="centerPhoneNumber"
+                 id="centerPhoneNumber"
+                 fullWidth
+                 onChange={handleChange}
+                 onBlur={handleBlur}
+                 value={values.centerPhoneNumber}
+                 component={TextField}
+                 error={errors.centerPhoneNumber ? true : false}
+                 helperText={errors.centerPhoneNumber && errors.centerPhoneNumber}
+                 margin="normal"
+                 label=" رقم الهاتف  "
+                 variant="outlined"
+               />
+              <Field
+                type="password"
+                name="centerPassword"
+                id="centerPassword"
+                fullWidth
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.centerPassword}
+                component={TextField}
+                error={errors.centerPassword ? true : false}
+                helperText={errors.centerPassword && errors.centerPassword}
+                margin="normal"
+                label=" كلمة السر "
+                variant="outlined"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                onClick={()=>{
+                  handleSubmit()
+                 navigate("/signup")
+                }}
+                disabled={isSubmitting}
+                variant="contained"
+                sx={{
+                  mr: 1,
+                  mt: 3,
+                  mb: 2,
+                  bgcolor: "#e22c34",
+                  color: "white",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "red",
+                    textDecoration: "none",
+                  },
+                }}
+              >
+                الانتقال إلى الصفحة الشخصية لإكمال البيانات
+              </Button>
+            </Form>
+          )}
+        </Formik>
+       
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+          <AlertSnackBar
+        open={showTost}
+        handleClose={() => setShowTost(false)}
+        message={tost.tostMsg}
+        type={tost.tostType}
+        />
+        </>
+    );
 };
+
+       
 
 export default SignUpCenter;
