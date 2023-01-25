@@ -27,6 +27,11 @@ class UnknownFailure extends Failure {
   List<Object?> get props => [];
 }
 
+class FirebaseUnknownFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+}
+
 class InvalidEmailFailure extends Failure {
   @override
   List<Object?> get props => [];

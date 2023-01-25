@@ -69,6 +69,8 @@ class SignUpCubit extends Cubit<SignupState> {
         return "البريد مستخدم من قبل";
       case UnknownFailure:
         return "خطأ غير معروف";
+      case FirebaseUnknownFailure:
+        return "خطأ من قاعدة البيانات غير معروف";
       default:
         return "خطأ غير معروف";
     }
