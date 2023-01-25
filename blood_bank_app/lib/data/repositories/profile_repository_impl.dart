@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,6 +90,37 @@ class ProfileReopsitoryImpl implements ProfileRepository {
             DonorFields.state: profileLocalData.state,
             DonorFields.district: profileLocalData.district,
             DonorFields.neighborhood: profileLocalData.neighborhood,
+          }).then((value) async {
+            return const Right(unit);
+          });
+        } else {
+          return Left(DoesnotSaveData());
+          // emit(ProfileFailure(
+          //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> sendBasicCenterDataProfile(
+      {required ProfileCenterData profileCenterData}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('centers')
+              .doc("CWTU0qCghsDi132oDsMh")
+              .update({
+            DonorFields.name: profileCenterData.name,
+            DonorFields.phone: profileCenterData.phone,
+            DonorFields.state: profileCenterData.state,
+            DonorFields.district: profileCenterData.district,
+            DonorFields.neighborhood: profileCenterData.neighborhood,
           }).then((value) async {
             return const Right(unit);
           });
