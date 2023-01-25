@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:blood_bank_app/models/blood_types.dart';
-import 'package:blood_bank_app/models/donor.dart';
+import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:blood_bank_app/cubit/search_cubit/search_cubit.dart';
 import 'package:location/location.dart' as loc;
 
-import '../widgets/home_drawer/home_drawer.dart';
+import '../widgets/home/home_drawer/home_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
@@ -331,11 +331,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
-          if (kDebugMode) {
-            print("++++++++++++++++++++");
-
-            print("0000000000000000000000000000000000");
-          }
+          if (kDebugMode) {}
 
           // getPolyPoints();
           position = await Geolocator.getCurrentPosition(

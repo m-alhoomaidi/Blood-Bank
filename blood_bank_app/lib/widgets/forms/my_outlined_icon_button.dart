@@ -7,15 +7,11 @@ class MyOutlinedIconButton extends StatelessWidget {
     this.icon,
     this.borderWidth = 2,
     this.borderColor = Colors.blue,
-    // this.borderRadius = BorderRadius.zero,
-    // this.padding = EdgeInsets.zero,
     Key? key,
   }) : super(key: key);
 
   final double borderWidth;
   final Color borderColor;
-  // final BorderRadius borderRadius;
-  // final EdgeInsets padding;
   final Widget label;
   final Widget? icon;
   final VoidCallback? onPressed;

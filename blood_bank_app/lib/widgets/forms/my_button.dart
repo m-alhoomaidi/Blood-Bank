@@ -1,16 +1,26 @@
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/font_manager.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
   const MyButton({
+    super.key,
     this.color = Colors.blue,
     required this.title,
     required this.onPressed,
     this.minWidth = 200,
+    this.style = const TextStyle(
+      fontSize: FontSize.s14,
+      color: ColorManager.white,
+      fontFamily: FontConstants.fontFamily,
+    ),
   });
   final Color color;
   final double? minWidth;
   final String title;
   final VoidCallback onPressed;
+  final TextStyle style;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,10 +35,7 @@ class MyButton extends StatelessWidget {
           height: 42,
           child: Text(
             title,
-            style: const TextStyle(
-              // fontSize: 20,
-              color: Colors.white,
-            ),
+            style: style,
           ),
         ),
       ),

@@ -49,7 +49,7 @@ class IntroductionPage extends StatelessWidget {
           // You can also override onSkip callback
           print("++++++++++++++++++++++++");
           print(box.get('introduction'));
-          box.put('introduction', false);
+          // box.put('introduction', false);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {

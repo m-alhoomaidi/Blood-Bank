@@ -1,10 +1,16 @@
-import '../models/donor.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
+import 'package:blood_bank_app/presentation/resources/assets_manager.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
+import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../domain/entities/donor.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../widgets/forms/my_switchlist_tile.dart';
+import '../presentation/resources/color_manageer.dart';
+import '../shared/utils.dart';
 import '../widgets/setting/select_photo_options_screen.dart';
 import '../widgets/setting/profile_body.dart';
 import '../widgets/setting/display_image.dart';
@@ -29,42 +35,34 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   File? _image;
-  Donor? donor;
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  Donor? donor, donors;
   Box? dataBox;
+  bool? checkErrorFromSata;
 
-  Future<void> putDataTodataProfileTable() async {
-    // var box = await Hive.openBox(dataBoxName);
+  // Future<void> putDataTodataProfileTable() async {
+  //   // var box = await Hive.openBox(dataBoxName);
 
-    dataBox = Hive.box(dataBoxName);
+  //   dataBox = Hive.box(dataBoxName);
 
-    try {
-      User? currentUser = _auth.currentUser;
-      if (currentUser != null) {
-        await _fireStore
-            .collection('donors')
-            .doc("H5PPBI8VBBNikBYvmifb")
-            .get()
-            .then((value) async {
-          print(value.data());
-          print("object+++++++++++++++++++++");
-          print(currentUser.uid);
-          donor = Donor.fromMap(value.data()!);
-          print("------------------------");
-          print(donor!.email);
-          await dataBox!.add(donor!);
-          print("=======================");
-          // print(dataBox!.get("data_profile"));
-        });
-      } else {
-        print("error 1");
-      }
-    } catch (e) {
-      print("error 2");
-    }
-  }
+  //   try {
+  //     User? currentUser = _auth.currentUser;
+  //     if (currentUser != null) {
+  //       await _fireStore
+  //           .collection('donors')
+  //           .doc("H5PPBI8VBBNikBYvmifb")
+  //           .get()
+  //           .then((value) async {
+  //         donor = Donor.fromMap(value.data()!);
+  //         await dataBox!.add(donor!);
+  //         // print(dataBox!.get("data_profile"));
+  //       });
+  //     } else {
+  //       print("error 1");
+  //     }
+  //   } catch (e) {
+  //     print("error 2");
+  //   }
+  // }
 
   Future _pickImage(ImageSource source) async {
     try {
@@ -119,13 +117,12 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    // getData();
     () async {
       _permissionStatus = await Permission.storage.status;
 
       if (_permissionStatus != PermissionStatus.granted) {
-        print("object+++++++++++");
         PermissionStatus permissionStatus = await Permission.storage.request();
         setState(() {
           _permissionStatus = permissionStatus;
@@ -144,34 +141,70 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("------------------------------");
+    // print(donors);
+    // print(FirebaseAuth.instance.currentUser!.uid);
     permission();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Setting Page'),
-        centerTitle: true,
+        title: const Text(AppStrings.profileAppBarTitle),
         elevation: 0,
       ),
-      body: ListView(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 10),
-          ),
-          InkWell(
-            onTap: () {
-              // _showSelectPhotoOptions(context);
-              putDataTodataProfileTable();
-            },
-            child: DisplayImage(
-              imagePath: _image ?? "assets/images/1.jpg",
-              onPressed: () {},
+      body:
+          BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
+        if (state is ProfileGetData) {
+        } else if (state is ProfileFailure) {
+          Utils.showSnackBar(
+            context: context,
+            msg: state.error,
+            color: ColorManager.error,
+          );
+        } else if (state is ProfileSuccess) {
+          Utils.showSnackBar(
+            context: context,
+            msg: AppStrings.profileSuccesMess,
+          );
+        }
+      }, builder: (context, state) {
+        return ModalProgressHUD(
+          inAsyncCall: (state is ProfileLoading),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(bottom: AppPadding.p10),
+                ),
+                InkWell(
+                  onTap: () {
+                    // _showSelectPhotoOptions(context);
+                    // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
+
+                    // putDataTodataProfileTable();
+                  },
+                  child: DisplayImage(
+                    imagePath: _image ?? ImageAssets.ProfileImage,
+                    onPressed: () {},
+                  ),
+                ),
+                const SizedBox(
+                  height: AppSize.s10,
+                ),
+                if (state is ProfileGetData) ProfileBody(donor: state.donors),
+                if (state is ProfileFailure)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+
+                // (state is ProfileGetData)
+                //     ? ProfileBody(donor: state.donors)
+                //     : const Center(
+                //         child: CircularProgressIndicator(),
+                //       )
+              ],
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          const ProfileBody()
-        ],
-      ),
+        );
+      }),
     );
   }
 }
