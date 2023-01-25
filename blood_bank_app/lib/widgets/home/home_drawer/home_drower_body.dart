@@ -1,4 +1,6 @@
 import 'package:blood_bank_app/dependecy_injection.dart' as di;
+import 'package:blood_bank_app/pages/edit_main_center_data.dart';
+import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +83,22 @@ class HomeDrawerBody extends StatelessWidget {
           HomeDrawerMenuItem(
             title: AppStrings.homeDrawerUpdateBloodBank,
             icon: Icons.sync,
-            onTap: () {},
+            onTap: () {
+              di.initProfile();
+              BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => ProfileCenterPage()));
+            },
+          ),
+          HomeDrawerMenuItem(
+            title: "edit center data",
+            icon: Icons.sync,
+            onTap: () {
+              di.initProfile();
+              BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => EditMainCenterDataPage()));
+            },
           ),
           const Divider(color: Colors.black54),
           HomeDrawerMenuItem(
