@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/dependecy_injection.dart' as di;
+import 'package:blood_bank_app/pages/about_page.dart';
 import 'package:blood_bank_app/pages/edit_main_center_data.dart';
 import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
@@ -105,12 +106,8 @@ class HomeDrawerBody extends StatelessWidget {
             title: AppStrings.homeDrawerAboutApp,
             icon: Icons.info_outline,
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (_) => const ProfileCenterPage(),
-              //   ),
-              // );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const AboutPage()));
             },
           ),
         ],
