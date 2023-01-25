@@ -5,7 +5,6 @@ import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/shared/utils.dart';
-import 'package:blood_bank_app/widgets/setting/profile_body.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,12 +35,6 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // profileLocalData = ProfileLocalData(
-    //     name: widget.donor!.name,
-    //     bloodType: widget.donor!.bloodType,
-    //     state: widget.donor!.state,
-    //     district: widget.donor!.district,
-    //     neighborhood: widget.donor!.neighborhood);
   }
 
   @override
@@ -51,9 +44,7 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
           title: const Text(AppStrings.profileEditMainDataPageTitle),
         ),
         body: BlocConsumer<ProfileCubit, ProfileState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is ProfileGetCenterData) {
               profileCenterData = ProfileCenterData(
@@ -65,13 +56,14 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
               return ModalProgressHUD(
                 inAsyncCall: (state is ProfileLoading),
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(AppPadding.p20),
                   child: ListView(
                     children: [
                       const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                        child: Text("الاسم"),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppPadding.p10,
+                            vertical: AppPadding.p10),
+                        child: Text(AppStrings.editMainDataTextName),
                       ),
                       Form(
                         key: _formState,
@@ -84,7 +76,8 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                               // (box.get("name") == null) ? null : box.get("name"),
                               validator: (value) {
                                 if (value!.length < 2) {
-                                  return "لا يمكن أن يكون الاسم أقل من حرفين";
+                                  return AppStrings
+                                      .editMainDataTextNameValidator;
                                 }
                                 return null;
                               },
@@ -115,7 +108,7 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 15.0),
+                      const SizedBox(height: AppSize.s14),
                       const Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: AppPadding.p10,
@@ -142,7 +135,7 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                                           Radius.circular(AppSize.s10)),
                                       color: Colors.red[100],
                                       border: Border.all(
-                                        color: Colors.white,
+                                        color: ColorManager.white,
                                         width: 1,
                                       ),
                                     ),
@@ -202,7 +195,7 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 15.0),
+                                const SizedBox(height: AppSize.s14),
                                 SizedBox(
                                   // margin: const EdgeInsets.symmetric(horizontal: 20),
                                   child: Form(

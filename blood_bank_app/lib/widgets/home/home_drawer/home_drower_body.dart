@@ -90,7 +90,7 @@ class HomeDrawerBody extends StatelessWidget {
             },
           ),
           HomeDrawerMenuItem(
-            title: "edit center data",
+            title: AppStrings.homeDrawerEditProfileCenter,
             icon: Icons.sync,
             onTap: () {
               BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
