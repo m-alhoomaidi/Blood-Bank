@@ -1,5 +1,4 @@
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
-import 'package:blood_bank_app/pages/edit_main_center_data.dart';
 import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
@@ -10,7 +9,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
-import 'package:blood_bank_app/dependecy_injection.dart' as di;
 import '../presentation/onboarding/introduction_page.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_welcome.dart';
@@ -195,7 +193,6 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.search_rounded),
               onPressed: () async {
-                di.initProfile();
                 BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
                 Navigator.pushNamed(context, ProfileCenterPage.routeName);
                 // Get a new write batch

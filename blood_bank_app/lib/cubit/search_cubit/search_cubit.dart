@@ -1,17 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import '../../domain/entities/donor.dart';
+import 'package:blood_bank_app/core/error/failures.dart';
+import 'package:blood_bank_app/cubit/signin_cubit/signin_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meta/meta.dart';
+
+import 'package:blood_bank_app/domain/usecases/search_for_donors_usecase.dart';
+
+import '../../domain/entities/donor.dart';
+
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit() : super(SearchInitial());
+  SearchCubit({
+    required this.searchForDonorsUseCase,
+  }) : super(SearchInitial());
 
   List<Donor> donors = [], donorsInState = [];
   String selectedState = '', selectedDistrict = '';
   String? selectedBloodType;
   int selectedTabBloodType = 0;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  final SearchForDonorsUseCase searchForDonorsUseCase;
 
   Future<void> searchDonors() async {
     emit(SearchLoading());
@@ -21,13 +31,46 @@ class SearchCubit extends Cubit<SearchState> {
       emit(SearchFailure(error: 'يجب تحديد المحافظة والمديرية وفصيلة الدم'));
     } else {
       try {
+        searchForDonorsUseCase(
+          state: selectedState,
+          district: selectedDistrict,
+          bloodType: selectedBloodType!,
+        ).then((donorsOrFailure) {
+          donorsOrFailure.fold(
+            (failure) => emit(SearchFailure(error: getFailureMessage(failure))),
+            (donors) => emit(
+              SearchSuccess(
+                donors: donors,
+                donorsInState: donorsInState,
+                selectedTabIndex: selectedTabBloodType,
+              ),
+            ),
+          );
+        });
+      } on FirebaseException catch (e) {
+        emit(SearchFailure(error: e.code));
+      } catch (e) {
+        emit(SearchFailure(error: e.toString()));
+      }
+    }
+  }
+
+  Future<void> getDonorsInState() async {
+    emit(SearchLoading());
+    if (selectedState == '' || selectedBloodType == null) {
+      print('يجب تحديد المحافظة والمديرية وفصيلة الدم');
+    } else {
+      try {
         fireStore
             .collection(DonorFields.collectionName)
             .where(DonorFields.state, isEqualTo: selectedState)
-            .where(DonorFields.district, isEqualTo: selectedDistrict)
             .get()
             .then((value) async {
-          donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();
+          if (value.docs.isNotEmpty) {
+            donorsInState = value.docs
+                .map((donorDoc) => Donor.fromMap(donorDoc.data()))
+                .toList();
+          }
           emit(
             SearchSuccess(
               donors: donors,
@@ -37,9 +80,9 @@ class SearchCubit extends Cubit<SearchState> {
           );
         });
       } on FirebaseException catch (e) {
-        emit(SearchFailure(error: e.code));
+        print(e.code);
       } catch (e) {
-        emit(SearchFailure(error: e.toString()));
+        print(e.toString());
       }
     }
   }

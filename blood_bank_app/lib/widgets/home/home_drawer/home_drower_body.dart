@@ -57,7 +57,6 @@ class HomeDrawerBody extends StatelessWidget {
             icon: Icons.settings_outlined,
             onTap: () {
               // CompareHiveAndFireStore().compareHiveAndFirestore();
-              di.initProfile();
               BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
               if (FirebaseAuth.instance.currentUser != null) {
                 Navigator.push(
@@ -85,7 +84,6 @@ class HomeDrawerBody extends StatelessWidget {
             title: AppStrings.homeDrawerUpdateBloodBank,
             icon: Icons.sync,
             onTap: () {
-              di.initProfile();
               BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => ProfileCenterPage()));
@@ -95,7 +93,6 @@ class HomeDrawerBody extends StatelessWidget {
             title: "edit center data",
             icon: Icons.sync,
             onTap: () {
-              di.initProfile();
               BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => EditMainCenterDataPage()));

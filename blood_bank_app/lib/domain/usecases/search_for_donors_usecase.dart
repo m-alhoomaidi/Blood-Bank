@@ -4,9 +4,9 @@ import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/domain/repositories/search_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class SearchForDonors {
+class SearchForDonorsUseCase {
   final SearchRepository searchRepository;
-  SearchForDonors({
+  SearchForDonorsUseCase({
     required this.searchRepository,
   });
   Future<Either<Failure, List<Donor>>> call({
