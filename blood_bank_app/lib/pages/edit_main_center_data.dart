@@ -5,6 +5,7 @@ import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/shared/utils.dart';
+import 'package:blood_bank_app/widgets/dialog_lottie.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +47,10 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
         body: BlocConsumer<ProfileCubit, ProfileState>(
           listener: (context, state) {},
           builder: (context, state) {
+            if (state is ProfileLoadingBeforFetch) {
+              return const MyLottie();
+            }
+
             if (state is ProfileGetCenterData) {
               profileCenterData = ProfileCenterData(
                   name: state.bloodCenter.name,
@@ -55,6 +60,7 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                   neighborhood: state.bloodCenter.neighborhood);
               return ModalProgressHUD(
                 inAsyncCall: (state is ProfileLoading),
+                progressIndicator: Text("Losding..."),
                 child: Padding(
                   padding: const EdgeInsets.all(AppPadding.p20),
                   child: ListView(

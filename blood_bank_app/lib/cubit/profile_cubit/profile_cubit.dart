@@ -26,7 +26,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> getDataToProfilePage() async {
     try {
-      emit(ProfileLoading());
+      emit(ProfileLoadingBeforFetch());
 
       await profileUseCase.call().then((donorOrFailure) {
         donorOrFailure.fold(
@@ -137,7 +137,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> getProfileCenterData() async {
     try {
       print("++++++++++++++++++++++++++++++");
-      emit(ProfileLoading());
+      emit(ProfileLoadingBeforFetch());
       await profileUseCase.callCenterData().then((bloodCenterOrFailur) {
         bloodCenterOrFailur.fold(
             (failure) =>
