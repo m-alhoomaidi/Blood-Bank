@@ -1,27 +1,26 @@
-import 'presentation/pages/about_page.dart';
-import 'presentation/pages/edit_main_center_data.dart';
-import 'presentation/pages/profile_center.dart';
-import 'presentation/resources/theme_manager.dart';
-import 'presentation/pages/introduction_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'cubit/profile_cubit/profile_cubit.dart';
+import 'dependency_injection.dart' as di;
+import 'presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'presentation/cubit/search_cubit/search_cubit.dart';
 import 'presentation/cubit/signin_cubit/signin_cubit.dart';
 import 'presentation/cubit/signup_cubit/signup_cubit.dart';
+import 'presentation/pages/about_page.dart';
+import 'presentation/pages/edit_main_center_data.dart';
 import 'presentation/pages/home_page.dart';
+import 'presentation/pages/introduction_page.dart';
+import 'presentation/pages/profile_center.dart';
 import 'presentation/pages/search_map.dart';
 import 'presentation/pages/search_page.dart';
 import 'presentation/pages/setting_page.dart';
 import 'presentation/pages/sign_in_page.dart';
 import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/sing_up_center_page.dart';
-import 'presentation/pages/user_date_page.dart';
-import 'dependency_injection.dart' as di;
+import 'presentation/resources/theme_manager.dart';
 
 // Future backgroundMessage(RemoteMessage message) async {
 //   Fluttertoast.showToast(msg: message.notification!.body.toString());
@@ -97,7 +96,6 @@ class MyApp extends StatelessWidget {
         SignUpCenter.routeName: (context) => const SignUpCenter(),
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),
-        UserDataPage.routeName: (context) => const UserDataPage(),
         SearchMapPage.routeName: (context) => const SearchMapPage(),
         // OnBoardingView.routeName: (context) => const OnBoardingView(),
         IntroductionPage.routeName: (context) => const IntroductionPage(),

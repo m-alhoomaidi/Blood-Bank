@@ -1,14 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/presentation/pages/profile_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
-
+import '../../core/error/failures.dart';
+import '../../domain/entities/donor.dart';
+import '../../domain/repositories/profile_repository.dart';
+import '../../domain/entities/blood_center.dart';
+import '../../presentation/pages/profile_center.dart';
 import '../../core/network/network_info.dart';
 import '../../presentation/widgets/setting/profile_body.dart';
 

@@ -4,7 +4,6 @@ import '../resources/constatns.dart';
 import '../resources/font_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/values_manager.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/forms/my_button.dart';
 

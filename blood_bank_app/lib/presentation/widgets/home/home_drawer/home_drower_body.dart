@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils.dart';
-import '../../../../cubit/profile_cubit/profile_cubit.dart';
+import '../../../cubit/profile_cubit/profile_cubit.dart';
 import '../../../../dependency_injection.dart' as di;
 import '../../../pages/about_page.dart';
 import '../../../pages/edit_main_center_data.dart';

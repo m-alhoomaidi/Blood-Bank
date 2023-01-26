@@ -1,8 +1,9 @@
+import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../core/error/failures.dart';
 import '../entities/blood_center.dart';
 import '../entities/donor.dart';
-import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, UserCredential>> signIn({

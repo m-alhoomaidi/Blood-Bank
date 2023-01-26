@@ -1,7 +1,7 @@
-import '../../presentation/resources/strings_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../presentation/pages/home_page.dart';
+import '../../presentation/resources/strings_manager.dart';
 import '../../presentation/widgets/forms/my_button.dart';
 
 class DialogResetPassWord {

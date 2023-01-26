@@ -2,10 +2,6 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'core/network/network_info.dart';
-import 'cubit/profile_cubit/profile_cubit.dart';
-import 'presentation/cubit/search_cubit/search_cubit.dart';
-import 'presentation/cubit/signin_cubit/signin_cubit.dart';
-import 'presentation/cubit/signup_cubit/signup_cubit.dart';
 import 'data/repositories/auth_repository_impl.dart';
 import 'data/repositories/profile_repository_impl.dart';
 import 'data/repositories/search_repository_impl.dart';
@@ -18,6 +14,10 @@ import 'domain/usecases/search_for_donors_usecase.dart';
 import 'domain/usecases/sign_in_usecase.dart';
 import 'domain/usecases/sign_up_center_usecase.dart';
 import 'domain/usecases/sign_up_donor_usecase.dart';
+import 'presentation/cubit/profile_cubit/profile_cubit.dart';
+import 'presentation/cubit/search_cubit/search_cubit.dart';
+import 'presentation/cubit/signin_cubit/signin_cubit.dart';
+import 'presentation/cubit/signup_cubit/signup_cubit.dart';
 
 final sl = GetIt.instance;
 

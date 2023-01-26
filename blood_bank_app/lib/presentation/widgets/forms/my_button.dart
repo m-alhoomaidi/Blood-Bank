@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import '../../resources/color_manageer.dart';
 import '../../resources/font_manager.dart';
-import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
   const MyButton({

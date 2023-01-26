@@ -1,4 +1,4 @@
-import '../../cubit/profile_cubit/profile_cubit.dart';
+import '../cubit/profile_cubit/profile_cubit.dart';
 import '../resources/assets_manager.dart';
 import '../resources/strings_manager.dart';
 import '../resources/values_manager.dart';

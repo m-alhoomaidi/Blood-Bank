@@ -2,9 +2,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/usecases/reset_password_use_case.dart';
-import 'package:blood_bank_app/domain/usecases/sign_in_usecase.dart';
+import '../../../core/error/failures.dart';
+import '../../../domain/usecases/reset_password_use_case.dart';
+import '../../../domain/usecases/sign_in_usecase.dart';
 
 part 'signin_state.dart';
 

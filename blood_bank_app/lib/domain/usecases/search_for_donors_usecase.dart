@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/domain/repositories/search_repository.dart';
 import 'package:dartz/dartz.dart';
+
+import '../../core/error/failures.dart';
+import '../../domain/entities/donor.dart';
+import '../../domain/repositories/search_repository.dart';
 
 class SearchForDonorsUseCase {
   final SearchRepository searchRepository;

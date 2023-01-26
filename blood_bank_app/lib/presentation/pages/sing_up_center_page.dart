@@ -6,8 +6,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../core/utils.dart';
-import '../cubit/signup_cubit/signup_cubit.dart';
 import '../../domain/entities/blood_center.dart';
+import '../cubit/signup_cubit/signup_cubit.dart';
 import '../resources/color_manageer.dart';
 import '../resources/constatns.dart';
 import '../resources/strings_manager.dart';

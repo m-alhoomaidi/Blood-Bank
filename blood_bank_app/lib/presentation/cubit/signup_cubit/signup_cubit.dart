@@ -1,14 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:bloc/bloc.dart';
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/domain/usecases/sign_up_center_usecase.dart';
-import 'package:blood_bank_app/domain/usecases/sign_up_donor_usecase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import '../../../core/error/failures.dart';
+import '../../../domain/entities/blood_center.dart';
+import '../../../domain/usecases/sign_up_center_usecase.dart';
+import '../../../domain/usecases/sign_up_donor_usecase.dart';
 import '../../../domain/entities/donor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 part 'signup_state.dart';
 

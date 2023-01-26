@@ -1,28 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
-import 'package:blood_bank_app/domain/entities/blood_types.dart';
-import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
-import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
-import 'package:blood_bank_app/presentation/resources/values_manager.dart';
-import 'package:blood_bank_app/core/utils.dart';
-import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
-import 'package:blood_bank_app/presentation/widgets/setting/profile_body.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
+import '../../core/utils.dart';
+import '../../domain/entities/blood_types.dart';
+import '../../presentation/cubit/profile_cubit/profile_cubit.dart';
+import '../../presentation/resources/color_manageer.dart';
+import '../../presentation/resources/strings_manager.dart';
+import '../../presentation/resources/values_manager.dart';
+import '../../presentation/widgets/common/dialog_lottie.dart';
+import '../../presentation/widgets/setting/profile_body.dart';
 import '../resources/style.dart';
-import '../widgets/edit_main_data/address.dart';
-import '../widgets/edit_main_data/blood_type.dart';
 import '../widgets/forms/my_button.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
 import '../widgets/forms/my_text_form_field.dart';
-import 'setting_page.dart';
 
 ProfileLocalData? profileLocalData;
 

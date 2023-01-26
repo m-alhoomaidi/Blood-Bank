@@ -3,20 +3,18 @@ import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
-import 'package:blood_bank_app/dependency_injection.dart' as di;
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/presentation/pages/edit_main_data_page.dart';
-import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
-import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
-import 'package:blood_bank_app/core/utils.dart';
-import 'package:blood_bank_app/presentation/widgets/forms/my_button.dart';
+import '../../presentation/cubit/profile_cubit/profile_cubit.dart';
+import '../../dependency_injection.dart' as di;
+import '../../domain/entities/blood_center.dart';
+import '../../presentation/resources/color_manageer.dart';
+import '../../presentation/resources/strings_manager.dart';
+import '../../core/utils.dart';
+import '../../presentation/widgets/forms/my_button.dart';
 
 class ProfileCenterPage extends StatefulWidget {
   static const String routeName = "profileCenter";
-  ProfileCenterPage({
+  const ProfileCenterPage({
     Key? key,
   }) : super(key: key);
 

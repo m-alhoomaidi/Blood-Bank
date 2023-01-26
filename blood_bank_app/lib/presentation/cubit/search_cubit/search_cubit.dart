@@ -1,13 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
-import 'package:blood_bank_app/core/error/failures.dart';
-import '../signin_cubit/signin_cubit.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:blood_bank_app/domain/usecases/search_for_donors_usecase.dart';
-
+import '../../../core/error/failures.dart';
 import '../../../domain/entities/donor.dart';
+import '../../../domain/usecases/search_for_donors_usecase.dart';
 
 part 'search_state.dart';
 

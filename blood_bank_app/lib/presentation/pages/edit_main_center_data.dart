@@ -1,16 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
-import 'package:blood_bank_app/presentation/pages/profile_center.dart';
-import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
-import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
-import 'package:blood_bank_app/presentation/resources/values_manager.dart';
-import 'package:blood_bank_app/core/utils.dart';
-import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
+import '../../presentation/cubit/profile_cubit/profile_cubit.dart';
+import '../../presentation/pages/profile_center.dart';
+import '../../presentation/resources/color_manageer.dart';
+import '../../presentation/resources/strings_manager.dart';
+import '../../presentation/resources/values_manager.dart';
+import '../../core/utils.dart';
+import '../../presentation/widgets/common/dialog_lottie.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../resources/style.dart';
 import '../widgets/forms/my_button.dart';
