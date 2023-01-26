@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +25,13 @@ class ResultTabs extends StatelessWidget {
                   .length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (ctx, index) {
+                List<String> compatibleBloodTypes = BloodTypes.canReceiveFrom(
+                    bloodType: BlocProvider.of<SearchCubit>(context)
+                        .selectedBloodType!);
+                List<Donor> compatibleDonors = state.donors
+                    .where((donor) =>
+                        donor.bloodType == compatibleBloodTypes[index])
+                    .toList();
                 return Column(
                   children: [
                     GestureDetector(
@@ -48,10 +56,7 @@ class ResultTabs extends StatelessWidget {
                           children: [
                             const SizedBox(height: 5),
                             Text(
-                              BloodTypes.canReceiveFrom(
-                                  bloodType:
-                                      BlocProvider.of<SearchCubit>(context)
-                                          .selectedBloodType!)[index],
+                              compatibleBloodTypes[index],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
@@ -60,19 +65,8 @@ class ResultTabs extends StatelessWidget {
                                     : FontWeight.w500,
                               ),
                             ),
-                            // ignore: prefer_const_constructors
                             Text(
-                              state.donors
-                                  .where((donor) =>
-                                      donor.bloodType ==
-                                      BloodTypes.canReceiveFrom(
-                                          bloodType:
-                                              BlocProvider.of<SearchCubit>(
-                                                      context)
-                                                  .selectedBloodType!)[index])
-                                  .toList()
-                                  .length
-                                  .toString(),
+                              compatibleDonors.length.toString(),
                               style: const TextStyle(
                                 fontSize: 14,
                               ),

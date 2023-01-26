@@ -1,5 +1,5 @@
 import 'package:blood_bank_app/cubit/profile_cubit/profile_cubit.dart';
-import 'package:blood_bank_app/dependecy_injection.dart' as di;
+import 'package:blood_bank_app/dependency_injection.dart' as di;
 import 'package:blood_bank_app/pages/setting_page.dart';
 import 'package:blood_bank_app/pages/sign_in_page.dart';
 import 'package:blood_bank_app/shared/utils.dart';

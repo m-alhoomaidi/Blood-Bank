@@ -30,6 +30,14 @@ class _SearchResultState extends State<SearchResult> {
                 ),
               );
             } else if (state is SearchSuccess) {
+              List<String> compatibleBloodTypes = BloodTypes.canReceiveFrom(
+                  bloodType:
+                      BlocProvider.of<SearchCubit>(context).selectedBloodType!);
+              List<Donor> compatibleDonors = state.donors
+                  .where((donor) =>
+                      donor.bloodType ==
+                      compatibleBloodTypes[state.selectedTabIndex])
+                  .toList();
               return Padding(
                 padding: const EdgeInsets.all(12),
                 child: MyExpansionPanelList.radio(
@@ -40,14 +48,7 @@ class _SearchResultState extends State<SearchResult> {
                   expandedHeaderPadding: EdgeInsets.zero,
                   elevation: 0,
                   dividerColor: Colors.white,
-                  children: state.donors
-                      .where((donor) =>
-                          donor.bloodType ==
-                          BloodTypes.canReceiveFrom(
-                              bloodType: BlocProvider.of<SearchCubit>(context)
-                                  .selectedBloodType!)[state.selectedTabIndex])
-                      .toList()
-                      .map<ExpansionPanel>((Donor donor) {
+                  children: compatibleDonors.map<ExpansionPanel>((Donor donor) {
                     return ExpansionPanelRadio(
                       value: donor.phone,
                       backgroundColor: const Color.fromARGB(0, 255, 255, 255),
