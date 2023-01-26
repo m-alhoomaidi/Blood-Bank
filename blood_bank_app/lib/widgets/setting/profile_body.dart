@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/dependecy_injection.dart' as di;
+import 'package:blood_bank_app/dependency_injection.dart' as di;
 import '../../cubit/profile_cubit/profile_cubit.dart';
 import '../../pages/edit_main_data_page.dart';
 import '../../pages/setting_page.dart';

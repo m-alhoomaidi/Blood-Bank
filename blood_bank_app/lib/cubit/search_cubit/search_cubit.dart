@@ -37,15 +37,18 @@ class SearchCubit extends Cubit<SearchState> {
           bloodType: selectedBloodType!,
         ).then((donorsOrFailure) {
           donorsOrFailure.fold(
-            (failure) => emit(SearchFailure(error: getFailureMessage(failure))),
-            (donors) => emit(
+              (failure) =>
+                  emit(SearchFailure(error: getFailureMessage(failure))),
+              (fetchedDonors) {
+            donors = fetchedDonors;
+            emit(
               SearchSuccess(
                 donors: donors,
                 donorsInState: donorsInState,
                 selectedTabIndex: selectedTabBloodType,
               ),
-            ),
-          );
+            );
+          });
         });
       } on FirebaseException catch (e) {
         emit(SearchFailure(error: e.code));

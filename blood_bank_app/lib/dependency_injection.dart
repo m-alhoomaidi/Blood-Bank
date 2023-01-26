@@ -7,6 +7,7 @@ import 'package:blood_bank_app/data/repositories/auth_repository_impl.dart';
 import 'package:blood_bank_app/data/repositories/search_repository_impl.dart';
 import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
 import 'package:blood_bank_app/domain/repositories/auth_repository.dart';
+import 'package:blood_bank_app/domain/repositories/search_repository.dart';
 import 'package:blood_bank_app/domain/usecases/profile_use_case.dart';
 import 'package:blood_bank_app/domain/usecases/reset_password_use_case.dart';
 import 'package:blood_bank_app/domain/usecases/search_for_donors_usecase.dart';
@@ -22,7 +23,8 @@ final sl = GetIt.instance;
 
 Future<void> initApp() async {
   // Search Repositories
-  sl.registerLazySingleton(() => SearchRepositoryImpl(networkInfo: sl()));
+  sl.registerLazySingleton<SearchRepository>(
+      () => SearchRepositoryImpl(networkInfo: sl()));
   // Search UseCases
   sl.registerLazySingleton(
       () => SearchForDonorsUseCase(searchRepository: sl()));

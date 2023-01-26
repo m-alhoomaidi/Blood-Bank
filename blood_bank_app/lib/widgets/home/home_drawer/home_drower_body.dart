@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/dependecy_injection.dart' as di;
+import 'package:blood_bank_app/dependency_injection.dart' as di;
 import 'package:blood_bank_app/pages/about_page.dart';
 import 'package:blood_bank_app/pages/edit_main_center_data.dart';
 import 'package:blood_bank_app/pages/profile_center.dart';

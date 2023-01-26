@@ -21,7 +21,7 @@ import 'pages/sign_in_page.dart';
 import 'pages/sign_up_page.dart';
 import 'pages/sing_up_center_page.dart';
 import 'pages/user_date_page.dart';
-import 'dependecy_injection.dart' as di;
+import 'dependency_injection.dart' as di;
 
 // Future backgroundMessage(RemoteMessage message) async {
 //   Fluttertoast.showToast(msg: message.notification!.body.toString());
