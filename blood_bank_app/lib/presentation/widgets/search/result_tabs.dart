@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,7 +16,7 @@ class ResultTabs extends StatelessWidget {
         if (state is SearchSuccess) {
           return Container(
             width: double.infinity,
-            height: 60,
+            height: 70,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -43,11 +44,11 @@ class ResultTabs extends StatelessWidget {
                         duration: const Duration(milliseconds: 300),
                         margin: const EdgeInsets.all(5),
                         width: state.selectedTabIndex == index ? 75 : 65,
-                        height: 45,
+                        height: 50,
                         decoration: BoxDecoration(
                           color: state.selectedTabIndex == index
-                              ? Colors.white
-                              : Colors.white70,
+                              ? Theme.of(context).primaryColor
+                              : ColorManager.grey1,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -58,16 +59,21 @@ class ResultTabs extends StatelessWidget {
                             Text(
                               compatibleBloodTypes[index],
                               style: TextStyle(
-                                color: Colors.black,
+                                color: state.selectedTabIndex == index
+                                    ? Colors.white
+                                    : ColorManager.darkGrey,
                                 fontSize: 18,
                                 fontWeight: state.selectedTabIndex == index
                                     ? FontWeight.bold
-                                    : FontWeight.w500,
+                                    : FontWeight.normal,
                               ),
                             ),
                             Text(
                               compatibleDonors.length.toString(),
-                              style: const TextStyle(
+                              style: TextStyle(
+                                color: state.selectedTabIndex == index
+                                    ? ColorManager.white
+                                    : ColorManager.darkGrey,
                                 fontSize: 14,
                               ),
                             ),
@@ -80,9 +86,9 @@ class ResultTabs extends StatelessWidget {
                       child: Container(
                         width: 60,
                         height: 3,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5),
                           ),
                         ),

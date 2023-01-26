@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,13 +17,14 @@ class SearchCubit extends Cubit<SearchState> {
   }) : super(SearchInitial());
 
   List<Donor> donors = [], donorsInState = [];
+  List<BloodCenter> centers = [];
   String selectedState = '', selectedDistrict = '';
   String? selectedBloodType;
   int selectedTabBloodType = 0;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   final SearchForDonorsUseCase searchForDonorsUseCase;
 
-  Future<void> searchDonors() async {
+  Future<void> searchDonorsAndCenters() async {
     emit(SearchLoading());
     if (selectedState == '' ||
         selectedDistrict == '' ||
@@ -37,15 +40,26 @@ class SearchCubit extends Cubit<SearchState> {
           donorsOrFailure.fold(
               (failure) =>
                   emit(SearchFailure(error: getFailureMessage(failure))),
-              (fetchedDonors) {
+              (fetchedDonors) async {
             donors = fetchedDonors;
-            emit(
-              SearchSuccess(
-                donors: donors,
-                donorsInState: donorsInState,
-                selectedTabIndex: selectedTabBloodType,
-              ),
-            );
+            await fireStore
+                .collection(BloodCenterFields.collectionName)
+                .where(BloodCenterFields.state, isEqualTo: selectedState)
+                .where(BloodCenterFields.district, isEqualTo: selectedDistrict)
+                .get()
+                .then((fetchedCenters) async {
+              centers = fetchedCenters.docs
+                  .map((e) => BloodCenter.fromMap(e.data()))
+                  .toList();
+              emit(
+                SearchSuccess(
+                  donors: donors,
+                  centers: centers,
+                  donorsInState: donorsInState,
+                  selectedTabIndex: selectedTabBloodType,
+                ),
+              );
+            });
           });
         });
       } on FirebaseException catch (e) {
@@ -56,34 +70,38 @@ class SearchCubit extends Cubit<SearchState> {
     }
   }
 
-  Future<void> getDonorsInState() async {
+  Future<void> searchCenters() async {
     emit(SearchLoading());
-    if (selectedState == '' || selectedBloodType == null) {
-      print('يجب تحديد المحافظة والمديرية وفصيلة الدم');
+    if (selectedState == '' ||
+        selectedDistrict == '' ||
+        selectedBloodType == null) {
+      emit(SearchFailure(error: 'يجب تحديد المحافظة والمديرية وفصيلة الدم'));
     } else {
       try {
         fireStore
-            .collection(DonorFields.collectionName)
-            .where(DonorFields.state, isEqualTo: selectedState)
+            .collection(BloodCenterFields.collectionName)
+            .where(BloodCenterFields.state, isEqualTo: selectedState)
+            .where(BloodCenterFields.district, isEqualTo: selectedDistrict)
             .get()
-            .then((value) async {
-          if (value.docs.isNotEmpty) {
-            donorsInState = value.docs
-                .map((donorDoc) => Donor.fromMap(donorDoc.data()))
-                .toList();
-          }
+            .then((fetchedCenters) async {
+          centers = fetchedCenters.docs
+              .map((e) => BloodCenter.fromMap(e.data()))
+              .toList();
+          print("fetched centers length");
+          print(centers.length);
           emit(
             SearchSuccess(
               donors: donors,
+              centers: centers,
               donorsInState: donorsInState,
               selectedTabIndex: selectedTabBloodType,
             ),
           );
         });
       } on FirebaseException catch (e) {
-        print(e.code);
+        emit(SearchFailure(error: e.code));
       } catch (e) {
-        print(e.toString());
+        emit(SearchFailure(error: e.toString()));
       }
     }
   }
@@ -104,7 +122,6 @@ class SearchCubit extends Cubit<SearchState> {
   //           .get()
   //           .then((value) async {
   //         donors = value.docs.map((e) => Donor.fromMap(e.data())).toList();
-
   //         emit(
   //           SearchSuccess(
   //             donors: donors,
@@ -157,6 +174,7 @@ class SearchCubit extends Cubit<SearchState> {
     emit(
       SearchSuccess(
         donors: donors,
+        centers: centers,
         donorsInState: donorsInState,
         selectedTabIndex: tabIndex,
       ),

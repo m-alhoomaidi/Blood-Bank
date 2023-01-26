@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
+import 'package:blood_bank_app/presentation/widgets/search/result_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,6 +45,9 @@ class _SearchResultState extends State<SearchResult>
                       donor.bloodType ==
                       compatibleBloodTypes[state.selectedTabIndex])
                   .toList();
+              print("fetched centers length");
+              print(state.centers.length);
+
               return Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -76,6 +81,60 @@ class _SearchResultState extends State<SearchResult>
                         controller: tabController,
                         children: [
                           SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                MediaQuery(
+                                    data: MediaQuery.of(context)
+                                        .copyWith(textScaleFactor: 1.0),
+                                    child: const ResultTabs()),
+                                MyExpansionPanelList.radio(
+                                  expansionCallback:
+                                      (int index, bool isExpanded) {
+                                    setState(() => state.donors[index]
+                                        .isExpanded = !isExpanded);
+                                  },
+                                  expandedHeaderPadding: EdgeInsets.zero,
+                                  elevation: 0,
+                                  dividerColor: Colors.white,
+                                  children: compatibleDonors
+                                      .map<ExpansionPanel>((Donor donor) {
+                                    return ExpansionPanelRadio(
+                                      value: donor.phone,
+                                      backgroundColor:
+                                          const Color.fromARGB(0, 0, 0, 0),
+                                      canTapOnHeader: true,
+                                      headerBuilder: (BuildContext context,
+                                          bool isExpanded) {
+                                        return ListTile(
+                                          leading: Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: CircleAvatar(
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              radius: 25,
+                                              child: Text(
+                                                donor.bloodType,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge,
+                                              ),
+                                            ),
+                                          ),
+                                          title: DonerCardDetails(
+                                            donerName: donor.name,
+                                            donerCity: donor.neighborhood,
+                                            donerPhone: donor.phone,
+                                          ),
+                                        );
+                                      },
+                                      body: const DonerCardBody(),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SingleChildScrollView(
                             child: MyExpansionPanelList.radio(
                               expansionCallback: (int index, bool isExpanded) {
                                 setState(() => state.donors[index].isExpanded =
@@ -84,10 +143,10 @@ class _SearchResultState extends State<SearchResult>
                               expandedHeaderPadding: EdgeInsets.zero,
                               elevation: 0,
                               dividerColor: Colors.white,
-                              children: compatibleDonors
-                                  .map<ExpansionPanel>((Donor donor) {
+                              children: state.centers
+                                  .map<ExpansionPanel>((BloodCenter center) {
                                 return ExpansionPanelRadio(
-                                  value: donor.phone,
+                                  value: center.phone,
                                   backgroundColor:
                                       const Color.fromARGB(0, 0, 0, 0),
                                   canTapOnHeader: true,
@@ -101,7 +160,11 @@ class _SearchResultState extends State<SearchResult>
                                               Theme.of(context).primaryColor,
                                           radius: 25,
                                           child: Text(
-                                            donor.bloodType,
+                                            getBloodAmount(
+                                              center: center,
+                                              bloodType: compatibleBloodTypes[
+                                                  state.selectedTabIndex],
+                                            ),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleLarge,
@@ -109,10 +172,9 @@ class _SearchResultState extends State<SearchResult>
                                         ),
                                       ),
                                       title: DonerCardDetails(
-                                        bloodTayep: donor.bloodType,
-                                        donerName: donor.name,
-                                        donerCity: donor.neighborhood,
-                                        donerPhone: donor.phone,
+                                        donerName: center.name,
+                                        donerCity: center.neighborhood,
+                                        donerPhone: center.phone,
                                       ),
                                     );
                                   },
@@ -120,10 +182,6 @@ class _SearchResultState extends State<SearchResult>
                                 );
                               }).toList(),
                             ),
-                          ),
-                          Container(
-                            color: Colors.blue,
-                            child: const Center(child: Text("data")),
                           ),
                         ],
                       ),
@@ -151,5 +209,31 @@ class _SearchResultState extends State<SearchResult>
         ),
       ),
     );
+  }
+
+  String getBloodAmount({
+    required BloodCenter center,
+    required String bloodType,
+  }) {
+    switch (bloodType) {
+      case "A+":
+        return center.aPlus.toString();
+      case "A-":
+        return center.aMinus.toString();
+      case "B+":
+        return center.bPlus.toString();
+      case "B-":
+        return center.bMinus.toString();
+      case "O+":
+        return center.oPlus.toString();
+      case "O-":
+        return center.oMinus.toString();
+      case "AB+":
+        return center.abPlus.toString();
+      case "AB-":
+        return center.abMinus.toString();
+      default:
+        return center.oMinus.toString();
+    }
   }
 }

@@ -102,15 +102,18 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
                     height: AppSize.s10,
                   ),
                   PrfileCenterBloodTypeCard(
-                    bloodType: BloodCenterField.aPlus,
+                    bloodType: BloodCenterFields.aPlus,
                   ),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.abPlus),
                   PrfileCenterBloodTypeCard(
-                      bloodType: BloodCenterField.abMinus),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.bPlus),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.bMinus),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.oPlus),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.oMinus),
+                      bloodType: BloodCenterFields.abPlus),
+                  PrfileCenterBloodTypeCard(
+                      bloodType: BloodCenterFields.abMinus),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterFields.bPlus),
+                  PrfileCenterBloodTypeCard(
+                      bloodType: BloodCenterFields.bMinus),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterFields.oPlus),
+                  PrfileCenterBloodTypeCard(
+                      bloodType: BloodCenterFields.oMinus),
                   const SizedBox(
                     height: AppSize.s20,
                   ),
@@ -312,21 +315,21 @@ class ProfileCenterData {
   static getProfileCenterDataBlodTyeb(
       String bloodType, ProfileCenterData profileCenterData) {
     switch (bloodType) {
-      case BloodCenterField.aPlus:
+      case BloodCenterFields.aPlus:
         return profileCenterData.aPlus;
-      case BloodCenterField.aMinus:
+      case BloodCenterFields.aMinus:
         return profileCenterData.aMinus;
-      case BloodCenterField.abPlus:
+      case BloodCenterFields.abPlus:
         return profileCenterData.abPlus;
-      case BloodCenterField.abMinus:
+      case BloodCenterFields.abMinus:
         return profileCenterData.abMinus;
-      case BloodCenterField.oPlus:
+      case BloodCenterFields.oPlus:
         return profileCenterData.oPlus;
-      case BloodCenterField.oMinus:
+      case BloodCenterFields.oMinus:
         return profileCenterData.oMinus;
-      case BloodCenterField.bPlus:
+      case BloodCenterFields.bPlus:
         return profileCenterData.bPlus;
-      case BloodCenterField.bMinus:
+      case BloodCenterFields.bMinus:
         return profileCenterData.bMinus;
     }
   }
@@ -334,42 +337,42 @@ class ProfileCenterData {
   static IncressProfileCenterDataBlodTyeb(
       String bloodType, ProfileCenterData profileCenterData, int value) {
     switch (bloodType) {
-      case BloodCenterField.aPlus:
+      case BloodCenterFields.aPlus:
         {
           profileCenterData.aPlus = value;
           return profileCenterData.aPlus;
         }
-      case BloodCenterField.aMinus:
+      case BloodCenterFields.aMinus:
         {
           profileCenterData.aMinus = value;
           return profileCenterData.aMinus;
         }
-      case BloodCenterField.abPlus:
+      case BloodCenterFields.abPlus:
         {
           profileCenterData.abPlus = value;
           return profileCenterData.abPlus;
         }
-      case BloodCenterField.abMinus:
+      case BloodCenterFields.abMinus:
         {
           profileCenterData.abMinus = value;
           return profileCenterData.abMinus;
         }
-      case BloodCenterField.oPlus:
+      case BloodCenterFields.oPlus:
         {
           profileCenterData.oPlus = value;
           return profileCenterData.oPlus;
         }
-      case BloodCenterField.oMinus:
+      case BloodCenterFields.oMinus:
         {
           profileCenterData.oMinus = value;
           return profileCenterData.oMinus;
         }
-      case BloodCenterField.bPlus:
+      case BloodCenterFields.bPlus:
         {
           profileCenterData.bPlus = value;
           return profileCenterData.bPlus;
         }
-      case BloodCenterField.bMinus:
+      case BloodCenterFields.bMinus:
         {
           profileCenterData.bMinus = value;
           return profileCenterData.bMinus;

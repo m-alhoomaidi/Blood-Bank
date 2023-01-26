@@ -86,7 +86,8 @@ class SearchOptions extends StatelessWidget {
                           null &&
                       BlocProvider.of<SearchCubit>(context).selectedDistrict !=
                           '') {
-                    BlocProvider.of<SearchCubit>(context).searchDonors();
+                    BlocProvider.of<SearchCubit>(context)
+                        .searchDonorsAndCenters();
                   }
                 },
               ),
@@ -109,15 +110,13 @@ class SearchOptions extends StatelessWidget {
                           '' &&
                       BlocProvider.of<SearchCubit>(context).selectedDistrict !=
                           '') {
-                    BlocProvider.of<SearchCubit>(context).searchDonors();
+                    BlocProvider.of<SearchCubit>(context)
+                        .searchDonorsAndCenters();
                   }
                 },
               ),
             ),
             const SizedBox(height: 5),
-            MediaQuery(
-                data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                child: const ResultTabs()),
           ],
         ),
       ),

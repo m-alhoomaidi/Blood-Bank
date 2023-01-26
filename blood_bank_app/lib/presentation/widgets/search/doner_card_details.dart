@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DonerCardDetails extends StatelessWidget {
-  final String bloodTayep;
   final String donerName;
   final String donerCity;
   final String donerPhone;
   const DonerCardDetails({
     Key? key,
-    required this.bloodTayep,
     required this.donerName,
     required this.donerCity,
     required this.donerPhone,

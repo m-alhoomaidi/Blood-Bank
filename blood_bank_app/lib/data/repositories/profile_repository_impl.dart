@@ -148,13 +148,13 @@ class ProfileReopsitoryImpl implements ProfileRepository {
               .collection('centers')
               .doc("CWTU0qCghsDi132oDsMh")
               .update({
-            BloodCenterField.aPlus: profileCenterData.aPlus,
-            BloodCenterField.aMinus: profileCenterData.aMinus,
-            BloodCenterField.abPlus: profileCenterData.abPlus,
-            BloodCenterField.oPlus: profileCenterData.oPlus,
-            BloodCenterField.oMinus: profileCenterData.oMinus,
-            BloodCenterField.bPlus: profileCenterData.bPlus,
-            BloodCenterField.bMinus: profileCenterData.bMinus,
+            BloodCenterFields.aPlus: profileCenterData.aPlus,
+            BloodCenterFields.aMinus: profileCenterData.aMinus,
+            BloodCenterFields.abPlus: profileCenterData.abPlus,
+            BloodCenterFields.oPlus: profileCenterData.oPlus,
+            BloodCenterFields.oMinus: profileCenterData.oMinus,
+            BloodCenterFields.bPlus: profileCenterData.bPlus,
+            BloodCenterFields.bMinus: profileCenterData.bMinus,
           }).then((value) async {
             return const Right(unit);
           });
