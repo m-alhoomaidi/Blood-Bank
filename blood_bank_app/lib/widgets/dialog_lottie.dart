@@ -6,7 +6,6 @@ class MyLottie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("object");
     return SafeArea(
         child: Center(
       child: Lottie.asset(

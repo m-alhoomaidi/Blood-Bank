@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:blood_bank_app/widgets/dialog_lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -70,6 +71,14 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
           }
         },
         builder: (context, state) {
+          if (state is ProfileLoadingBeforFetch) {
+            return const MyLottie();
+          }
+          if (state is ProfileLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           if (state is ProfileGetCenterData) {
             profileCenterData = ProfileCenterData(
                 aPlus: state.bloodCenter.aPlus,
@@ -81,55 +90,47 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
                 bPlus: state.bloodCenter.bPlus,
                 bMinus: state.bloodCenter.bMinus);
 
-            return ModalProgressHUD(
-              inAsyncCall: (state is ProfileLoading),
-              child: Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: AppPadding.p20),
-                      child: Text(
-                        AppStrings.profileCenterTitle,
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
+            return Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppPadding.p20),
+                    child: Text(
+                      AppStrings.profileCenterTitle,
+                      style: Theme.of(context).textTheme.headlineLarge,
                     ),
-                    const SizedBox(
-                      height: AppSize.s10,
-                    ),
-                    PrfileCenterBloodTypeCard(
-                      bloodType: BloodCenterField.aPlus,
-                    ),
-                    PrfileCenterBloodTypeCard(
-                        bloodType: BloodCenterField.abPlus),
-                    PrfileCenterBloodTypeCard(
-                        bloodType: BloodCenterField.abMinus),
-                    PrfileCenterBloodTypeCard(
-                        bloodType: BloodCenterField.bPlus),
-                    PrfileCenterBloodTypeCard(
-                        bloodType: BloodCenterField.bMinus),
-                    PrfileCenterBloodTypeCard(
-                        bloodType: BloodCenterField.oPlus),
-                    PrfileCenterBloodTypeCard(
-                        bloodType: BloodCenterField.oMinus),
-                    const SizedBox(
-                      height: AppSize.s20,
-                    ),
-                    MyButton(
-                      title: AppStrings.profileButtonSave,
-                      onPressed: () {
-                        BlocProvider.of<ProfileCubit>(context)
-                            .sendProfileCenterData(profileCenterData!);
-                      },
-                      minWidth: AppSize.s300,
-                      color: ColorManager.secondary,
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s10,
+                  ),
+                  PrfileCenterBloodTypeCard(
+                    bloodType: BloodCenterField.aPlus,
+                  ),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.abPlus),
+                  PrfileCenterBloodTypeCard(
+                      bloodType: BloodCenterField.abMinus),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.bPlus),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.bMinus),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.oPlus),
+                  PrfileCenterBloodTypeCard(bloodType: BloodCenterField.oMinus),
+                  const SizedBox(
+                    height: AppSize.s20,
+                  ),
+                  MyButton(
+                    title: AppStrings.profileButtonSave,
+                    onPressed: () {
+                      BlocProvider.of<ProfileCubit>(context)
+                          .sendProfileCenterData(profileCenterData!);
+                    },
+                    minWidth: AppSize.s300,
+                    color: ColorManager.secondary,
+                  ),
+                ],
               ),
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: MyLottie(),
             );
           }
         },
