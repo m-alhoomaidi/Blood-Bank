@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/presentation/resources/style_manager.dart';
+import 'style_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'color_manageer.dart';

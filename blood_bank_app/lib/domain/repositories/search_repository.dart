@@ -1,5 +1,5 @@
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
+import '../../core/error/failures.dart';
+import '../entities/donor.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class SearchRepository {

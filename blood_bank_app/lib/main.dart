@@ -1,8 +1,8 @@
-import 'package:blood_bank_app/pages/about_page.dart';
-import 'package:blood_bank_app/pages/edit_main_center_data.dart';
-import 'package:blood_bank_app/pages/profile_center.dart';
-import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
-import 'presentation/onboarding/introduction_page.dart';
+import 'presentation/pages/about_page.dart';
+import 'presentation/pages/edit_main_center_data.dart';
+import 'presentation/pages/profile_center.dart';
+import 'presentation/resources/theme_manager.dart';
+import 'presentation/pages/introduction_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,17 +10,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'cubit/profile_cubit/profile_cubit.dart';
-import 'cubit/search_cubit/search_cubit.dart';
-import 'cubit/signin_cubit/signin_cubit.dart';
-import 'cubit/signup_cubit/signup_cubit.dart';
-import 'pages/home_page.dart';
-import 'pages/search_map.dart';
-import 'pages/search_page.dart';
-import 'pages/setting_page.dart';
-import 'pages/sign_in_page.dart';
-import 'pages/sign_up_page.dart';
-import 'pages/sing_up_center_page.dart';
-import 'pages/user_date_page.dart';
+import 'presentation/cubit/search_cubit/search_cubit.dart';
+import 'presentation/cubit/signin_cubit/signin_cubit.dart';
+import 'presentation/cubit/signup_cubit/signup_cubit.dart';
+import 'presentation/pages/home_page.dart';
+import 'presentation/pages/search_map.dart';
+import 'presentation/pages/search_page.dart';
+import 'presentation/pages/setting_page.dart';
+import 'presentation/pages/sign_in_page.dart';
+import 'presentation/pages/sign_up_page.dart';
+import 'presentation/pages/sing_up_center_page.dart';
+import 'presentation/pages/user_date_page.dart';
 import 'dependency_injection.dart' as di;
 
 // Future backgroundMessage(RemoteMessage message) async {

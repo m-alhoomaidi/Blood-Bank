@@ -9,8 +9,9 @@ import 'package:meta/meta.dart';
 import 'package:blood_bank_app/domain/usecases/profile_use_case.dart';
 import 'package:blood_bank_app/presentation/widgets/setting/profile_body.dart';
 
-import '../../domain/entities/blood_center.dart';
-import '../../domain/entities/donor.dart';
+import '../../../domain/entities/blood_center.dart';
+import '../../../domain/entities/donor.dart';
+import '../signin_cubit/signin_cubit.dart';
 
 part 'profile_state.dart';
 

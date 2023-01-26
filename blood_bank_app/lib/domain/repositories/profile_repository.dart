@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:dartz/dartz.dart';
 
-import '../../widgets/setting/profile_body.dart';
+import '../../core/error/failures.dart';
+import '../../presentation/pages/profile_center.dart';
+import '../../presentation/widgets/setting/profile_body.dart';
+import '../entities/blood_center.dart';
+import '../entities/donor.dart';
 
 abstract class ProfileRepository {
   Future<Either<Failure, Donor>> getDataToProfilePage();

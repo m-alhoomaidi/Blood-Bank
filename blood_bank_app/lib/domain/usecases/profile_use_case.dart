@@ -2,8 +2,8 @@
 import 'package:blood_bank_app/core/error/failures.dart';
 import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
-import 'package:blood_bank_app/pages/profile_center.dart';
-import 'package:blood_bank_app/widgets/setting/profile_body.dart';
+import 'package:blood_bank_app/presentation/pages/profile_center.dart';
+import 'package:blood_bank_app/presentation/widgets/setting/profile_body.dart';
 import 'package:dartz/dartz.dart';
 
 import '../entities/blood_center.dart';

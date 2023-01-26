@@ -1,0 +1,76 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bloc/bloc.dart';
+import 'package:blood_bank_app/core/error/failures.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
+import 'package:blood_bank_app/domain/usecases/sign_up_center_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/sign_up_donor_usecase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:meta/meta.dart';
+
+import '../../../domain/entities/donor.dart';
+
+part 'signup_state.dart';
+
+class SignUpCubit extends Cubit<SignupState> {
+  SignUpCubit({
+    required this.signUpDonorUseCase,
+    required this.signUpCenterUseCase,
+  }) : super(SignupInitial());
+  FirebaseAuth fireAuth = FirebaseAuth.instance;
+  FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  User? currentUser;
+  final SignUpDonorUseCase signUpDonorUseCase;
+  final SignUpCenterUseCase signUpCenterUseCase;
+
+  Future<void> signUpDonor({
+    required Donor donor,
+  }) async {
+    emit(SignupLoading());
+    try {
+      await signUpDonorUseCase(donor: donor).then((value) {
+        value.fold(
+            (failure) =>
+                emit(SignUpFailure(error: _getFailureMessage(failure))),
+            (userCredential) => emit(SignUpSuccess()));
+      });
+    } catch (e) {
+      emit(SignUpFailure(error: e.toString()));
+    }
+  }
+
+  Future<void> signUpCenter({
+    required BloodCenter center,
+  }) async {
+    emit(SignupLoading());
+    try {
+      await signUpCenterUseCase(center: center).then((value) {
+        value.fold(
+            (failure) =>
+                emit(SignUpFailure(error: _getFailureMessage(failure))),
+            (userCredential) => emit(SignUpSuccess()));
+      });
+    } catch (e) {
+      emit(SignUpFailure(error: e.toString()));
+    }
+  }
+
+  String _getFailureMessage(Failure failur) {
+    switch (failur.runtimeType) {
+      case OffLineFailure:
+        return "لا يوجد إنترنت";
+      case WrongDataFailure:
+        return "تأكد من صحة البيانات المدخلة";
+      case InvalidEmailFailure:
+        return "البريد الإلكتروني غير صالح";
+      case EmailAlreadyRegisteredFailure:
+        return "البريد مستخدم من قبل";
+      case UnknownFailure:
+        return "خطأ غير معروف";
+      case FirebaseUnknownFailure:
+        return "خطأ من قاعدة البيانات غير معروف";
+      default:
+        return "خطأ غير معروف";
+    }
+  }
+}
