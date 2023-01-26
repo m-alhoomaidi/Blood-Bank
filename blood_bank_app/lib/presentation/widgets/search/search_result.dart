@@ -29,14 +29,7 @@ class _SearchResultState extends State<SearchResult>
       child: SingleChildScrollView(
         child: BlocBuilder<SearchCubit, SearchState>(
           builder: (context, state) {
-            if (state is SearchLoading) {
-              return const SizedBox(
-                height: 200,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            } else if (state is SearchSuccess) {
+            if (state is SearchSuccess) {
               List<String> compatibleBloodTypes = BloodTypes.canReceiveFrom(
                   bloodType:
                       BlocProvider.of<SearchCubit>(context).selectedBloodType!);
@@ -45,9 +38,6 @@ class _SearchResultState extends State<SearchResult>
                       donor.bloodType ==
                       compatibleBloodTypes[state.selectedTabIndex])
                   .toList();
-              print("fetched centers length");
-              print(state.centers.length);
-
               return Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -160,7 +150,7 @@ class _SearchResultState extends State<SearchResult>
                                               Theme.of(context).primaryColor,
                                           radius: 25,
                                           child: Text(
-                                            getBloodAmount(
+                                            getCompatibleBloodAmount(
                                               center: center,
                                               bloodType: compatibleBloodTypes[
                                                   state.selectedTabIndex],
@@ -191,15 +181,22 @@ class _SearchResultState extends State<SearchResult>
               );
             } else if (state is SearchInitial) {
               return const SizedBox(
-                height: 200,
+                height: 400,
                 child: Center(
                   child:
                       Text('حدد المحافظة والمديرية وزمرة الدم التي تبحث عنها'),
                 ),
               );
+            } else if (state is SearchLoading) {
+              return const SizedBox(
+                height: 400,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             } else {
               return const SizedBox(
-                height: 200,
+                height: 400,
                 child: Center(
                   child: Text('حدث خطأ'),
                 ),
@@ -211,29 +208,40 @@ class _SearchResultState extends State<SearchResult>
     );
   }
 
-  String getBloodAmount({
+  String getCompatibleBloodAmount({
     required BloodCenter center,
     required String bloodType,
   }) {
     switch (bloodType) {
       case "A+":
-        return center.aPlus.toString();
+        return (center.aPlus + center.aMinus + center.oPlus + center.oMinus)
+            .toString();
       case "A-":
-        return center.aMinus.toString();
+        return (center.aMinus + center.oMinus).toString();
       case "B+":
-        return center.bPlus.toString();
+        return (center.bPlus + center.bMinus + center.oPlus + center.oMinus)
+            .toString();
       case "B-":
-        return center.bMinus.toString();
+        return (center.bMinus + center.oMinus).toString();
       case "O+":
-        return center.oPlus.toString();
+        return (center.oPlus + center.oMinus).toString();
       case "O-":
-        return center.oMinus.toString();
+        return (center.oMinus).toString();
       case "AB+":
-        return center.abPlus.toString();
+        return (center.aPlus +
+                center.aMinus +
+                center.oPlus +
+                center.oMinus +
+                center.bPlus +
+                center.bMinus +
+                center.abPlus +
+                center.abMinus)
+            .toString();
       case "AB-":
-        return center.abMinus.toString();
+        return (center.aMinus + center.oMinus + center.bMinus + center.abMinus)
+            .toString();
       default:
-        return center.oMinus.toString();
+        return (center.oMinus).toString();
     }
   }
 }
