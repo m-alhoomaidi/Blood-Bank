@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:blood_bank_app/domain/entities/blood_center.dart';
+import 'package:blood_bank_app/domain/usecases/search_for_centers_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,8 +13,11 @@ import '../../../domain/usecases/search_for_donors_usecase.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
+  final SearchForDonorsUseCase searchForDonorsUseCase;
+  final SearchForCentersUseCase searchForCentersUseCase;
   SearchCubit({
     required this.searchForDonorsUseCase,
+    required this.searchForCentersUseCase,
   }) : super(SearchInitial());
 
   List<Donor> donors = [], donorsInState = [];
@@ -22,7 +26,6 @@ class SearchCubit extends Cubit<SearchState> {
   String? selectedBloodType;
   int selectedTabBloodType = 0;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  final SearchForDonorsUseCase searchForDonorsUseCase;
 
   Future<void> searchDonorsAndCenters() async {
     emit(SearchLoading());
@@ -42,22 +45,25 @@ class SearchCubit extends Cubit<SearchState> {
                   emit(SearchFailure(error: getFailureMessage(failure))),
               (fetchedDonors) async {
             donors = fetchedDonors;
-            await fireStore
-                .collection(BloodCenterFields.collectionName)
-                .where(BloodCenterFields.state, isEqualTo: selectedState)
-                .where(BloodCenterFields.district, isEqualTo: selectedDistrict)
-                .get()
-                .then((fetchedCenters) async {
-              centers = fetchedCenters.docs
-                  .map((e) => BloodCenter.fromMap(e.data()))
-                  .toList();
-              emit(
-                SearchSuccess(
-                  donors: donors,
-                  centers: centers,
-                  donorsInState: donorsInState,
-                  selectedTabIndex: selectedTabBloodType,
-                ),
+            await searchForCentersUseCase(
+              state: selectedState,
+              district: selectedDistrict,
+              bloodType: selectedBloodType!,
+            ).then((centersOrFailure) {
+              centersOrFailure.fold(
+                (failure) =>
+                    emit(SearchFailure(error: getFailureMessage(failure))),
+                (fetchedCenters) {
+                  centers = fetchedCenters;
+                  emit(
+                    SearchSuccess(
+                      donors: donors,
+                      centers: fetchedCenters,
+                      donorsInState: donorsInState,
+                      selectedTabIndex: selectedTabBloodType,
+                    ),
+                  );
+                },
               );
             });
           });
@@ -87,8 +93,6 @@ class SearchCubit extends Cubit<SearchState> {
           centers = fetchedCenters.docs
               .map((e) => BloodCenter.fromMap(e.data()))
               .toList();
-          print("fetched centers length");
-          print(centers.length);
           emit(
             SearchSuccess(
               donors: donors,

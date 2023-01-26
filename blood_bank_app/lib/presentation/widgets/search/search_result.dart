@@ -152,8 +152,10 @@ class _SearchResultState extends State<SearchResult>
                                           child: Text(
                                             getCompatibleBloodAmount(
                                               center: center,
-                                              bloodType: compatibleBloodTypes[
-                                                  state.selectedTabIndex],
+                                              bloodType:
+                                                  BlocProvider.of<SearchCubit>(
+                                                          context)
+                                                      .selectedBloodType!,
                                             ),
                                             style: Theme.of(context)
                                                 .textTheme
