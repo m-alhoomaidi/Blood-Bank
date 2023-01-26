@@ -15,9 +15,14 @@ class SearchResult extends StatefulWidget {
   State<SearchResult> createState() => _SearchResultState();
 }
 
-class _SearchResultState extends State<SearchResult> {
+class _SearchResultState extends State<SearchResult>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    TabController tabController = TabController(
+      vsync: this,
+      length: 2,
+    );
     return SafeArea(
       child: SingleChildScrollView(
         child: BlocBuilder<SearchCubit, SearchState>(
@@ -40,38 +45,90 @@ class _SearchResultState extends State<SearchResult> {
                   .toList();
               return Padding(
                 padding: const EdgeInsets.all(12),
-                child: MyExpansionPanelList.radio(
-                  expansionCallback: (int index, bool isExpanded) {
-                    setState(
-                        () => state.donors[index].isExpanded = !isExpanded);
-                  },
-                  expandedHeaderPadding: EdgeInsets.zero,
-                  elevation: 0,
-                  dividerColor: Colors.white,
-                  children: compatibleDonors.map<ExpansionPanel>((Donor donor) {
-                    return ExpansionPanelRadio(
-                      value: donor.phone,
-                      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
-                      canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) {
-                        return ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: CircleAvatar(
-                              radius: 25,
-                              child: Text(donor.bloodType),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: TabBar(
+                        controller: tabController,
+                        indicator: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(30),
+                          ),
+                        ),
+                        labelStyle: Theme.of(context).textTheme.titleLarge,
+                        unselectedLabelColor: Colors.black54,
+                        tabs: const [
+                          Tab(text: "متبرعين"),
+                          Tab(text: "مراكز طبية"),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: tabController,
+                        children: [
+                          SingleChildScrollView(
+                            child: MyExpansionPanelList.radio(
+                              expansionCallback: (int index, bool isExpanded) {
+                                setState(() => state.donors[index].isExpanded =
+                                    !isExpanded);
+                              },
+                              expandedHeaderPadding: EdgeInsets.zero,
+                              elevation: 0,
+                              dividerColor: Colors.white,
+                              children: compatibleDonors
+                                  .map<ExpansionPanel>((Donor donor) {
+                                return ExpansionPanelRadio(
+                                  value: donor.phone,
+                                  backgroundColor:
+                                      const Color.fromARGB(0, 0, 0, 0),
+                                  canTapOnHeader: true,
+                                  headerBuilder:
+                                      (BuildContext context, bool isExpanded) {
+                                    return ListTile(
+                                      leading: Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              Theme.of(context).primaryColor,
+                                          radius: 25,
+                                          child: Text(
+                                            donor.bloodType,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge,
+                                          ),
+                                        ),
+                                      ),
+                                      title: DonerCardDetails(
+                                        bloodTayep: donor.bloodType,
+                                        donerName: donor.name,
+                                        donerCity: donor.neighborhood,
+                                        donerPhone: donor.phone,
+                                      ),
+                                    );
+                                  },
+                                  body: const DonerCardBody(),
+                                );
+                              }).toList(),
                             ),
                           ),
-                          title: DonerCardDetails(
-                              bloodTayep: donor.bloodType,
-                              donerName: donor.name,
-                              donerCity: donor.neighborhood,
-                              donerPhone: donor.phone),
-                        );
-                      },
-                      body: const DonerCardBody(),
-                    );
-                  }).toList(),
+                          Container(
+                            color: Colors.blue,
+                            child: const Center(child: Text("data")),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               );
             } else if (state is SearchInitial) {

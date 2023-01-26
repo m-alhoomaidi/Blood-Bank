@@ -12,12 +12,6 @@ class DonerCardBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: const BoxDecoration(
         color: Colors.white,
-        // border: Border(
-        //   top: BorderSide(
-        //     width: 1,
-        //     color: Colors.black38,
-        //   ),
-        // ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),

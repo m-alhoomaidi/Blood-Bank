@@ -13,7 +13,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Search Page'),
+          title: const Text('البحث عن دم'),
           centerTitle: true,
           elevation: 0,
         ),
@@ -23,9 +23,9 @@ class SearchPage extends StatelessWidget {
             SizedBox(
               height: 190,
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'color_manageer.dart';
 import 'font_manager.dart';
@@ -27,6 +28,9 @@ ThemeData getApplicationTheme() {
 
     // app bar theme
     appBarTheme: AppBarTheme(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: ColorManager.primary,
+      ),
       color: ColorManager.primary,
       centerTitle: true,
       elevation: AppSize.s4,
