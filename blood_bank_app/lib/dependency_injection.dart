@@ -38,8 +38,9 @@ Future<void> initApp() async {
   sl.registerLazySingleton(() => SearchCentersUseCase(searchRepository: sl()));
   // Search Cubit
   sl.registerLazySingleton(() => SearchCubit(
-        searchForDonorsUseCase: sl(),
-        searchForCentersUseCase: sl(),
+        // searchDonorsUseCase: sl(),
+        searchCentersUseCase: sl(),
+        searchStateDonorsUseCase: sl(),
       ));
 
   // Profile Repositories
