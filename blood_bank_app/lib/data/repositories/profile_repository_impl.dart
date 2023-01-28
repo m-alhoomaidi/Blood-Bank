@@ -1,16 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/pages/profile_center.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
-
+import '../../core/error/failures.dart';
+import '../../domain/entities/donor.dart';
+import '../../domain/repositories/profile_repository.dart';
+import '../../domain/entities/blood_center.dart';
+import '../../presentation/pages/profile_center.dart';
 import '../../core/network/network_info.dart';
-import '../../widgets/setting/profile_body.dart';
+import '../../presentation/widgets/setting/profile_body.dart';
 
 class ProfileReopsitoryImpl implements ProfileRepository {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -149,13 +148,13 @@ class ProfileReopsitoryImpl implements ProfileRepository {
               .collection('centers')
               .doc("CWTU0qCghsDi132oDsMh")
               .update({
-            BloodCenterField.aPlus: profileCenterData.aPlus,
-            BloodCenterField.aMinus: profileCenterData.aMinus,
-            BloodCenterField.abPlus: profileCenterData.abPlus,
-            BloodCenterField.oPlus: profileCenterData.oPlus,
-            BloodCenterField.oMinus: profileCenterData.oMinus,
-            BloodCenterField.bPlus: profileCenterData.bPlus,
-            BloodCenterField.bMinus: profileCenterData.bMinus,
+            BloodCenterFields.aPlus: profileCenterData.aPlus,
+            BloodCenterFields.aMinus: profileCenterData.aMinus,
+            BloodCenterFields.abPlus: profileCenterData.abPlus,
+            BloodCenterFields.oPlus: profileCenterData.oPlus,
+            BloodCenterFields.oMinus: profileCenterData.oMinus,
+            BloodCenterFields.bPlus: profileCenterData.bPlus,
+            BloodCenterFields.bMinus: profileCenterData.bMinus,
           }).then((value) async {
             return const Right(unit);
           });
