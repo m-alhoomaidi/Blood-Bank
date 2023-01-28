@@ -8,8 +8,8 @@ import '../../../domain/usecases/sign_in_usecase.dart';
 
 part 'signin_state.dart';
 
-class SingInCubit extends Cubit<SignInState> {
-  SingInCubit({
+class SignInCubit extends Cubit<SignInState> {
+  SignInCubit({
     required this.signInUseCase,
     required this.resetPasswordUseCase,
   }) : super(SigninInitial());

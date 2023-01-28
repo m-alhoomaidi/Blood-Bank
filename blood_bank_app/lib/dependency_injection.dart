@@ -23,6 +23,10 @@ import 'presentation/cubit/signup_cubit/signup_cubit.dart';
 final sl = GetIt.instance;
 
 Future<void> initApp() async {
+  // Auth Repositories
+  sl.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(networkInfo: sl()));
+
   // Search Repositories
   sl.registerLazySingleton<SearchRepository>(
       () => SearchRepositoryImpl(networkInfo: sl()));
@@ -61,11 +65,7 @@ Future<void> initApp() async {
 }
 
 initSignIn() {
-  if (!GetIt.I.isRegistered<SingInCubit>()) {
-    // Repositories
-    sl.registerFactory<AuthRepository>(
-        () => AuthRepositoryImpl(networkInfo: sl()));
-
+  if (!GetIt.I.isRegistered<SignInCubit>()) {
     // UseCases
     sl.registerFactory(() => SignInUseCase(authRepository: sl()));
 
@@ -73,16 +73,12 @@ initSignIn() {
         () => ResetPasswordUseCase(resetPasswordRepository: sl()));
     // Cubits
     sl.registerFactory(
-        () => SingInCubit(signInUseCase: sl(), resetPasswordUseCase: sl()));
+        () => SignInCubit(signInUseCase: sl(), resetPasswordUseCase: sl()));
   }
 }
 
 initSignUp() {
   if (!GetIt.I.isRegistered<SignUpCubit>()) {
-    // Repositories
-    sl.registerFactory<AuthRepository>(
-        () => AuthRepositoryImpl(networkInfo: sl()));
-
     // UseCases
     sl.registerFactory(() => SignUpDonorUseCase(authRepository: sl()));
     sl.registerFactory(() => SignUpCenterUseCase(authRepository: sl()));
