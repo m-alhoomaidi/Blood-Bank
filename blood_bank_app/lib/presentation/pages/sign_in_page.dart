@@ -55,7 +55,7 @@ class _SignInPageState extends State<SignInPage> {
 
   _sendRestPassword() {
     if (_emailState.currentState!.validate()) {
-      BlocProvider.of<SingInCubit>(context)
+      BlocProvider.of<SignInCubit>(context)
           .resetPassword(email: emailController.text);
     }
   }
@@ -74,7 +74,7 @@ class _SignInPageState extends State<SignInPage> {
     // });
     if (_emailState.currentState!.validate() &
         _formState.currentState!.validate()) {
-      BlocProvider.of<SingInCubit>(context).signIn(
+      BlocProvider.of<SignInCubit>(context).signIn(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -93,7 +93,7 @@ class _SignInPageState extends State<SignInPage> {
       ),
       body: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: BlocConsumer<SingInCubit, SignInState>(
+        child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
             if (state is SigninSuccess) {
               Navigator.of(context).pushReplacement(

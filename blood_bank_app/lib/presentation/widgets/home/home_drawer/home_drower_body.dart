@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils.dart';
-import '../../../cubit/profile_cubit/profile_cubit.dart';
 import '../../../../dependency_injection.dart' as di;
+import '../../../cubit/profile_cubit/profile_cubit.dart';
 import '../../../pages/about_page.dart';
 import '../../../pages/edit_main_center_data.dart';
 import '../../../pages/profile_center.dart';
@@ -31,6 +31,7 @@ class HomeDrawerBody extends StatelessWidget {
             icon: Icons.login_rounded,
             onTap: () {
               di.initSignIn();
+              Navigator.of(context).pop();
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -44,6 +45,7 @@ class HomeDrawerBody extends StatelessWidget {
             icon: Icons.person_add_outlined,
             onTap: () {
               di.initSignUp();
+              Navigator.of(context).pop();
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -56,9 +58,9 @@ class HomeDrawerBody extends StatelessWidget {
             title: AppStrings.homeDrawerSettings,
             icon: Icons.settings_outlined,
             onTap: () {
-              // CompareHiveAndFireStore().compareHiveAndFirestore();
               BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
               if (FirebaseAuth.instance.currentUser != null) {
+                Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -85,8 +87,9 @@ class HomeDrawerBody extends StatelessWidget {
             icon: Icons.sync,
             onTap: () {
               BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+              Navigator.of(context).pop();
               Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => ProfileCenterPage()));
+                  MaterialPageRoute(builder: (_) => const ProfileCenterPage()));
             },
           ),
           HomeDrawerMenuItem(
@@ -94,6 +97,7 @@ class HomeDrawerBody extends StatelessWidget {
             icon: Icons.sync,
             onTap: () {
               BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+              Navigator.of(context).pop();
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => EditMainCenterDataPage()));
             },
@@ -103,8 +107,17 @@ class HomeDrawerBody extends StatelessWidget {
             title: AppStrings.homeDrawerAboutApp,
             icon: Icons.info_outline,
             onTap: () {
+              Navigator.of(context).pop();
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const AboutPage()));
+            },
+          ),
+          HomeDrawerMenuItem(
+            title: AppStrings.homeDrawerLogOut,
+            icon: Icons.logout_outlined,
+            onTap: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pop();
             },
           ),
         ],

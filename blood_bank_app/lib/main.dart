@@ -53,7 +53,7 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => di.sl<SignUpCubit>()),
-      BlocProvider(create: (BuildContext context) => di.sl<SingInCubit>()),
+      BlocProvider(create: (BuildContext context) => di.sl<SignInCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SearchCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>())
     ],
@@ -70,17 +70,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: getApplicationTheme(),
-      // theme: ThemeData(
-      //   primarySwatch: Colors.red,
-      //   primaryColor: ePrimColor,
-      //   fontFamily: "Almarai",
-      //   // textTheme: Theme.of(context).textTheme.copyWith(
-      //   //       bodyText2: TextStyle(
-      //   //         color: eTextColor,
-      //   //         fontFamily: 'Almarai',
-      //   //       ),
-      //   //     ),
-      // ),
       locale: const Locale("ar", "AE"),
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,
@@ -97,9 +86,8 @@ class MyApp extends StatelessWidget {
         SearchPage.routeName: (context) => const SearchPage(),
         SettingPage.routeName: (context) => const SettingPage(),
         SearchMapPage.routeName: (context) => const SearchMapPage(),
-        // OnBoardingView.routeName: (context) => const OnBoardingView(),
         IntroductionPage.routeName: (context) => const IntroductionPage(),
-        ProfileCenterPage.routeName: (context) => ProfileCenterPage(),
+        ProfileCenterPage.routeName: (context) => const ProfileCenterPage(),
         EditMainCenterDataPage.routeName: (context) => EditMainCenterDataPage(),
         AboutPage.routeName: (context) => const AboutPage()
       },
