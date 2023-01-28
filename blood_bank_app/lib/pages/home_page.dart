@@ -264,16 +264,16 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () async {
                     print("----------------------------------");
                     try {
-                      print(FirebaseMessaging.instance.getToken().then(
-                            (value) => print(value),
-                          ));
-                      print("000000000");
-                      pushNotificationsSpecificDevice(
-                          token:
-                              "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
+                      // print(FirebaseMessaging.instance.getToken().then(
+                      //       (value) => print(value),
+                      //     ));
+                      // print("000000000");
+                      pushNotificationsGroupDevice(
+                          // token:
+                          //     "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
                           title: "حالة حرجة",
                           body: "مانش راضي عليك");
-                      print("1111111111111111");
+                      // print("1111111111111111");
                       // FirebaseMessaging.onMessage
                       //     .listen((RemoteMessage message) {
                       //   print("----------------------------++++++++++++++++++");
@@ -304,8 +304,8 @@ class _HomePageState extends State<HomePage> {
                       //   }
                       // });
 
-                      FirebaseMessaging _firebaseMessaging =
-                          FirebaseMessaging.instance; // Change here
+                      // FirebaseMessaging _firebaseMessaging =
+                      //     FirebaseMessaging.instance; // Change here
                       // await _firebaseMessaging.getToken().then((token) {
                       //   print("token is $token");
                       // });
@@ -651,10 +651,11 @@ class _HomePageState extends State<HomePage> {
     required String title,
     required String body,
   }) async {
+    print("+++++++++++++++++++++++++++++++++++++++000");
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["clcNTmA6TOmcipx9TuDaer:APA91bEZVJW5VN1qGWU2Ngrn8DmNquQoiXhDyfar0mfW-U_Y850ZyjgmkOVQTTbJpHqBAtXZvbRQ10VsbHv4u5AqoWZycEZf8JBwODWn6l0XE21lQtUmAUL7gwWfIfl4PRYR7klMO7Xh",""],'
+        '"registration_ids":["clcNTmA6TOmcipx9TuDaer:APA91bEZVJW5VN1qGWU2Ngrn8DmNquQoiXhDyfar0mfW-U_Y850ZyjgmkOVQTTbJpHqBAtXZvbRQ10VsbHv4u5AqoWZycEZf8JBwODWn6l0XE21lQtUmAUL7gwWfIfl4PRYR7klMO7Xh","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -671,6 +672,7 @@ class _HomePageState extends State<HomePage> {
       body: dataNotifications,
     );
 
+    print("object");
     print(response.body.toString());
 
     return true;
