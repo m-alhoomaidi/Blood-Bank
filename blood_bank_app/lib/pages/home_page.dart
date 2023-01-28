@@ -1,19 +1,16 @@
 import 'package:blood_bank_app/main.dart';
+import 'package:blood_bank_app/presentation/pages/introduction_page.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
-import 'setting_page.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_about.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_drawer/home_drawer.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_welcome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
-
-import '../cubit/profile_cubit/profile_cubit.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
-import '../widgets/home/home_about.dart';
-import '../widgets/home/home_drawer/home_drawer.dart';
 //-------------
 
 import 'package:flutter/services.dart';
@@ -26,10 +23,6 @@ import 'package:http/http.dart' as http;
 //     'High Importance Notifications', // title // description
 //     importance: Importance.high,
 //     playSound: true);
-import '../widgets/home/home_welcome.dart';
-import 'introduction_page.dart';
-import 'profile_center.dart';
-import 'setting_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -1,3 +1,7 @@
+import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,9 +26,61 @@ import 'presentation/pages/sign_up_page.dart';
 import 'presentation/pages/sing_up_center_page.dart';
 import 'presentation/resources/theme_manager.dart';
 
-// Future backgroundMessage(RemoteMessage message) async {
-//   Fluttertoast.showToast(msg: message.notification!.body.toString());
-// }
+//----------------------------
+//-------------
+
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+
+//---------------------
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications',
+    description: 'This channel is used for important notifications.',
+    // title // description
+    importance: Importance.high,
+    playSound: true);
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('A bg message just showed up :  ${message.messageId}');
+  RemoteNotification? notification = message.notification;
+  AndroidNotification? android = message.notification?.android;
+  flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      notification!.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          color: Colors.blue,
+          playSound: true,
+          icon: '@mipmap/ic_launcher',
+        ),
+      ));
+}
+
+//-------------------------------------.
+final AndroidInitializationSettings _androidInitializationSettings =
+    const AndroidInitializationSettings('@mipmap/ic_launcher');
+final DarwinInitializationSettings _darwinInitializationSettings =
+    DarwinInitializationSettings();
+
+void initialisendNotfications() async {
+  InitializationSettings initializationSettings =
+      InitializationSettings(android: _androidInitializationSettings);
+  flutterLocalNotificationsPlugin.initialize(initializationSettings);
+}
+
+Future backgroundMessage(RemoteMessage message) async {
+  print("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+  Fluttertoast.showToast(msg: message.notification!.body.toString());
+  // flutterLocalNotificationsPlugin.show(0, message.notification!.title, message, notificationDetails)
+}
+// final AndroidInitializationSettings
 
 // Future updateLocation(RemoteMessage msg) async {
 //   print("==========onBackground==========");
@@ -49,7 +105,29 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox(dataBoxName);
 
-  // FirebaseMessaging.onBackgroundMessage(updateLocation);
+  //-----------------------------------
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  initialisendNotfications();
+  //-----------------------------------------------------
+
+  // FirebaseMessaging.onBackgroundMessage(
+  //     (message) => backgroundMessage(message));
+  // FirebaseMessaging.onMessage.listen((event) {
+  //   print("--------------------------------00");
+  //   print(event.data);
+  // });
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (BuildContext context) => di.sl<SignUpCubit>()),
