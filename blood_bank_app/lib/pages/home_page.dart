@@ -1,17 +1,20 @@
 import 'package:blood_bank_app/main.dart';
+import 'package:blood_bank_app/presentation/pages/introduction_page.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
-import 'setting_page.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_about.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_drawer/home_drawer.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_welcome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
-
-import '../widgets/home/home_about.dart';
-import '../widgets/home/home_drawer/home_drawer.dart';
 //-------------
 
+import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 
 //---------------------
@@ -20,8 +23,6 @@ import 'package:http/http.dart' as http;
 //     'High Importance Notifications', // title // description
 //     importance: Importance.high,
 //     playSound: true);
-import '../widgets/home/home_welcome.dart';
-import 'introduction_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -73,19 +74,18 @@ class _HomePageState extends State<HomePage> {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification!.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            color: Colors.blue,
-            playSound: true,
-            icon: '@mipmap/ic_launcher',
-          ),
-        ),
-      );
+          notification.hashCode,
+          notification!.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ));
     });
 
     //-----------------------------------
@@ -254,25 +254,27 @@ class _HomePageState extends State<HomePage> {
                 FloatingActionButton(
                   onPressed: showNotification,
                   tooltip: 'Increment',
-                  child: Icon(Icons.add),
+                  child: Icon(Icons.ac_unit_outlined),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(
+                  width: 16,
+                ),
                 FloatingActionButton(
-                  child: const Icon(Icons.search_rounded),
+                  child: const Icon(Icons.abc),
                   onPressed: () async {
                     print("----------------------------------");
                     try {
-                      print(FirebaseMessaging.instance.getToken().then(
-                            (value) => print(value),
-                          ));
-                      print("000000000");
+                      // print(FirebaseMessaging.instance.getToken().then(
+                      //       (value) => print(value),
+                      //     ));
+                      // print("000000000");
                       print("object");
                       pushNotificationsGroupDevice(
                           // token:
                           //     "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
                           title: "حالة حرجة",
-                          body: "تعال ياحيوان");
-                      print("1111111111111111");
+                          body: "مانش راضي عليك");
+                      // print("1111111111111111");
                       // FirebaseMessaging.onMessage
                       //     .listen((RemoteMessage message) {
                       //   print("----------------------------++++++++++++++++++");
@@ -303,8 +305,8 @@ class _HomePageState extends State<HomePage> {
                       //   }
                       // });
 
-                      FirebaseMessaging firebaseMessaging =
-                          FirebaseMessaging.instance; // Change here
+                      // FirebaseMessaging _firebaseMessaging =
+                      //     FirebaseMessaging.instance; // Change here
                       // await _firebaseMessaging.getToken().then((token) {
                       //   print("token is $token");
                       // });
@@ -650,10 +652,11 @@ class _HomePageState extends State<HomePage> {
     required String title,
     required String body,
   }) async {
+    print("+++++++++++++++++++++++++++++++++++++++000");
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["dhFWH2EIRae9PQxJh1tNpu:APA91bGb-rPCCJSkxKaApGdwDs1wPb_TEwWxa-6qwUShN-lbbX_eWety9Z9pDwVNqKG95pD9GrfMY69r3_wUM7Hyibj01zEUqg-n1bstyLiSL1O3kcyj6HyffVvikKuSDiWrKPoBbJFx","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
+        '"registration_ids":["clcNTmA6TOmcipx9TuDaer:APA91bEZVJW5VN1qGWU2Ngrn8DmNquQoiXhDyfar0mfW-U_Y850ZyjgmkOVQTTbJpHqBAtXZvbRQ10VsbHv4u5AqoWZycEZf8JBwODWn6l0XE21lQtUmAUL7gwWfIfl4PRYR7klMO7Xh","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -670,6 +673,7 @@ class _HomePageState extends State<HomePage> {
       body: dataNotifications,
     );
 
+    print("object");
     print(response.body.toString());
 
     return true;
@@ -706,20 +710,18 @@ class _HomePageState extends State<HomePage> {
       _counter++;
     });
     flutterLocalNotificationsPlugin.show(
-      0,
-      "Testing $_counter",
-      "How you doin ?",
-      NotificationDetails(
-        android: AndroidNotificationDetails(channel.id,
-            "com.google.firebase.messaging.default_notification_channel_id",
-            channelDescription:
-                'This channel is used for important notifications.',
-            importance: Importance.max,
-            color: Colors.blue,
-            priority: Priority.high,
-            playSound: true,
-            icon: '@mipmap/ic_launcher'),
-      ),
-    );
+        0,
+        "Testing $_counter",
+        "How you doin ?",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id,
+                "com.google.firebase.messaging.default_notification_channel_id",
+                channelDescription:
+                    'This channel is used for important notifications.',
+                importance: Importance.max,
+                color: Colors.blue,
+                priority: Priority.high,
+                playSound: true,
+                icon: '@mipmap/ic_launcher')));
   }
 }
