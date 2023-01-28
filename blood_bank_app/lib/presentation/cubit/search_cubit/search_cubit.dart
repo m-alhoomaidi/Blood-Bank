@@ -61,7 +61,7 @@ class SearchCubit extends Cubit<SearchState> {
             //       (fetchedDonors) async {
 
             donors = fetchedStateDonors
-                .where((donor) => donor.state == selectedState)
+                .where((donor) => donor.district == selectedDistrict)
                 .toList();
             await searchCentersUseCase(
               state: selectedState,
