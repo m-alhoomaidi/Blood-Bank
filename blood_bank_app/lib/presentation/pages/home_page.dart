@@ -652,7 +652,7 @@ class _HomePageState extends State<HomePage> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["...","..."],'
+        '"registration_ids":["...","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
