@@ -271,8 +271,8 @@ class _HomePageState extends State<HomePage> {
                       pushNotificationsSpecificDevice(
                           token:
                               "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
-                          title: "tayeb",
-                          body: "welcome");
+                          title: "حالة حرجة",
+                          body: "مانش راضي عليك");
                       print("1111111111111111");
                       // FirebaseMessaging.onMessage
                       //     .listen((RemoteMessage message) {
@@ -654,7 +654,7 @@ class _HomePageState extends State<HomePage> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["...","..."],'
+        '"registration_ids":["clcNTmA6TOmcipx9TuDaer:APA91bEZVJW5VN1qGWU2Ngrn8DmNquQoiXhDyfar0mfW-U_Y850ZyjgmkOVQTTbJpHqBAtXZvbRQ10VsbHv4u5AqoWZycEZf8JBwODWn6l0XE21lQtUmAUL7gwWfIfl4PRYR7klMO7Xh",""],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
