@@ -3,12 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/domain/repositories/profile_repository.dart';
-
+import '../../core/error/failures.dart';
+import '../../domain/entities/donor.dart';
+import '../../domain/repositories/profile_repository.dart';
+import '../../domain/entities/blood_center.dart';
+import '../../presentation/pages/profile_center.dart';
 import '../../core/network/network_info.dart';
-import '../../widgets/setting/profile_body.dart';
+import '../../presentation/widgets/setting/profile_body.dart';
 
 class ProfileReopsitoryImpl implements ProfileRepository {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -16,6 +17,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
 
   final NetworkInfo networkInfo;
   Donor? donors;
+  BloodCenter? bloodCenter;
   ProfileReopsitoryImpl({
     required this.networkInfo,
     this.donors,
@@ -96,6 +98,97 @@ class ProfileReopsitoryImpl implements ProfileRepository {
           return Left(DoesnotSaveData());
           // emit(ProfileFailure(
           //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> sendBasicCenterDataProfile(
+      {required ProfileCenterData profileCenterData}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('centers')
+              .doc("CWTU0qCghsDi132oDsMh")
+              .update({
+            DonorFields.name: profileCenterData.name,
+            DonorFields.phone: profileCenterData.phone,
+            DonorFields.state: profileCenterData.state,
+            DonorFields.district: profileCenterData.district,
+            DonorFields.neighborhood: profileCenterData.neighborhood,
+          }).then((value) async {
+            return const Right(unit);
+          });
+        } else {
+          return Left(DoesnotSaveData());
+          // emit(ProfileFailure(
+          //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> sendProfileCenterData(
+      {required ProfileCenterData profileCenterData}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('centers')
+              .doc("CWTU0qCghsDi132oDsMh")
+              .update({
+            BloodCenterFields.aPlus: profileCenterData.aPlus,
+            BloodCenterFields.aMinus: profileCenterData.aMinus,
+            BloodCenterFields.abPlus: profileCenterData.abPlus,
+            BloodCenterFields.oPlus: profileCenterData.oPlus,
+            BloodCenterFields.oMinus: profileCenterData.oMinus,
+            BloodCenterFields.bPlus: profileCenterData.bPlus,
+            BloodCenterFields.bMinus: profileCenterData.bMinus,
+          }).then((value) async {
+            return const Right(unit);
+          });
+        } else {
+          return Left(DoesnotSaveData());
+          // emit(ProfileFailure(
+          //     error: "لم يتم حفظ البيانات تاكد من الاتصال بالانترنت"));
+        }
+      } catch (e) {
+        return Left(DoesnotSaveData());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, BloodCenter>> getProfileCenterData() async {
+    if (await networkInfo.isConnected) {
+      try {
+        if (currentUser != null) {
+          return await _fireStore
+              .collection('centers')
+              .doc("CWTU0qCghsDi132oDsMh")
+              .get()
+              .then((value) async {
+            print(";;;;;;;;;;;;;;;;;;;;;;;;;");
+            bloodCenter = BloodCenter.fromMap(value.data()!);
+            print(bloodCenter!.name);
+
+            return Right(bloodCenter!);
+          });
+        } else {
+          return Left(DoesnotSaveData());
         }
       } catch (e) {
         return Left(DoesnotSaveData());

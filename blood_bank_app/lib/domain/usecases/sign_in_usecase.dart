@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../core/error/failures.dart';
+import '../../domain/repositories/auth_repository.dart';
 
 class SignInUseCase {
   final AuthRepository authRepository;

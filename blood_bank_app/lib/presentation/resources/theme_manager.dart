@@ -1,8 +1,9 @@
-import 'package:blood_bank_app/presentation/resources/style_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'color_manageer.dart';
 import 'font_manager.dart';
+import 'style_manager.dart';
 import 'values_manager.dart';
 
 ThemeData getApplicationTheme() {
@@ -27,6 +28,9 @@ ThemeData getApplicationTheme() {
 
     // app bar theme
     appBarTheme: AppBarTheme(
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarColor: ColorManager.primary,
+      ),
       color: ColorManager.primary,
       centerTitle: true,
       elevation: AppSize.s4,

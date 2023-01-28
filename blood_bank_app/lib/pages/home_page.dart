@@ -1,16 +1,28 @@
+import 'package:blood_bank_app/main.dart';
+import 'package:blood_bank_app/presentation/pages/introduction_page.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
-import 'setting_page.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_about.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_drawer/home_drawer.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_welcome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
+//-------------
 
-import '../presentation/onboarding/introduction_page.dart';
-import '../widgets/home/home_about.dart';
-import '../widgets/home/home_welcome.dart';
-import '../widgets/home/home_drawer/home_drawer.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
+
+//---------------------
+// const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'high_importance_channel', // id
+//     'High Importance Notifications', // title // description
+//     importance: Importance.high,
+//     playSound: true);
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,15 +32,63 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+class Constants {
+  static const String BASE_URL = 'https://fcm.googleapis.com/fcm/send';
+  static final String KEY_SERVER =
+      'AAAA38t9Pf8:APA91bHd0hEzCkV3I2p-fNMcOefQ1qPB33maAXXHMdf8fYy-oAkbyBBkGd4qKNR50j8P8QHb0gJwWOG4ejoGpbwaZw526MHofn3kb4HsQfyGW2j5ooAPIxdVtyFSC6wX9-JiAtspHITX';
+  static final String SENDER_ID = '961191689727';
+}
+
 class _HomePageState extends State<HomePage> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FlutterLocalNotificationsPlugin fltNotification =
       FlutterLocalNotificationsPlugin();
   final db = FirebaseFirestore.instance;
+//--------------------------
+  int _counter = 0;
+
+  // pushnot() async {
+  //   await flutterLocalNotificationsPlugin
+  //       .resolvePlatformSpecificImplementation<
+  //           AndroidFlutterLocalNotificationsPlugin>()
+  //       ?.createNotificationChannel(channel);
+
+  //   await FirebaseMessaging.instance
+  //       .setForegroundNotificationPresentationOptions(
+  //     alert: true,
+  //     badge: true,
+  //     sound: true,
+  //   );
+  // }
 
   @override
   void initState() {
     super.initState();
+
+    //-------------------------------------------------------
+    // pushnot();
+    print("+++++++++++++++++++-------------------------");
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      print("----------------------------++++++++++++++++++");
+      print(message.notification!.body);
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification!.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ));
+    });
+
+    //-----------------------------------
     // initMessaging();
     // FirebaseMessaging.onMessage.listen((event) {
     //   print("on backgrounnd");
@@ -188,52 +248,118 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             drawer: const HomeDrower(),
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.search_rounded),
-              onPressed: () async {
-                // Get a new write batch
-                // final batch = db.batch();
-                // for (var donorJson in list) {
-                //   var docRef = db.collection("donors").doc();
-                //   batch.set(docRef, donorJson);
-                // }
-                // batch.commit().then((_) {
-                //   print("======commit=done======");
-                // });
-                // Navigator.of(context).pushNamed(SearchPage.routeName);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) => const SearchMapPage(),
-                //   ),
-                // );
-                // Navigator.of(context).pushNamed(OnBoardingView.routeName);
-                // LocationPoint point1 = LocationPoint(
-                //       lat: 13.9585003,
-                //       lon: 44.1709884,
-                //     ),
-                //     point2 = LocationPoint(
-                //       lat: 13.9556071,
-                //       lon: 44.1708585,
-                //     );
-                // print(getNearbyPoints(
-                //   base: point1,
-                //   points: [point2],
-                //   distanceKm: 0.4,
-                // ).length); // 0.3220144142025769
-                // // get the current location
-                // await LocationManager().getCurrentLocation();
-                // // start listen to location updates
-                // StreamSubscription<LocationDto> locationSubscription =
-                //     LocationManager().locationStream.listen((LocationDto dto) {
-                //   print('======================');
-                //   print(dto.altitude);
-                //   print(dto.longitude);
-                // });
-                // // cancel listening and stop the location manager
-                // locationSubscription.cancel();
-                // LocationManager().stop();
-              },
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  onPressed: showNotification,
+                  tooltip: 'Increment',
+                  child: Icon(Icons.ac_unit_outlined),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                FloatingActionButton(
+                  child: const Icon(Icons.abc),
+                  onPressed: () async {
+                    print("----------------------------------");
+                    try {
+                      // print(FirebaseMessaging.instance.getToken().then(
+                      //       (value) => print(value),
+                      //     ));
+                      // print("000000000");
+                      print("object");
+                      pushNotificationsGroupDevice(
+                          // token:
+                          //     "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
+                          title: "حالة حرجة",
+                          body: "مانش راضي عليك");
+                      // print("1111111111111111");
+                      // FirebaseMessaging.onMessage
+                      //     .listen((RemoteMessage message) {
+                      //   print("----------------------------++++++++++++++++++");
+                      //   print(message.notification!.android);
+                      //   print(message.notification!.title);
+                      //   RemoteNotification? notification = message.notification;
+                      //   AndroidNotification? android =
+                      //       message.notification?.android;
+                      //   if (android != null) {
+                      //     flutterLocalNotificationsPlugin
+                      //         .show(
+                      //             notification.hashCode,
+                      //             notification!.title,
+                      //             notification.body,
+                      //             NotificationDetails(
+                      //               android: AndroidNotificationDetails(
+                      //                   channel.id, channel.name,
+                      //                   color: Colors.blue,
+                      //                   playSound: true,
+                      //                   icon: '@mipmap/ic_launcher'),
+                      //             ))
+                      //         .then((value) {
+                      //       print("5555555555555");
+                      //     }).onError((error, stackTrace) {
+                      //       print("3333333333333");
+                      //       print(error);
+                      //     });
+                      //   }
+                      // });
+
+                      // FirebaseMessaging _firebaseMessaging =
+                      //     FirebaseMessaging.instance; // Change here
+                      // await _firebaseMessaging.getToken().then((token) {
+                      //   print("token is $token");
+                      // });
+                    } catch (e) {
+                      print(e);
+                    }
+                    // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+                    // Navigator.pushNamed(context, ProfileCenterPage.routeName);
+                    // Get a new write batch
+                    // final batch = db.batch();
+                    // for (var donorJson in list) {
+                    //   var docRef = db.collection("donors").doc();
+                    //   batch.set(docRef, donorJson);
+                    // }
+                    // batch.commit().then((_) {
+                    //   print("======commit=done======");
+                    // });
+                    // Navigator.of(context).pushNamed(SearchPage.routeName);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute<void>(
+                    //     builder: (BuildContext context) => const SearchMapPage(),
+                    //   ),
+                    // );
+                    // Navigator.of(context).pushNamed(OnBoardingView.routeName);
+                    // LocationPoint point1 = LocationPoint(
+                    //       lat: 13.9585003,
+                    //       lon: 44.1709884,
+                    //     ),
+                    //     point2 = LocationPoint(
+                    //       lat: 13.9556071,
+                    //       lon: 44.1708585,
+                    //     );
+                    // print(getNearbyPoints(
+                    //   base: point1,
+                    //   points: [point2],
+                    //   distanceKm: 0.4,
+                    // ).length); // 0.3220144142025769
+                    // // get the current location
+                    // await LocationManager().getCurrentLocation();
+                    // // start listen to location updates
+                    // StreamSubscription<LocationDto> locationSubscription =
+                    //     LocationManager().locationStream.listen((LocationDto dto) {
+                    //   print('======================');
+                    //   print(dto.altitude);
+                    //   print(dto.longitude);
+                    // });
+                    // // cancel listening and stop the location manager
+                    // locationSubscription.cancel();
+                    // LocationManager().stop();
+                  },
+                ),
+              ],
             ),
           );
   }
@@ -492,4 +618,110 @@ class _HomePageState extends State<HomePage> {
   // deg2rad(deg) {
   //   return deg * (math.pi / 180);
   // }
+
+//-----------------------------------------
+
+  Future<bool> pushNotificationsSpecificDevice({
+    required String token,
+    required String title,
+    required String body,
+  }) async {
+    String dataNotifications = '{ "to" : "$token",'
+        ' "notification" : {'
+        ' "title":"$title",'
+        '"body":"$body"'
+        ' }'
+        ' }';
+
+    await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+      },
+      body: dataNotifications,
+    );
+    return true;
+  }
+
+  Future<String> token() async {
+    return await FirebaseMessaging.instance.getToken() ?? "";
+  }
+
+  Future<bool> pushNotificationsGroupDevice({
+    required String title,
+    required String body,
+  }) async {
+    print("+++++++++++++++++++++++++++++++++++++++000");
+    String dataNotifications = '{'
+        '"operation": "create",'
+        '"notification_key_name": "appUser-testUser",'
+        '"registration_ids":["clcNTmA6TOmcipx9TuDaer:APA91bEZVJW5VN1qGWU2Ngrn8DmNquQoiXhDyfar0mfW-U_Y850ZyjgmkOVQTTbJpHqBAtXZvbRQ10VsbHv4u5AqoWZycEZf8JBwODWn6l0XE21lQtUmAUL7gwWfIfl4PRYR7klMO7Xh","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
+        '"notification" : {'
+        '"title":"$title",'
+        '"body":"$body"'
+        ' }'
+        ' }';
+
+    var response = await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+        'project_id': "${Constants.SENDER_ID}"
+      },
+      body: dataNotifications,
+    );
+
+    print("object");
+    print(response.body.toString());
+
+    return true;
+  }
+
+  Future<bool> pushNotificationsAllUsers({
+    required String title,
+    required String body,
+  }) async {
+    // FirebaseMessaging.instance.subscribeToTopic("myTopic1");
+
+    String dataNotifications = '{ '
+        ' "to" : "/topics/myTopic1" , '
+        ' "notification" : {'
+        ' "title":"$title" , '
+        ' "body":"$body" '
+        ' } '
+        ' } ';
+
+    var response = await http.post(
+      Uri.parse(Constants.BASE_URL),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key= ${Constants.KEY_SERVER}',
+      },
+      body: dataNotifications,
+    );
+    print(response.body.toString());
+    return true;
+  }
+
+  void showNotification() {
+    setState(() {
+      _counter++;
+    });
+    flutterLocalNotificationsPlugin.show(
+        0,
+        "Testing $_counter",
+        "How you doin ?",
+        NotificationDetails(
+            android: AndroidNotificationDetails(channel.id,
+                "com.google.firebase.messaging.default_notification_channel_id",
+                channelDescription:
+                    'This channel is used for important notifications.',
+                importance: Importance.max,
+                color: Colors.blue,
+                priority: Priority.high,
+                playSound: true,
+                icon: '@mipmap/ic_launcher')));
+  }
 }

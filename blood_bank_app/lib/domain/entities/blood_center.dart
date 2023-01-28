@@ -47,51 +47,51 @@ class BloodCenter {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      BloodCenterField.name: name,
-      BloodCenterField.email: email,
-      BloodCenterField.password: password,
-      BloodCenterField.phone: phone,
-      BloodCenterField.state: state,
-      BloodCenterField.district: district,
-      BloodCenterField.neighborhood: neighborhood,
-      BloodCenterField.image: image,
-      BloodCenterField.lastUpdate: lastUpdate,
-      BloodCenterField.lat: lat,
-      BloodCenterField.lon: lon,
-      BloodCenterField.token: token,
-      BloodCenterField.aPlus: aPlus,
-      BloodCenterField.aMinus: aMinus,
-      BloodCenterField.bPlus: bPlus,
-      BloodCenterField.bMinus: bMinus,
-      BloodCenterField.abPlus: abPlus,
-      BloodCenterField.abMinus: abMinus,
-      BloodCenterField.oPlus: oPlus,
-      BloodCenterField.oMinus: oMinus,
+      BloodCenterFields.name: name,
+      BloodCenterFields.email: email,
+      BloodCenterFields.password: password,
+      BloodCenterFields.phone: phone,
+      BloodCenterFields.state: state,
+      BloodCenterFields.district: district,
+      BloodCenterFields.neighborhood: neighborhood,
+      BloodCenterFields.image: image,
+      BloodCenterFields.lastUpdate: lastUpdate,
+      BloodCenterFields.lat: lat,
+      BloodCenterFields.lon: lon,
+      BloodCenterFields.token: token,
+      BloodCenterFields.aPlus: aPlus,
+      BloodCenterFields.aMinus: aMinus,
+      BloodCenterFields.bPlus: bPlus,
+      BloodCenterFields.bMinus: bMinus,
+      BloodCenterFields.abPlus: abPlus,
+      BloodCenterFields.abMinus: abMinus,
+      BloodCenterFields.oPlus: oPlus,
+      BloodCenterFields.oMinus: oMinus,
     };
   }
 
   factory BloodCenter.fromMap(Map<String, dynamic> map) {
     return BloodCenter(
-      name: map[BloodCenterField.name] ?? "",
-      email: map[BloodCenterField.email] ?? "",
-      password: map[BloodCenterField.password] ?? "",
-      phone: map[BloodCenterField.phone] ?? "",
-      state: map[BloodCenterField.state] ?? "",
-      district: map[BloodCenterField.district] ?? "",
-      neighborhood: map[BloodCenterField.neighborhood] ?? "",
-      image: map[BloodCenterField.image] ?? "",
-      lastUpdate: map[BloodCenterField.lastUpdate] ?? "",
-      lat: map[BloodCenterField.lat] ?? "",
-      lon: map[BloodCenterField.lon] ?? "",
-      token: map[BloodCenterField.token] ?? "",
-      aPlus: map[BloodCenterField.aPlus] ?? 0,
-      aMinus: map[BloodCenterField.aMinus] ?? 0,
-      bPlus: map[BloodCenterField.bPlus] ?? 0,
-      bMinus: map[BloodCenterField.bMinus] ?? 0,
-      abPlus: map[BloodCenterField.abPlus] ?? 0,
-      abMinus: map[BloodCenterField.abMinus] ?? 0,
-      oPlus: map[BloodCenterField.oPlus] ?? 0,
-      oMinus: map[BloodCenterField.oMinus] ?? 0,
+      name: map[BloodCenterFields.name] ?? "",
+      email: map[BloodCenterFields.email] ?? "",
+      password: map[BloodCenterFields.password] ?? "",
+      phone: map[BloodCenterFields.phone] ?? "",
+      state: map[BloodCenterFields.state] ?? "",
+      district: map[BloodCenterFields.district] ?? "",
+      neighborhood: map[BloodCenterFields.neighborhood] ?? "",
+      image: map[BloodCenterFields.image] ?? "",
+      lastUpdate: map[BloodCenterFields.lastUpdate] ?? "",
+      lat: map[BloodCenterFields.lat] ?? "",
+      lon: map[BloodCenterFields.lon] ?? "",
+      token: map[BloodCenterFields.token] ?? "",
+      aPlus: map[BloodCenterFields.aPlus] ?? 0,
+      aMinus: map[BloodCenterFields.aMinus] ?? 0,
+      bPlus: map[BloodCenterFields.bPlus] ?? 0,
+      bMinus: map[BloodCenterFields.bMinus] ?? 0,
+      abPlus: map[BloodCenterFields.abPlus] ?? 0,
+      abMinus: map[BloodCenterFields.abMinus] ?? 0,
+      oPlus: map[BloodCenterFields.oPlus] ?? 0,
+      oMinus: map[BloodCenterFields.oMinus] ?? 0,
     );
   }
 
@@ -101,7 +101,8 @@ class BloodCenter {
       BloodCenter.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
-class BloodCenterField {
+class BloodCenterFields {
+  static const String collectionName = "centers";
   static const String name = "name";
   static const String email = "email";
   static const String password = "password";

@@ -1,4 +1,4 @@
-import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'values_manager.dart';
 
 const double signInImageHight = 200.0;
 const double signInImageRadius = 100.0;
