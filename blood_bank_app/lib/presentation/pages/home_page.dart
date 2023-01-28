@@ -5,19 +5,13 @@ import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 
-import '../cubit/profile_cubit/profile_cubit.dart';
-import '../resources/strings_manager.dart';
-import '../resources/values_manager.dart';
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_drawer/home_drawer.dart';
 //-------------
 
-import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 
 //---------------------
@@ -28,8 +22,6 @@ import 'package:http/http.dart' as http;
 //     playSound: true);
 import '../widgets/home/home_welcome.dart';
 import 'introduction_page.dart';
-import 'profile_center.dart';
-import 'setting_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -81,18 +73,19 @@ class _HomePageState extends State<HomePage> {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification!.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              color: Colors.blue,
-              playSound: true,
-              icon: '@mipmap/ic_launcher',
-            ),
-          ));
+        notification.hashCode,
+        notification!.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            color: Colors.blue,
+            playSound: true,
+            icon: '@mipmap/ic_launcher',
+          ),
+        ),
+      );
     });
 
     //-----------------------------------
@@ -263,9 +256,7 @@ class _HomePageState extends State<HomePage> {
                   tooltip: 'Increment',
                   child: Icon(Icons.add),
                 ),
-                SizedBox(
-                  width: 16,
-                ),
+                const SizedBox(width: 16),
                 FloatingActionButton(
                   child: const Icon(Icons.search_rounded),
                   onPressed: () async {
@@ -311,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                       //   }
                       // });
 
-                      FirebaseMessaging _firebaseMessaging =
+                      FirebaseMessaging firebaseMessaging =
                           FirebaseMessaging.instance; // Change here
                       // await _firebaseMessaging.getToken().then((token) {
                       //   print("token is $token");
@@ -714,18 +705,20 @@ class _HomePageState extends State<HomePage> {
       _counter++;
     });
     flutterLocalNotificationsPlugin.show(
-        0,
-        "Testing $_counter",
-        "How you doin ?",
-        NotificationDetails(
-            android: AndroidNotificationDetails(channel.id,
-                "com.google.firebase.messaging.default_notification_channel_id",
-                channelDescription:
-                    'This channel is used for important notifications.',
-                importance: Importance.max,
-                color: Colors.blue,
-                priority: Priority.high,
-                playSound: true,
-                icon: '@mipmap/ic_launcher')));
+      0,
+      "Testing $_counter",
+      "How you doin ?",
+      NotificationDetails(
+        android: AndroidNotificationDetails(channel.id,
+            "com.google.firebase.messaging.default_notification_channel_id",
+            channelDescription:
+                'This channel is used for important notifications.',
+            importance: Importance.max,
+            color: Colors.blue,
+            priority: Priority.high,
+            playSound: true,
+            icon: '@mipmap/ic_launcher'),
+      ),
+    );
   }
 }
