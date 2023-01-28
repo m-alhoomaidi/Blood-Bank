@@ -9,19 +9,21 @@ const HANDLERS = {
     INITIALIZE: 'INITIALIZE',
     SIGN_IN: 'SIGN_IN',
     SIGN_OUT: 'SIGN_OUT',
-    UPDATE_USER: 'UPDATE_USER'
+    UPDATE_USER: 'UPDATE_USER',
+    SEARCH_USER:'SEARCH_USER',
 };
 
 const initialState = {
     isAuthenticated: false,
     isLoading: false,
-    user: {}
+    user: {},
+   mapData:{}
 };
 
 const handlers = {
     [HANDLERS.INITIALIZE]: (state, action) => {
         const user = action.payload;
-
+        const mapData =action.payload;
         return {
             ...state,
             ...(
@@ -34,7 +36,16 @@ const handlers = {
                     })
                     : ({
                         isLoading: false
+                    }),
+                    mapData
+                    ? ({
+                        isAuthenticated: true,
+                        isLoading: false,
+                        mapData
                     })
+                    : ({
+                        isLoading: false
+                })    
             )
         };
     },
@@ -43,7 +54,7 @@ const handlers = {
         return {
             ...state,
             isAuthenticated: true,
-            user
+            user,
         };
     },
     [HANDLERS.SIGN_OUT]: (state) => {
@@ -60,7 +71,15 @@ const handlers = {
             isAuthenticated: true,
             user
         };
-    }
+    },
+    [HANDLERS.SEARCH_USER]: (state, action) => {
+        const mapData = action.payload;
+        return {
+            ...state,
+            isAuthenticated: true,
+            mapData,
+        };
+    },
 };
 
 const reducer = (state, action) => (
@@ -133,6 +152,14 @@ export const AuthProvider = (props) => {
         });
     };
 
+     const searchUser = (mapData)=>{
+           dispatch({
+              type: HANDLERS.SEARCH_USER,
+              payload: mapData,
+           })
+          // console.log(mapData);
+       }
+
     const updateUser = (user) => {
         dispatch({
             type: HANDLERS.UPDATE_USER,
@@ -140,6 +167,7 @@ export const AuthProvider = (props) => {
 
         })
     }
+
 
     const checkIfAuthenticated = async () => {
         // const docRf = query(
@@ -187,11 +215,13 @@ export const AuthProvider = (props) => {
             value={{
                 ...state,
                 user: state.user,
+                mapData:state.mapData,
                 signIn,
                 signOut,
                 checkAuthenticated,
                 updateUser,
-                checkIfAuthenticated
+                checkIfAuthenticated,
+                searchUser,
             }}
         >
             <AlertSnackBar

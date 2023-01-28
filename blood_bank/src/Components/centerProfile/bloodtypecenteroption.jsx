@@ -74,8 +74,8 @@ const BloodTypeAmount = (props) => {
                                     fontSize: "40px",
                                     color: maincolor
                                 }}
-                                ml={2}
-                                mr={2}
+                                ml={1}
+                                mr={1}
                             >
                                 +
                             </Typography>

@@ -4,14 +4,16 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Button from '@mui/material/Button';
 import ClockIcon from '@mui/icons-material/AccessTime';
 import MessageIcon from '@mui/icons-material/Message';
-const CardSearch = ({nameSearch,bloodType,neighborhood}) => {    
+const CardSearchCenter = ({nameSearch,bloodType,neighborhood,CountBloodType}) => {    
   const [name , setName]=useState('');
   const [typeBlood , setTypeBlood]=useState('');
   const [neighborhoodd , setneighborhood]=useState('');
+  const [CountBlood , setCountBlood]=useState('');
 useEffect(()=>{
   setName(nameSearch);
   setTypeBlood(bloodType);
   setneighborhood(neighborhood);
+  setCountBlood(CountBloodType);
 },[]);
     return (
       <>
@@ -36,6 +38,9 @@ useEffect(()=>{
             {/* TODO --- fetch Data */}
               <Typography sx={{margin:"-40px 100px 0px 0px",color:"dimgrey"}}>10/12/2022 </Typography>
             </Box>
+            </Grid>
+            <Grid item>
+                <Typography>عدد الزمر الموجودة في المركز :{CountBlood}</Typography>
             </Grid>
            <Grid item >
               <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhoodd}</Typography>
@@ -64,4 +69,4 @@ useEffect(()=>{
     </>
   );
 };
-export default CardSearch;
+export default CardSearchCenter;

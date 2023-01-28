@@ -1,6 +1,7 @@
 import React, {useState,useEffect,useRef} from 'react'
 import { Box ,IconButton, Typography,Button} from '@mui/material';
 import CardSearch from './card-search';
+import { NotFoundData } from './not-fondData';
 export const TypeBlood = [
     { label: "A+" },
     { label: "B+" },
@@ -61,7 +62,8 @@ export const Apositive = [
       fontSize :"18px",
       borderRadius :"15px",
       width:"80px",
-      m:"5px",
+      mt:"8px",
+      ml:"2px",
       "&:hover":{background:"darkgray"}
     }
   }
@@ -81,16 +83,13 @@ export const styleFocus = {
 export const FunctionApi = ({TypesBlood,searchSameBlood})=>{
  
 return (
-<Box>
                           <Box>{
                              searchSameBlood.map((user,index)=>{
                               return ( TypesBlood === user.data.blood_type && user.data.is_shown === "1" ?
-                              <CardSearch nameSearch={user.data.name} bloodType={user.data.blood_type} neighborhood={user.data.neighborhood} sx={{margin:"10px"}} key={index}/> : "");
+                              <CardSearch nameSearch={user.data.name} bloodType={user.data.blood_type} neighborhood={user.data.neighborhood} sx={{margin:"10px",p:2}} key={index}/> : "");
                             })} 
                          
                           </Box>
-                          <SearchBloodSame />
-</Box>
 );
 }
 export const SearchBloodSame = ({sss})=>{
