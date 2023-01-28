@@ -1,20 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/domain/usecases/search_for_centers_usecase.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+import 'package:blood_bank_app/domain/entities/blood_center.dart';
+import 'package:blood_bank_app/domain/usecases/search_centers_usecase.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../core/error/failures.dart';
 import '../../../domain/entities/donor.dart';
-import '../../../domain/usecases/search_for_donors_usecase.dart';
+import '../../../domain/usecases/search_donors_usecase.dart';
 
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final SearchForDonorsUseCase searchForDonorsUseCase;
-  final SearchForCentersUseCase searchForCentersUseCase;
+  final SearchDonorsUseCase searchForDonorsUseCase;
+  final SearchCentersUseCase searchForCentersUseCase;
   SearchCubit({
     required this.searchForDonorsUseCase,
     required this.searchForCentersUseCase,
@@ -38,7 +38,6 @@ class SearchCubit extends Cubit<SearchState> {
         searchForDonorsUseCase(
           state: selectedState,
           district: selectedDistrict,
-          bloodType: selectedBloodType!,
         ).then((donorsOrFailure) {
           donorsOrFailure.fold(
               (failure) =>
@@ -48,7 +47,6 @@ class SearchCubit extends Cubit<SearchState> {
             await searchForCentersUseCase(
               state: selectedState,
               district: selectedDistrict,
-              bloodType: selectedBloodType!,
             ).then((centersOrFailure) {
               centersOrFailure.fold(
                 (failure) =>

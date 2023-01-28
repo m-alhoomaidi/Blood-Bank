@@ -5,14 +5,15 @@ import '../../domain/entities/blood_center.dart';
 import '../../core/error/failures.dart';
 
 abstract class SearchRepository {
-  Future<Either<Failure, List<Donor>>> searchForDonors({
+  Future<Either<Failure, List<Donor>>> searchDonors({
     required String state,
     required String district,
-    required String bloodType,
   });
-  Future<Either<Failure, List<BloodCenter>>> searchForCenters({
+  Future<Either<Failure, List<BloodCenter>>> searchCenters({
     required String state,
     required String district,
-    required String bloodType,
+  });
+  Future<Either<Failure, List<Donor>>> searchStateDonors({
+    required String state,
   });
 }

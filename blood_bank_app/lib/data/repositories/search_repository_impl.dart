@@ -16,10 +16,9 @@ class SearchRepositoryImpl implements SearchRepository {
   });
 
   @override
-  Future<Either<Failure, List<Donor>>> searchForDonors({
+  Future<Either<Failure, List<Donor>>> searchDonors({
     required String state,
     required String district,
-    required String bloodType,
   }) async {
     if (await networkInfo.isConnected) {
       List<Donor> donors = <Donor>[];
@@ -59,10 +58,50 @@ class SearchRepositoryImpl implements SearchRepository {
   }
 
   @override
-  Future<Either<Failure, List<BloodCenter>>> searchForCenters(
-      {required String state,
-      required String district,
-      required String bloodType}) async {
+  Future<Either<Failure, List<Donor>>> searchStateDonors({
+    required String state,
+  }) async {
+    if (await networkInfo.isConnected) {
+      List<Donor> donors = <Donor>[];
+      try {
+        return await _fireStore
+            .collection(DonorFields.collectionName)
+            .where(DonorFields.state, isEqualTo: state)
+            .get()
+            .then((fetchedDonors) async {
+          if (fetchedDonors.docs.isNotEmpty) {
+            donors =
+                fetchedDonors.docs.map((e) => Donor.fromMap(e.data())).toList();
+            return Right(donors);
+          } else {
+            return const Right(<Donor>[]);
+          }
+        });
+      } on FirebaseException catch (fireError) {
+        print("Search=State=Donors====fireError.code");
+        print(fireError.code);
+        if (fireError.code == 'unknown') {
+          return Left(FirebaseUnknownFailure());
+        } else if (fireError.code == 'too-many-request') {
+          return Left(ServerFailure());
+        } else {
+          return Left(UnknownFailure());
+        }
+      } catch (e) {
+        print("Search=State=Donors====exception");
+        print(e);
+        return Left(UnknownFailure());
+      }
+    } else {
+      return Left(OffLineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BloodCenter>>> searchCenters({
+    required String state,
+    required String district,
+  }) async {
     if (await networkInfo.isConnected) {
       List<BloodCenter> centers = <BloodCenter>[];
       try {
