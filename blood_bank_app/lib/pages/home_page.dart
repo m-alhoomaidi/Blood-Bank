@@ -254,13 +254,13 @@ class _HomePageState extends State<HomePage> {
                 FloatingActionButton(
                   onPressed: showNotification,
                   tooltip: 'Increment',
-                  child: Icon(Icons.add),
+                  child: Icon(Icons.ac_unit_outlined),
                 ),
                 SizedBox(
                   width: 16,
                 ),
                 FloatingActionButton(
-                  child: const Icon(Icons.search_rounded),
+                  child: const Icon(Icons.abc),
                   onPressed: () async {
                     print("----------------------------------");
                     try {
@@ -268,6 +268,7 @@ class _HomePageState extends State<HomePage> {
                       //       (value) => print(value),
                       //     ));
                       // print("000000000");
+                      print("object");
                       pushNotificationsGroupDevice(
                           // token:
                           //     "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
