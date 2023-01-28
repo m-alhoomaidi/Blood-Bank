@@ -1,4 +1,5 @@
-import 'package:blood_bank_app/domain/usecases/search_for_centers_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/search_centers_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/search_state_donors_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -11,7 +12,7 @@ import 'domain/repositories/profile_repository.dart';
 import 'domain/repositories/search_repository.dart';
 import 'domain/usecases/profile_use_case.dart';
 import 'domain/usecases/reset_password_use_case.dart';
-import 'domain/usecases/search_for_donors_usecase.dart';
+import 'domain/usecases/search_donors_usecase.dart';
 import 'domain/usecases/sign_in_usecase.dart';
 import 'domain/usecases/sign_up_center_usecase.dart';
 import 'domain/usecases/sign_up_donor_usecase.dart';
@@ -31,10 +32,10 @@ Future<void> initApp() async {
   sl.registerLazySingleton<SearchRepository>(
       () => SearchRepositoryImpl(networkInfo: sl()));
   // Search UseCases
+  sl.registerLazySingleton(() => SearchDonorsUseCase(searchRepository: sl()));
   sl.registerLazySingleton(
-      () => SearchForDonorsUseCase(searchRepository: sl()));
-  sl.registerLazySingleton(
-      () => SearchForCentersUseCase(searchRepository: sl()));
+      () => SearchStateDonorsUseCase(searchRepository: sl()));
+  sl.registerLazySingleton(() => SearchCentersUseCase(searchRepository: sl()));
   // Search Cubit
   sl.registerLazySingleton(() => SearchCubit(
         searchForDonorsUseCase: sl(),

@@ -5,20 +5,18 @@ import '../../core/error/failures.dart';
 import '../../domain/entities/donor.dart';
 import '../../domain/repositories/search_repository.dart';
 
-class SearchForDonorsUseCase {
+class SearchDonorsUseCase {
   final SearchRepository searchRepository;
-  SearchForDonorsUseCase({
+  SearchDonorsUseCase({
     required this.searchRepository,
   });
   Future<Either<Failure, List<Donor>>> call({
     required String state,
     required String district,
-    required String bloodType,
   }) async {
-    return await searchRepository.searchForDonors(
+    return await searchRepository.searchDonors(
       state: state,
       district: district,
-      bloodType: bloodType,
     );
   }
 }
