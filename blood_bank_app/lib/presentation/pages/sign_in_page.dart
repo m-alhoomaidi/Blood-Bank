@@ -95,7 +95,7 @@ class _SignInPageState extends State<SignInPage> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
-            if (state is SigninSuccess) {
+            if (state is SignInSuccess) {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const HomePage()));
             } else if (state is SigninFailure) {
@@ -104,14 +104,14 @@ class _SignInPageState extends State<SignInPage> {
                 msg: state.error,
                 color: ColorManager.error,
               );
-            } else if (state is SigninSuccessResetPass) {
+            } else if (state is SignInSuccessResetPass) {
               DialogResetPassWord.resetPasswordDialog(context);
               MaterialPageRoute(builder: (context) => const HomePage());
             }
           },
           builder: (context, state) {
             return ModalProgressHUD(
-              inAsyncCall: (state is SigninLoading),
+              inAsyncCall: (state is SignInLoading),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,

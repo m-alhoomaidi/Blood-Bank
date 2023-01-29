@@ -12,7 +12,7 @@ class SignInCubit extends Cubit<SignInState> {
   SignInCubit({
     required this.signInUseCase,
     required this.resetPasswordUseCase,
-  }) : super(SigninInitial());
+  }) : super(SignInInitial());
 
   final SignInUseCase signInUseCase;
   final ResetPasswordUseCase resetPasswordUseCase;
@@ -21,13 +21,13 @@ class SignInCubit extends Cubit<SignInState> {
     required String email,
     required String password,
   }) async {
-    emit(SigninLoading());
+    emit(SignInLoading());
     try {
       await signInUseCase(email: email, password: password)
           .then((userCredentialOrFailure) {
         userCredentialOrFailure.fold(
           (failure) => emit(SigninFailure(error: getFailureMessage(failure))),
-          (userCredential) => emit(SigninSuccess()),
+          (userCredential) => emit(SignInSuccess()),
         );
       });
     } catch (e) {
@@ -38,12 +38,12 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> resetPassword({
     required String email,
   }) async {
-    emit(SigninLoading());
+    emit(SignInLoading());
     try {
       await resetPasswordUseCase(email: email).then((unitOrFailuer) {
         unitOrFailuer.fold(
           (failure) => emit(SigninFailure(error: getFailureMessage(failure))),
-          (_) => emit(SigninSuccessResetPass()),
+          (_) => emit(SignInSuccessResetPass()),
         );
       });
     } catch (e) {

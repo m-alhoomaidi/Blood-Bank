@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
+import 'package:hive/hive.dart';
+
 import '../../core/error/exceptions.dart';
 import '../../core/error/failures.dart';
 import '../../core/network/network_info.dart';
@@ -28,6 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
         )
             .then((userCredential) async {
           if (userCredential.user != null) {
+            await saveUserTypeLocal(userCredential);
             return Right(userCredential);
           } else {
             return Left(UnknownFailure());
@@ -51,6 +55,34 @@ class AuthRepositoryImpl implements AuthRepository {
     } else {
       return Left(OffLineFailure());
     }
+  }
+
+  Future saveUserTypeLocal(UserCredential userCredential) async {
+    final box = Hive.box(dataBoxName);
+    String docId = userCredential.user!.uid;
+    print(docId);
+    await _fireStore
+        .collection(BloodCenterFields.collectionName)
+        .doc(docId)
+        .get()
+        .then((value) async {
+      if (value.data() == null) {
+        await _fireStore
+            .collection(DonorFields.collectionName)
+            .doc(docId)
+            .get()
+            .then((value) async {
+          if (value.data() == null) {
+            box.put('user', "0");
+          } else {
+            box.put('user', "1");
+          }
+        });
+      } else {
+        box.put('user', "2");
+      }
+    });
+    print(box.get("user") ?? "5");
   }
 
   @override
@@ -93,6 +125,7 @@ class AuthRepositoryImpl implements AuthRepository {
                   .doc(userCredential.user!.uid)
                   .set(donor.toMap())
                   .then((_) async {
+                Hive.box(dataBoxName).put('user', "1");
                 return const Right(unit);
               });
             } on FirebaseException catch (fireError) {
@@ -155,6 +188,7 @@ class AuthRepositoryImpl implements AuthRepository {
                   .doc(userCredential.user!.uid)
                   .set(center.toMap())
                   .then((_) async {
+                Hive.box(dataBoxName).put('user', "2");
                 return const Right(unit);
               });
             } on FirebaseException catch (fireError) {

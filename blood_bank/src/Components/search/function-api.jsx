@@ -64,43 +64,17 @@ export const Apositive = [
       width:"80px",
       mt:"8px",
       ml:"2px",
-      "&:hover":{background:"darkgray"}
+      "&:hover":{ 
+      backgroundColor:"white",
+      color :"red",
+      fontSize :"20px",
+      borderRadius :"15px",
+      ml:"5px",
+      width:"100px",
+      border:"1px solid red",
+      "&:hover":{background:"#f8f8f8"},
     }
   }
-export const styleFocus = {
-    backgroundColor:"white",
-    color :"red",
-    fontSize :"20px",
-    borderRadius :"15px",
-    ml:"5px",
-    width:"100px",
-    border:"1px solid red",
-    "&:hover":{background:"#f8f8f8"
-  }
-
-};
-
-export const FunctionApi = ({TypesBlood,searchSameBlood})=>{
- 
-return (
-                          <Box>{
-                             searchSameBlood.map((user,index)=>{
-                              return ( TypesBlood === user.data.blood_type && user.data.is_shown === "1" ?
-                              <CardSearch nameSearch={user.data.name} bloodType={user.data.blood_type} neighborhood={user.data.neighborhood} sx={{margin:"10px",p:2}} key={index}/> : "");
-                            })} 
-                         
-                          </Box>
-);
 }
-export const SearchBloodSame = ({sss})=>{
-    return (
-        <Box>
-{sss}
-        </Box>
-
-    );
-
-}
-
 
   
