@@ -45,7 +45,7 @@ export const ProfileAvatar = ({ props, ...rest }) => {
                   height: "34px",
                   width: "34px",
                 }}
-                src="/images/profile.jpg"
+                src={user.image}
               >
                 <UserCircleIcon />
               </Avatar>

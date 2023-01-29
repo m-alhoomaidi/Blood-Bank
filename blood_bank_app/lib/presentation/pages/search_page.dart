@@ -39,7 +39,7 @@ class SearchPage extends StatelessWidget {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.search_rounded),
+          child: const Icon(Icons.place_outlined),
           onPressed: () async {
             Navigator.pushNamed(context, SearchMapPage.routeName);
           },

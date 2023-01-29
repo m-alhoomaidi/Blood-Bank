@@ -291,6 +291,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: showNotification,
                   tooltip: 'Increment',
                   child: Icon(Icons.add),
+                  heroTag: "add",
                 ),
                 const SizedBox(width: 16),
                 FloatingActionButton(
@@ -389,6 +390,7 @@ class _HomePageState extends State<HomePage> {
                     // locationSubscription.cancel();
                     // LocationManager().stop();
                   },
+                  heroTag: "search",
                 ),
               ],
             ),

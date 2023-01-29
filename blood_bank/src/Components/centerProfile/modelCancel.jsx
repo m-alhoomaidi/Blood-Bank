@@ -21,10 +21,10 @@ const style = {
   borderRadius:'10px',
   px:3,
 };   
-export const ModelCancle = ({opens,Hand,displayed,IsShowning}) =>{
+export const ModelCancleCenter = ({opens,Hand,displayed,IsShowning}) =>{
   const HideUser =  async () =>{
    const isShown = "0";
-        const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+        const userDoc = doc (db,"centers",'9U74upZiSOJugT9wrDnu');
     updateDoc(userDoc ,{ is_shown : isShown}).then((response) =>{
       displayed(false);
       IsShowning("0");
@@ -86,7 +86,7 @@ export const ModelCancle = ({opens,Hand,displayed,IsShowning}) =>{
         </div>
     );
 }
-export const CardSucces = ({displayed,Hand,IsShowning})=>{
+export const CardSuccesCenter = ({displayed,Hand,IsShowning})=>{
   const [showTost, setShowTost] = useState(false);
   const [tost, setTost] = useState({
     tostMsg: "لم يتم تنشيط حسابك! أعد المحاولة",
@@ -95,7 +95,7 @@ export const CardSucces = ({displayed,Hand,IsShowning})=>{
 
   const ShowUser =  async () =>{
     const Shown = "1";
-         const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+         const userDoc = doc (db,"centers",'9U74upZiSOJugT9wrDnu');
      updateDoc(userDoc ,{ is_shown : Shown}).then((response) =>{
       displayed(true);
       IsShowning("1");

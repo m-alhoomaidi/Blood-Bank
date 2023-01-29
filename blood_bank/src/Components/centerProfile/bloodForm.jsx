@@ -5,6 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { useState } from "react";
+import ProfileNavigation from "./list-profile";
 const data = {
     "A+": 15,
     "A-": 10,
@@ -22,9 +23,8 @@ const BloodForm = () => {
     }
     return (
         <>
-            <Card>
-                <CardContent>
-                    <Box sx={{ flexGrow: 1 }}>
+            <Card sx={{p:2}}>
+                    <Box >
                         <Grid container >
                             <Grid item md={6} xs={12} sx={{ my: 2 }} >
                                 <BloodTypeAmount title="A+" value={bloodTypes["A+"]} onChange={onChange} />
@@ -52,7 +52,6 @@ const BloodForm = () => {
                             </Grid>
                         </Grid>
                     </Box>
-                </CardContent>
             </Card>
             <Button
                 type="submit"
