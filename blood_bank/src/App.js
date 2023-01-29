@@ -20,7 +20,7 @@ const App = () => {
       <AuthProvider>
         <BrowserRouter>
           <AuthGuard>
-            <Box sx={{backgroundColor:"#fafafa",}} px={{md:10,xs:1}}>
+            <Box sx={{backgroundColor:"#fafafa",}} px={{md:5,xs:1}}>
             <NavBar />
             <Routes>
               <Route path='/' element={<HomePage />} />
