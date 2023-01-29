@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/error/failures.dart';
@@ -27,12 +29,22 @@ class SignInCubit extends Cubit<SignInState> {
           .then((userCredentialOrFailure) {
         userCredentialOrFailure.fold(
           (failure) => emit(SigninFailure(error: getFailureMessage(failure))),
-          (userCredential) => emit(SignInSuccess()),
+          (userCredential) async {
+            await updateToken(userCredential.user!.uid);
+            emit(SignInSuccess());
+          },
         );
       });
     } catch (e) {
       //  emit(SigninFailure(error:"تحقق من صحة بريدك الالكتروني"));
     }
+  }
+
+  Future<void> updateToken(String uid) async {
+    String token = await getToken();
+    FirebaseFirestore.instance.collection("donors").doc(uid).update({
+      "token": token,
+    });
   }
 
   Future<void> resetPassword({
@@ -50,6 +62,11 @@ class SignInCubit extends Cubit<SignInState> {
       emit(SigninFailure(error: "تحقق من صحة بريدك الالكتروني"));
     }
   }
+
+  Future<String> getToken() async {
+    return await FirebaseMessaging.instance.getToken() ?? "";
+  }
+}
 
   //  on FirebaseAuthException catch (e) {
   //   if (e.code == 'user-not-found') {
@@ -144,4 +161,3 @@ class SignInCubit extends Cubit<SignInState> {
   //   }
   //   return result;
   //
-}
