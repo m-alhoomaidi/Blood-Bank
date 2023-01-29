@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
@@ -176,7 +177,9 @@ void main() async {
       BlocProvider(create: (BuildContext context) => di.sl<SignUpCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SignInCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SearchCubit>()),
-      BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>())
+      BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>()),
+      BlocProvider(
+          create: (BuildContext context) => di.sl<SendNotficationCubit>())
     ],
     child: const MyApp(),
   ));

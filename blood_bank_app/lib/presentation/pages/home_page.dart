@@ -1,10 +1,13 @@
 import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/main.dart';
+import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +18,7 @@ import 'package:hive/hive.dart';
 
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_drawer/home_drawer.dart';
+import '../../dependency_injection.dart' as di;
 //-------------
 
 import 'package:http/http.dart' as http;
@@ -76,13 +80,15 @@ class _HomePageState extends State<HomePage> {
         print(position.longitude); //Output: 80.24599079
         print(position.latitude); //Output: 29.6593457
       }
+      print("1010101");
       await FirebaseFirestore.instance
           .collection('donors')
-          .doc("9U74upZiSOJugT9wrDnu")
+          .doc("AtFv1cCtkCZxQapmqgHBADktwpv1")
           .update({
         DonorFields.lat: position.latitude,
         DonorFields.lon: position.longitude
-      });
+      }).then((value) => print("okkokokok"));
+
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       flutterLocalNotificationsPlugin.show(
@@ -260,16 +266,36 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  HomeWelcome(),
-                  HomeAbout(),
-                  SizedBox(height: AppSize.s20),
-                ],
-              ),
+            body: BlocConsumer<SendNotficationCubit, SendNotficationState>(
+              listener: (context, state) {
+                // TODO: implement listener
+
+                if (state is SendNotficationStateSuccess) {
+                  print("Success +++++++++++++++++++++++");
+                }
+                if (state is SendNotficationStateFailure) {
+                  print("Failure -----------------------");
+                }
+              },
+              builder: (context, state) {
+                if (state is SendNotficationStateSuccess) {
+                  print("Success ++++++++++++++++++++++00");
+                }
+                if (state is SendNotficationStateFailure) {
+                  print("Failure ----------------------00");
+                }
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      HomeWelcome(),
+                      HomeAbout(),
+                      SizedBox(height: AppSize.s20),
+                    ],
+                  ),
+                );
+              },
             ),
             drawer: const HomeDrower(),
             floatingActionButton: FloatingActionButton(
@@ -279,9 +305,19 @@ class _HomePageState extends State<HomePage> {
                   // print(FirebaseMessaging.instance.getToken().then(
                   //       (value) => print(value),
                   //     ));
-
-                  pushNotificationsGroupDevice(
-                      title: "حالة حرجة", body: "تعال ياحيوان");
+                  // di.initApp();
+                  print("111111111111111111111111");
+                  await BlocProvider.of<SendNotficationCubit>(context)
+                      .sendNotfication(
+                          sendNotficationData: SendNotficationData(
+                              listToken: [],
+                              title: "حالة حرجة",
+                              body: "تعال ياحيوان"))
+                      .then((value) {
+                    print("22222222222222222222222222");
+                  });
+                  // pushNotificationsGroupDevice(
+                  //     title: "حالة حرجة", body: "تعال ياحيوان");
                 } catch (e) {
                   print(e);
                 }
@@ -626,7 +662,7 @@ class _HomePageState extends State<HomePage> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["fwSGgXVlQ1-DkWdPvwC2vU:APA91bFcNOMGE2cl9c-BPfzUk4ksX-EIOSKEIixpAoO0k0XE7blcIRugk8xIl_ZQTM3KxbPuVCyajUSrMF-9uzrRkpA6K98M8-khrQKuk_YKLhqonSHcgi5bcJhQcqcSqQcOLbhQEMUr","f-wunReNSZyR8BAs3xgl4y:APA91bE_FxTEdtlzH5PfdEau6vPVIfA3Hk8Ykb--azdYgONq3ZaN9D9HUQBnsDR36NYD74qEgfhHF-W_3JrMEwO8z6GIQPwXifmGeGpX4Qreb1TYgWC2ypAP6YuLcJW3UVmodljWqVx_"],'
+        '"registration_ids":["cscSJymiS1m6mEtyK8140J:APA91bEVPefdZNqg5jkLdvpEBYiSKBDDfeOIsnQF-1luu9lEO6_QBOuUbrsOycP4jL3OLvNZdMkZbqELRiPf9XstNPDdrwRtWVLEG28xyDPWna7UDsn_G8rPvzymwmWIANJWky45rFWX"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -642,8 +678,9 @@ class _HomePageState extends State<HomePage> {
       },
       body: dataNotifications,
     );
-
+    print("+1");
     print(response.body.toString());
+    print("+0");
 
     return true;
   }

@@ -4,9 +4,9 @@ import 'package:dartz/dartz.dart';
 import 'package:blood_bank_app/core/error/failures.dart';
 import 'package:blood_bank_app/domain/repositories/notfication_repository.dart';
 
-class NotficationUseCase {
+class SendNotficationUseCase {
   final SendNotficationRepository sendNotficationRepository;
-  NotficationUseCase({
+  SendNotficationUseCase({
     required this.sendNotficationRepository,
   });
 
@@ -18,11 +18,11 @@ class NotficationUseCase {
 }
 
 class SendNotficationData {
-  List<String> list;
+  List<String> listToken;
   String title;
   String body;
   SendNotficationData({
-    required this.list,
+    required this.listToken,
     required this.title,
     required this.body,
   });

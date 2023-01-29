@@ -1,5 +1,9 @@
+import 'package:blood_bank_app/data/repositories/send_notfication_impl.dart';
+import 'package:blood_bank_app/domain/repositories/notfication_repository.dart';
 import 'package:blood_bank_app/domain/usecases/search_centers_usecase.dart';
 import 'package:blood_bank_app/domain/usecases/search_state_donors_usecase.dart';
+import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
+import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -44,14 +48,25 @@ Future<void> initApp() async {
       ));
 
   // Profile Repositories
-  sl.registerFactory<ProfileRepository>(
+  sl.registerLazySingleton<ProfileRepository>(
       () => ProfileReopsitoryImpl(networkInfo: sl()));
 
   // Profile UseCases
-  sl.registerFactory(() => ProfileUseCase(profileRepository: sl()));
+  sl.registerLazySingleton(() => ProfileUseCase(profileRepository: sl()));
 
   // Profile Cubits
-  sl.registerFactory(() => ProfileCubit(profileUseCase: sl()));
+  sl.registerLazySingleton(() => ProfileCubit(profileUseCase: sl()));
+
+  // SendNotfication
+  sl.registerLazySingleton<SendNotficationRepository>(
+      () => SendNotficationImpl(networkInfo: sl()));
+  // send Notfication  useCase
+  sl.registerLazySingleton(
+      () => SendNotficationUseCase(sendNotficationRepository: sl()));
+
+  // send Notfication  cubit
+  sl.registerLazySingleton(
+      () => SendNotficationCubit(sendNotficationUseCase: sl()));
 
   /// Core
 

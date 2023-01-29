@@ -8,3 +8,7 @@ abstract class SendNotficationState extends Equatable {
 }
 
 class SendNotficationInitial extends SendNotficationState {}
+
+class SendNotficationStateSuccess extends SendNotficationState {}
+
+class SendNotficationStateFailure extends SendNotficationState {}
