@@ -46,8 +46,6 @@ class Donor extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      DonorFields.id: id,
-      DonorFields.password: password,
       DonorFields.email: email,
       DonorFields.name: name,
       DonorFields.phone: phone,
@@ -68,9 +66,7 @@ class Donor extends Equatable {
 
   factory Donor.fromMap(Map<String, dynamic> map) {
     return Donor(
-      id: map[DonorFields.id] ?? "",
       email: map[DonorFields.email] ?? "",
-      password: map[DonorFields.password] ?? "",
       name: map[DonorFields.name] ?? "",
       phone: map[DonorFields.phone] ?? "",
       bloodType: map[DonorFields.bloodType] ?? "",
@@ -83,8 +79,8 @@ class Donor extends Equatable {
       isShownPhone: map[DonorFields.isShownPhone] ?? "",
       isGpsOn: map[DonorFields.isGpsOn] ?? "",
       token: map[DonorFields.token] ?? "",
-      lat: map[DonorFields.lat].toString(),
-      lon: map[DonorFields.lon].toString(),
+      lat: map[DonorFields.lat] ?? "",
+      lon: map[DonorFields.lon] ?? "",
     );
   }
 
@@ -116,9 +112,7 @@ class Donor extends Equatable {
 
 class DonorFields {
   static const String collectionName = 'donors';
-  static const String id = 'id';
   static const String email = 'email';
-  static const String password = 'password';
   static const String name = 'name';
   static const String phone = 'phone';
   static const String bloodType = 'blood_type';

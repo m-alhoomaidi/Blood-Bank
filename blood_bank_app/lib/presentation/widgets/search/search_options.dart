@@ -6,7 +6,6 @@ import '../../cubit/search_cubit/search_cubit.dart';
 import '../../../domain/entities/blood_types.dart';
 import '../../resources/style.dart';
 import '../forms/my_dropdown_button_form_field.dart';
-import '../search/result_tabs.dart';
 
 class SearchOptions extends StatelessWidget {
   SearchOptions({
