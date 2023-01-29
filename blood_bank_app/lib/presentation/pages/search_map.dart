@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:blood_bank_app/presentation/methode/shared_method.dart';
+
 import '../../domain/entities/blood_types.dart';
 import '../../domain/entities/donor.dart';
 import 'package:flutter/foundation.dart';
@@ -43,100 +45,13 @@ class _SearchMapPageState extends State<SearchMapPage> {
   var location = loc.Location();
   @override
   void initState() {
-    checkGps();
+    changeCurrentLocation();
     // getPolyPoints();
     super.initState();
   }
 
-  checkGps() async {
-    print("=================1==================");
-    servicestatus = await location.serviceEnabled();
-    print("-----------------------------");
-    print(servicestatus);
-    if (servicestatus) {
-      print("=================2==================");
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        print("=================3==================");
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          print("=================4==================");
-          if (kDebugMode) {
-            print("=================5==================");
-            print('Location permissions are denied');
-          }
-        } else if (permission == LocationPermission.deniedForever) {
-          print("=================6==================");
-          if (kDebugMode) {
-            print("=================7==================");
-            print("'Location permissions are permanently denied");
-          }
-        } else {
-          print("=================8==================");
-          haspermission = true;
-        }
-      } else {
-        print("=================9==================");
-        haspermission = true;
-      }
-      if (haspermission) {
-        print("=================10==================");
-        setState(() {
-          //refresh the UI
-        });
-        getLocation();
-      }
-    } else {
-      if (!await location.serviceEnabled()) {
-        await location.requestService();
-        checkGps();
-        // print("111111111111111111111111111");
-
-        // print(servicestatus);
-      } else {}
-
-      print("=================11==================");
-      if (kDebugMode) {
-        print("GPS Service is not enabled, turn on GPS location");
-      }
-    }
-    setState(() {
-      //refresh the UI
-    });
-  }
-
-  getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print("=================12==================");
-    if (kDebugMode) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-    }
-    long = position.longitude.toString();
-    lat = position.latitude.toString();
-    setState(() {
-      hasCurrentLocation = true;
-      //refresh UI
-    });
-    LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 100, //minimum distance (measured in meters) a
-    );
-    StreamSubscription<Position> positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
-            .listen((Position position) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-
-      long = position.longitude.toString();
-      lat = position.latitude.toString();
-
-      print("=================13==================");
-      setState(() {
-        //refresh UI on update
-      });
-    });
+  changeCurrentLocation() async {
+    hasCurrentLocation = await SharedMethod().checkGps();
   }
 
 //-----------------------------------------------------

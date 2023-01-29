@@ -1,4 +1,8 @@
+import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/presentation/methode/shared_method.dart';
+import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'dependency_injection.dart' as di;
@@ -35,7 +40,7 @@ import 'package:http/http.dart' as http;
 //---------------------
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
-    'High Importance Notifications',
+    'com.google.firebase.messaging.default_notification_channel_id',
     description: 'This channel is used for important notifications.',
     // title // description
     importance: Importance.high,
@@ -46,6 +51,17 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('A bg message just showed up :  ${message.messageId}');
+  await SharedMethod().getLocation();
+  print("33333333333333333333333333333");
+  // position = await Geolocator.getCurrentPosition(
+  //         desiredAccuracy: LocationAccuracy.high)
+  //     .then((value) {
+  //   print(position.latitude);
+  //   print(position.longitude);
+  //   Fluttertoast.showToast(msg: message.notification!.body.toString());
+  //   return value;
+  // });
+  Fluttertoast.showToast(msg: message.notification!.body.toString());
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
   flutterLocalNotificationsPlugin.show(
@@ -63,6 +79,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       ));
 }
 
+late Position position;
 //-------------------------------------.
 final AndroidInitializationSettings _androidInitializationSettings =
     const AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -75,9 +92,34 @@ void initialisendNotfications() async {
   flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
-Future backgroundMessage(RemoteMessage message) async {
-  print("+++++++++++++++++++++++++++++++++++++++++++++++++++");
-  Fluttertoast.showToast(msg: message.notification!.body.toString());
+Future<void> backgroundMessage(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("++++++++++++++++++++++++++++++++++++++++++++++++++0000");
+
+  print(";;;;;;;;;;;;;;;;;;;;");
+  // await SharedMethod().checkGps();
+  Future.delayed(Duration(seconds: 2)).then((value) {
+    Fluttertoast.showToast(msg: message.notification!.body.toString());
+  });
+  await SharedMethod().checkGps();
+  position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high)
+      .then((value) {
+    print(position.latitude);
+    print(position.longitude);
+    Fluttertoast.showToast(msg: message.notification!.body.toString());
+    return value;
+  });
+
+  await FirebaseFirestore.instance
+      .collection('donors')
+      .doc("9U74upZiSOJugT9wrDnu")
+      .update({
+    DonorFields.lat: position.latitude,
+    DonorFields.lon: position.longitude
+  }).then((value) async {
+    print("okkkkkkkkkkkkkkkkkkkkkkkk");
+  });
   // flutterLocalNotificationsPlugin.show(0, message.notification!.title, message, notificationDetails)
 }
 // final AndroidInitializationSettings
@@ -107,6 +149,7 @@ void main() async {
 
   //-----------------------------------
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessageOpenedApp.listen((message) async {});
 
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
@@ -167,7 +210,7 @@ class MyApp extends StatelessWidget {
         IntroductionPage.routeName: (context) => const IntroductionPage(),
         ProfileCenterPage.routeName: (context) => const ProfileCenterPage(),
         EditMainCenterDataPage.routeName: (context) => EditMainCenterDataPage(),
-        AboutPage.routeName: (context) => const AboutPage()
+        AboutPage.routeName: (context) => const AboutPage(),
       },
     );
   }
