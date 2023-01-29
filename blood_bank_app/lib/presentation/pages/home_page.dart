@@ -54,25 +54,24 @@ class _HomePageState extends State<HomePage> {
 //--------------------------
   int _counter = 0;
 
-  // pushnot() async {
-  //   await flutterLocalNotificationsPlugin
-  //       .resolvePlatformSpecificImplementation<
-  //           AndroidFlutterLocalNotificationsPlugin>()
-  //       ?.createNotificationChannel(channel);
-
-  //   await FirebaseMessaging.instance
-  //       .setForegroundNotificationPresentationOptions(
-  //     alert: true,
-  //     badge: true,
-  //     sound: true,
-  //   );
-  // }
+  initialMessageing() async {
+    var message = await FirebaseMessaging.instance.getInitialMessage();
+    if (message != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: ((context) => NotFicationPage(
+                  remoteMessage: message.notification!,
+                  dateTime: message.sentTime!))));
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
     //-------------------------------------------------------
+    initialMessageing();
     // pushnot();
     print("+++++++++++++++++++-------------------------");
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -117,12 +116,13 @@ class _HomePageState extends State<HomePage> {
 //----------------------------------------------
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: ((context) =>
-                  NotFicationPage(remoteMessage: message.notification!))));
+              builder: ((context) => NotFicationPage(
+                    remoteMessage: message.notification!,
+                    dateTime: message.sentTime!,
+                  ))));
     });
     //-----------------------------------
     // initMessaging();

@@ -9,8 +9,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 
 class NotFicationPage extends StatefulWidget {
-  NotFicationPage({required this.remoteMessage, super.key});
+  NotFicationPage(
+      {required this.remoteMessage, required this.dateTime, super.key});
   RemoteNotification remoteMessage;
+  DateTime dateTime;
   static const String routeName = "notfication_page";
 
   @override
@@ -18,7 +20,6 @@ class NotFicationPage extends StatefulWidget {
 }
 
 class _NotFicationPageState extends State<NotFicationPage> {
-  DateTime dateTime = DateTime.now();
   late Position position;
 
   getLocation() async {
@@ -89,9 +90,7 @@ class _NotFicationPageState extends State<NotFicationPage> {
                       width: 100,
                     )),
                 Positioned(
-                    top: 20,
-                    left: 60,
-                    child: Text("${dateTime.hour + dateTime.minute}")),
+                    top: 20, left: 60, child: Text("${widget.dateTime}")),
                 Positioned(
                     bottom: 80,
                     right: 130,
