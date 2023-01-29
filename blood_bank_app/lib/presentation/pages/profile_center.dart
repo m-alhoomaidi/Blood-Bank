@@ -56,6 +56,7 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
                 bPlus: state.bloodCenter.bPlus,
                 bMinus: state.bloodCenter.bMinus);
           } else if (state is ProfileFailure) {
+            print("-------------------");
             Utils.showSnackBar(
               context: context,
               msg: state.error,

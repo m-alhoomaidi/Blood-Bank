@@ -23,7 +23,7 @@ useEffect(()=>{
             <Grid item >
                 <Avatar
                    sx={{backgroundColor: 'error.main',marginRight:"20px"}}>
-                     {typeBlood}
+                     {CountBlood}
                 </Avatar>
              </Grid>
             <Grid item>
@@ -38,9 +38,6 @@ useEffect(()=>{
             {/* TODO --- fetch Data */}
               <Typography sx={{margin:"-40px 100px 0px 0px",color:"dimgrey"}}>10/12/2022 </Typography>
             </Box>
-            </Grid>
-            <Grid item>
-                <Typography>عدد الزمر الموجودة في المركز :{CountBlood}</Typography>
             </Grid>
            <Grid item >
               <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhoodd}</Typography>

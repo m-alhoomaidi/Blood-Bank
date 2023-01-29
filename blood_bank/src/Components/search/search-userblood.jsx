@@ -16,9 +16,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { FunctionApi, TypeBlood, SearchBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus } from "./function-api";
+import {TypeBlood, SearchBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus } from "./function-api";
 import { Grow, IconButton, Typography } from "@mui/material";
-import CardSearchCenter from "./card-search-center";
 import SearchCenter from "./searchCenter";
 import { useAuthContext } from "../../context/auth-context";
 export const SearchUserBlood = () => {
@@ -36,7 +35,6 @@ export const SearchUserBlood = () => {
     setProgress(true);
     const docRf = query(
       collection(db, "donors"),
-      where("blood_type", "==", typeBlood),
       where("state", "==", state),
       where("district", "==", district),
     );
@@ -45,8 +43,10 @@ export const SearchUserBlood = () => {
       const DataUser = response.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
       setsearchBlood(DataUser);
       setProgress(false);
+      setClickIcon(true);
       searchUser(DataUser);
     })
+
     const docRfCenter = query(
       collection(db, "centers"),
       where("state", "==", state),
@@ -63,7 +63,7 @@ export const SearchUserBlood = () => {
 
   const [Stateid, setStateid] = useState([]);
   const [City, setCity] = useState([]);
-  const [ClickIcon, setClickIcon] = useState(false);
+  const [ClickIcon, setClickIcon] = useState(true);
   const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {
@@ -86,23 +86,17 @@ export const SearchUserBlood = () => {
   const [clickBloodType, setclickBloodType] = useState("");
   const HandleTypeBlood = (e) => {
     setclickBloodType(e.currentTarget.value);
-    setClickIcon(true);
+    setClickIcon(false);
   }
   return (
-    <>
-      <Box sx={{ marginTop: "80px", p: 3 }}>
-        <Paper
+      <Box sx={{ marginTop: "80px",pt:2}}>
+        <Card
           sx={{
             p: 2,
-            margin: "auto",
-            flexGrow: 1,
-            boxShadow: "0px 0px 0px",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-          }}
+            boxShadow: "0px 0px 0px"}}
         >
-          <Grid container spacing={3} flexDirection="row" justifyContent="center">
-            <Grid item xs={10} md={3}>
+          <Grid container spacing={3} flexDirection="row" justifyContent="center" >
+            <Grid item xs={10} md={3.5}>
               <Autocomplete
                 fullWidth
                 disablePortal
@@ -120,7 +114,7 @@ export const SearchUserBlood = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={10} md={3}>
+            <Grid item xs={10} md={3.5}>
               <Autocomplete
                 fullWidth
                 disablePortal
@@ -138,7 +132,7 @@ export const SearchUserBlood = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={10} md={3}>
+            <Grid item xs={10} md={3.3}>
               <Autocomplete
                 fullWidth
                 disablePortal
@@ -150,7 +144,7 @@ export const SearchUserBlood = () => {
                 )}
               />
             </Grid>
-            <Grid item xs={10} md={2}>
+            <Grid item xs={10} md={1.6}>
               <Button
                 variant="contained"
                 fullWidth
@@ -161,143 +155,187 @@ export const SearchUserBlood = () => {
               </Button>
             </Grid>
           </Grid>
-          <Grid container justifyContent="center" flexDirection="row" mt="30px">
-            <Grid item xs={10} md="auto">
-              {BloodIconShow ?
-                <Card sx={{ display: "flex", justifyContent: "center", flexDirection: "row", p: 3, marginTop: "10px", boxShadow: "5px 5px 5px rgb(100 116 139 / 6%),5px 5px 20px rgb(100 116 139 / 10%)" }}>
-                  {Transion ?
-                    <Grow
-                      in={Transion}
-                      style={{ transformOrigin: '2 2 2' }}
-                      {...(Transion ? { timeout: 2000 } : {})}>
-                      <Box sx={style}>
-                        {typeBlood === "A+" ?
-                          Apositive.map((e, index) => {
-                            return (
-                              <IconButton
-                                key={index}
-                                sx={typeBlood === e.label ? styleFocus :null}
-                                value={e.label}
-                                onClick={HandleTypeBlood}>{e.label}
-                              </IconButton >)
-                          }) :
-                          typeBlood === "B+" ?
-                            Bpositive.map((e, index) => {
-                              return (
-                                <IconButton
-                                  key={index}
-                                  sx={typeBlood === e.label ? styleFocus : null}
-                                  value={e.label}
-                                  onClick={HandleTypeBlood}>{e.label}
-                                </IconButton >)
-                            }) :
-                            typeBlood === "AB+" ?
-                              ABpositive.map((e, index) => {
+        </Card>
+        <Box
+          sx={{
+            width: '100%',
+            typography: 'body1',
+          }}>
+          <TabContext value={value}>
+            <Box
+              sx={{
+                borderBottom: 1,
+                borderColor: 'divider',
+                display: "flex",
+                justifyContent: "center"
+              }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example">
+                <Tab
+                  label="نتائج البحث من المتبرعين"
+                  value="1"
+                  sx={{ marginLeft: "100px" }} />
+                <Tab
+                  label=" نتائج البحث من المراكز الطبية" value="2"
+                  sx={{ marginRight: "50xp" }} />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <Grid
+                container
+                justifyContent="center"
+                flexDirection="row" >
+                <Grid item xs={12} md="auto">
+                  {BloodIconShow ?
+                    <Card
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center", flexDirection: "row",
+                        p: 3, marginTop: "10px", boxShadow: "5px 5px 5px rgb(100 116 139 / 6%),5px 5px 20px rgb(100 116 139 / 10%)"
+                      }}>{Transion ?
+                        <Grow
+                          in={Transion}
+                          style={{ transformOrigin: '2 2 2' }}
+                          {...(Transion ? { timeout: 2000 } : {})}>
+                          <Box sx={style}>
+                            {typeBlood === "A+" ?
+                              Apositive.map((e, index) => {
                                 return (
                                   <IconButton
                                     key={index}
-                                    sx={typeBlood === e?.label ? styleFocus : null}
                                     value={e.label}
                                     onClick={HandleTypeBlood}>{e.label}
                                   </IconButton >)
                               }) :
-                              typeBlood === "O+" ?
-                                Opositive.map((e, index) => {
+                              typeBlood === "B+" ?
+                                Bpositive.map((e, index) => {
                                   return (
                                     <IconButton
                                       key={index}
-                                      sx={typeBlood === e.label ? styleFocus : null}
+                                     
                                       value={e.label}
                                       onClick={HandleTypeBlood}>{e.label}
                                     </IconButton >)
                                 }) :
-                                typeBlood === "AB-" ?
-                                  ABnegative.map((e, index) => {
+                                typeBlood === "AB+" ?
+                                  ABpositive.map((e, index) => {
                                     return (
                                       <IconButton
                                         key={index}
-                                        sx={typeBlood === e.label ? styleFocus : null}
                                         value={e.label}
                                         onClick={HandleTypeBlood}>{e.label}
                                       </IconButton >)
                                   }) :
-                                  typeBlood === "A-" ?
-                                    Anegative.map((e, index) => {
+                                  typeBlood === "O+" ?
+                                    Opositive.map((e, index) => {
                                       return (
                                         <IconButton
                                           key={index}
-                                          sx={typeBlood === e.label ? styleFocus : null}
+                                         
                                           value={e.label}
                                           onClick={HandleTypeBlood}>{e.label}
                                         </IconButton >)
                                     }) :
-                                    typeBlood === "B-" ?
-                                      Bnegative.map((e, index) => {
+                                    typeBlood === "AB-" ?
+                                      ABnegative.map((e, index) => {
                                         return (
                                           <IconButton
                                             key={index}
-                                            sx={typeBlood === e.label ? styleFocus : null}
+                                           
                                             value={e.label}
                                             onClick={HandleTypeBlood}>{e.label}
                                           </IconButton >)
                                       }) :
-                                      typeBlood === "O-" ?
-                                        Onegative.map((e, index) => {
+                                      typeBlood === "A-" ?
+                                        Anegative.map((e, index) => {
                                           return (
                                             <IconButton
                                               key={index}
-                                              sx={typeBlood === e.label ? styleFocus : null}
+                                             
                                               value={e.label}
                                               onClick={HandleTypeBlood}>{e.label}
-                                        </IconButton >
-                                      )
-                                    }
-                              ) : ""
+                                            </IconButton >)
+                                        }) :
+                                        typeBlood === "B-" ?
+                                          Bnegative.map((e, index) => {
+                                            return (
+                                              <IconButton
+                                                key={index}
+                                                 
+                                                value={e.label}
+                                                onClick={HandleTypeBlood}>{e.label}
+                                              </IconButton >)
+                                          }) :
+                                          typeBlood === "O-" ?
+                                            Onegative.map((e, index) => {
+                                              return (
+                                                <IconButton
+                                                  key={index}
+                                                  
+                                                  value={e.label}
+                                                  onClick={HandleTypeBlood}>{e.label}
+                                                </IconButton >
+                                              )
+                                        }
+                                            
+                                ) : ""
                             }
-                      </Box>
-                    </Grow>
+                          </Box>
+                        </Grow>
+                        : ""}
+                    </Card>
                     : ""}
-                </Card>
-                : ""}
-            </Grid>
-          </Grid>
-        </Paper>
-        <Box sx={{ width: '100%', typography: 'body1' }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', display: "flex", justifyContent: "center" }}>
-              <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="نتائج البحث من المتبرعين" value="1" sx={{ marginLeft: "100px" }} />
-                <Tab label=" نتائج البحث من المراكز الطبية" value="2" sx={{ marginRight: "50xp" }} />
-              </TabList>
-            </Box>
-            <TabPanel value="1"> <Grid
-              container
-              spacing={3}
-              sx={{ marginTop: "40px", justifyContent: "center" }}
-            > {Progress ? <CircularProgress /> :
-              ClickIcon ? <Grid item xs={10} md={3.5} >
-                <FunctionApi TypesBlood={clickBloodType} searchSameBlood={searchBlood} />
-              </Grid> :
-                <Grid item xs={10} md={3.5} >{
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                spacing={3}
+                justifyContent="center"
+                flexDirection="row"
+                mt="2px"
+              >  {Progress ? <CircularProgress /> :
+                ClickIcon ?
                   searchBlood.map((user, index) => {
                     return (
                       user.data.is_shown === "1" ?
-                        <CardSearch
-                          nameSearch={user.data.name}
-                          bloodType={user.data.blood_type}
-                          neighborhood={user.data.neighborhood}
-                          sx={{ margin: "10px", p: 2 }}
-                          key={index} /> : "");})}
-                </Grid>}
-            </Grid></TabPanel>
-            <TabPanel value="2"> <Grid
-              container
-              spacing={3}
-              sx={{ marginTop: "40px", justifyContent: "center" }}
-            > <Grid item xs={10} md={4} ><SearchCenter resultSearchCenter={searchBloodCenter} BloodType={typeBlood} /></Grid></Grid></TabPanel>
+                        <Grid item xs={10} md={3.5} key={index} >
+                          <CardSearch
+                            nameSearch={user.data.name}
+                            bloodType={user.data.blood_type}
+                            neighborhood={user.data.neighborhood}
+                            sx={{ margin: "10px", p: 2 }}
+                          /></Grid> : "");
+                  }) : 
+                     searchBlood.map((user,index)=>{
+                              return ( clickBloodType === user.data.blood_type && user.data.is_shown === "1" ?
+                            <Grid item xs={10} md={3.5} key={index}>
+                              <CardSearch 
+                                   nameSearch={user.data.name} bloodType={user.data.blood_type} 
+                                   neighborhood={user.data.neighborhood} 
+                                   sx={{margin:"10px",p:2}} />
+                            </Grid> : "");
+                            })
+                    }
+              </Grid></TabPanel>
+            <TabPanel value="2">
+                <Grid
+                   container
+                   spacing={3}
+                   sx={{ 
+                        marginTop: "40px",
+                        justifyContent: "center" 
+                      }}>
+                      {Progress ? <CircularProgress /> :
+                      <Grid item xs={10} md={4} >
+                            <SearchCenter 
+                                resultSearchCenter={searchBloodCenter} 
+                                BloodType={typeBlood} />
+                      </Grid>}
+                </Grid>
+            </TabPanel>
           </TabContext>
         </Box>
       </Box>
-    </>
   );
 };

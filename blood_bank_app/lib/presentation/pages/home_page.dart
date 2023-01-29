@@ -5,7 +5,6 @@ import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,11 +20,6 @@ import '../widgets/home/home_drawer/home_drawer.dart';
 import 'package:http/http.dart' as http;
 
 //---------------------
-// const AndroidNotificationChannel channel = AndroidNotificationChannel(
-//     'high_importance_channel', // id
-//     'High Importance Notifications', // title // description
-//     importance: Importance.high,
-//     playSound: true);
 import '../widgets/home/home_welcome.dart';
 import 'introduction_page.dart';
 
@@ -73,10 +67,8 @@ class _HomePageState extends State<HomePage> {
     //-------------------------------------------------------
     initialMessageing();
     // pushnot();
-    print("+++++++++++++++++++-------------------------");
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print("----------------------------++++++++++++++++++");
-      Fluttertoast.showToast(msg: message.notification!.body.toString());
       await SharedMethod().checkGps();
       position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -90,11 +82,7 @@ class _HomePageState extends State<HomePage> {
           .update({
         DonorFields.lat: position.latitude,
         DonorFields.lon: position.longitude
-      }).then((value) async {
-        print("okkkkkkkkkkkkkkkkkkkkkkkk");
       });
-      print(".........................................");
-      print(message.notification!.body);
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       flutterLocalNotificationsPlugin.show(
@@ -284,115 +272,65 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             drawer: const HomeDrower(),
-            floatingActionButton: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  onPressed: showNotification,
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                  heroTag: "add",
-                ),
-                const SizedBox(width: 16),
-                FloatingActionButton(
-                  child: const Icon(Icons.search_rounded),
-                  onPressed: () async {
-                    print("----------------------------------");
-                    try {
-                      print(FirebaseMessaging.instance.getToken().then(
-                            (value) => print(value),
-                          ));
-                      print("000000000");
-                      print("object");
-                      pushNotificationsGroupDevice(
-                          title: "حالة حرجة", body: "تعال ياحيوان");
-                      print("1111111111111111");
-                      // FirebaseMessaging.onMessage
-                      //     .listen((RemoteMessage message) {
-                      //   print("----------------------------++++++++++++++++++");
-                      //   print(message.notification!.android);
-                      //   print(message.notification!.title);
-                      //   RemoteNotification? notification = message.notification;
-                      //   AndroidNotification? android =
-                      //       message.notification?.android;
-                      //   if (android != null) {
-                      //     flutterLocalNotificationsPlugin
-                      //         .show(
-                      //             notification.hashCode,
-                      //             notification!.title,
-                      //             notification.body,
-                      //             NotificationDetails(
-                      //               android: AndroidNotificationDetails(
-                      //                   channel.id, channel.name,
-                      //                   color: Colors.blue,
-                      //                   playSound: true,
-                      //                   icon: '@mipmap/ic_launcher'),
-                      //             ))
-                      //         .then((value) {
-                      //       print("5555555555555");
-                      //     }).onError((error, stackTrace) {
-                      //       print("3333333333333");
-                      //       print(error);
-                      //     });
-                      //   }
-                      // });
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.search_rounded),
+              onPressed: () async {
+                try {
+                  // print(FirebaseMessaging.instance.getToken().then(
+                  //       (value) => print(value),
+                  //     ));
 
-                      FirebaseMessaging firebaseMessaging =
-                          FirebaseMessaging.instance; // Change here
-                      // await _firebaseMessaging.getToken().then((token) {
-                      //   print("token is $token");
-                      // });
-                    } catch (e) {
-                      print(e);
-                    }
-                    // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
-                    // Navigator.pushNamed(context, ProfileCenterPage.routeName);
-                    // Get a new write batch
-                    // final batch = db.batch();
-                    // for (var donorJson in list) {
-                    //   var docRef = db.collection("donors").doc();
-                    //   batch.set(docRef, donorJson);
-                    // }
-                    // batch.commit().then((_) {
-                    //   print("======commit=done======");
-                    // });
-                    // Navigator.of(context).pushNamed(SearchPage.routeName);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute<void>(
-                    //     builder: (BuildContext context) => const SearchMapPage(),
-                    //   ),
-                    // );
-                    // Navigator.of(context).pushNamed(OnBoardingView.routeName);
-                    // LocationPoint point1 = LocationPoint(
-                    //       lat: 13.9585003,
-                    //       lon: 44.1709884,
-                    //     ),
-                    //     point2 = LocationPoint(
-                    //       lat: 13.9556071,
-                    //       lon: 44.1708585,
-                    //     );
-                    // print(getNearbyPoints(
-                    //   base: point1,
-                    //   points: [point2],
-                    //   distanceKm: 0.4,
-                    // ).length); // 0.3220144142025769
-                    // // get the current location
-                    // await LocationManager().getCurrentLocation();
-                    // // start listen to location updates
-                    // StreamSubscription<LocationDto> locationSubscription =
-                    //     LocationManager().locationStream.listen((LocationDto dto) {
-                    //   print('======================');
-                    //   print(dto.altitude);
-                    //   print(dto.longitude);
-                    // });
-                    // // cancel listening and stop the location manager
-                    // locationSubscription.cancel();
-                    // LocationManager().stop();
-                  },
-                  heroTag: "search",
-                ),
-              ],
+                  pushNotificationsGroupDevice(
+                      title: "حالة حرجة", body: "تعال ياحيوان");
+                } catch (e) {
+                  print(e);
+                }
+                // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+                // Navigator.pushNamed(context, ProfileCenterPage.routeName);
+                // Get a new write batch
+                // final batch = db.batch();
+                // for (var donorJson in list) {
+                //   var docRef = db.collection("donors").doc();
+                //   batch.set(docRef, donorJson);
+                // }
+                // batch.commit().then((_) {
+                //   print("======commit=done======");
+                // });
+                // Navigator.of(context).pushNamed(SearchPage.routeName);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute<void>(
+                //     builder: (BuildContext context) => const SearchMapPage(),
+                //   ),
+                // );
+                // Navigator.of(context).pushNamed(OnBoardingView.routeName);
+                // LocationPoint point1 = LocationPoint(
+                //       lat: 13.9585003,
+                //       lon: 44.1709884,
+                //     ),
+                //     point2 = LocationPoint(
+                //       lat: 13.9556071,
+                //       lon: 44.1708585,
+                //     );
+                // print(getNearbyPoints(
+                //   base: point1,
+                //   points: [point2],
+                //   distanceKm: 0.4,
+                // ).length); // 0.3220144142025769
+                // // get the current location
+                // await LocationManager().getCurrentLocation();
+                // // start listen to location updates
+                // StreamSubscription<LocationDto> locationSubscription =
+                //     LocationManager().locationStream.listen((LocationDto dto) {
+                //   print('======================');
+                //   print(dto.altitude);
+                //   print(dto.longitude);
+                // });
+                // // cancel listening and stop the location manager
+                // locationSubscription.cancel();
+                // LocationManager().stop();
+              },
+              heroTag: "search",
             ),
           );
   }

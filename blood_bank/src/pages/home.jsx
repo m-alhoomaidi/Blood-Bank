@@ -9,7 +9,6 @@ const HomePage = (props) => {
       <GreetingSection /> 
       <MedialInstructionsSection />
        <AboutUsSection />
-       {/* <TrysignupCenter/> */}
        {/* <BloodForm/> */}
     </>
   );
