@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:blood_bank_app/domain/entities/blood_center.dart';
 import 'package:blood_bank_app/domain/usecases/search_centers_usecase.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:blood_bank_app/domain/usecases/search_state_donors_usecase.dart';
 
 import '../../../core/error/failures.dart';
 import '../../../domain/entities/donor.dart';
@@ -13,14 +15,16 @@ import '../../../domain/usecases/search_donors_usecase.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final SearchDonorsUseCase searchForDonorsUseCase;
-  final SearchCentersUseCase searchForCentersUseCase;
+  final SearchStateDonorsUseCase searchStateDonorsUseCase;
+  // final SearchDonorsUseCase searchDonorsUseCase;
+  final SearchCentersUseCase searchCentersUseCase;
   SearchCubit({
-    required this.searchForDonorsUseCase,
-    required this.searchForCentersUseCase,
+    required this.searchStateDonorsUseCase,
+    // required this.searchDonorsUseCase,
+    required this.searchCentersUseCase,
   }) : super(SearchInitial());
 
-  List<Donor> donors = [], donorsInState = [];
+  List<Donor> donors = [], stateDonors = [];
   List<BloodCenter> centers = [];
   String selectedState = '', selectedDistrict = '';
   String? selectedBloodType;
@@ -35,16 +39,31 @@ class SearchCubit extends Cubit<SearchState> {
       emit(SearchFailure(error: 'يجب تحديد المحافظة والمديرية وفصيلة الدم'));
     } else {
       try {
-        searchForDonorsUseCase(
+        searchStateDonorsUseCase(
           state: selectedState,
-          district: selectedDistrict,
-        ).then((donorsOrFailure) {
-          donorsOrFailure.fold(
+        ).then((stateDonorsOrFailure) {
+          stateDonorsOrFailure.fold(
               (failure) =>
                   emit(SearchFailure(error: getFailureMessage(failure))),
-              (fetchedDonors) async {
-            donors = fetchedDonors;
-            await searchForCentersUseCase(
+              (fetchedStateDonors) async {
+            stateDonors = fetchedStateDonors;
+
+            //   });
+            // });
+
+            // searchDonorsUseCase(
+            //   state: selectedState,
+            //   district: selectedDistrict,
+            // ).then((donorsOrFailure) {
+            //   donorsOrFailure.fold(
+            //       (failure) =>
+            //           emit(SearchFailure(error: getFailureMessage(failure))),
+            //       (fetchedDonors) async {
+
+            donors = fetchedStateDonors
+                .where((donor) => donor.district == selectedDistrict)
+                .toList();
+            await searchCentersUseCase(
               state: selectedState,
               district: selectedDistrict,
             ).then((centersOrFailure) {
@@ -57,7 +76,7 @@ class SearchCubit extends Cubit<SearchState> {
                     SearchSuccess(
                       donors: donors,
                       centers: fetchedCenters,
-                      donorsInState: donorsInState,
+                      donorsInState: stateDonors,
                       selectedTabIndex: selectedTabBloodType,
                     ),
                   );
@@ -95,7 +114,7 @@ class SearchCubit extends Cubit<SearchState> {
             SearchSuccess(
               donors: donors,
               centers: centers,
-              donorsInState: donorsInState,
+              donorsInState: stateDonors,
               selectedTabIndex: selectedTabBloodType,
             ),
           );
@@ -177,7 +196,7 @@ class SearchCubit extends Cubit<SearchState> {
       SearchSuccess(
         donors: donors,
         centers: centers,
-        donorsInState: donorsInState,
+        donorsInState: stateDonors,
         selectedTabIndex: tabIndex,
       ),
     );

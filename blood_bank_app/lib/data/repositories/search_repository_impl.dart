@@ -62,17 +62,18 @@ class SearchRepositoryImpl implements SearchRepository {
     required String state,
   }) async {
     if (await networkInfo.isConnected) {
-      List<Donor> donors = <Donor>[];
+      List<Donor> stateDonors = <Donor>[];
       try {
         return await _fireStore
             .collection(DonorFields.collectionName)
             .where(DonorFields.state, isEqualTo: state)
             .get()
-            .then((fetchedDonors) async {
-          if (fetchedDonors.docs.isNotEmpty) {
-            donors =
-                fetchedDonors.docs.map((e) => Donor.fromMap(e.data())).toList();
-            return Right(donors);
+            .then((value) async {
+          if (value.docs.isNotEmpty) {
+            stateDonors = value.docs
+                .map((donorDoc) => Donor.fromMap(donorDoc.data()))
+                .toList();
+            return Right(stateDonors);
           } else {
             return const Right(<Donor>[]);
           }

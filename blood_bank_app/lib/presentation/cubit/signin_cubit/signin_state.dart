@@ -3,13 +3,13 @@ part of 'signin_cubit.dart';
 @immutable
 abstract class SignInState {}
 
-class SigninInitial extends SignInState {}
+class SignInInitial extends SignInState {}
 
-class SigninLoading extends SignInState {}
+class SignInLoading extends SignInState {}
 
-class SigninSuccess extends SignInState {}
+class SignInSuccess extends SignInState {}
 
-class SigninSuccessResetPass extends SignInState {}
+class SignInSuccessResetPass extends SignInState {}
 
 class SigninFailure extends SignInState {
   final String error;
