@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:blood_bank_app/domain/entities/donor_point.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 
 import '../../domain/entities/blood_types.dart';
@@ -28,12 +29,7 @@ class SearchMapPage extends StatefulWidget {
 
 class _SearchMapPageState extends State<SearchMapPage> {
   final Completer<GoogleMapController> _mapcontroller = Completer();
-
   final List<Marker> _marker = [];
-
-//---------------------------------
-
-//--------------------------
   bool hasCurrentLocation = false;
   bool servicestatus = false;
   bool haspermission = false;
@@ -43,38 +39,22 @@ class _SearchMapPageState extends State<SearchMapPage> {
   late StreamSubscription<Position> positionStream;
   final UrlLauncherPlatform launcher = UrlLauncherPlatform.instance;
   var location = loc.Location();
+  static const LatLng sourcelocation = LatLng(13.9585005, 44.1709885);
+  static const LatLng destination = LatLng(13.9672166, 44.1635721);
+  List<LatLng> polylinCoordinates = [];
+  DonorPoint me = DonorPoint(
+    lat: 13.9585005,
+    lon: 44.1709885,
+    name: "أنا",
+    bloodType: "",
+    phone: "",
+  );
 
   @override
   void initState() {
     checkGps();
+    refreshDeviceLocation();
     super.initState();
-  }
-
-  refreshDeviceLocation() async {
-    loc.Location location = loc.Location();
-    location.getLocation().then(
-      (location) {
-        location = location;
-      },
-    );
-    GoogleMapController googleMapController = await _mapcontroller.future;
-    location.onLocationChanged.listen(
-      (newLoc) {
-        final currentLocation = newLoc;
-        googleMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              zoom: 13.5,
-              target: LatLng(
-                newLoc.latitude!,
-                newLoc.longitude!,
-              ),
-            ),
-          ),
-        );
-        setState(() {});
-      },
-    );
   }
 
   checkGps() async {
@@ -135,10 +115,121 @@ class _SearchMapPageState extends State<SearchMapPage> {
     });
   }
 
-//-----------------------------------------------------
-  static const LatLng sourcelocation = LatLng(13.9585005, 44.1709885);
-  static const LatLng destination = LatLng(13.9672166, 44.1635721);
-  List<LatLng> polylinCoordinates = [];
+  refreshDeviceLocation() async {
+    loc.Location location = loc.Location();
+    location.getLocation().then(
+      (location) {
+        location = location;
+      },
+    );
+    GoogleMapController googleMapController = await _mapcontroller.future;
+    location.onLocationChanged.listen(
+      (newLoc) {
+        final currentLocation = newLoc;
+        googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              zoom: 13.5,
+              target: LatLng(
+                newLoc.latitude!,
+                newLoc.longitude!,
+              ),
+            ),
+          ),
+        );
+        setState(() {});
+      },
+    );
+  }
+
+  List<DonorPoint> getDonorPoints(SearchSuccess state) {
+    List<DonorPoint> points = [];
+    String selectedBloodType =
+        BlocProvider.of<SearchCubit>(context).selectedBloodType!;
+    List<Donor> suitableDonors = state.donorsInState
+        .where((donor) =>
+            BloodTypes.canReceiveFrom(bloodType: selectedBloodType)
+                .contains(donor.bloodType))
+        .toList();
+    for (var donor in suitableDonors) {
+      points.add(DonorPoint(
+        lat: double.tryParse(donor.lat) ?? 0.0,
+        lon: double.tryParse(donor.lon) ?? 0.0,
+        name: donor.name,
+        phone: donor.phone,
+        bloodType: donor.bloodType,
+      ));
+    }
+    return points;
+  }
+
+  // Filtering Points
+  List<DonorPoint> getNearbyPoints({
+    required DonorPoint base,
+    required List<DonorPoint> points,
+    required double distanceKm,
+  }) {
+    List<DonorPoint> nearPoints = [];
+    print(distanceKm);
+    for (var point in points) {
+      double far = getDistanceFromLatLonInKM(point1: base, point2: point);
+      print("========far====distanceKm=====");
+      print(far);
+      if (far < distanceKm) {
+        nearPoints.add(point);
+      }
+    }
+    return nearPoints;
+  }
+
+  getDistanceFromLatLonInKM({
+    required DonorPoint point1,
+    required DonorPoint point2,
+  }) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
+    var dLon = deg2rad(point2.lon - point1.lon);
+    var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(deg2rad(point1.lat)) *
+            math.cos(deg2rad(point2.lat)) *
+            math.sin(dLon / 2) *
+            math.sin(dLon / 2);
+    var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  deg2rad(deg) {
+    return deg * (math.pi / 180);
+  }
+
+  List<Marker> _generateMarkers(List<DonorPoint> listPoints) {
+    return List<Marker>.generate(listPoints.length, (index) {
+      return Marker(
+        markerId: MarkerId("$index"),
+        position: LatLng(listPoints[index].lat, listPoints[index].lon),
+        infoWindow: InfoWindow(
+          onTap: () async {
+            final Uri launchUri = Uri(
+              scheme: 'tel',
+              path: listPoints[index].phone,
+            );
+            await launcher.launch(
+              launchUri.toString(),
+              useSafariVC: false,
+              useWebView: false,
+              enableJavaScript: false,
+              enableDomStorage: false,
+              universalLinksOnly: true,
+              headers: <String, String>{},
+            );
+          },
+          title: listPoints[index].bloodType,
+          snippet: "${listPoints[index].name} • 📞 ${listPoints[index].phone}",
+        ),
+      );
+    });
+  }
 
   // void getPolyPoints() async {
   //   PolylinePoints polylinePoints = PolylinePoints();
@@ -164,7 +255,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("بنك الدم الإلكتروني"),
+        title: const Text("مواقع المتبرعين"),
         centerTitle: true,
         elevation: 0,
         actions: [
@@ -179,118 +270,19 @@ class _SearchMapPageState extends State<SearchMapPage> {
       body: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {},
         builder: (context, state) {
-          List<RecivePoint> listPorin = [];
-          if (state is SearchSuccess) {
-            String selectedBloodType =
-                BlocProvider.of<SearchCubit>(context).selectedBloodType!;
-            List<Donor> suitableDonors = state.donorsInState
-                .where((donor) =>
-                    BloodTypes.canReceiveFrom(bloodType: selectedBloodType)
-                        .contains(donor.bloodType))
-                .toList();
-            for (var donor in suitableDonors) {
-              listPorin.add(RecivePoint(
-                lat: double.tryParse(donor.lat) ?? 0.0,
-                lon: double.tryParse(donor.lon) ?? 0.0,
-                name: donor.name,
-                phone: donor.phone,
-                bloodType: donor.bloodType,
-              ));
-            }
-          }
-
-          RecivePoint me = RecivePoint(
-            lat: 13.9585005, //currentLatLon.latitude,
-            lon: 44.1709885, //currentLatLon.longitude,
-            name: "أنا",
-            bloodType: "",
-            phone: "",
+          List<DonorPoint> listPoints = [];
+          if (state is SearchSuccess) listPoints = getDonorPoints(state);
+          listPoints = getNearbyPoints(
+            base: me,
+            points: listPoints,
+            distanceKm: 5.0,
           );
+          final List<Marker> markBrach = _generateMarkers(listPoints);
+          _marker.addAll(markBrach);
 
-          // print("===========points length before filtering");
-          // print(listPorin.length);
-
-          // Filtering Points
-          deg2rad(deg) {
-            return deg * (math.pi / 180);
-          }
-
-          getDistanceFromLatLonInKM({
-            required RecivePoint point1,
-            required RecivePoint point2,
-          }) {
-            var R = 6371; // Radius of the earth in km
-            var dLat = deg2rad(point2.lat - point1.lat); // deg2rad below
-            var dLon = deg2rad(point2.lon - point1.lon);
-            var a = math.sin(dLat / 2) * math.sin(dLat / 2) +
-                math.cos(deg2rad(point1.lat)) *
-                    math.cos(deg2rad(point2.lat)) *
-                    math.sin(dLon / 2) *
-                    math.sin(dLon / 2);
-            var c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
-            var d = R * c; // Distance in km
-            return d;
-          }
-
-          List<RecivePoint> getNearbyPoints({
-            required RecivePoint base,
-            required List<RecivePoint> points,
-            required double distanceKm,
-          }) {
-            List<RecivePoint> nearPoints = [];
-            print(distanceKm);
-            for (var point in points) {
-              double far =
-                  getDistanceFromLatLonInKM(point1: base, point2: point);
-              print("========far====distanceKm=====");
-              print(far);
-              if (far < distanceKm) {
-                nearPoints.add(point);
-              }
-            }
-            return nearPoints;
-          }
-
-          listPorin =
-              getNearbyPoints(base: me, points: listPorin, distanceKm: 5.0);
-
-          final List<Marker> _markBrach =
-              List<Marker>.generate(listPorin.length, (index) {
-            return Marker(
-              markerId: MarkerId("$index"),
-              position: LatLng(listPorin[index].lat, listPorin[index].lon),
-              infoWindow: InfoWindow(
-                onTap: () async {
-                  final Uri launchUri = Uri(
-                    scheme: 'tel',
-                    path: listPorin[index].phone,
-                  );
-                  await launcher.launch(
-                    launchUri.toString(),
-                    useSafariVC: false,
-                    useWebView: false,
-                    enableJavaScript: false,
-                    enableDomStorage: false,
-                    universalLinksOnly: true,
-                    headers: <String, String>{},
-                  );
-                },
-                title: listPorin[index].bloodType,
-                snippet:
-                    "${listPorin[index].name} • 📞 ${listPorin[index].phone}",
-              ),
-            );
-          });
-
-          _marker.addAll(_markBrach);
           return (hasCurrentLocation)
               ? GoogleMap(
                   markers: Set<Marker>.of(_marker),
-
-                  // onMapCreated: ((GoogleMapController controller) {
-                  //   _mapcontroller.complete(controller);
-                  // }),
-
                   initialCameraPosition: CameraPosition(
                       target: LatLng(position.latitude, position.longitude),
                       zoom: 13.5),
@@ -320,8 +312,8 @@ class _SearchMapPageState extends State<SearchMapPage> {
           position = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high);
           if (kDebugMode) {
-            print(position.longitude); //Output: 80.24599079
-            print(position.latitude); //Output: 29.6593457
+            print(position.longitude);
+            print(position.latitude);
           }
 
           // // get the current location
@@ -348,19 +340,3 @@ class _SearchMapPageState extends State<SearchMapPage> {
 //   RecivePoint(latitude: "13.9556008", longitude: '44.1708603'),
 //   RecivePoint(latitude: "13.9556071", longitude: '44.1708585'),
 // ];
-
-class RecivePoint {
-  double lat;
-  double lon;
-  String name;
-  String bloodType;
-  String phone;
-
-  RecivePoint({
-    required this.lat,
-    required this.lon,
-    required this.name,
-    required this.bloodType,
-    required this.phone,
-  });
-}

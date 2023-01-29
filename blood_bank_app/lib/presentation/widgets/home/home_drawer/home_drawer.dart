@@ -9,12 +9,14 @@ class HomeDrower extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: const [
-          HomeDrawerHeader(),
-          // TODO if is user show HomeDrawerUserBody(),
-          HomeDrawerBody(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: const [
+            HomeDrawerHeader(),
+            // TODO if is user show HomeDrawerUserBody(),
+            HomeDrawerBody(),
+          ],
+        ),
       ),
     );
   }
