@@ -688,7 +688,7 @@ class _HomePageState extends State<HomePage> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["fNVcx-T2TsyJUbACLgphIY:APA91bEUYkRXTxRKQbIHjlmSbDOHM7Jz9u0dn-pSdQDB1ePyR_HGouN6auGr0s-Zp2vrHO8gRvgfTlUnwKrWlsUQdDpeY6laBhjl5NbAEVkyTgl8sAdjgQBWm-Lmf-5t1YwhtMQ0at7V","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
+        '"registration_ids":["fwSGgXVlQ1-DkWdPvwC2vU:APA91bFcNOMGE2cl9c-BPfzUk4ksX-EIOSKEIixpAoO0k0XE7blcIRugk8xIl_ZQTM3KxbPuVCyajUSrMF-9uzrRkpA6K98M8-khrQKuk_YKLhqonSHcgi5bcJhQcqcSqQcOLbhQEMUr","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
