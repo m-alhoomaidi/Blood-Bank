@@ -12,12 +12,14 @@ export const CardHeaderXs =()=>{
                 sx={{
                     display:{xs:"flex",md:"none"},
                     flexDirection:"row",
-                    margin:"10px 0px 20px 0px",
-                    p:2}}>
+                    alignItems:"center",
+                    mb:2,
+                    mt:1.5,
+                    p:2.5}}>
                 <PersonOutlineSharpIcon  sx={{ fontSize:"30px"}}/>
                 <Typography sx={{
                                   marginRight :"20px",
-                                  fontSize: '25px',
+                                  fontSize: '20px',
                 }}>معلومات الحساب</Typography>
             </Card>
         </Box>

@@ -1,14 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/core/error/exceptions.dart';
-import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
+import 'package:hive/hive.dart';
+
+import '../../core/error/exceptions.dart';
+import '../../core/error/failures.dart';
+import '../../core/network/network_info.dart';
+import '../../domain/entities/blood_center.dart';
+import '../../domain/entities/donor.dart';
+import '../../domain/repositories/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:blood_bank_app/core/error/failures.dart';
-import 'package:blood_bank_app/core/network/network_info.dart';
-import 'package:blood_bank_app/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -29,6 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
         )
             .then((userCredential) async {
           if (userCredential.user != null) {
+            await saveUserTypeLocal(userCredential);
             return Right(userCredential);
           } else {
             return Left(UnknownFailure());
@@ -52,6 +55,34 @@ class AuthRepositoryImpl implements AuthRepository {
     } else {
       return Left(OffLineFailure());
     }
+  }
+
+  Future saveUserTypeLocal(UserCredential userCredential) async {
+    final box = Hive.box(dataBoxName);
+    String docId = userCredential.user!.uid;
+    print(docId);
+    await _fireStore
+        .collection(BloodCenterFields.collectionName)
+        .doc(docId)
+        .get()
+        .then((value) async {
+      if (value.data() == null) {
+        await _fireStore
+            .collection(DonorFields.collectionName)
+            .doc(docId)
+            .get()
+            .then((value) async {
+          if (value.data() == null) {
+            box.put('user', "0");
+          } else {
+            box.put('user', "1");
+          }
+        });
+      } else {
+        box.put('user', "2");
+      }
+    });
+    print(box.get("user") ?? "5");
   }
 
   @override
@@ -94,11 +125,12 @@ class AuthRepositoryImpl implements AuthRepository {
                   .doc(userCredential.user!.uid)
                   .set(donor.toMap())
                   .then((_) async {
+                Hive.box(dataBoxName).put('user', "1");
                 return const Right(unit);
               });
             } on FirebaseException catch (fireError) {
               if (fireError.code == 'unknown') {
-                return Left(ServerFailure());
+                return Left(FirebaseUnknownFailure());
               } else if (fireError.code == 'too-many-request') {
                 return Left(ServerFailure());
               } else {
@@ -121,7 +153,7 @@ class AuthRepositoryImpl implements AuthRepository {
         } else if (fireError.code == 'email-already-in-use') {
           return Left(EmailAlreadyRegisteredFailure());
         } else if (fireError.code == 'unknown') {
-          return Left(ServerFailure());
+          return Left(FirebaseUnknownFailure());
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());
         } else {
@@ -156,11 +188,12 @@ class AuthRepositoryImpl implements AuthRepository {
                   .doc(userCredential.user!.uid)
                   .set(center.toMap())
                   .then((_) async {
+                Hive.box(dataBoxName).put('user', "2");
                 return const Right(unit);
               });
             } on FirebaseException catch (fireError) {
               if (fireError.code == 'unknown') {
-                return Left(ServerFailure());
+                return Left(FirebaseUnknownFailure());
               } else if (fireError.code == 'too-many-request') {
                 return Left(ServerFailure());
               } else {
@@ -183,7 +216,7 @@ class AuthRepositoryImpl implements AuthRepository {
         } else if (fireError.code == 'email-already-in-use') {
           return Left(EmailAlreadyRegisteredFailure());
         } else if (fireError.code == 'unknown') {
-          return Left(ServerFailure());
+          return Left(FirebaseUnknownFailure());
         } else if (fireError.code == 'too-many-request') {
           return Left(ServerFailure());
         } else {

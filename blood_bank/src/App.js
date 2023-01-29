@@ -12,14 +12,15 @@ import { AuthGuard } from './context/auth-gaurd';
 import MapPage from './pages/map';
 import { Box } from '@mui/material';
 import Aboutus from './pages/aboutus';
-import SignUpCenter from './pages/signupCenter';
+import SignUpCenter from './pages/signupcenter';
+import CenterProfiles from './pages/centerprofile';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <BrowserRouter>
           <AuthGuard>
-            <Box sx={{backgroundColor:"#fafafa",}} px={{md:10,xs:1}}>
+            <Box sx={{backgroundColor:"#fafafa",}} px={{md:5,xs:1}}>
             <NavBar />
             <Routes>
               <Route path='/' element={<HomePage />} />
@@ -30,6 +31,7 @@ const App = () => {
               <Route path='/map' element={<MapPage />} />
               <Route path='/aboutus' element={<Aboutus/>}/>
               <Route path='/SignUpCenter'element={<SignUpCenter/>}/>
+               <Route path='/centerprofile'element={<CenterProfiles/>}/>
             </Routes>
             </Box>
             {/* <Footer /> */}

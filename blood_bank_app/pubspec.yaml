@@ -42,6 +42,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   introduction_screen: ^3.1.4
   location: ^4.4.0
+  lottie: ^2.2.0
   modal_progress_hud_nsn: ^0.3.0
   permission_handler: ^10.2.0
   url_launcher: ^6.1.7
@@ -58,6 +59,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/
     - data/country.json
     - assets/images/onboarding_logo1.svg
     - assets/images/hollow_cirlce_ic.svg
@@ -71,12 +73,12 @@ flutter:
         - asset: assets/fonts/Almarai-Regular.ttf
           weight: 400
         - asset: assets/fonts/Montserrat-Bold.ttf
-          weight: 700 
+          weight: 700
         - asset: assets/fonts/Montserrat-SemiBold.ttf
-          weight: 600 
+          weight: 600
         - asset: assets/fonts/Montserrat-Medium.ttf
-          weight: 500 
+          weight: 500
         - asset: assets/fonts/Montserrat-Regular.ttf
-          weight: 400 
+          weight: 400
         - asset: assets/fonts/Montserrat-Light.ttf
-          weight: 300 
+          weight: 300

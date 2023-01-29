@@ -22,13 +22,15 @@ class AppStrings {
   //----------------------------------------------------------------
   // Home Page
   static const String homeAppBarTitle = "بنك الدم الإلكتروني";
-  static const String homeDrawerHeaderUserName = "اسم المستخدم";
+  static const String homeDrawerHeaderAppName = "Blood Bank";
   static const String homeDrawerSignIn = "تسجيل دخول";
   static const String homeDrawerSignUp = "إنشاء حساب";
   static const String homeDrawerSettings = "إعدادات";
   static const String homeDrawerSignInFirstToast = "الرجاء تسجيل الدخول أولاً";
   static const String homeDrawerUpdateBloodBank = "تعديل مخزون البنك";
+  static const String homeDrawerEditProfileCenter = "تعديل بيانات المركز ";
   static const String homeDrawerAboutApp = "حول التبيق";
+  static const String homeDrawerLogOut = "تسجيل خروج";
 
   //-------------------------------------------------------
   //-------- Sing In Page
@@ -104,4 +106,14 @@ class AppStrings {
   static const String profileAdressTitle = "العنوان";
   static const String profileCheckChooseOption =
       "تاكد من ضبط كل الخيارات بشكل صحيح";
+
+  //--------------------------------------------------------
+  //   ProfileCenter Page
+  static const String profileCenterTitle = "فصائل الدم المتوفرة";
+
+  //-----------------------------------------------------------
+  //  EditMainDataPage
+  static const String editMainDataTextName = "الاسم";
+  static const String editMainDataTextNameValidator =
+      "لا يمكن أن يكون الاسم أقل من حرفين";
 }

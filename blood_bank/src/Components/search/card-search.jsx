@@ -15,7 +15,7 @@ useEffect(()=>{
 },[]);
     return (
       <>
-    <Box >
+    <Box sx={{'& .css-1o2f6ek-MuiPaper-root-MuiCard-root':{p:2}}}>
        <Card sx={{ height: '100%' }}>
           <Grid container spacing={3} >
             <Grid item >
@@ -45,10 +45,11 @@ useEffect(()=>{
           <Box  sx={{margin:"20px 20px",display:"flex",justifyContent:'center'}}>
             <Grid container spacing={6} sx={{justifyContent:"center"}}>
             <Grid item >
+              <a href="tel:+976776259340" >
                <Button variant="contained" sx={{background:"green", "&:hover": {
                   backgroundColor: "#69af69",
                   textDecoration: "none",
-                },}} ><LocalPhoneIcon /></Button>
+                },}} ><LocalPhoneIcon /></Button></a>
             </Grid>
             <Grid item >
                 <Button variant="contained" sx={{background:"#f79898", "&:hover": {
