@@ -1,5 +1,6 @@
 import 'package:blood_bank_app/domain/usecases/search_centers_usecase.dart';
 import 'package:blood_bank_app/domain/usecases/search_state_donors_usecase.dart';
+import 'package:blood_bank_app/presentation/cubit/maps_cubit/maps_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -38,10 +39,10 @@ Future<void> initApp() async {
   sl.registerLazySingleton(() => SearchCentersUseCase(searchRepository: sl()));
   // Search Cubit
   sl.registerLazySingleton(() => SearchCubit(
-        // searchDonorsUseCase: sl(),
         searchCentersUseCase: sl(),
         searchStateDonorsUseCase: sl(),
       ));
+  // sl.registerLazySingleton(() => MapsCubit());
 
   // Profile Repositories
   sl.registerFactory<ProfileRepository>(
