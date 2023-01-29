@@ -18,7 +18,7 @@ class HomeDrawerHeader extends StatelessWidget {
         color: Theme.of(context).primaryColor,
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () async {},
         child: Center(
           child: Column(
             children: [

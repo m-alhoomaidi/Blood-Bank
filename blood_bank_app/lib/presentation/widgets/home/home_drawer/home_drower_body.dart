@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 
 import '../../../../core/utils.dart';
 import '../../../../dependency_injection.dart' as di;
@@ -116,6 +117,7 @@ class HomeDrawerBody extends StatelessWidget {
             title: AppStrings.homeDrawerLogOut,
             icon: Icons.logout_outlined,
             onTap: () async {
+              Hive.box(dataBoxName).put('user', "0");
               await FirebaseAuth.instance.signOut();
               Navigator.of(context).pop();
             },
