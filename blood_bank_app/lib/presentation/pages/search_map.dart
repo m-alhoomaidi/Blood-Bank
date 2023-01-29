@@ -41,74 +41,77 @@ class _SearchMapPageState extends State<SearchMapPage> {
   late StreamSubscription<Position> positionStream;
   final UrlLauncherPlatform launcher = UrlLauncherPlatform.instance;
   var location = loc.Location();
+
   @override
   void initState() {
     checkGps();
-    // getPolyPoints();
     super.initState();
   }
 
+  refreshDeviceLocation() async {
+    loc.Location location = loc.Location();
+    location.getLocation().then(
+      (location) {
+        location = location;
+      },
+    );
+    GoogleMapController googleMapController = await _mapcontroller.future;
+    location.onLocationChanged.listen(
+      (newLoc) {
+        final currentLocation = newLoc;
+        googleMapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              zoom: 13.5,
+              target: LatLng(
+                newLoc.latitude!,
+                newLoc.longitude!,
+              ),
+            ),
+          ),
+        );
+        setState(() {});
+      },
+    );
+  }
+
   checkGps() async {
-    print("=================1==================");
     servicestatus = await location.serviceEnabled();
-    print("-----------------------------");
-    print(servicestatus);
     if (servicestatus) {
-      print("=================2==================");
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
-        print("=================3==================");
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          print("=================4==================");
           if (kDebugMode) {
-            print("=================5==================");
             print('Location permissions are denied');
           }
         } else if (permission == LocationPermission.deniedForever) {
-          print("=================6==================");
           if (kDebugMode) {
-            print("=================7==================");
             print("'Location permissions are permanently denied");
           }
         } else {
-          print("=================8==================");
           haspermission = true;
         }
       } else {
-        print("=================9==================");
         haspermission = true;
       }
       if (haspermission) {
-        print("=================10==================");
-        setState(() {
-          //refresh the UI
-        });
         getLocation();
       }
     } else {
       if (!await location.serviceEnabled()) {
         await location.requestService();
         checkGps();
-        // print("111111111111111111111111111");
-
-        // print(servicestatus);
-      } else {}
-
-      print("=================11==================");
+      }
       if (kDebugMode) {
         print("GPS Service is not enabled, turn on GPS location");
       }
     }
-    setState(() {
-      //refresh the UI
-    });
   }
 
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    print("=================12==================");
     if (kDebugMode) {
       print(position.longitude); //Output: 80.24599079
       print(position.latitude); //Output: 29.6593457
@@ -117,7 +120,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
     lat = position.latitude.toString();
     setState(() {
       hasCurrentLocation = true;
-      //refresh UI
     });
     LocationSettings locationSettings = const LocationSettings(
       accuracy: LocationAccuracy.high, //accuracy of the location data
@@ -126,16 +128,8 @@ class _SearchMapPageState extends State<SearchMapPage> {
     StreamSubscription<Position> positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings)
             .listen((Position position) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-
       long = position.longitude.toString();
       lat = position.latitude.toString();
-
-      print("=================13==================");
-      setState(() {
-        //refresh UI on update
-      });
     });
   }
 
@@ -185,15 +179,12 @@ class _SearchMapPageState extends State<SearchMapPage> {
         builder: (context, state) {
           List<RecivePoint> listPorin = [];
           if (state is SearchSuccess) {
-            // print("===========donorsInState length before filtering");
-            // print(state.donorsInState.length);
-
+            String selectedBloodType =
+                BlocProvider.of<SearchCubit>(context).selectedBloodType!;
             List<Donor> suitableDonors = state.donorsInState
                 .where((donor) =>
-                    donor.bloodType ==
-                    BloodTypes.canReceiveFrom(
-                        bloodType: BlocProvider.of<SearchCubit>(context)
-                            .selectedBloodType!)[state.selectedTabIndex])
+                    BloodTypes.canReceiveFrom(bloodType: selectedBloodType)
+                        .contains(donor.bloodType))
                 .toList();
             for (var donor in suitableDonors) {
               listPorin.add(RecivePoint(
@@ -245,12 +236,12 @@ class _SearchMapPageState extends State<SearchMapPage> {
             required double distanceKm,
           }) {
             List<RecivePoint> nearPoints = [];
+            print(distanceKm);
             for (var point in points) {
               double far =
                   getDistanceFromLatLonInKM(point1: base, point2: point);
               print("========far====distanceKm=====");
               print(far);
-              print(distanceKm);
               if (far < distanceKm) {
                 nearPoints.add(point);
               }
@@ -260,9 +251,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
           listPorin =
               getNearbyPoints(base: me, points: listPorin, distanceKm: 5.0);
-
-          // print("===========points length after filtering");
-          // print(listPorin.length);
 
           final List<Marker> _markBrach =
               List<Marker>.generate(listPorin.length, (index) {
@@ -317,9 +305,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
                     child: Text(
                       "يرجى تشغيل الموقع GPS ومنح صلاحية للوصول إلى الموقع",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        height: 1.5,
-                      ),
+                      style: TextStyle(height: 1.5),
                     ),
                   ),
                 );
@@ -329,9 +315,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search_rounded),
         onPressed: () async {
-          if (kDebugMode) {}
-
-          // getPolyPoints();
           position = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high);
           if (kDebugMode) {
@@ -339,8 +322,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
             print(position.latitude); //Output: 29.6593457
           }
 
-          // long = position.longitude.toString();
-          // lat = position.latitude.toString();
           // // get the current location
           // await LocationManager().getCurrentLocation();
           // // start listen to location updates
