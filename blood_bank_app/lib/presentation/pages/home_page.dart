@@ -1,6 +1,12 @@
+import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/main.dart';
+import 'package:blood_bank_app/presentation/methode/shared_method.dart';
+import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -43,6 +49,8 @@ class _HomePageState extends State<HomePage> {
   FlutterLocalNotificationsPlugin fltNotification =
       FlutterLocalNotificationsPlugin();
   final db = FirebaseFirestore.instance;
+
+  late Position position;
 //--------------------------
   int _counter = 0;
 
@@ -69,6 +77,24 @@ class _HomePageState extends State<HomePage> {
     print("+++++++++++++++++++-------------------------");
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       print("----------------------------++++++++++++++++++");
+      Fluttertoast.showToast(msg: message.notification!.body.toString());
+      await SharedMethod().checkGps();
+      position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      if (kDebugMode) {
+        print(position.longitude); //Output: 80.24599079
+        print(position.latitude); //Output: 29.6593457
+      }
+      await FirebaseFirestore.instance
+          .collection('donors')
+          .doc("9U74upZiSOJugT9wrDnu")
+          .update({
+        DonorFields.lat: position.latitude,
+        DonorFields.lon: position.longitude
+      }).then((value) async {
+        print("okkkkkkkkkkkkkkkkkkkkkkkk");
+      });
+      print(".........................................");
       print(message.notification!.body);
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -88,6 +114,16 @@ class _HomePageState extends State<HomePage> {
       );
     });
 
+//----------------------------------------------
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: ((context) =>
+                  NotFicationPage(remoteMessage: message.notification!))));
+    });
     //-----------------------------------
     // initMessaging();
     // FirebaseMessaging.onMessage.listen((event) {
@@ -269,10 +305,7 @@ class _HomePageState extends State<HomePage> {
                       print("000000000");
                       print("object");
                       pushNotificationsGroupDevice(
-                          // token:
-                          //     "fKdrDC1PQjW_Iyh7zRO5li:APA91bGOu_lbg5EXgVr_fk07WOq-DvIWKSP0JN7OwXB9_XwJBF9lIoCShE9nZuM787YWXlO3S0ymlvQHsXJhEbeJXJbOOE5OkxZMj9b4U_TfhLaoq9Eou7APt-p3DX4TL-liDo0nk2Ll",
-                          title: "حالة حرجة",
-                          body: "تعال ياحيوان");
+                          title: "حالة حرجة", body: "تعال ياحيوان");
                       print("1111111111111111");
                       // FirebaseMessaging.onMessage
                       //     .listen((RemoteMessage message) {
@@ -655,7 +688,7 @@ class _HomePageState extends State<HomePage> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["dhFWH2EIRae9PQxJh1tNpu:APA91bGb-rPCCJSkxKaApGdwDs1wPb_TEwWxa-6qwUShN-lbbX_eWety9Z9pDwVNqKG95pD9GrfMY69r3_wUM7Hyibj01zEUqg-n1bstyLiSL1O3kcyj6HyffVvikKuSDiWrKPoBbJFx","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
+        '"registration_ids":["fwSGgXVlQ1-DkWdPvwC2vU:APA91bFcNOMGE2cl9c-BPfzUk4ksX-EIOSKEIixpAoO0k0XE7blcIRugk8xIl_ZQTM3KxbPuVCyajUSrMF-9uzrRkpA6K98M8-khrQKuk_YKLhqonSHcgi5bcJhQcqcSqQcOLbhQEMUr","eA5mkmy_T8adaZuUuJc621:APA91bHPSOR-txWyh-qXs4r-WrA4mAsyDJod9JN52EB2eCG_aGbm2zVHjuciJD74rG5vXCfh-gOGH_QMJx46R2RGHylPzrB2kCYDfZe1YJDbAE_0aGx_WK21AqCKry0cic432AOOFpNs"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
