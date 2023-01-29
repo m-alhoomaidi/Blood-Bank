@@ -16,44 +16,99 @@ part 'maps_state.dart';
 class MapsCubit extends Cubit<MapsState> {
   MapsCubit() : super(MapsInitial());
 
-  // For Maps
   var location = loc.Location();
   final Completer<GoogleMapController> _mapcontroller = Completer();
   bool servicestatus = false;
   bool haspermission = false;
   bool hasCurrentLocation = false;
   String long = "", lat = "";
-  DonorPoint me = DonorPoint(
-    lat: 13.9585005,
-    lon: 44.1709885,
-    name: "أنا",
-    bloodType: "",
-    phone: "",
-    token: "",
-  );
+  late DonorPoint myPoint;
   late LocationPermission permission;
-  late Position position;
+  late Position currentPosition;
 
   Future<void> showMaps({
     required List<Donor> stateDonors,
     required String selectedBloodType,
   }) async {
     emit(MapsLoading());
-    await checkGps().then((_) async {
-      // await refreshDeviceLocation();
-      List<DonorPoint> listPoints = getDonorPoints(
-        stateDonors: stateDonors,
-        selectedBloodType: selectedBloodType,
-      );
-      listPoints = getNearbyPoints(
-        base: me,
-        points: listPoints,
-        distanceKm: 5.0,
-      );
-      emit(MapsSuccess(
-        nearbyDonors: listPoints,
-        position: position,
-      ));
+    await checkGps();
+    // await refreshDeviceLocation();
+    myPoint = DonorPoint(
+      lat: currentPosition.latitude,
+      lon: currentPosition.longitude,
+      name: "أنا",
+      bloodType: "",
+      phone: "",
+      token: "",
+    );
+    List<DonorPoint> listPoints = getDonorPoints(
+      stateDonors: stateDonors,
+      selectedBloodType: selectedBloodType,
+    );
+    listPoints = getNearbyPoints(
+      base: myPoint,
+      points: listPoints,
+      distanceKm: 5.0,
+    );
+    emit(MapsSuccess(
+      nearbyDonors: listPoints,
+      position: currentPosition,
+    ));
+  }
+
+  checkGps() async {
+    servicestatus = await location.serviceEnabled();
+    if (servicestatus) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          if (kDebugMode) {
+            print('Location permissions are denied');
+          }
+        } else if (permission == LocationPermission.deniedForever) {
+          if (kDebugMode) {
+            print("'Location permissions are permanently denied");
+          }
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+      if (haspermission) {
+        await getLocation();
+      }
+    } else {
+      if (!await location.serviceEnabled()) {
+        await location.requestService();
+        await checkGps();
+      }
+      if (kDebugMode) {
+        print("GPS Service is not enabled, turn on GPS location");
+      }
+    }
+  }
+
+  getLocation() async {
+    currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    if (kDebugMode) {
+      print(currentPosition.longitude);
+      print(currentPosition.latitude);
+    }
+    long = currentPosition.longitude.toString();
+    lat = currentPosition.latitude.toString();
+    hasCurrentLocation = true;
+    LocationSettings locationSettings = const LocationSettings(
+      accuracy: LocationAccuracy.high,
+      distanceFilter: 100,
+    );
+    StreamSubscription<Position> positionStream =
+        Geolocator.getPositionStream(locationSettings: locationSettings)
+            .listen((Position position) {
+      long = position.longitude.toString();
+      lat = position.latitude.toString();
     });
   }
 
@@ -143,61 +198,5 @@ class MapsCubit extends Cubit<MapsState> {
         );
       },
     );
-  }
-
-  checkGps() async {
-    servicestatus = await location.serviceEnabled();
-    if (servicestatus) {
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          if (kDebugMode) {
-            print('Location permissions are denied');
-          }
-        } else if (permission == LocationPermission.deniedForever) {
-          if (kDebugMode) {
-            print("'Location permissions are permanently denied");
-          }
-        } else {
-          haspermission = true;
-        }
-      } else {
-        haspermission = true;
-      }
-      if (haspermission) {
-        await getLocation();
-      }
-    } else {
-      if (!await location.serviceEnabled()) {
-        await location.requestService();
-        await checkGps();
-      }
-      if (kDebugMode) {
-        print("GPS Service is not enabled, turn on GPS location");
-      }
-    }
-  }
-
-  getLocation() async {
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    if (kDebugMode) {
-      print(position.longitude); //Output: 80.24599079
-      print(position.latitude); //Output: 29.6593457
-    }
-    long = position.longitude.toString();
-    lat = position.latitude.toString();
-    hasCurrentLocation = true;
-    LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high, //accuracy of the location data
-      distanceFilter: 100, //minimum distance (measured in meters) a
-    );
-    // StreamSubscription<Position> positionStream =
-    //     Geolocator.getPositionStream(locationSettings: locationSettings)
-    //         .listen((Position position) {
-    //   long = position.longitude.toString();
-    //   lat = position.latitude.toString();
-    // });
   }
 }

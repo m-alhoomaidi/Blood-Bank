@@ -73,6 +73,8 @@ class SearchRepositoryImpl implements SearchRepository {
             stateDonors = value.docs
                 .map((donorDoc) => Donor.fromMap(donorDoc.data()))
                 .toList();
+            List<Donor> availableStateDonors =
+                stateDonors.where((donor) => donor.isShown == "1").toList();
             return Right(stateDonors);
           } else {
             return const Right(<Donor>[]);
