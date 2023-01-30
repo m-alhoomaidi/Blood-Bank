@@ -34,6 +34,7 @@ class SendNotficationImpl implements SendNotficationRepository {
         String dataNotifications = '{'
             '"operation": "create",'
             '"notification_key_name": "appUser-testUser",'
+
             // '"registration_ids":["fwSGgXVlQ1-DkWdPvwC2vU:APA91bFcNOMGE2cl9c-BPfzUk4ksX-EIOSKEIixpAoO0k0XE7blcIRugk8xIl_ZQTM3KxbPuVCyajUSrMF-9uzrRkpA6K98M8-khrQKuk_YKLhqonSHcgi5bcJhQcqcSqQcOLbhQEMUr","f-wunReNSZyR8BAs3xgl4y:APA91bE_FxTEdtlzH5PfdEau6vPVIfA3Hk8Ykb--azdYgONq3ZaN9D9HUQBnsDR36NYD74qEgfhHF-W_3JrMEwO8z6GIQPwXifmGeGpX4Qreb1TYgWC2ypAP6YuLcJW3UVmodljWqVx_"],'
             '"registration_ids":${jsonEncode(_listToken)},'
             '"notification" : {'

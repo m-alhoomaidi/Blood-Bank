@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-            color: Colors.blue,
+            color: Color.fromARGB(255, 214, 139, 11),
             playSound: true,
             icon: '@mipmap/ic_launcher',
           ),
