@@ -13,7 +13,7 @@ class SendNotficationCubit extends Cubit<SendNotficationState> {
   final SendNotficationUseCase sendNotficationUseCase;
 
   Future<void> sendNotfication(
-      {required SendNotficationData sendNotficationData}) async {
+      {required SendNotificationData sendNotficationData}) async {
     try {
       sendNotficationUseCase
           .call(sendNotficationData: sendNotficationData)

@@ -3,7 +3,9 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:blood_bank_app/domain/entities/donor_point.dart';
+import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/presentation/cubit/maps_cubit/maps_cubit.dart';
+import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 
 import '../../domain/entities/blood_types.dart';
 import '../../domain/entities/donor.dart';
@@ -271,6 +273,17 @@ class _SearchMapPageState extends State<SearchMapPage> {
           listener: (context, state) {},
           builder: (context, state) {
             if (state is MapsSuccess) {
+              List<String> nearbyTokens = state.nearbyDonors
+                  .map((donorPoint) => donorPoint.token)
+                  .toList();
+              SendNotificationData notificationMessage = SendNotificationData(
+                listToken: nearbyTokens,
+                title: "title",
+                body: "body",
+              );
+              BlocProvider.of<SendNotficationCubit>(context)
+                  .sendNotficationUseCase(
+                      sendNotficationData: notificationMessage);
               List<DonorPoint> listPoints = state.nearbyDonors;
               // if (state is SearchSuccess) listPoints = getDonorPoints(state);
               // listPoints = getNearbyPoints(

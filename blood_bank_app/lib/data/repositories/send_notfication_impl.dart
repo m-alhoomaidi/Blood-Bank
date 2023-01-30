@@ -20,13 +20,14 @@ class SendNotficationImpl implements SendNotficationRepository {
   List<String>? _listToken;
   @override
   Future<Either<Failure, Unit>> senNotficationToGroup(
-      {required SendNotficationData sendNotficationData}) async {
+      {required SendNotificationData sendNotificationData}) async {
     // TODO: implement senNotficationToGroup
     if (await networkInfo.isConnected) {
-      if (sendNotficationData.listToken != null) {}
+      if (sendNotificationData.listToken != null) {}
       _listToken = [
         "cscSJymiS1m6mEtyK8140J:APA91bEVPefdZNqg5jkLdvpEBYiSKBDDfeOIsnQF-1luu9lEO6_QBOuUbrsOycP4jL3OLvNZdMkZbqELRiPf9XstNPDdrwRtWVLEG28xyDPWna7UDsn_G8rPvzymwmWIANJWky45rFWX",
-        "eqeW-N5rRb62f3qsys66jI:APA91bEGHI6wPPEigkgqF3WuSeIQ91CG0LFy-F0MCV61LGknkvSZa9JWyG7Lwg8XGFdLEOzQ12Fsr1oLx7DEsyrJZzLzIaxYYaxGljc3DXLuy5LUWLHzJ2YxZSfTBlXcuCJ31jhxc8jM"
+        "eqeW-N5rRb62f3qsys66jI:APA91bEGHI6wPPEigkgqF3WuSeIQ91CG0LFy-F0MCV61LGknkvSZa9JWyG7Lwg8XGFdLEOzQ12Fsr1oLx7DEsyrJZzLzIaxYYaxGljc3DXLuy5LUWLHzJ2YxZSfTBlXcuCJ31jhxc8jM",
+        "f-wunReNSZyR8BAs3xgl4y:APA91bE_FxTEdtlzH5PfdEau6vPVIfA3Hk8Ykb--azdYgONq3ZaN9D9HUQBnsDR36NYD74qEgfhHF-W_3JrMEwO8z6GIQPwXifmGeGpX4Qreb1TYgWC2ypAP6YuLcJW3UVmodljWqVx_",
       ];
       jsonEncode(_listToken);
       print(jsonEncode(_listToken));
@@ -38,8 +39,8 @@ class SendNotficationImpl implements SendNotficationRepository {
             // '"registration_ids":["fwSGgXVlQ1-DkWdPvwC2vU:APA91bFcNOMGE2cl9c-BPfzUk4ksX-EIOSKEIixpAoO0k0XE7blcIRugk8xIl_ZQTM3KxbPuVCyajUSrMF-9uzrRkpA6K98M8-khrQKuk_YKLhqonSHcgi5bcJhQcqcSqQcOLbhQEMUr","f-wunReNSZyR8BAs3xgl4y:APA91bE_FxTEdtlzH5PfdEau6vPVIfA3Hk8Ykb--azdYgONq3ZaN9D9HUQBnsDR36NYD74qEgfhHF-W_3JrMEwO8z6GIQPwXifmGeGpX4Qreb1TYgWC2ypAP6YuLcJW3UVmodljWqVx_"],'
             '"registration_ids":${jsonEncode(_listToken)},'
             '"notification" : {'
-            '"title":"${sendNotficationData.title}",'
-            '"body":"${sendNotficationData.body}"'
+            '"title":"${sendNotificationData.title}",'
+            '"body":"${sendNotificationData.body}"'
             ' }'
             ' }';
         var response = await http.post(
