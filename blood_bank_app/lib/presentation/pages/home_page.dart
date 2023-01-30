@@ -309,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                   print("111111111111111111111111");
                   await BlocProvider.of<SendNotficationCubit>(context)
                       .sendNotfication(
-                          sendNotficationData: SendNotficationData(
+                          sendNotficationData: SendNotificationData(
                               listToken: [],
                               title: "حالة حرجة",
                               body: "تعال ياحيوان"))

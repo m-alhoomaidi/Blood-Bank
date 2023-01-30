@@ -4,5 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class SendNotficationRepository {
   Future<Either<Failure, Unit>> senNotficationToGroup(
-      {required SendNotficationData sendNotficationData});
+      {required SendNotificationData sendNotificationData});
 }

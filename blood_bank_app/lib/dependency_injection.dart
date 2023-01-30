@@ -63,7 +63,7 @@ Future<void> initApp() async {
       () => SendNotficationImpl(networkInfo: sl()));
   // send Notfication  useCase
   sl.registerLazySingleton(
-      () => SendNotficationUseCase(sendNotficationRepository: sl()));
+      () => SendNotficationUseCase(sendNotificationRepository: sl()));
 
   // send Notfication  cubit
   sl.registerLazySingleton(

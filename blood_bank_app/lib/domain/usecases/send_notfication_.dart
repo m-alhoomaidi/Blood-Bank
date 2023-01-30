@@ -5,23 +5,23 @@ import 'package:blood_bank_app/core/error/failures.dart';
 import 'package:blood_bank_app/domain/repositories/notfication_repository.dart';
 
 class SendNotficationUseCase {
-  final SendNotficationRepository sendNotficationRepository;
+  final SendNotficationRepository sendNotificationRepository;
   SendNotficationUseCase({
-    required this.sendNotficationRepository,
+    required this.sendNotificationRepository,
   });
 
   Future<Either<Failure, Unit>> call(
-      {required SendNotficationData sendNotficationData}) async {
-    return sendNotficationRepository.senNotficationToGroup(
-        sendNotficationData: sendNotficationData);
+      {required SendNotificationData sendNotficationData}) async {
+    return sendNotificationRepository.senNotficationToGroup(
+        sendNotificationData: sendNotficationData);
   }
 }
 
-class SendNotficationData {
+class SendNotificationData {
   List<String> listToken;
   String title;
   String body;
-  SendNotficationData({
+  SendNotificationData({
     required this.listToken,
     required this.title,
     required this.body,
