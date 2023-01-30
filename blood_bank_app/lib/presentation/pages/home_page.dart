@@ -6,6 +6,7 @@ import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   FlutterLocalNotificationsPlugin fltNotification =
       FlutterLocalNotificationsPlugin();
   final db = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   late Position position;
 //--------------------------
@@ -81,13 +83,15 @@ class _HomePageState extends State<HomePage> {
         print(position.latitude); //Output: 29.6593457
       }
       print("1010101");
-      await FirebaseFirestore.instance
-          .collection('donors')
-          .doc("AtFv1cCtkCZxQapmqgHBADktwpv1")
-          .update({
-        DonorFields.lat: position.latitude,
-        DonorFields.lon: position.longitude
-      }).then((value) => print("okkokokok"));
+      if (_firebaseAuth.currentUser != null) {
+        await FirebaseFirestore.instance
+            .collection('donors')
+            .doc(_firebaseAuth.currentUser!.uid)
+            .update({
+          DonorFields.lat: position.latitude,
+          DonorFields.lon: position.longitude
+        }).then((value) => print("okkokokok"));
+      }
 
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -111,12 +115,14 @@ class _HomePageState extends State<HomePage> {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => NotFicationPage(
-                    remoteMessage: message.notification!,
-                    dateTime: message.sentTime!,
-                  ))));
+        context,
+        MaterialPageRoute(
+          builder: ((context) => NotFicationPage(
+                remoteMessage: message.notification!,
+                dateTime: message.sentTime!,
+              )),
+        ),
+      );
     });
     //-----------------------------------
     // initMessaging();
