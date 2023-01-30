@@ -1,11 +1,14 @@
 import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/main.dart';
+import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,16 +19,12 @@ import 'package:hive/hive.dart';
 
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_drawer/home_drawer.dart';
+import '../../dependency_injection.dart' as di;
 //-------------
 
 import 'package:http/http.dart' as http;
 
 //---------------------
-// const AndroidNotificationChannel channel = AndroidNotificationChannel(
-//     'high_importance_channel', // id
-//     'High Importance Notifications', // title // description
-//     importance: Importance.high,
-//     playSound: true);
 import '../widgets/home/home_welcome.dart';
 import 'introduction_page.dart';
 
@@ -49,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   FlutterLocalNotificationsPlugin fltNotification =
       FlutterLocalNotificationsPlugin();
   final db = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   late Position position;
 //--------------------------
@@ -73,10 +73,8 @@ class _HomePageState extends State<HomePage> {
     //-------------------------------------------------------
     initialMessageing();
     // pushnot();
-    print("+++++++++++++++++++-------------------------");
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print("----------------------------++++++++++++++++++");
-      Fluttertoast.showToast(msg: message.notification!.body.toString());
       await SharedMethod().checkGps();
       position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
@@ -84,17 +82,17 @@ class _HomePageState extends State<HomePage> {
         print(position.longitude); //Output: 80.24599079
         print(position.latitude); //Output: 29.6593457
       }
-      await FirebaseFirestore.instance
-          .collection('donors')
-          .doc("9U74upZiSOJugT9wrDnu")
-          .update({
-        DonorFields.lat: position.latitude,
-        DonorFields.lon: position.longitude
-      }).then((value) async {
-        print("okkkkkkkkkkkkkkkkkkkkkkkk");
-      });
-      print(".........................................");
-      print(message.notification!.body);
+      print("1010101");
+      if (_firebaseAuth.currentUser != null) {
+        await FirebaseFirestore.instance
+            .collection('donors')
+            .doc(_firebaseAuth.currentUser!.uid)
+            .update({
+          DonorFields.lat: position.latitude,
+          DonorFields.lon: position.longitude
+        }).then((value) => print("okkokokok"));
+      }
+
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       flutterLocalNotificationsPlugin.show(
@@ -105,7 +103,7 @@ class _HomePageState extends State<HomePage> {
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-            color: Colors.blue,
+            color: Color.fromARGB(255, 214, 139, 11),
             playSound: true,
             icon: '@mipmap/ic_launcher',
           ),
@@ -117,12 +115,14 @@ class _HomePageState extends State<HomePage> {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => NotFicationPage(
-                    remoteMessage: message.notification!,
-                    dateTime: message.sentTime!,
-                  ))));
+        context,
+        MaterialPageRoute(
+          builder: ((context) => NotFicationPage(
+                remoteMessage: message.notification!,
+                dateTime: message.sentTime!,
+              )),
+        ),
+      );
     });
     //-----------------------------------
     // initMessaging();
@@ -272,127 +272,107 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const <Widget>[
-                  HomeWelcome(),
-                  HomeAbout(),
-                  SizedBox(height: AppSize.s20),
-                ],
-              ),
+            body: BlocConsumer<SendNotficationCubit, SendNotficationState>(
+              listener: (context, state) {
+                // TODO: implement listener
+
+                if (state is SendNotficationStateSuccess) {
+                  print("Success +++++++++++++++++++++++");
+                }
+                if (state is SendNotficationStateFailure) {
+                  print("Failure -----------------------");
+                }
+              },
+              builder: (context, state) {
+                if (state is SendNotficationStateSuccess) {
+                  print("Success ++++++++++++++++++++++00");
+                }
+                if (state is SendNotficationStateFailure) {
+                  print("Failure ----------------------00");
+                }
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      HomeWelcome(),
+                      HomeAbout(),
+                      SizedBox(height: AppSize.s20),
+                    ],
+                  ),
+                );
+              },
             ),
             drawer: const HomeDrower(),
-            floatingActionButton: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  onPressed: showNotification,
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                  heroTag: "add",
-                ),
-                const SizedBox(width: 16),
-                FloatingActionButton(
-                  child: const Icon(Icons.search_rounded),
-                  onPressed: () async {
-                    print("----------------------------------");
-                    try {
-                      print(FirebaseMessaging.instance.getToken().then(
-                            (value) => print(value),
-                          ));
-                      print("000000000");
-                      print("object");
-                      pushNotificationsGroupDevice(
-                          title: "حالة حرجة", body: "تعال ياحيوان");
-                      print("1111111111111111");
-                      // FirebaseMessaging.onMessage
-                      //     .listen((RemoteMessage message) {
-                      //   print("----------------------------++++++++++++++++++");
-                      //   print(message.notification!.android);
-                      //   print(message.notification!.title);
-                      //   RemoteNotification? notification = message.notification;
-                      //   AndroidNotification? android =
-                      //       message.notification?.android;
-                      //   if (android != null) {
-                      //     flutterLocalNotificationsPlugin
-                      //         .show(
-                      //             notification.hashCode,
-                      //             notification!.title,
-                      //             notification.body,
-                      //             NotificationDetails(
-                      //               android: AndroidNotificationDetails(
-                      //                   channel.id, channel.name,
-                      //                   color: Colors.blue,
-                      //                   playSound: true,
-                      //                   icon: '@mipmap/ic_launcher'),
-                      //             ))
-                      //         .then((value) {
-                      //       print("5555555555555");
-                      //     }).onError((error, stackTrace) {
-                      //       print("3333333333333");
-                      //       print(error);
-                      //     });
-                      //   }
-                      // });
-
-                      FirebaseMessaging firebaseMessaging =
-                          FirebaseMessaging.instance; // Change here
-                      // await _firebaseMessaging.getToken().then((token) {
-                      //   print("token is $token");
-                      // });
-                    } catch (e) {
-                      print(e);
-                    }
-                    // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
-                    // Navigator.pushNamed(context, ProfileCenterPage.routeName);
-                    // Get a new write batch
-                    // final batch = db.batch();
-                    // for (var donorJson in list) {
-                    //   var docRef = db.collection("donors").doc();
-                    //   batch.set(docRef, donorJson);
-                    // }
-                    // batch.commit().then((_) {
-                    //   print("======commit=done======");
-                    // });
-                    // Navigator.of(context).pushNamed(SearchPage.routeName);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute<void>(
-                    //     builder: (BuildContext context) => const SearchMapPage(),
-                    //   ),
-                    // );
-                    // Navigator.of(context).pushNamed(OnBoardingView.routeName);
-                    // LocationPoint point1 = LocationPoint(
-                    //       lat: 13.9585003,
-                    //       lon: 44.1709884,
-                    //     ),
-                    //     point2 = LocationPoint(
-                    //       lat: 13.9556071,
-                    //       lon: 44.1708585,
-                    //     );
-                    // print(getNearbyPoints(
-                    //   base: point1,
-                    //   points: [point2],
-                    //   distanceKm: 0.4,
-                    // ).length); // 0.3220144142025769
-                    // // get the current location
-                    // await LocationManager().getCurrentLocation();
-                    // // start listen to location updates
-                    // StreamSubscription<LocationDto> locationSubscription =
-                    //     LocationManager().locationStream.listen((LocationDto dto) {
-                    //   print('======================');
-                    //   print(dto.altitude);
-                    //   print(dto.longitude);
-                    // });
-                    // // cancel listening and stop the location manager
-                    // locationSubscription.cancel();
-                    // LocationManager().stop();
-                  },
-                  heroTag: "search",
-                ),
-              ],
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.search_rounded),
+              onPressed: () async {
+                try {
+                  // print(FirebaseMessaging.instance.getToken().then(
+                  //       (value) => print(value),
+                  //     ));
+                  // di.initApp();
+                  print("111111111111111111111111");
+                  await BlocProvider.of<SendNotficationCubit>(context)
+                      .sendNotfication(
+                          sendNotficationData: SendNotificationData(
+                              listToken: [],
+                              title: "حالة حرجة",
+                              body: "تعال ياحيوان"))
+                      .then((value) {
+                    print("22222222222222222222222222");
+                  });
+                  // pushNotificationsGroupDevice(
+                  //     title: "حالة حرجة", body: "تعال ياحيوان");
+                } catch (e) {
+                  print(e);
+                }
+                // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+                // Navigator.pushNamed(context, ProfileCenterPage.routeName);
+                // Get a new write batch
+                // final batch = db.batch();
+                // for (var donorJson in list) {
+                //   var docRef = db.collection("donors").doc();
+                //   batch.set(docRef, donorJson);
+                // }
+                // batch.commit().then((_) {
+                //   print("======commit=done======");
+                // });
+                // Navigator.of(context).pushNamed(SearchPage.routeName);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute<void>(
+                //     builder: (BuildContext context) => const SearchMapPage(),
+                //   ),
+                // );
+                // Navigator.of(context).pushNamed(OnBoardingView.routeName);
+                // LocationPoint point1 = LocationPoint(
+                //       lat: 13.9585003,
+                //       lon: 44.1709884,
+                //     ),
+                //     point2 = LocationPoint(
+                //       lat: 13.9556071,
+                //       lon: 44.1708585,
+                //     );
+                // print(getNearbyPoints(
+                //   base: point1,
+                //   points: [point2],
+                //   distanceKm: 0.4,
+                // ).length); // 0.3220144142025769
+                // // get the current location
+                // await LocationManager().getCurrentLocation();
+                // // start listen to location updates
+                // StreamSubscription<LocationDto> locationSubscription =
+                //     LocationManager().locationStream.listen((LocationDto dto) {
+                //   print('======================');
+                //   print(dto.altitude);
+                //   print(dto.longitude);
+                // });
+                // // cancel listening and stop the location manager
+                // locationSubscription.cancel();
+                // LocationManager().stop();
+              },
+              heroTag: "search",
             ),
           );
   }
@@ -688,7 +668,7 @@ class _HomePageState extends State<HomePage> {
     String dataNotifications = '{'
         '"operation": "create",'
         '"notification_key_name": "appUser-testUser",'
-        '"registration_ids":["fwSGgXVlQ1-DkWdPvwC2vU:APA91bFcNOMGE2cl9c-BPfzUk4ksX-EIOSKEIixpAoO0k0XE7blcIRugk8xIl_ZQTM3KxbPuVCyajUSrMF-9uzrRkpA6K98M8-khrQKuk_YKLhqonSHcgi5bcJhQcqcSqQcOLbhQEMUr","f-wunReNSZyR8BAs3xgl4y:APA91bE_FxTEdtlzH5PfdEau6vPVIfA3Hk8Ykb--azdYgONq3ZaN9D9HUQBnsDR36NYD74qEgfhHF-W_3JrMEwO8z6GIQPwXifmGeGpX4Qreb1TYgWC2ypAP6YuLcJW3UVmodljWqVx_"],'
+        '"registration_ids":["cscSJymiS1m6mEtyK8140J:APA91bEVPefdZNqg5jkLdvpEBYiSKBDDfeOIsnQF-1luu9lEO6_QBOuUbrsOycP4jL3OLvNZdMkZbqELRiPf9XstNPDdrwRtWVLEG28xyDPWna7UDsn_G8rPvzymwmWIANJWky45rFWX"],'
         '"notification" : {'
         '"title":"$title",'
         '"body":"$body"'
@@ -704,8 +684,9 @@ class _HomePageState extends State<HomePage> {
       },
       body: dataNotifications,
     );
-
+    print("+1");
     print(response.body.toString());
+    print("+0");
 
     return true;
   }

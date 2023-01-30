@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
@@ -16,6 +17,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'dependency_injection.dart' as di;
 import 'presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'presentation/cubit/search_cubit/search_cubit.dart';
+import 'presentation/cubit/maps_cubit/maps_cubit.dart';
 import 'presentation/cubit/signin_cubit/signin_cubit.dart';
 import 'presentation/cubit/signup_cubit/signup_cubit.dart';
 import 'presentation/pages/about_page.dart';
@@ -23,7 +25,7 @@ import 'presentation/pages/edit_main_center_data.dart';
 import 'presentation/pages/home_page.dart';
 import 'presentation/pages/introduction_page.dart';
 import 'presentation/pages/profile_center.dart';
-import 'presentation/pages/search_map.dart';
+import 'presentation/pages/search_map_page.dart';
 import 'presentation/pages/search_page.dart';
 import 'presentation/pages/setting_page.dart';
 import 'presentation/pages/sign_in_page.dart';
@@ -176,7 +178,10 @@ void main() async {
       BlocProvider(create: (BuildContext context) => di.sl<SignUpCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SignInCubit>()),
       BlocProvider(create: (BuildContext context) => di.sl<SearchCubit>()),
-      BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>())
+      BlocProvider(create: (BuildContext context) => di.sl<ProfileCubit>()),
+      BlocProvider(
+          create: (BuildContext context) => di.sl<SendNotficationCubit>()),
+      BlocProvider(create: (BuildContext context) => MapsCubit()),
     ],
     child: const MyApp(),
   ));
