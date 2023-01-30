@@ -8,7 +8,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import LottieApp from "../Components/lottie";
 import { HEALTH_LOTTIE } from "../constant/media";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import {doc, setDoc } from "firebase/firestore";
 import {db} from "../utils/firebase";
 import { useState } from "react";

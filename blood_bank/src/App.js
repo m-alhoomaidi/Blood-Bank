@@ -12,7 +12,7 @@ import { AuthGuard } from './context/auth-gaurd';
 import MapPage from './pages/map';
 import { Box } from '@mui/material';
 import Aboutus from './pages/aboutus';
-import SignUpCenter from './pages/signupcenter';
+import SignUpCenter from './pages/signupCenter';
 import CenterProfiles from './pages/centerprofile';
 const App = () => {
   return (
