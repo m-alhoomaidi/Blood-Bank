@@ -152,12 +152,12 @@ export const AuthProvider = (props) => {
         });
     };
 
-     const searchUser = (mapData)=>{
+     const searchUserAndCenters = (mapData)=>{
            dispatch({
               type: HANDLERS.SEARCH_USER,
               payload: mapData,
            })
-          // console.log(mapData);
+           console.log(mapData);
        }
 
     const updateUser = (user) => {
@@ -175,11 +175,12 @@ export const AuthProvider = (props) => {
         //     where("email", "==", username),
         //     where("password", "==", password)
         // );
-        const docRef = doc(db, "donors",'9U74upZiSOJugT9wrDnu' );
+        const id=localStorage.getItem("uid");
+        const docRef = doc(db, "donors",id);
         const docSnap = await getDoc(docRef);
         const user = docSnap.data(); 
         updateUser(user);
-        console.log("jhgfjdb")
+        console.log(id);
         // if (!querySnapshot?.docs?.length == 0) {
         //     const user = querySnapshot.docs[0].data()
         //     console.log(user.email)
@@ -221,7 +222,7 @@ export const AuthProvider = (props) => {
                 checkAuthenticated,
                 updateUser,
                 checkIfAuthenticated,
-                searchUser,
+                searchUserAndCenters,
             }}
         >
             <AlertSnackBar

@@ -9,12 +9,15 @@ import SignUp from './pages/signup';
 import { Footer } from './Components/footer';
 import { AuthConsumer, AuthProvider } from './context/auth-context';
 import { AuthGuard } from './context/auth-gaurd';
+import { db,auth } from './utils/firebase';
 import MapPage from './pages/map';
 import { Box } from '@mui/material';
 import Aboutus from './pages/aboutus';
 import SignUpCenter from './pages/signupcenter';
 import CenterProfiles from './pages/centerprofile';
+import Add from './Local/FunctionApi';
 const App = () => {
+  console.log(auth?.currentUser?.uid);
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
@@ -32,6 +35,7 @@ const App = () => {
               <Route path='/aboutus' element={<Aboutus/>}/>
               <Route path='/SignUpCenter'element={<SignUpCenter/>}/>
                <Route path='/centerprofile'element={<CenterProfiles/>}/>
+               <Route path='/FunctionApi' element={<Add/>}/>
             </Routes>
             </Box>
             {/* <Footer /> */}
