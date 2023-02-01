@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../core/error/failures.dart';
 import '../../../domain/entities/blood_center.dart';
@@ -28,6 +29,7 @@ class SignUpCubit extends Cubit<SignupState> {
   }) async {
     emit(SignupLoading());
     try {
+      donor.token = await getToken();
       await signUpDonorUseCase(donor: donor).then((value) {
         value.fold(
             (failure) =>
@@ -44,6 +46,7 @@ class SignUpCubit extends Cubit<SignupState> {
   }) async {
     emit(SignupLoading());
     try {
+      center.token = await getToken();
       await signUpCenterUseCase(center: center).then((value) {
         value.fold(
             (failure) =>
@@ -53,6 +56,10 @@ class SignUpCubit extends Cubit<SignupState> {
     } catch (e) {
       emit(SignUpFailure(error: e.toString()));
     }
+  }
+
+  Future<String> getToken() async {
+    return await FirebaseMessaging.instance.getToken() ?? "";
   }
 
   String _getFailureMessage(Failure failur) {

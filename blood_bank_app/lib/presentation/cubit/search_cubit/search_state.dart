@@ -7,19 +7,28 @@ abstract class SearchState {}
 class SearchInitial extends SearchState {}
 
 class SearchSuccess extends SearchState {
-  List<Donor> donors;
-  List<BloodCenter> centers;
-  List<Donor> donorsInState;
+  final List<Donor> donors;
+  final List<BloodCenter> centers;
+  final List<Donor> stateDonors;
   int selectedTabIndex;
   SearchSuccess({
     required this.donors,
     required this.centers,
-    required this.donorsInState,
+    required this.stateDonors,
     required this.selectedTabIndex,
   });
 }
 
 class SearchLoading extends SearchState {}
+
+// class SearchLoadingMaps extends SearchState {}
+
+// class SearchToMaps extends SearchState {
+//   final List<DonorPoint> nearbyDonors;
+//   SearchToMaps({
+//     required this.nearbyDonors,
+//   });
+// }
 
 class SearchFailure extends SearchState {
   final String error;

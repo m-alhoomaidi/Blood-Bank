@@ -57,7 +57,7 @@ class SharedMethod {
     } else {
       if (!await location.serviceEnabled()) {
         await location.requestService();
-        checkGps();
+        await checkGps();
         // print("111111111111111111111111111");
 
         // print(servicestatus);

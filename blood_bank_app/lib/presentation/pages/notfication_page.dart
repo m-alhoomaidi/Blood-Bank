@@ -1,6 +1,7 @@
 import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -21,6 +22,7 @@ class NotFicationPage extends StatefulWidget {
 
 class _NotFicationPageState extends State<NotFicationPage> {
   late Position position;
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   getLocation() async {
     print(";;;;;;;;");
@@ -34,16 +36,17 @@ class _NotFicationPageState extends State<NotFicationPage> {
       Fluttertoast.showToast(msg: widget.remoteMessage.body.toString());
       return value;
     });
-
-    await FirebaseFirestore.instance
-        .collection('donors')
-        .doc("9U74upZiSOJugT9wrDnu")
-        .update({
-      DonorFields.lat: position.latitude,
-      DonorFields.lon: position.longitude
-    }).then((value) async {
-      print("okkkkkkkkkkkkkkkkkkkkkkkk");
-    });
+    if (_firebaseAuth.currentUser != null) {
+      await FirebaseFirestore.instance
+          .collection('donors')
+          .doc(_firebaseAuth.currentUser!.uid)
+          .update({
+        DonorFields.lat: position.latitude,
+        DonorFields.lon: position.longitude
+      }).then((value) async {
+        print("okkkkkkkkkkkkkkkkkkkkkkkk");
+      });
+    }
   }
 
   @override

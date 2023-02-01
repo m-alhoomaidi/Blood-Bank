@@ -115,7 +115,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
         if (currentUser != null) {
           return await _fireStore
               .collection('centers')
-              .doc("CWTU0qCghsDi132oDsMh")
+              .doc("qD53iggKm6Y4zjKQmnhbOQJGxzw1")
               .update({
             DonorFields.name: profileCenterData.name,
             DonorFields.phone: profileCenterData.phone,
@@ -146,7 +146,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
         if (currentUser != null) {
           return await _fireStore
               .collection('centers')
-              .doc("CWTU0qCghsDi132oDsMh")
+              .doc("qD53iggKm6Y4zjKQmnhbOQJGxzw1")
               .update({
             BloodCenterFields.aPlus: profileCenterData.aPlus,
             BloodCenterFields.aMinus: profileCenterData.aMinus,
@@ -176,12 +176,14 @@ class ProfileReopsitoryImpl implements ProfileRepository {
     if (await networkInfo.isConnected) {
       try {
         if (currentUser != null) {
+          print("-------------++++++++++++++");
           return await _fireStore
               .collection('centers')
-              .doc("CWTU0qCghsDi132oDsMh")
+              .doc("qD53iggKm6Y4zjKQmnhbOQJGxzw1")
               .get()
               .then((value) async {
             print(";;;;;;;;;;;;;;;;;;;;;;;;;");
+            print(value.id);
             bloodCenter = BloodCenter.fromMap(value.data()!);
             print(bloodCenter!.name);
 

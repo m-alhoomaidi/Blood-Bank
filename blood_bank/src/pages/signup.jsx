@@ -6,7 +6,6 @@ import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -18,6 +17,8 @@ import {doc, setDoc } from "firebase/firestore";
 import {db} from "../utils/firebase";
 import {AlertSnackBar} from "../Components/common/alert-snackbar";
 import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
+import Countryes from "../Local/Data.json";
 const bloodTypes = [
    'A+' ,
    'B+' ,
@@ -58,6 +59,7 @@ const Try = (props) => {
       tostMsg: " البريد الإلكتروني موجود مسبقًا",
       tostType: "error",
   });
+  const navigate = useNavigate();
   return (
     <CardContent>
       <Formik
@@ -78,13 +80,12 @@ const Try = (props) => {
           address: Yup.string().required("ادخل عنوانك"),
         })
         }
-        onSubmit={(values, { setSubmitting }) => {
-      
-            
+        onSubmit={(values, { setSubmitting }) => {  
             setSubmitting(false);
             const auth = getAuth();
             createUserWithEmailAndPassword(auth,values.email,values.password)
             .then((userCredential)=>{
+              localStorage.setItem("uid",auth?.currentUser?.uid);
               const uid = userCredential.user.uid;
               setDoc(doc(db, "donors", uid), {
                  name: values.name,
@@ -103,6 +104,7 @@ const Try = (props) => {
                  image:"",
                  token:"",
                 });
+                navigate("/HomePage");
             }).catch((error) => {
               if(error.message === "Firebase: Error (auth/email-already-in-use).")
                {
