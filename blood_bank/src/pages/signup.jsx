@@ -17,6 +17,7 @@ import {doc, setDoc } from "firebase/firestore";
 import {db} from "../utils/firebase";
 import {AlertSnackBar} from "../Components/common/alert-snackbar";
 import Link from "@mui/material/Link";
+import { useNavigate } from "react-router-dom";
 import Countryes from "../Local/Data.json";
 const bloodTypes = [
    'A+' ,
@@ -58,6 +59,7 @@ const Try = (props) => {
       tostMsg: " البريد الإلكتروني موجود مسبقًا",
       tostType: "error",
   });
+  const navigate = useNavigate();
   return (
     <CardContent>
       <Formik
@@ -83,6 +85,7 @@ const Try = (props) => {
             const auth = getAuth();
             createUserWithEmailAndPassword(auth,values.email,values.password)
             .then((userCredential)=>{
+              localStorage.setItem("uid",auth?.currentUser?.uid);
               const uid = userCredential.user.uid;
               setDoc(doc(db, "donors", uid), {
                  name: values.name,
@@ -101,6 +104,7 @@ const Try = (props) => {
                  image:"",
                  token:"",
                 });
+                navigate("/HomePage");
             }).catch((error) => {
               if(error.message === "Firebase: Error (auth/email-already-in-use).")
                {
