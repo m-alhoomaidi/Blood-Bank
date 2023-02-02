@@ -1,13 +1,35 @@
+import 'package:blood_bank_app/presentation/pages/search_page.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-import '../../pages/search_page.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../pages/sign_up_page.dart';
 import '../../resources/style.dart';
 import '../forms/my_button.dart';
 import '../forms/my_text_form_field.dart';
 
-class HomeWelcome extends StatelessWidget {
+class HomeWelcome extends StatefulWidget {
   const HomeWelcome({Key? key}) : super(key: key);
+
+  @override
+  State<HomeWelcome> createState() => _HomeWelcomeState();
+}
+
+class _HomeWelcomeState extends State<HomeWelcome> {
+  String userType = "0";
+
+  void checkUserType() {
+    setState(() => userType = Hive.box(dataBoxName).get('user') ?? "0");
+    super.initState();
+  }
+
+  @override
+  void initState() {
+    checkUserType();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +38,15 @@ class HomeWelcome extends StatelessWidget {
         SizedBox(
           height: 300,
           width: MediaQuery.of(context).size.width,
-          child: const Image(
-            image: AssetImage('assets/images/1.jpg'),
-            fit: BoxFit.cover,
-          ),
+          // child: const Image(
+          //   image: AssetImage('assets/images/1.jpg'),
+          //   fit: BoxFit.cover,
+          // ),
         ),
-        Container(
+        SizedBox(
           height: 300,
           width: MediaQuery.of(context).size.width,
-          color: Colors.black54,
+          // color: ColorManager.grey1,
         ),
         SizedBox(
           height: 300,
@@ -34,33 +56,67 @@ class HomeWelcome extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Text(
+                //   'مرحباً',
+                //   style: Theme.of(context).textTheme.displayLarge,
+                // ),
                 Text(
-                  'مرحباً',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  'ومن أحياها\n فكأنما أحيا الناس جميعاً',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(height: 1.5),
                 ),
-                Text(
-                  'ومن أحياها فكأنما أحيا الناس جميعاً',
-                  style: Theme.of(context).textTheme.displaySmall,
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: ColorManager.grey.withOpacity(0.4),
+                          blurRadius: 2.0,
+                          offset: Offset(0, 2)),
+                    ],
+                  ),
+                  child: MyTextFormField(
+                    hint: 'البحث عن متبرع',
+                    icon: Icon(
+                      Icons.search_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    suffixIcon: false,
+                    fillColor: ColorManager.grey1,
+                    blurrBorderColor: eSecondColor.withOpacity(0),
+                    focusBorderColor: eSecondColor.withOpacity(0),
+                    hintStyle:
+                        Theme.of(context).textTheme.bodyLarge as TextStyle,
+                    readOnly: true,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SearchPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                MyTextFormField(
-                  hint: 'البحث عن متبرع',
-                  icon: const Icon(Icons.search_rounded),
-                  suffixIcon: false,
-                  fillColor: Colors.white,
-                  blurrBorderColor: eSecondColor.withOpacity(0),
-                  focusBorderColor: eSecondColor.withOpacity(0),
-                  readOnly: true,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(SearchPage.routeName);
-                  },
-                ),
-                MyButton(
-                  title: 'إنشاء حساب متبرع',
-                  color: Theme.of(context).colorScheme.secondary,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(SignUpPage.routeName);
-                  },
-                ),
+                userType == "0"
+                    ? MyButton(
+                        title: 'إنشاء حساب متبرع',
+                        color: Theme.of(context).primaryColor,
+                        titleStyle: Theme.of(context).textTheme.titleLarge,
+                        onPressed: () {
+                          di.initSignUp();
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SignUpPage(),
+                            ),
+                          );
+                        },
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),

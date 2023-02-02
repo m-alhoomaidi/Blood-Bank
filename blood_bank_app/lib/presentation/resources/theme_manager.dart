@@ -28,16 +28,20 @@ ThemeData getApplicationTheme() {
 
     // app bar theme
     appBarTheme: AppBarTheme(
+      foregroundColor: ColorManager.black,
       systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: ColorManager.primary,
-      ),
-      color: ColorManager.primary,
+          statusBarColor: ColorManager.white,
+          // statusBarBrightness: Brightness.light,
+          // systemNavigationBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark),
+      // color: ColorManager.white,
+      backgroundColor: ColorManager.white,
       centerTitle: true,
-      elevation: AppSize.s4,
-      shadowColor: ColorManager.lightPrimary,
+      // elevation: AppSize.s4,
+      // shadowColor: ColorManager.lightPrimary,
       titleTextStyle: getBoldStyle(
         fontSize: FontSize.s16,
-        color: ColorManager.white,
+        color: ColorManager.darkGrey,
       ),
     ),
 
@@ -62,11 +66,11 @@ ThemeData getApplicationTheme() {
     // text theme
     textTheme: TextTheme(
       displayLarge: getSemiBoldStyle(
-        color: ColorManager.white,
+        color: ColorManager.darkGrey,
         fontSize: FontSize.s30,
       ),
       displaySmall: getRegularStyle(
-        color: ColorManager.white,
+        color: ColorManager.black,
         fontSize: FontSize.s22,
       ),
       headlineLarge: getSemiBoldStyle(

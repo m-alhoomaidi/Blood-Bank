@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
 import 'package:flutter/material.dart';
@@ -43,99 +44,104 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
         title: const Text(AppStrings.profileAppBarTitle),
         elevation: 0,
       ),
-      body: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          if (state is ProfileGetCenterData) {
-            profileCenterData = ProfileCenterData(
-                aPlus: state.bloodCenter.aPlus,
-                aMinus: state.bloodCenter.aMinus,
-                abPlus: state.bloodCenter.abPlus,
-                abMinus: state.bloodCenter.bMinus,
-                oPlus: state.bloodCenter.oPlus,
-                oMinus: state.bloodCenter.oMinus,
-                bPlus: state.bloodCenter.bPlus,
-                bMinus: state.bloodCenter.bMinus);
-          } else if (state is ProfileFailure) {
-            print("-------------------");
-            Utils.showSnackBar(
-              context: context,
-              msg: state.error,
-              color: ColorManager.error,
-            );
-          } else if (state is ProfileSuccess) {
-            Utils.showSnackBar(
-              context: context,
-              msg: AppStrings.profileSuccesMess,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is ProfileLoadingBeforFetch) {
-            return const MyLottie();
-          }
-          if (state is ProfileLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is ProfileGetCenterData) {
-            profileCenterData = ProfileCenterData(
-                aPlus: state.bloodCenter.aPlus,
-                aMinus: state.bloodCenter.aMinus,
-                abPlus: state.bloodCenter.abPlus,
-                abMinus: state.bloodCenter.bMinus,
-                oPlus: state.bloodCenter.oPlus,
-                oMinus: state.bloodCenter.oMinus,
-                bPlus: state.bloodCenter.bPlus,
-                bMinus: state.bloodCenter.bMinus);
+      body: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: BlocConsumer<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileGetCenterData) {
+              profileCenterData = ProfileCenterData(
+                  aPlus: state.bloodCenter.aPlus,
+                  aMinus: state.bloodCenter.aMinus,
+                  abPlus: state.bloodCenter.abPlus,
+                  abMinus: state.bloodCenter.bMinus,
+                  oPlus: state.bloodCenter.oPlus,
+                  oMinus: state.bloodCenter.oMinus,
+                  bPlus: state.bloodCenter.bPlus,
+                  bMinus: state.bloodCenter.bMinus);
+            } else if (state is ProfileFailure) {
+              print("-------------------");
+              Utils.showSnackBar(
+                context: context,
+                msg: state.error,
+                color: ColorManager.error,
+              );
+            } else if (state is ProfileSuccess) {
+              Utils.showSnackBar(
+                context: context,
+                msg: AppStrings.profileSuccesMess,
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is ProfileLoadingBeforFetch) {
+              return const MyLottie();
+            }
+            if (state is ProfileLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is ProfileGetCenterData) {
+              profileCenterData = ProfileCenterData(
+                  aPlus: state.bloodCenter.aPlus,
+                  aMinus: state.bloodCenter.aMinus,
+                  abPlus: state.bloodCenter.abPlus,
+                  abMinus: state.bloodCenter.bMinus,
+                  oPlus: state.bloodCenter.oPlus,
+                  oMinus: state.bloodCenter.oMinus,
+                  bPlus: state.bloodCenter.bPlus,
+                  bMinus: state.bloodCenter.bMinus);
 
-            return Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: AppPadding.p20),
-                    child: Text(
-                      AppStrings.profileCenterTitle,
-                      style: Theme.of(context).textTheme.headlineLarge,
+              return Center(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: AppPadding.p20),
+                      child: Text(
+                        AppStrings.profileCenterTitle,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: AppSize.s10,
-                  ),
-                  PrfileCenterBloodTypeCard(
-                    bloodType: BloodCenterFields.aPlus,
-                  ),
-                  PrfileCenterBloodTypeCard(
-                      bloodType: BloodCenterFields.abPlus),
-                  PrfileCenterBloodTypeCard(
-                      bloodType: BloodCenterFields.abMinus),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterFields.bPlus),
-                  PrfileCenterBloodTypeCard(
-                      bloodType: BloodCenterFields.bMinus),
-                  PrfileCenterBloodTypeCard(bloodType: BloodCenterFields.oPlus),
-                  PrfileCenterBloodTypeCard(
-                      bloodType: BloodCenterFields.oMinus),
-                  const SizedBox(
-                    height: AppSize.s20,
-                  ),
-                  MyButton(
-                    title: AppStrings.profileButtonSave,
-                    onPressed: () {
-                      BlocProvider.of<ProfileCubit>(context)
-                          .sendProfileCenterData(profileCenterData!);
-                    },
-                    minWidth: AppSize.s300,
-                    color: ColorManager.secondary,
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return const Center(
-              child: MyLottie(),
-            );
-          }
-        },
+                    const SizedBox(
+                      height: AppSize.s10,
+                    ),
+                    PrfileCenterBloodTypeCard(
+                      bloodType: BloodCenterFields.aPlus,
+                    ),
+                    PrfileCenterBloodTypeCard(
+                        bloodType: BloodCenterFields.abPlus),
+                    PrfileCenterBloodTypeCard(
+                        bloodType: BloodCenterFields.abMinus),
+                    PrfileCenterBloodTypeCard(
+                        bloodType: BloodCenterFields.bPlus),
+                    PrfileCenterBloodTypeCard(
+                        bloodType: BloodCenterFields.bMinus),
+                    PrfileCenterBloodTypeCard(
+                        bloodType: BloodCenterFields.oPlus),
+                    PrfileCenterBloodTypeCard(
+                        bloodType: BloodCenterFields.oMinus),
+                    const SizedBox(
+                      height: AppSize.s20,
+                    ),
+                    MyButton(
+                      title: AppStrings.profileButtonSave,
+                      onPressed: () {
+                        BlocProvider.of<ProfileCubit>(context)
+                            .sendProfileCenterData(profileCenterData!);
+                      },
+                      minWidth: AppSize.s300,
+                      color: ColorManager.secondary,
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return const Center(
+                child: MyLottie(),
+              );
+            }
+          },
+        ),
       ),
     );
   }

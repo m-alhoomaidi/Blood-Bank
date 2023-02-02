@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:blood_bank_app/core/app_constants.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -44,11 +45,11 @@ class SendNotficationImpl implements SendNotficationRepository {
             ' }'
             ' }';
         var response = await http.post(
-          Uri.parse(Constants.BASE_URL),
+          Uri.parse(AppConstants.baseUrl),
           headers: <String, String>{
             'Content-Type': 'application/json',
-            'Authorization': 'key= ${Constants.KEY_SERVER}',
-            'project_id': "${Constants.SENDER_ID}"
+            'Authorization': 'key= ${AppConstants.serverKey}',
+            'project_id': AppConstants.senderId
           },
           body: dataNotifications,
         );

@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:flutter/material.dart';
 
 class CarouselItem extends StatelessWidget {
@@ -10,13 +11,25 @@ class CarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      // padding: EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+        boxShadow: [
+          BoxShadow(
+              color: ColorManager.grey2.withOpacity(0.3),
+              blurRadius: 10.0,
+              offset: Offset(2, 2)),
+        ],
+      ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        child: Stack(
-          children: <Widget>[
-            Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-          ],
+        borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+        child: Container(
+          child: Stack(
+            children: <Widget>[
+              Image.asset(item, fit: BoxFit.fill, width: 900.0),
+            ],
+          ),
         ),
       ),
     );

@@ -35,65 +35,57 @@ class _HomeCarouselState extends State<HomeCarousel> {
             ))
         .toList();
 
-    return Stack(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CarouselSlider(
-          items: imageSliders,
-          options: CarouselOptions(
-            // autoPlay: true,
-            // autoPlayInterval: const Duration(seconds: 3),
-            enlargeCenterPage: true,
-            height: 200,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-              });
-            },
-          ),
-          carouselController: _controller,
+        Stack(
+          children: [
+            CarouselSlider(
+              items: imageSliders,
+              options: CarouselOptions(
+                // padEnds: false,
+                // disableCenter: true,
+                // padEnds: true,
+                viewportFraction: 0.9,
+                // autoPlay: true,
+                // autoPlayInterval: const Duration(seconds: 3),
+                enlargeCenterPage: true,
+                height: 200,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    print("++++++++++++++++++++++");
+                    print(index);
+                    _current = index;
+                  });
+                },
+              ),
+              carouselController: _controller,
+            ),
+          ],
         ),
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 10,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CarouselArrow(
-                controller: _controller,
-                icon: Icons.arrow_back_ios_rounded,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: imgList.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => _controller.animateToPage(entry.key),
+              child: Container(
+                width: _current == entry.key ? 30 : 12.0,
+                height: 8.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color:
+                        // (Theme.of(context).brightness ==
+                        //             Brightness.dark
+                        //         ? Colors.white
+                        //         : Colors.black)
+                        Theme.of(context)
+                            .primaryColor
+                            .withOpacity(_current == entry.key ? 0.8 : 0.3)),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: imgList.asMap().entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () => _controller.animateToPage(entry.key),
-                    child: Container(
-                      width: 12.0,
-                      height: 12.0,
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color:
-                              // (Theme.of(context).brightness ==
-                              //             Brightness.dark
-                              //         ? Colors.white
-                              //         : Colors.black)
-                              eSecondColor.withOpacity(
-                                  _current == entry.key ? 0.8 : 0.3)),
-                    ),
-                  );
-                }).toList(),
-              ),
-              CarouselArrow(
-                controller: _controller,
-                icon: Icons.arrow_forward_ios_rounded,
-              ),
-            ],
-          ),
+            );
+          }).toList(),
         ),
       ],
     );
