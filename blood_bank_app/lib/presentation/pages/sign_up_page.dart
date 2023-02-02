@@ -20,9 +20,7 @@ import '../resources/strings_manager.dart';
 import '../resources/style.dart';
 import '../resources/values_manager.dart';
 import '../widgets/common/my_stepper.dart' as my_stepper;
-import '../widgets/forms/my_checkbox_form_field.dart';
 import '../widgets/forms/my_dropdown_button_form_field.dart';
-import '../widgets/forms/my_outlined_icon_button.dart';
 import '../widgets/forms/my_text_form_field.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -34,10 +32,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>();
-  final GlobalKey<FormState> _secondFormState = GlobalKey<FormState>();
-  final GlobalKey<FormState> _thirdFormState = GlobalKey<FormState>();
-  final GlobalKey<FormState> _fourthFormState = GlobalKey<FormState>();
+  final GlobalKey<FormState> _firstFormState = GlobalKey<FormState>(),
+      _secondFormState = GlobalKey<FormState>(),
+      _thirdFormState = GlobalKey<FormState>();
+  // _fourthFormState = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController(),
       passwordController = TextEditingController(),
@@ -55,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
   Future<void> _submit() async {
-    FormState? formData = _fourthFormState.currentState;
+    FormState? formData = _thirdFormState.currentState;
     if (formData!.validate()) {
       Donor newDonor = Donor(
         email: emailController.text,
@@ -512,12 +510,14 @@ class _SignUpPageState extends State<SignUpPage> {
     if (_activeStepIndex == 2 && districtController.text == "") {
       Fluttertoast.showToast(msg: AppStrings.signUpStateCityValidator);
     } else {
-      if (formData!.validate()) {
-        formData.save();
-        if (stepIndex == null) {
-          setState(() => _activeStepIndex++);
-        } else {
+      if (stepIndex != null) {
+        if (stepIndex < _activeStepIndex) {
           setState(() => _activeStepIndex = stepIndex);
+        } else {
+          if (formData!.validate()) {
+            formData.save();
+            setState(() => _activeStepIndex = stepIndex);
+          }
         }
       }
     }
