@@ -2,7 +2,7 @@ import 'package:flutter/animation.dart';
 
 class ColorManager {
   // Main Colors
-  static const Color primary = Color.fromARGB(255, 200, 0, 0);
+  static const Color primary = Color(0xfff2494c);
   static const Color lightPrimary = Color.fromARGB(255, 255, 150, 150);
   static const Color darkPrimary = Color.fromARGB(255, 100, 0, 0);
   static const Color secondary = Color.fromARGB(255, 0, 160, 160);

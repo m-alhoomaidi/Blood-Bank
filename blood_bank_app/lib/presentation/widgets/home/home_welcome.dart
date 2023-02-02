@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/presentation/pages/search_page.dart';
 import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -62,16 +63,28 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                   'ومن أحياها فكأنما أحيا الناس جميعاً',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
+                MyTextFormField(
+                  hint: 'البحث عن متبرع',
+                  icon: const Icon(Icons.search_rounded),
+                  suffixIcon: false,
+                  fillColor: Colors.white,
+                  blurrBorderColor: eSecondColor.withOpacity(0),
+                  focusBorderColor: eSecondColor.withOpacity(0),
+                  readOnly: true,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SearchPage(),
+                      ),
+                    );
+                  },
+                ),
                 userType == "1"
-                    ? MyTextFormField(
-                        hint: 'البحث عن متبرع',
-                        icon: const Icon(Icons.search_rounded),
-                        suffixIcon: false,
-                        fillColor: Colors.white,
-                        blurrBorderColor: eSecondColor.withOpacity(0),
-                        focusBorderColor: eSecondColor.withOpacity(0),
-                        readOnly: true,
-                        onTap: () {
+                    ? MyButton(
+                        title: 'إنشاء حساب متبرع',
+                        color: Theme.of(context).colorScheme.secondary,
+                        onPressed: () {
                           di.initSignUp();
                           Navigator.of(context).pop();
                           Navigator.push(
@@ -83,13 +96,6 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                         },
                       )
                     : const SizedBox(),
-                MyButton(
-                  title: 'إنشاء حساب متبرع',
-                  color: Theme.of(context).colorScheme.secondary,
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(SignUpPage.routeName);
-                  },
-                ),
               ],
             ),
           ),
