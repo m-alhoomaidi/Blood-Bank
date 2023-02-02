@@ -43,7 +43,7 @@ class _HomeWelcomeState extends State<HomeWelcome> {
           //   fit: BoxFit.cover,
           // ),
         ),
-        Container(
+        SizedBox(
           height: 300,
           width: MediaQuery.of(context).size.width,
           // color: ColorManager.grey1,

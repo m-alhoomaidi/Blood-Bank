@@ -28,6 +28,7 @@ ThemeData getApplicationTheme() {
 
     // app bar theme
     appBarTheme: AppBarTheme(
+      foregroundColor: ColorManager.black,
       systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
           // statusBarBrightness: Brightness.light,

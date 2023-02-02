@@ -260,7 +260,6 @@ class _HomePageState extends State<HomePage> {
         : Scaffold(
             appBar: AppBar(
               // title: const Text(AppStrings.homeAppBarTitle),
-              foregroundColor: ColorManager.black,
 
               centerTitle: true,
               elevation: AppSize.s0,
@@ -322,18 +321,37 @@ class _HomePageState extends State<HomePage> {
                         //   height: 4,
                         // ),
                         const HomeWelcome(),
-                        // Container(
-                        //   padding: const EdgeInsets.symmetric(
-                        //       horizontal: AppPadding.p20),
-                        //   child: Text(
-                        //     'الارشادات',
-                        //     style: Theme.of(context)
-                        //         .textTheme
-                        //         .displayLarge!
-                        //         .copyWith(height: 1.5, fontSize: 20),
-                        //   ),
-                        // ),
                         const HomeCarousel(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: AppPadding.p30),
+                          child: Text(
+                            'نبض',
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayLarge!
+                                .copyWith(
+                                    height: 1.5,
+                                    fontSize: 25,
+                                    color: ColorManager.primary),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              '''
+            التبرع بالدم هو إجراء طبي يتم فيه نقل الدم من شخص سليم معافى طوعاً إلى شخص مريض محتاج للدم. يستخدم ذلك الدم في عمليات نقل الدم كاملا أو بأحد مكوناته فقط بعد ...''',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(height: 1.4),
+                            ),
+                          ),
+                        ),
+
                         const HomeAbout(),
                         const SizedBox(height: AppSize.s20),
                       ],
