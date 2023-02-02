@@ -2,6 +2,7 @@ import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
+import 'package:blood_bank_app/presentation/pages/splash_screen.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -203,8 +204,9 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [Locale("ar", "AE")],
-      initialRoute: HomePage.routeName,
+      initialRoute: SplashScreen.routeName,
       routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
         HomePage.routeName: (context) => const HomePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
         SignInPage.routeName: (context) => const SignInPage(),
