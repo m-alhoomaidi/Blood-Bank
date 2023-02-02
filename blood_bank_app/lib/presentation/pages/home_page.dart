@@ -6,6 +6,7 @@ import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notficat
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/presentation/widgets/home/home_carousel/home_carousel.dart';
@@ -293,49 +294,53 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             backgroundColor: ColorManager.white,
-            body: BlocConsumer<SendNotficationCubit, SendNotficationState>(
-              listener: (context, state) {
-                if (state is SendNotficationStateSuccess) {
-                  print("Success +++++++++++++++++++++++");
-                }
-                if (state is SendNotficationStateFailure) {
-                  print("Failure -----------------------");
-                }
-              },
-              builder: (context, state) {
-                if (state is SendNotficationStateSuccess) {
-                  print("Success ++++++++++++++++++++++00");
-                }
-                if (state is SendNotficationStateFailure) {
-                  print("Failure ----------------------00");
-                }
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // SizedBox(
-                      //   height: 4,
-                      // ),
-                      const HomeWelcome(),
-                      // Container(
-                      //   padding: const EdgeInsets.symmetric(
-                      //       horizontal: AppPadding.p20),
-                      //   child: Text(
-                      //     'الارشادات',
-                      //     style: Theme.of(context)
-                      //         .textTheme
-                      //         .displayLarge!
-                      //         .copyWith(height: 1.5, fontSize: 20),
-                      //   ),
-                      // ),
-                      const HomeCarousel(),
-                      const HomeAbout(),
-                      const SizedBox(height: AppSize.s20),
-                    ],
-                  ),
-                );
-              },
+            body: MediaQuery(
+              data: MediaQuery.of(context)
+                  .copyWith(textScaleFactor: textScaleFactor),
+              child: BlocConsumer<SendNotficationCubit, SendNotficationState>(
+                listener: (context, state) {
+                  if (state is SendNotficationStateSuccess) {
+                    print("Success +++++++++++++++++++++++");
+                  }
+                  if (state is SendNotficationStateFailure) {
+                    print("Failure -----------------------");
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SendNotficationStateSuccess) {
+                    print("Success ++++++++++++++++++++++00");
+                  }
+                  if (state is SendNotficationStateFailure) {
+                    print("Failure ----------------------00");
+                  }
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        // SizedBox(
+                        //   height: 4,
+                        // ),
+                        const HomeWelcome(),
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       horizontal: AppPadding.p20),
+                        //   child: Text(
+                        //     'الارشادات',
+                        //     style: Theme.of(context)
+                        //         .textTheme
+                        //         .displayLarge!
+                        //         .copyWith(height: 1.5, fontSize: 20),
+                        //   ),
+                        // ),
+                        const HomeCarousel(),
+                        const HomeAbout(),
+                        const SizedBox(height: AppSize.s20),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             drawer: const HomeDrower(),
 

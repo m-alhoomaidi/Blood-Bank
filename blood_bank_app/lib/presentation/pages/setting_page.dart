@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
+
 import '../cubit/profile_cubit/profile_cubit.dart';
 import '../resources/assets_manager.dart';
 import '../resources/strings_manager.dart';
@@ -150,61 +152,64 @@ class _SettingPageState extends State<SettingPage> {
         title: const Text(AppStrings.profileAppBarTitle),
         elevation: 0,
       ),
-      body:
-          BlocConsumer<ProfileCubit, ProfileState>(listener: (context, state) {
-        if (state is ProfileGetData) {
-        } else if (state is ProfileFailure) {
-          Utils.showSnackBar(
-            context: context,
-            msg: state.error,
-            color: ColorManager.error,
-          );
-        } else if (state is ProfileSuccess) {
-          Utils.showSnackBar(
-            context: context,
-            msg: AppStrings.profileSuccesMess,
-          );
-        }
-      }, builder: (context, state) {
-        return ModalProgressHUD(
-          inAsyncCall: (state is ProfileLoading),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: AppPadding.p10),
-                ),
-                InkWell(
-                  onTap: () {
-                    // _showSelectPhotoOptions(context);
-                    // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
-
-                    // putDataTodataProfileTable();
-                  },
-                  child: DisplayImage(
-                    imagePath: _image ?? ImageAssets.ProfileImage,
-                    onPressed: () {},
+      body: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: BlocConsumer<ProfileCubit, ProfileState>(
+            listener: (context, state) {
+          if (state is ProfileGetData) {
+          } else if (state is ProfileFailure) {
+            Utils.showSnackBar(
+              context: context,
+              msg: state.error,
+              color: ColorManager.error,
+            );
+          } else if (state is ProfileSuccess) {
+            Utils.showSnackBar(
+              context: context,
+              msg: AppStrings.profileSuccesMess,
+            );
+          }
+        }, builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: (state is ProfileLoading),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: AppPadding.p10),
                   ),
-                ),
-                const SizedBox(
-                  height: AppSize.s10,
-                ),
-                if (state is ProfileGetData) ProfileBody(donor: state.donors),
-                if (state is ProfileFailure)
-                  const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  InkWell(
+                    onTap: () {
+                      // _showSelectPhotoOptions(context);
+                      // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
 
-                // (state is ProfileGetData)
-                //     ? ProfileBody(donor: state.donors)
-                //     : const Center(
-                //         child: CircularProgressIndicator(),
-                //       )
-              ],
+                      // putDataTodataProfileTable();
+                    },
+                    child: DisplayImage(
+                      imagePath: _image ?? ImageAssets.ProfileImage,
+                      onPressed: () {},
+                    ),
+                  ),
+                  const SizedBox(
+                    height: AppSize.s10,
+                  ),
+                  if (state is ProfileGetData) ProfileBody(donor: state.donors),
+                  if (state is ProfileFailure)
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+
+                  // (state is ProfileGetData)
+                  //     ? ProfileBody(donor: state.donors)
+                  //     : const Center(
+                  //         child: CircularProgressIndicator(),
+                  //       )
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

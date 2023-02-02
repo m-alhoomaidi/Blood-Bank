@@ -91,40 +91,43 @@ class _SignInPageState extends State<SignInPage> {
       appBar: AppBar(
         title: const Text(AppStrings.signInAppBarTitle),
       ),
-      body: GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: BlocConsumer<SignInCubit, SignInState>(
-          listener: (context, state) {
-            if (state is SignInSuccess) {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            } else if (state is SigninFailure) {
-              Utils.showSnackBar(
-                context: context,
-                msg: state.error,
-                color: ColorManager.error,
-              );
-            } else if (state is SignInSuccessResetPass) {
-              DialogResetPassWord.resetPasswordDialog(context);
-              MaterialPageRoute(builder: (context) => const HomePage());
-            }
-          },
-          builder: (context, state) {
-            return ModalProgressHUD(
-              inAsyncCall: (state is SignInLoading),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: AppSize.s30),
-                    _buildHeaderImage(),
-                    const SizedBox(height: AppSize.s20),
-                    _buildSignInForm(context),
-                  ],
+      body: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: BlocConsumer<SignInCubit, SignInState>(
+            listener: (context, state) {
+              if (state is SignInSuccess) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const HomePage()));
+              } else if (state is SigninFailure) {
+                Utils.showSnackBar(
+                  context: context,
+                  msg: state.error,
+                  color: ColorManager.error,
+                );
+              } else if (state is SignInSuccessResetPass) {
+                DialogResetPassWord.resetPasswordDialog(context);
+                MaterialPageRoute(builder: (context) => const HomePage());
+              }
+            },
+            builder: (context, state) {
+              return ModalProgressHUD(
+                inAsyncCall: (state is SignInLoading),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: AppSize.s30),
+                      _buildHeaderImage(),
+                      const SizedBox(height: AppSize.s20),
+                      _buildSignInForm(context),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

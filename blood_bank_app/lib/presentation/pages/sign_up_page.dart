@@ -89,36 +89,39 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar(
         title: const Text(AppStrings.signUpAppBarTitle),
       ),
-      body: BlocConsumer<SignUpCubit, SignupState>(
-        listener: (context, state) {
-          if (state is SignUpSuccess) {
-            Utils.showSuccessSnackBar(
-                context: context, msg: AppStrings.signUpSuccessMessage);
-            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-          } else if (state is SignUpFailure) {
-            Utils.showFalureSnackBar(context: context, msg: state.error);
-          }
-        },
-        builder: (context, state) {
-          return ModalProgressHUD(
-            inAsyncCall: (state is SignupLoading),
-            child: my_stepper.Stepper(
-              svgPictureAsset: ImageAssets.bloodDrop,
-              iconColor: Theme.of(context).primaryColor,
-              elevation: AppSize.s0,
-              type: my_stepper.StepperType.horizontal,
-              currentStep: _activeStepIndex,
-              steps: stepList(),
-              onStepContinue: _onStepContinue,
-              onStepCancel: _onStepCancel,
-              onStepTapped: _onStepTapped,
-              controlsBuilder:
-                  (BuildContext context, my_stepper.ControlsDetails controls) {
-                return buildNavigationButtons(context, controls);
-              },
-            ),
-          );
-        },
+      body: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: BlocConsumer<SignUpCubit, SignupState>(
+          listener: (context, state) {
+            if (state is SignUpSuccess) {
+              Utils.showSuccessSnackBar(
+                  context: context, msg: AppStrings.signUpSuccessMessage);
+              Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+            } else if (state is SignUpFailure) {
+              Utils.showFalureSnackBar(context: context, msg: state.error);
+            }
+          },
+          builder: (context, state) {
+            return ModalProgressHUD(
+              inAsyncCall: (state is SignupLoading),
+              child: my_stepper.Stepper(
+                svgPictureAsset: ImageAssets.bloodDrop,
+                iconColor: Theme.of(context).primaryColor,
+                elevation: AppSize.s0,
+                type: my_stepper.StepperType.horizontal,
+                currentStep: _activeStepIndex,
+                steps: stepList(),
+                onStepContinue: _onStepContinue,
+                onStepCancel: _onStepCancel,
+                onStepTapped: _onStepTapped,
+                controlsBuilder: (BuildContext context,
+                    my_stepper.ControlsDetails controls) {
+                  return buildNavigationButtons(context, controls);
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
