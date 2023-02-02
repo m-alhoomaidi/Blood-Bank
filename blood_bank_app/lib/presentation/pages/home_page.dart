@@ -52,11 +52,13 @@ class _HomePageState extends State<HomePage> {
     var message = await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => NotFicationPage(
-                  remoteMessage: message.notification!,
-                  dateTime: message.sentTime!))));
+        context,
+        MaterialPageRoute(
+          builder: ((context) => NotFicationPage(
+              remoteMessage: message.notification!,
+              dateTime: message.sentTime!)),
+        ),
+      );
     }
   }
 
@@ -268,8 +270,6 @@ class _HomePageState extends State<HomePage> {
             ),
             body: BlocConsumer<SendNotficationCubit, SendNotficationState>(
               listener: (context, state) {
-                // TODO: implement listener
-
                 if (state is SendNotficationStateSuccess) {
                   print("Success +++++++++++++++++++++++");
                 }
@@ -299,7 +299,6 @@ class _HomePageState extends State<HomePage> {
             ),
             drawer: const HomeDrower(),
             floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.search_rounded),
               onPressed: () async {
                 try {
                   // print(FirebaseMessaging.instance.getToken().then(
@@ -367,6 +366,7 @@ class _HomePageState extends State<HomePage> {
                 // LocationManager().stop();
               },
               heroTag: "search",
+              child: const Icon(Icons.search_rounded),
             ),
           );
   }
