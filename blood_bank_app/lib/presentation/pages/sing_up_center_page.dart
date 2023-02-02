@@ -57,6 +57,7 @@ class _SignUpCenterState extends State<SignUpCenter> {
         lat: "",
         lon: "",
         token: "",
+        status: "ACTIVE",
         aPlus: 0,
         aMinus: 0,
         bPlus: 0,
