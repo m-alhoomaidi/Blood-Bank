@@ -4,34 +4,30 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Button from '@mui/material/Button';
 import ClockIcon from '@mui/icons-material/AccessTime';
 import MessageIcon from '@mui/icons-material/Message';
-const CardSearch = ({nameSearch,bloodType,neighborhood}) => {    
-  const [name , setName]=useState('');
-  const [typeBlood , setTypeBlood]=useState('');
-  const [neighborhoodd , setneighborhood]=useState('');
-useEffect(()=>{
-  setName(nameSearch);
-  setTypeBlood(bloodType);
-  setneighborhood(neighborhood);
-},[]);
+import { SendNotification } from '../../utils/notification-group';
+
+export const CardSearch = ({nameSearch,bloodType,neighborhood}) => { 
+   
     return (
       <>
+      {nameSearch !== "" ?
     <Box sx={{'& .css-1o2f6ek-MuiPaper-root-MuiCard-root':{p:2}}}>
        <Card sx={{ height: '100%' }}>
           <Grid container spacing={3} >
             <Grid item >
                 <Avatar
                    sx={{backgroundColor: 'error.main',marginRight:"20px"}}>
-                     {typeBlood}
+                     {bloodType}
                 </Avatar>
              </Grid>
             <Grid item>
-                <Typography sx={{marginTop:"8px"}}>{name}</Typography>
+                <Typography sx={{marginTop:"8px"}}>{nameSearch}</Typography>
             </Grid>
            
             </Grid>
           <Grid container spacing={2} sx={{justifyContent:"center",flexDirection:"column" }} >
            <Grid item >
-              <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhoodd}</Typography>
+              <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhood}</Typography>
             </Grid>
            
           </Grid>
@@ -52,9 +48,10 @@ useEffect(()=>{
              </Grid>
             </Grid>
           </Box>
+          
        </Card>
     </Box>
+       :"" }
     </>
   );
 };
-export default CardSearch;

@@ -5,16 +5,6 @@ import Button from '@mui/material/Button';
 import ClockIcon from '@mui/icons-material/AccessTime';
 import MessageIcon from '@mui/icons-material/Message';
 const CardSearchCenter = ({nameSearch,bloodType,neighborhood,CountBloodType}) => {    
-  const [name , setName]=useState('');
-  const [typeBlood , setTypeBlood]=useState('');
-  const [neighborhoodd , setneighborhood]=useState('');
-  const [CountBlood , setCountBlood]=useState('');
-useEffect(()=>{
-  setName(nameSearch);
-  setTypeBlood(bloodType);
-  setneighborhood(neighborhood);
-  setCountBlood(CountBloodType);
-},[]);
     return (
       <>
     <Box sx={{'& .css-1o2f6ek-MuiPaper-root-MuiCard-root':{p:2}}}>
@@ -23,11 +13,11 @@ useEffect(()=>{
             <Grid item >
                 <Avatar
                    sx={{backgroundColor: 'error.main',marginRight:"20px"}}>
-                     {CountBlood}
+                     {CountBloodType}
                 </Avatar>
              </Grid>
             <Grid item>
-                <Typography sx={{marginTop:"8px"}}>{name}</Typography>
+                <Typography sx={{marginTop:"8px"}}>{nameSearch}</Typography>
             </Grid>
            
             </Grid>
@@ -40,7 +30,7 @@ useEffect(()=>{
             </Box>
             </Grid>
            <Grid item >
-              <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhoodd}</Typography>
+              <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhood}</Typography>
             </Grid>
            
           </Grid>
