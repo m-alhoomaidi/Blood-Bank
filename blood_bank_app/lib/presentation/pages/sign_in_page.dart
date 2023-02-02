@@ -254,7 +254,7 @@ class _SignInPageState extends State<SignInPage> {
       color: ColorManager.grey1,
       onPressed: _moveToSignUp,
       minWidth: AppSize.s300,
-      style: TextStyle(
+      titleStyle: TextStyle(
         color: Theme.of(context).colorScheme.secondary,
         fontSize: FontSize.s14,
         fontFamily: FontConstants.fontFamily,

@@ -1,3 +1,5 @@
+import 'package:blood_bank_app/presentation/resources/font_manager.dart';
+import 'package:blood_bank_app/presentation/widgets/forms/my_button.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -131,76 +133,68 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p20),
       child: Column(
         children: [
-          Stack(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: AppSize.s60,
-              ),
-              if (!isFirstStep())
-                Positioned(
-                  right: AppSize.s20,
-                  child: SizedBox(
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (!isFirstStep())
+                  SizedBox(
                     width: AppSize.s140,
-                    child: MyOutlinedIconButton(
-                      onPressed: controls.onStepCancel,
-                      borderColor: Theme.of(context).primaryColor,
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Theme.of(context).primaryColor,
+                    child: MyButton(
+                      title: AppStrings.signUpPreviousButton,
+                      titleStyle: const TextStyle(
+                        fontSize: FontSize.s14,
+                        color: ColorManager.secondary,
+                        fontFamily: FontConstants.fontFamily,
                       ),
-                      label: Text(
-                        AppStrings.signUpPreviousButton,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: Theme.of(context).primaryColor),
+                      onPressed: _validateForm,
+                      color: ColorManager.grey1,
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: ColorManager.secondary,
+                          size: AppSize.s30,
+                        ),
                       ),
+                      isPrefexIcon: true,
                     ),
                   ),
-                ),
-              const SizedBox(width: AppSize.s20),
-              Positioned(
-                left: AppSize.s20,
-                child: SizedBox(
+                const SizedBox(width: AppSize.s20),
+                SizedBox(
                   width: AppSize.s140,
                   child: (isLastStep())
-                      ? MyOutlinedIconButton(
-                          icon: Text(
-                            AppStrings.signUpCreateButton,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: ColorManager.success),
-                          ),
-                          label: const Icon(
-                            Icons.check_rounded,
-                            color: ColorManager.success,
+                      ? MyButton(
+                          title: AppStrings.signUpCreateButton,
+                          color: ColorManager.success,
+                          titleStyle: Theme.of(context).textTheme.titleLarge,
+                          icon: const Padding(
+                            padding: EdgeInsets.only(right: 10.0),
+                            child: Icon(
+                              Icons.check_rounded,
+                              size: AppSize.s30,
+                              color: ColorManager.white,
+                            ),
                           ),
                           onPressed: _submit,
-                          borderColor: ColorManager.success,
                         )
-                      : MyOutlinedIconButton(
-                          icon: Text(
-                            AppStrings.signUpNextButton,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                          ),
-                          label: Icon(
-                            Icons.arrow_forward,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+                      : MyButton(
+                          title: AppStrings.signUpNextButton,
                           onPressed: _validateForm,
-                          borderColor: Theme.of(context).colorScheme.secondary,
+                          color: Theme.of(context).colorScheme.secondary,
+                          icon: const Padding(
+                            padding: EdgeInsets.only(right: 10.0),
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: ColorManager.white,
+                              size: AppSize.s30,
+                            ),
+                          ),
                         ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           isFirstStep()
               ? Container(
@@ -227,7 +221,7 @@ class _SignUpPageState extends State<SignUpPage> {
         firstStep(),
         secondSetp(),
         thirdStep(),
-        fourthStep(),
+        // fourthStep(),
       ];
 
   my_stepper.Step firstStep() {
@@ -442,76 +436,76 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  my_stepper.Step fourthStep() {
-    return my_stepper.Step(
-      state: my_stepper.StepState.complete,
-      isActive: _activeStepIndex >= 3,
-      title: Text(AppStrings.signUpFourthStepTitle,
-          style: _activeStepIndex >= 3
-              ? Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: Theme.of(context).primaryColor)
-              : Theme.of(context).textTheme.bodySmall),
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
-        height: signUpStepHight,
-        child: Column(
-          children: [
-            Wrap(
-              runSpacing: AppSize.s16,
-              alignment: WrapAlignment.center,
-              children: [
-                buildDonorDetail(
-                  key: AppStrings.signUpConfirmNameLabel,
-                  value: nameController.text,
-                ),
-                buildDonorDetail(
-                  key: AppStrings.signUpConfirmPhoneLabel,
-                  value: phoneController.text,
-                ),
-                buildDonorDetail(
-                  key: AppStrings.signUpConfirmBloodTypeLabel,
-                  value: bloodType ?? AppStrings.unDefined,
-                ),
-                buildDonorDetail(
-                  key: AppStrings.signUpConfirmAddressLabel,
-                  value:
-                      '${stateNameController.text} - ${districtController.text} - ${neighborhoodController.text}',
-                ),
-                buildDonorDetail(
-                  key: AppStrings.signUpConfirmEmailLabel,
-                  value: emailController.text,
-                ),
-              ],
-            ),
-            Form(
-              key: _fourthFormState,
-              child: MyCheckboxFormField(
-                title: Row(
-                  children: [
-                    const Text(AppStrings.signUpIConfirmThat),
-                    GestureDetector(
-                      onTap: _moveToPrivacyPolicyPage,
-                      child: Text(
-                        AppStrings.signUpPrivacyPolicy,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: ColorManager.link),
-                      ),
-                    ),
-                  ],
-                ),
-                onSaved: (value) {},
-                validator: _confirmValidator,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // my_stepper.Step fourthStep() {
+  //   return my_stepper.Step(
+  //     state: my_stepper.StepState.complete,
+  //     isActive: _activeStepIndex >= 3,
+  //     title: Text(AppStrings.signUpFourthStepTitle,
+  //         style: _activeStepIndex >= 3
+  //             ? Theme.of(context)
+  //                 .textTheme
+  //                 .bodySmall!
+  //                 .copyWith(color: Theme.of(context).primaryColor)
+  //             : Theme.of(context).textTheme.bodySmall),
+  //     content: Container(
+  //       padding: const EdgeInsets.symmetric(horizontal: AppPadding.p10),
+  //       height: signUpStepHight,
+  //       child: Column(
+  //         children: [
+  //           Wrap(
+  //             runSpacing: AppSize.s16,
+  //             alignment: WrapAlignment.center,
+  //             children: [
+  //               buildDonorDetail(
+  //                 key: AppStrings.signUpConfirmNameLabel,
+  //                 value: nameController.text,
+  //               ),
+  //               buildDonorDetail(
+  //                 key: AppStrings.signUpConfirmPhoneLabel,
+  //                 value: phoneController.text,
+  //               ),
+  //               buildDonorDetail(
+  //                 key: AppStrings.signUpConfirmBloodTypeLabel,
+  //                 value: bloodType ?? AppStrings.unDefined,
+  //               ),
+  //               buildDonorDetail(
+  //                 key: AppStrings.signUpConfirmAddressLabel,
+  //                 value:
+  //                     '${stateNameController.text} - ${districtController.text} - ${neighborhoodController.text}',
+  //               ),
+  //               buildDonorDetail(
+  //                 key: AppStrings.signUpConfirmEmailLabel,
+  //                 value: emailController.text,
+  //               ),
+  //             ],
+  //           ),
+  //           Form(
+  //             key: _fourthFormState,
+  //             child: MyCheckboxFormField(
+  //               title: Row(
+  //                 children: [
+  //                   const Text(AppStrings.signUpIConfirmThat),
+  //                   GestureDetector(
+  //                     onTap: _moveToPrivacyPolicyPage,
+  //                     child: Text(
+  //                       AppStrings.signUpPrivacyPolicy,
+  //                       style: Theme.of(context)
+  //                           .textTheme
+  //                           .titleMedium!
+  //                           .copyWith(color: ColorManager.link),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //               onSaved: (value) {},
+  //               validator: _confirmValidator,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _validateForm({int? stepIndex}) {
     FormState? formData = currentFormState();
@@ -640,5 +634,5 @@ class _SignUpPageState extends State<SignUpPage> {
     Navigator.of(context).pushReplacementNamed(SignUpCenter.routeName);
   }
 
-  void _moveToPrivacyPolicyPage() {}
+  // void _moveToPrivacyPolicyPage() {}
 }

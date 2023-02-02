@@ -1,13 +1,33 @@
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-import '../../pages/search_page.dart';
+import '../../../../dependency_injection.dart' as di;
 import '../../pages/sign_up_page.dart';
 import '../../resources/style.dart';
 import '../forms/my_button.dart';
 import '../forms/my_text_form_field.dart';
 
-class HomeWelcome extends StatelessWidget {
+class HomeWelcome extends StatefulWidget {
   const HomeWelcome({Key? key}) : super(key: key);
+
+  @override
+  State<HomeWelcome> createState() => _HomeWelcomeState();
+}
+
+class _HomeWelcomeState extends State<HomeWelcome> {
+  String userType = "0";
+
+  void checkUserType() {
+    setState(() => userType = Hive.box(dataBoxName).get('user') ?? "0");
+    super.initState();
+  }
+
+  @override
+  void initState() {
+    checkUserType();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +62,27 @@ class HomeWelcome extends StatelessWidget {
                   'ومن أحياها فكأنما أحيا الناس جميعاً',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                MyTextFormField(
-                  hint: 'البحث عن متبرع',
-                  icon: const Icon(Icons.search_rounded),
-                  suffixIcon: false,
-                  fillColor: Colors.white,
-                  blurrBorderColor: eSecondColor.withOpacity(0),
-                  focusBorderColor: eSecondColor.withOpacity(0),
-                  readOnly: true,
-                  onTap: () {
-                    Navigator.of(context).pushNamed(SearchPage.routeName);
-                  },
-                ),
+                userType == "1"
+                    ? MyTextFormField(
+                        hint: 'البحث عن متبرع',
+                        icon: const Icon(Icons.search_rounded),
+                        suffixIcon: false,
+                        fillColor: Colors.white,
+                        blurrBorderColor: eSecondColor.withOpacity(0),
+                        focusBorderColor: eSecondColor.withOpacity(0),
+                        readOnly: true,
+                        onTap: () {
+                          di.initSignUp();
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SignUpPage(),
+                            ),
+                          );
+                        },
+                      )
+                    : const SizedBox(),
                 MyButton(
                   title: 'إنشاء حساب متبرع',
                   color: Theme.of(context).colorScheme.secondary,
