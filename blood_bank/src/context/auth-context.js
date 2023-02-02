@@ -180,7 +180,7 @@ export const AuthProvider = (props) => {
         const docSnap = await getDoc(docRef);
         const user = docSnap.data(); 
         updateUser(user);
-        console.log(id);
+        //console.log(id);
         // if (!querySnapshot?.docs?.length == 0) {
         //     const user = querySnapshot.docs[0].data()
         //     console.log(user.email)
