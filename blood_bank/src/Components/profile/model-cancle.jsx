@@ -21,10 +21,11 @@ const style = {
   borderRadius:'10px',
   px:3,
 };   
+const id = localStorage.getItem("uid");
 export const ModelCancle = ({opens,Hand,displayed,IsShowning}) =>{
   const HideUser =  async () =>{
    const isShown = "0";
-        const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+        const userDoc = doc (db,"donors",id);
     updateDoc(userDoc ,{ is_shown : isShown}).then((response) =>{
       displayed(false);
       IsShowning("0");
@@ -95,7 +96,7 @@ export const CardSucces = ({displayed,Hand,IsShowning})=>{
 
   const ShowUser =  async () =>{
     const Shown = "1";
-         const userDoc = doc (db,"donors",'9U74upZiSOJugT9wrDnu');
+         const userDoc = doc (db,"donors",id);
      updateDoc(userDoc ,{ is_shown : Shown}).then((response) =>{
       displayed(true);
       IsShowning("1");

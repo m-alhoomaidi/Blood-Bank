@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/core/app_constants.dart';
 import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/main.dart';
@@ -34,13 +35,6 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
-}
-
-class Constants {
-  static const String BASE_URL = 'https://fcm.googleapis.com/fcm/send';
-  static final String KEY_SERVER =
-      'AAAA38t9Pf8:APA91bHd0hEzCkV3I2p-fNMcOefQ1qPB33maAXXHMdf8fYy-oAkbyBBkGd4qKNR50j8P8QHb0gJwWOG4ejoGpbwaZw526MHofn3kb4HsQfyGW2j5ooAPIxdVtyFSC6wX9-JiAtspHITX';
-  static final String SENDER_ID = '961191689727';
 }
 
 class _HomePageState extends State<HomePage> {
@@ -647,10 +641,10 @@ class _HomePageState extends State<HomePage> {
         ' }';
 
     await http.post(
-      Uri.parse(Constants.BASE_URL),
+      Uri.parse(AppConstants.baseUrl),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authorization': 'key= ${Constants.KEY_SERVER}',
+        'Authorization': 'key= ${AppConstants.serverKey}',
       },
       body: dataNotifications,
     );
@@ -676,11 +670,11 @@ class _HomePageState extends State<HomePage> {
         ' }';
 
     var response = await http.post(
-      Uri.parse(Constants.BASE_URL),
+      Uri.parse(AppConstants.baseUrl),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authorization': 'key= ${Constants.KEY_SERVER}',
-        'project_id': "${Constants.SENDER_ID}"
+        'Authorization': 'key= ${AppConstants.serverKey}',
+        'project_id': "${AppConstants.senderId}"
       },
       body: dataNotifications,
     );
@@ -706,10 +700,10 @@ class _HomePageState extends State<HomePage> {
         ' } ';
 
     var response = await http.post(
-      Uri.parse(Constants.BASE_URL),
+      Uri.parse(AppConstants.baseUrl),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authorization': 'key= ${Constants.KEY_SERVER}',
+        'Authorization': 'key= ${AppConstants.serverKey}',
       },
       body: dataNotifications,
     );

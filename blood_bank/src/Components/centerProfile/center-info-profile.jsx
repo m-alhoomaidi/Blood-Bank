@@ -34,7 +34,7 @@ export const PersonalInfoProfile = () => {
         uploadBytes(imageRef, ImgeProfiles).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setImages(url);
-                updateDoc(doc(db, "donors", '9U74upZiSOJugT9wrDnu'), { image: url }).then((response) => {
+                updateDoc(doc(db, "donors", 'AtFv1cCtkCZxQapmqgHBADktwpv1'), { image: url }).then((response) => {
                     console.log(response);
                     setProgress(false);
                     updateUser({ ...user, image: url });
@@ -101,7 +101,7 @@ export const PersonalInfoProfile = () => {
         formik.setFieldValue('email', user.email)
         formik.setFieldValue('typeBlood', user.blood_type)
         formik.setFieldValue('district', GetDistrict ? GetDistrict[0] : null)
-        setImages(user.image);
+        setImages(user?.image);
         setIsShown(user.is_shown);
     }, [user]);
 
