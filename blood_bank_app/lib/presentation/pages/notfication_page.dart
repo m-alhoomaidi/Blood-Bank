@@ -1,5 +1,7 @@
 import 'package:blood_bank_app/domain/entities/donor.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -71,53 +73,54 @@ class _NotFicationPageState extends State<NotFicationPage> {
       appBar: AppBar(
         title: Text("الاشعارات"),
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 50,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Stack(
-              children: [
-                Container(
-                  height: 160,
-                  color: Color.fromARGB(255, 255, 251, 251),
-                ),
-                Positioned(
-                    top: 50,
-                    right: 10,
-                    child: Image.asset(
-                      "assets/images/boy.png",
-                      height: 80,
-                      width: 100,
-                    )),
-                Positioned(
-                    top: 20, left: 60, child: Text("${widget.dateTime}")),
-                Positioned(
-                    bottom: 80,
-                    right: 130,
-                    child: Text(
-                      "${widget.remoteMessage.title}",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-                Positioned(
-                    bottom: 50,
-                    right: 130,
-                    child: Text("${widget.remoteMessage.body}")),
-                Positioned(top: 15, right: 40, child: Text("تاريخ ")),
-                Positioned(
-                    top: 5,
-                    left: 0,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.close),
-                    )),
-              ],
+      body: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Stack(
+                children: [
+                  Container(
+                    height: 160,
+                    color: ColorManager.white,
+                  ),
+                  Positioned(
+                      top: 50,
+                      right: 10,
+                      child: Image.asset(
+                        "assets/images/boy.png",
+                        height: 80,
+                        width: 100,
+                      )),
+                  Positioned(
+                      top: 20, left: 60, child: Text("${widget.dateTime}")),
+                  Positioned(
+                      bottom: 80,
+                      right: 130,
+                      child: Text(
+                        "${widget.remoteMessage.title}",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
+                  Positioned(
+                      bottom: 50,
+                      right: 130,
+                      child: Text("${widget.remoteMessage.body}")),
+                  Positioned(top: 15, right: 40, child: Text("تاريخ ")),
+                  Positioned(
+                      top: 5,
+                      left: 0,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.close),
+                      )),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

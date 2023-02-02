@@ -14,6 +14,7 @@ class BloodCenter {
   String lat;
   String lon;
   String token;
+  String status;
   int aPlus;
   int aMinus;
   int bPlus;
@@ -35,6 +36,7 @@ class BloodCenter {
     required this.lat,
     required this.lon,
     required this.token,
+    required this.status,
     required this.aPlus,
     required this.aMinus,
     required this.bPlus,
@@ -59,6 +61,7 @@ class BloodCenter {
       BloodCenterFields.lat: lat,
       BloodCenterFields.lon: lon,
       BloodCenterFields.token: token,
+      BloodCenterFields.status: status,
       BloodCenterFields.aPlus: aPlus,
       BloodCenterFields.aMinus: aMinus,
       BloodCenterFields.bPlus: bPlus,
@@ -84,6 +87,7 @@ class BloodCenter {
       lat: map[BloodCenterFields.lat] ?? "",
       lon: map[BloodCenterFields.lon] ?? "",
       token: map[BloodCenterFields.token] ?? "",
+      status: map[BloodCenterFields.status] ?? "",
       aPlus: map[BloodCenterFields.aPlus] ?? 0,
       aMinus: map[BloodCenterFields.aMinus] ?? 0,
       bPlus: map[BloodCenterFields.bPlus] ?? 0,
@@ -115,6 +119,7 @@ class BloodCenterFields {
   static const String lat = "lat";
   static const String lon = "lon";
   static const String token = "token";
+  static const String status = "status";
   static const String aPlus = "A+";
   static const String aMinus = "A-";
   static const String bPlus = "B+";

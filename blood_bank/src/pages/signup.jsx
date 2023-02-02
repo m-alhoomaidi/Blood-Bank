@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Autocomplete, Box, Button, CardContent, TextField } from "@mui/material";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -14,11 +14,13 @@ import LottieApp from "../Components/lottie";
 import { HEALTH_LOTTIE } from "../constant/media";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import {doc, setDoc } from "firebase/firestore";
-import {db} from "../utils/firebase";
+import {db, messaging} from "../utils/firebase";
 import {AlertSnackBar} from "../Components/common/alert-snackbar";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 import Countryes from "../Local/Data.json";
+import { getMessaging, getToken } from "firebase/messaging";
+import { app } from '../utils/firebase'
 const bloodTypes = [
    'A+' ,
    'B+' ,
@@ -29,27 +31,47 @@ const bloodTypes = [
    'AB-',
    'O-' ,
 ];
-const cities = [
-   'Ibb' ,
-   'Taiz' ,
-   'Aden' ,
-   'Sana`a' ,
-   'Theamar' ,
-   'Marib' ,
-   'Hudidah' ,
-   'Al-Mokala' ,
-];
-const governers = [
-  'Ibb' ,
-  'Taiz' ,
-  'Aden' ,
-  'Sana`a' ,
-  'Theamar' ,
-  'Marib' ,
-  'Hudidah' ,
-  'Al-Mokala' ,
-];
+const data=JSON.parse(JSON.stringify(Countryes));
 const Try = (props) => {
+  const [city,setCity]=useState(data?.map((item)=>{
+    return{
+      id:item?.id,
+      name:item?.name
+    }
+  }))
+const [governer,setGoverner]= useState(data[0]?.city)
+const handleChangeGovernorate =(newVal)=>{
+  const id=newVal?.id
+  console.log(id);
+  if(id){
+    const cityData=data?.filter((item)=>item?.id==id)[0]?.city
+    setGoverner(cityData)
+  }
+};
+  const [FCMToken, setFCMToken] = useState('');
+  let messaging = async () => { return await getMessaging() }
+
+  // useEffect(() => {
+  //   console.log("hieffect");
+  //     requestForToken();
+  // }, [])
+
+  const requestForToken = async () => {
+    console.log("hi");
+    try {
+        const currentToken = await getToken(await messaging(), { vapidKey: "BKwsPLK4i41_RA0Gy81vw5ZhLYzGXXoCBaHCWt1pMBqbDN_fSNnhjMpsQeEYc3EmDDMAqyPfefNhtPhj20q1vpU" });
+        if (currentToken) {
+            setFCMToken(currentToken)
+            console.log('current token for client: ', currentToken);
+            return currentToken
+        } else {
+            // Show permission request UI
+            console.log('No registration token available. Request permission to generate one.');
+        }
+    } catch (err) {
+        console.log('An error occurred while retrieving token. ', err);
+    }
+};
   const phoneRegExp = /7(1|7|3|8|0)([0-9]){7}/;
   // const [bloodtype,setBloodtype]= useState("");
   // const [citiess,setCitiess]= useState("");
@@ -75,8 +97,8 @@ const Try = (props) => {
           //phone: Yup.string().required( "مطلوب إدخال رقم هاتف"),
           password: Yup.string().min(6).required("مطلوب  إدخال كلمة سر"),
           bloodType: Yup.string().required("اختر فصيلة دم"),
-          cities: Yup.string().required("اختر مدينتك الحالية"),
-          governer: Yup.string().required("اختر مديريتك الحالية"),
+          cities: Yup.object().required("اختر مدينتك الحالية"),
+          governer: Yup.object().required("اختر مديريتك الحالية"),
           address: Yup.string().required("ادخل عنوانك"),
         })
         }
@@ -87,14 +109,14 @@ const Try = (props) => {
             .then((userCredential)=>{
               localStorage.setItem("uid",auth?.currentUser?.uid);
               const uid = userCredential.user.uid;
+              requestForToken();
               setDoc(doc(db, "donors", uid), {
                  name: values.name,
                  email:values.email,
                  phone:values.phone,
-                 password:values.password,
                  blood_type:values.bloodType,
-                 state:values.cities,
-                 district:values.governer,
+                 state:values.cities.name,
+                 district:values.governer.name,
                  neighborhood:values.address,
                  lon:"",
                  lat:"",
@@ -102,9 +124,10 @@ const Try = (props) => {
                  is_shown:"1",
                  is_gps_on:"1",
                  image:"",
-                 token:"",
+                 token:FCMToken,
+                 status:'ACTIVE',
                 });
-                navigate("/HomePage");
+                navigate("/");
             }).catch((error) => {
               if(error.message === "Firebase: Error (auth/email-already-in-use).")
                {
@@ -144,7 +167,7 @@ const Try = (props) => {
                   onBlur={handleBlur}
                   value={values.name}
                   component={TextField}
-                  error={errors.name ? true : false}
+                  error={Boolean (touched.name && errors.name )}
                   helperText={errors.name && errors.name}
                   margin="normal"
                   autoFocus
@@ -237,10 +260,15 @@ const Try = (props) => {
                   sx={{
                     marginBottom: "15px",
                   }}
-                  options={cities}
+                  options={city}
+                  getOptionLabel={(option)=>option?.name}
                   value={values.cities}
                   // disableCloseOnSelect
                   // disableClearable
+                  onChange={(event,newVal)=>{ 
+                    setFieldValue("cities",newVal)
+                    handleChangeGovernorate(newVal)
+                }}
                   variant="outlined"
                   renderInput={(params) => <TextField
                     {...params} label="المحافظة"
@@ -248,14 +276,18 @@ const Try = (props) => {
                      helperText={errors.cities && errors.cities}
                   />}
                   // value={citiess}
-                  onChange={(event,newCitiess)=> setFieldValue("cities",newCitiess)}
+                  // onChange={(event,newCitiess)=> setFieldValue("cities",newCitiess)}
                 />
                 <Autocomplete
                   id="governer"
                   name="governer"
                   margin="normal"
-                  options={governers}
-                   value={values.governer}
+                  options={governer}
+                  onChange={(event,newVal)=> {
+                    setFieldValue("governer",newVal) 
+                  }}
+                  getOptionLabel={(option)=>option?.name}
+                  value={values.governer}
                   // disableCloseOnSelect
                   // disableClearable
                    variant="outlined"
@@ -265,7 +297,7 @@ const Try = (props) => {
                      helperText={errors.governer && errors.governer}
                   />}
                   //value={governerss}
-                  onChange={(event,newGoverners)=> setFieldValue("governer",newGoverners) }
+                  // onChange={(event,newGoverners)=> setFieldValue("governer",newGoverners) }
                 />
                 <Field
                   type="text"

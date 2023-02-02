@@ -6,6 +6,7 @@ import 'package:blood_bank_app/domain/entities/donor_point.dart';
 import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/presentation/cubit/maps_cubit/maps_cubit.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
+import 'package:blood_bank_app/presentation/resources/constatns.dart';
 
 import '../../domain/entities/blood_types.dart';
 import '../../domain/entities/donor.dart';
@@ -268,48 +269,51 @@ class _SearchMapPageState extends State<SearchMapPage> {
           //   builder: (context, state) {
           // if (state is SearchSuccess) {
           // return
-          SafeArea(
-        child: BlocConsumer<MapsCubit, MapsState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is MapsSuccess) {
-              List<String> nearbyTokens = state.nearbyDonors
-                  .map((donorPoint) => donorPoint.token)
-                  .toList();
-              SendNotificationData notificationMessage = SendNotificationData(
-                listToken: nearbyTokens,
-                title: "title",
-                body: "body",
-              );
-              BlocProvider.of<SendNotficationCubit>(context)
-                  .sendNotficationUseCase(
-                      sendNotficationData: notificationMessage);
-              List<DonorPoint> listPoints = state.nearbyDonors;
-              // if (state is SearchSuccess) listPoints = getDonorPoints(state);
-              // listPoints = getNearbyPoints(
-              //   base: me,
-              //   points: listPoints,
-              //   distanceKm: 5.0,
-              // );
-              final List<Marker> markBrach = _generateMarkers(listPoints);
-              _marker.addAll(markBrach);
-              Position position = state.position;
-              return GoogleMap(
-                markers: Set<Marker>.of(_marker),
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(position.latitude, position.longitude),
-                    zoom: 13.5),
-                // polylines: {
-                //   Polyline(
-                //       polylineId: const PolylineId("route"),
-                //       points: polylinCoordinates,
-                //       color: Colors.black,)
-                // },
-              );
-            } else {
-              return const Center(child: Text("not map success"));
-            }
-          },
+          MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: SafeArea(
+          child: BlocConsumer<MapsCubit, MapsState>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              if (state is MapsSuccess) {
+                List<String> nearbyTokens = state.nearbyDonors
+                    .map((donorPoint) => donorPoint.token)
+                    .toList();
+                SendNotificationData notificationMessage = SendNotificationData(
+                  listToken: nearbyTokens,
+                  title: "title",
+                  body: "body",
+                );
+                BlocProvider.of<SendNotficationCubit>(context)
+                    .sendNotficationUseCase(
+                        sendNotficationData: notificationMessage);
+                List<DonorPoint> listPoints = state.nearbyDonors;
+                // if (state is SearchSuccess) listPoints = getDonorPoints(state);
+                // listPoints = getNearbyPoints(
+                //   base: me,
+                //   points: listPoints,
+                //   distanceKm: 5.0,
+                // );
+                final List<Marker> markBrach = _generateMarkers(listPoints);
+                _marker.addAll(markBrach);
+                Position position = state.position;
+                return GoogleMap(
+                  markers: Set<Marker>.of(_marker),
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(position.latitude, position.longitude),
+                      zoom: 13.5),
+                  // polylines: {
+                  //   Polyline(
+                  //       polylineId: const PolylineId("route"),
+                  //       points: polylinCoordinates,
+                  //       color: Colors.black,)
+                  // },
+                );
+              } else {
+                return const Center(child: Text("not map success"));
+              }
+            },
+          ),
         ),
       ),
       // } else {
