@@ -80,7 +80,7 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                     );
                   },
                 ),
-                userType == "1"
+                userType == "0"
                     ? MyButton(
                         title: 'إنشاء حساب متبرع',
                         color: Theme.of(context).colorScheme.secondary,
