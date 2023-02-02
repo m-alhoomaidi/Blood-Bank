@@ -90,6 +90,7 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.signInAppBarTitle),
+        elevation: AppSize.s0,
       ),
       body: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
@@ -147,8 +148,33 @@ class _SignInPageState extends State<SignInPage> {
             children: [
               const SizedBox(width: AppSize.s50),
               _buildSubmitButton(context),
-              const SizedBox(width: AppSize.s20),
+              // const SizedBox(width: AppSize.s20),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 2.0,
+                    color: ColorManager.grey2.withOpacity(0.5),
+                  ),
+                  Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: AppMargin.m20),
+                    height: 25,
+                    child: const Text("أو"),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 2.0,
+                    color: ColorManager.grey2.withOpacity(0.5),
+                  ),
+                ],
+              ),
               _buildSignUpButton(),
+              SizedBox(
+                height: 20,
+              )
             ],
           ),
         ],
@@ -194,7 +220,10 @@ class _SignInPageState extends State<SignInPage> {
           focusBorderColor: ColorManager.secondary,
           fillColor: ColorManager.white,
           validator: emailValidator,
-          icon: const Icon(Icons.phone_android),
+          icon: const Icon(
+            Icons.phone_android,
+            color: ColorManager.primary,
+          ),
         ),
       ),
     );
@@ -213,6 +242,7 @@ class _SignInPageState extends State<SignInPage> {
         validator: passwordValidator,
         icon: IconButton(
           icon: _buildPasswordIcon(),
+          color: ColorManager.primary,
           onPressed: _toggleIsPasswordVisible,
         ),
       ),
@@ -230,7 +260,9 @@ class _SignInPageState extends State<SignInPage> {
         onTap: _sendRestPassword,
         child: Text(
           AppStrings.signInForgetPasswordTextButton,
-          style: Theme.of(context).textTheme.labelMedium,
+          style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+              ),
         ),
       ),
     );
@@ -245,7 +277,8 @@ class _SignInPageState extends State<SignInPage> {
   MyButton _buildSubmitButton(BuildContext context) {
     return MyButton(
       title: AppStrings.signInSubmitButton,
-      color: Theme.of(context).colorScheme.secondary,
+      color: Theme.of(context).primaryColor,
+      titleStyle: Theme.of(context).textTheme.titleLarge,
       onPressed: _submitSignIn,
       minWidth: AppSize.s300,
     );
@@ -258,7 +291,7 @@ class _SignInPageState extends State<SignInPage> {
       onPressed: _moveToSignUp,
       minWidth: AppSize.s300,
       titleStyle: TextStyle(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).primaryColor,
         fontSize: FontSize.s14,
         fontFamily: FontConstants.fontFamily,
       ),
