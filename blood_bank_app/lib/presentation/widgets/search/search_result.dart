@@ -73,6 +73,14 @@ class _SearchResultState extends State<SearchResult>
                           SingleChildScrollView(
                             child: Column(
                               children: [
+                                const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                        "الفصائل المناسبة للتبرع للفصيلة المختارة"),
+                                  ),
+                                ),
                                 MediaQuery(
                                     data: MediaQuery.of(context)
                                         .copyWith(textScaleFactor: 1.0),

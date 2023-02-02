@@ -1,10 +1,10 @@
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../cubit/maps_cubit/maps_cubit.dart';
 import '../cubit/search_cubit/search_cubit.dart';
-import '../resources/style.dart';
 import '../widgets/search/search_options.dart';
 import '../widgets/search/search_result.dart';
 import 'search_map_page.dart';
@@ -18,10 +18,10 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('البحث عن دم'),
-        centerTitle: true,
+        // backgroundColor: Colors.white,
+        // foregroundColor: ColorManager.primary,
         elevation: 0,
       ),
-      backgroundColor: eBackGroundColor,
       body: BlocConsumer<MapsCubit, MapsState>(
         listener: (context, state) {
           if (state is MapsSuccess) {
@@ -43,6 +43,8 @@ class SearchPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     borderRadius: const BorderRadius.only(
+                      // topLeft: Radius.circular(30),
+                      // topRight: Radius.circular(30),
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
                     ),

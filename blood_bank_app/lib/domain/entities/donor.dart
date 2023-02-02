@@ -21,6 +21,7 @@ class Donor extends Equatable {
   String token;
   String lat;
   String lon;
+  String status;
   bool isExpanded;
 
   Donor({
@@ -41,6 +42,7 @@ class Donor extends Equatable {
     this.isShown = "1",
     this.isShownPhone = "1",
     this.isGpsOn = "1",
+    this.status = "ACTIVE",
     this.isExpanded = false,
   });
 
@@ -61,6 +63,7 @@ class Donor extends Equatable {
       DonorFields.token: token,
       DonorFields.lat: lat,
       DonorFields.lon: lon,
+      DonorFields.status: status,
     };
   }
 
@@ -81,6 +84,7 @@ class Donor extends Equatable {
       token: map[DonorFields.token] ?? "",
       lat: map[DonorFields.lat] ?? "",
       lon: map[DonorFields.lon] ?? "",
+      status: map[DonorFields.status] ?? "",
     );
   }
 
@@ -107,6 +111,7 @@ class Donor extends Equatable {
         token,
         lat,
         lon,
+        status,
       ];
 }
 
@@ -127,4 +132,5 @@ class DonorFields {
   static const String token = 'token';
   static const String lat = 'lat';
   static const String lon = 'lon';
+  static const String status = 'status';
 }
