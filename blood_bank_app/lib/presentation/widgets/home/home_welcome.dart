@@ -1,5 +1,6 @@
 import 'package:blood_bank_app/presentation/pages/search_page.dart';
 import 'package:blood_bank_app/presentation/pages/setting_page.dart';
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -37,15 +38,15 @@ class _HomeWelcomeState extends State<HomeWelcome> {
         SizedBox(
           height: 300,
           width: MediaQuery.of(context).size.width,
-          child: const Image(
-            image: AssetImage('assets/images/1.jpg'),
-            fit: BoxFit.cover,
-          ),
+          // child: const Image(
+          //   image: AssetImage('assets/images/1.jpg'),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         Container(
           height: 300,
           width: MediaQuery.of(context).size.width,
-          color: Colors.black54,
+          // color: ColorManager.grey1,
         ),
         SizedBox(
           height: 300,
@@ -55,35 +56,55 @@ class _HomeWelcomeState extends State<HomeWelcome> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Text(
+                //   'مرحباً',
+                //   style: Theme.of(context).textTheme.displayLarge,
+                // ),
                 Text(
-                  'مرحباً',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  'ومن أحياها\n فكأنما أحيا الناس جميعاً',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(height: 1.5),
                 ),
-                Text(
-                  'ومن أحياها فكأنما أحيا الناس جميعاً',
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-                MyTextFormField(
-                  hint: 'البحث عن متبرع',
-                  icon: const Icon(Icons.search_rounded),
-                  suffixIcon: false,
-                  fillColor: Colors.white,
-                  blurrBorderColor: eSecondColor.withOpacity(0),
-                  focusBorderColor: eSecondColor.withOpacity(0),
-                  readOnly: true,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SearchPage(),
-                      ),
-                    );
-                  },
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: ColorManager.grey.withOpacity(0.4),
+                          blurRadius: 2.0,
+                          offset: Offset(0, 2)),
+                    ],
+                  ),
+                  child: MyTextFormField(
+                    hint: 'البحث عن متبرع',
+                    icon: Icon(
+                      Icons.search_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    suffixIcon: false,
+                    fillColor: ColorManager.grey1,
+                    blurrBorderColor: eSecondColor.withOpacity(0),
+                    focusBorderColor: eSecondColor.withOpacity(0),
+                    hintStyle:
+                        Theme.of(context).textTheme.bodyLarge as TextStyle,
+                    readOnly: true,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SearchPage(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 userType == "0"
                     ? MyButton(
                         title: 'إنشاء حساب متبرع',
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).primaryColor,
+                        titleStyle: Theme.of(context).textTheme.titleLarge,
                         onPressed: () {
                           di.initSignUp();
                           Navigator.of(context).pop();

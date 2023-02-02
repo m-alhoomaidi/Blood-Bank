@@ -5,8 +5,10 @@ import 'package:blood_bank_app/main.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
+import 'package:blood_bank_app/presentation/widgets/home/home_carousel/home_carousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -256,9 +258,28 @@ class _HomePageState extends State<HomePage> {
         ? const IntroductionPage()
         : Scaffold(
             appBar: AppBar(
-              title: const Text(AppStrings.homeAppBarTitle),
+              // title: const Text(AppStrings.homeAppBarTitle),
+              foregroundColor: ColorManager.black,
+
               centerTitle: true,
               elevation: AppSize.s0,
+              leadingWidth: 90,
+              // leading: Builder(
+              //   builder: (BuildContext context) {
+              //     return IconButton(
+              //       icon: const Icon(
+              //         Icons.menu,
+              //         // color: Colors.red,
+              //         size: 28, // Changing Drawer Icon Size
+              //       ),
+              //       onPressed: () {
+              //         Scaffold.of(context).openDrawer();
+              //       },
+              //       tooltip:
+              //           MaterialLocalizations.of(context).openAppDrawerTooltip,
+              //     );
+              //   },
+              // ),
               actions: [
                 IconButton(
                   onPressed: () async {},
@@ -266,8 +287,12 @@ class _HomePageState extends State<HomePage> {
                     Icons.notifications,
                   ),
                 ),
+                SizedBox(
+                  width: 20,
+                ),
               ],
             ),
+            backgroundColor: ColorManager.white,
             body: BlocConsumer<SendNotficationCubit, SendNotficationState>(
               listener: (context, state) {
                 if (state is SendNotficationStateSuccess) {
@@ -288,86 +313,102 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      HomeWelcome(),
-                      HomeAbout(),
-                      SizedBox(height: AppSize.s20),
+                    children: <Widget>[
+                      // SizedBox(
+                      //   height: 4,
+                      // ),
+                      const HomeWelcome(),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: AppPadding.p20),
+                      //   child: Text(
+                      //     'الارشادات',
+                      //     style: Theme.of(context)
+                      //         .textTheme
+                      //         .displayLarge!
+                      //         .copyWith(height: 1.5, fontSize: 20),
+                      //   ),
+                      // ),
+                      const HomeCarousel(),
+                      const HomeAbout(),
+                      const SizedBox(height: AppSize.s20),
                     ],
                   ),
                 );
               },
             ),
             drawer: const HomeDrower(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                try {
-                  // print(FirebaseMessaging.instance.getToken().then(
-                  //       (value) => print(value),
-                  //     ));
-                  // di.initApp();
-                  print("111111111111111111111111");
-                  await BlocProvider.of<SendNotficationCubit>(context)
-                      .sendNotfication(
-                          sendNotficationData: SendNotificationData(
-                              listToken: [],
-                              title: "حالة حرجة",
-                              body: "تعال ياحيوان"))
-                      .then((value) {
-                    print("22222222222222222222222222");
-                  });
-                  // pushNotificationsGroupDevice(
-                  //     title: "حالة حرجة", body: "تعال ياحيوان");
-                } catch (e) {
-                  print(e);
-                }
-                // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
-                // Navigator.pushNamed(context, ProfileCenterPage.routeName);
-                // Get a new write batch
-                // final batch = db.batch();
-                // for (var donorJson in list) {
-                //   var docRef = db.collection("donors").doc();
-                //   batch.set(docRef, donorJson);
-                // }
-                // batch.commit().then((_) {
-                //   print("======commit=done======");
-                // });
-                // Navigator.of(context).pushNamed(SearchPage.routeName);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) => const SearchMapPage(),
-                //   ),
-                // );
-                // Navigator.of(context).pushNamed(OnBoardingView.routeName);
-                // LocationPoint point1 = LocationPoint(
-                //       lat: 13.9585003,
-                //       lon: 44.1709884,
-                //     ),
-                //     point2 = LocationPoint(
-                //       lat: 13.9556071,
-                //       lon: 44.1708585,
-                //     );
-                // print(getNearbyPoints(
-                //   base: point1,
-                //   points: [point2],
-                //   distanceKm: 0.4,
-                // ).length); // 0.3220144142025769
-                // // get the current location
-                // await LocationManager().getCurrentLocation();
-                // // start listen to location updates
-                // StreamSubscription<LocationDto> locationSubscription =
-                //     LocationManager().locationStream.listen((LocationDto dto) {
-                //   print('======================');
-                //   print(dto.altitude);
-                //   print(dto.longitude);
-                // });
-                // // cancel listening and stop the location manager
-                // locationSubscription.cancel();
-                // LocationManager().stop();
-              },
-              heroTag: "search",
-              child: const Icon(Icons.search_rounded),
-            ),
+
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () async {
+            //     try {
+            //       // print(FirebaseMessaging.instance.getToken().then(
+            //       //       (value) => print(value),
+            //       //     ));
+            //       // di.initApp();
+            //       print("111111111111111111111111");
+            //       await BlocProvider.of<SendNotficationCubit>(context)
+            //           .sendNotfication(
+            //               sendNotficationData: SendNotificationData(
+            //                   listToken: [],
+            //                   title: "حالة حرجة",
+            //                   body: "تعال ياحيوان"))
+            //           .then((value) {
+            //         print("22222222222222222222222222");
+            //       });
+            //       // pushNotificationsGroupDevice(
+            //       //     title: "حالة حرجة", body: "تعال ياحيوان");
+            //     } catch (e) {
+            //       print(e);
+            //     }
+            //     // BlocProvider.of<ProfileCubit>(context).getProfileCenterData();
+            //     // Navigator.pushNamed(context, ProfileCenterPage.routeName);
+            //     // Get a new write batch
+            //     // final batch = db.batch();
+            //     // for (var donorJson in list) {
+            //     //   var docRef = db.collection("donors").doc();
+            //     //   batch.set(docRef, donorJson);
+            //     // }
+            //     // batch.commit().then((_) {
+            //     //   print("======commit=done======");
+            //     // });
+            //     // Navigator.of(context).pushNamed(SearchPage.routeName);
+            //     // Navigator.push(
+            //     //   context,
+            //     //   MaterialPageRoute<void>(
+            //     //     builder: (BuildContext context) => const SearchMapPage(),
+            //     //   ),
+            //     // );
+            //     // Navigator.of(context).pushNamed(OnBoardingView.routeName);
+            //     // LocationPoint point1 = LocationPoint(
+            //     //       lat: 13.9585003,
+            //     //       lon: 44.1709884,
+            //     //     ),
+            //     //     point2 = LocationPoint(
+            //     //       lat: 13.9556071,
+            //     //       lon: 44.1708585,
+            //     //     );
+            //     // print(getNearbyPoints(
+            //     //   base: point1,
+            //     //   points: [point2],
+            //     //   distanceKm: 0.4,
+            //     // ).length); // 0.3220144142025769
+            //     // // get the current location
+            //     // await LocationManager().getCurrentLocation();
+            //     // // start listen to location updates
+            //     // StreamSubscription<LocationDto> locationSubscription =
+            //     //     LocationManager().locationStream.listen((LocationDto dto) {
+            //     //   print('======================');
+            //     //   print(dto.altitude);
+            //     //   print(dto.longitude);
+            //     // });
+            //     // // cancel listening and stop the location manager
+            //     // locationSubscription.cancel();
+            //     // LocationManager().stop();
+            //   },
+            //   heroTag: "search",
+            //   child: const Icon(Icons.search_rounded),
+            // ),
           );
   }
 

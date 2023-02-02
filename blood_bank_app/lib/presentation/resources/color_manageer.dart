@@ -14,7 +14,7 @@ class ColorManager {
   static const Color grey = Color.fromARGB(255, 125, 125, 125);
   static const Color darkGrey = Color.fromARGB(255, 80, 80, 80);
   static const Color lightGrey = Color.fromARGB(255, 180, 180, 180);
-  static const Color grey1 = Color.fromARGB(255, 230, 230, 230);
+  static const Color grey1 = Color.fromARGB(255, 240, 240, 240);
   static const Color grey2 = Color.fromARGB(255, 150, 150, 150);
   static const Color white = Color(0xffFFFFFF);
   static const Color black = Color(0xff000000);
