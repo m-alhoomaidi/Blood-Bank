@@ -30,13 +30,6 @@ useEffect(()=>{
            
             </Grid>
           <Grid container spacing={2} sx={{justifyContent:"center",flexDirection:"column" }} >
-          <Grid item >
-            <Box sx={{marginTop:"3px"}}>
-            <ClockIcon sx={{color:"dimgrey", margin :"-5px 80px 15px 0px", fontSize :"15px"}}/>
-            {/* TODO --- fetch Data */}
-              <Typography sx={{margin:"-40px 100px 0px 0px",color:"dimgrey"}}>10/12/2022 </Typography>
-            </Box>
-            </Grid>
            <Grid item >
               <Typography sx={{marginRight:"80px"}}>المنطقة - {neighborhoodd}</Typography>
             </Grid>

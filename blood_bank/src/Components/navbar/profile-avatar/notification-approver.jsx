@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import {
   Box,
   Divider,
@@ -8,8 +9,11 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { getToken } from "firebase/messaging";
+import { useState ,useEffect} from "react";
+import { messaging } from "../../../utils/firebase";
 import { ModalViewNotification } from "../../notifications/modal-notifications";
+
 
 const Notifications = [
   {
@@ -43,6 +47,8 @@ const Notifications = [
     createdAt: "2021-12-31",
   },
 ];
+
+
 export const NotificationPopover = (props) => {
   const { anchorEl, onClose, open, setOpenNotificationPopover, ...other } =
     props;
@@ -50,6 +56,26 @@ export const NotificationPopover = (props) => {
   const [notificationData, setNotificationData] = useState({});
 
   const handleClose = () => setIsOpen(false);
+  async function requestPermissions (){
+  await Notification.requestPermission().then((permission)=>{
+    if(permission === 'granted'){
+      getToken(messaging,{vapidKey:'BBn3zGcKMynrgirvOIsFXTHoTHKNW-iX3FWefaw9zUVbRygfIzYSQqHqJabWsNcg5v-oYG2E1tDBsh42WR7RNzQ'}).then((token)=>{
+       console.log(token);
+      });
+    } else if(permission === 'denied') 
+    {
+     alert("rrrrrrrrrrrrr")
+ 
+    }
+   
+
+   });
+  }
+  useEffect(()=>{
+    requestPermissions();
+
+  },[]);
+
   return (
     <>
       {isOpen && notificationData && (

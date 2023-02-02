@@ -37,7 +37,8 @@ const Profile = () => {
     tostMsg: "لم يتم تحديث البيانات",
     tostType: "error",
   });
-  const { user,updateUser} = useAuthContext();
+  const id = localStorage.getItem("uid");
+  const { user,updateUser,checkIfAuthenticated} = useAuthContext();
   const UploadAndDownImage =  (event) => {
     const ImgeProfiles = event.target.files[0];
     setProgress(true);
@@ -45,7 +46,7 @@ const Profile = () => {
     uploadBytes(imageRef, ImgeProfiles).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         setImages(url);
-        updateDoc(doc(db, "donors", '9U74upZiSOJugT9wrDnu'), {image:url}).then((response) => {
+        updateDoc(doc(db, "donors", id), {image:url}).then((response) => {
           console.log(response);
           setProgress(false);
           updateUser({...user,image:url});
@@ -58,7 +59,7 @@ const Profile = () => {
   }
   const formik = useFormik({
     initialValues: {
-      username: "",
+      username: user.name,
       neighborhood: user.neighborhood,
       phone: user.phone,
       state: { name: "", id: "" },
@@ -88,7 +89,7 @@ const Profile = () => {
         phone: values.phone,
         email: values.email,
       }
-      const userDoc = doc(db, "donors", '9U74upZiSOJugT9wrDnu');
+      const userDoc = doc(db, "donors", id);
       updateDoc(userDoc, newProfile).then((response) => {
         setShowTost(true);
         setTost({
@@ -96,11 +97,12 @@ const Profile = () => {
           tostType: "success",
         });
       });
-      updateUser({...values,image:imagess});
+      checkIfAuthenticated();
     },
+    enableReinitialize:true,
+   
   });
   const [City, setCity] = useState([]);
-
   useEffect(() => {
     const GetState = Countryes?.filter((country) => country?.name === user?.state);
     const GetDistricts = GetState[0]?.city
@@ -114,6 +116,7 @@ const Profile = () => {
     formik.setFieldValue('district', GetDistrict ? GetDistrict[0] : null)
     setImages(user.image);
     setIsShown(user.is_shown);
+   // GetDataApi();
   }, [user]);
 
 
@@ -189,13 +192,15 @@ const Profile = () => {
                   )}
                   name="username"
                   fullWidth
-                  helperText={formik.touched.username && formik.errors.username}
+                  helperText={formik.touched.username && formik.errors.phone}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.username || ""}
                   id="outlined-basic"
-                  label="الاسم الكامل"
+                  label="الاسم"
+
                   variant="outlined"
+                  type="text"
                 />
               </Grid>
               <Grid item md={5} xs={10.5}>
@@ -271,6 +276,7 @@ const Profile = () => {
                   fullWidth
                   disablePortal
                   id="City"
+                  name="district"
                   value={formik.values.district || null}
                   onChange={HandleState}
                   options={City}

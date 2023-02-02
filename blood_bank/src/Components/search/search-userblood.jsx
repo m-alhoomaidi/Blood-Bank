@@ -16,12 +16,13 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { collection, getDocs, query, where } from "firebase/firestore";
-import {TypeBlood, SearchBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus } from "./function-api";
+import {TypeBlood, TypeBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus } from "./function-api";
 import { Grow, IconButton, Typography } from "@mui/material";
 import SearchCenter from "./searchCenter";
 import { useAuthContext } from "../../context/auth-context";
 export const SearchUserBlood = () => {
-  const { searchUser } = useAuthContext();
+  const { searchUserAndCenters } = useAuthContext();
+  
   const [searchBlood, setsearchBlood] = useState([]);
   const [searchBloodCenter, setsearchBloodCenter] = useState([]);
   const [district, setdistrict] = useState('');
@@ -44,7 +45,7 @@ export const SearchUserBlood = () => {
       setsearchBlood(DataUser);
       setProgress(false);
       setClickIcon(true);
-      searchUser(DataUser);
+      searchUserAndCenters({Users:DataUser});
     })
 
     const docRfCenter = query(
@@ -56,6 +57,7 @@ export const SearchUserBlood = () => {
     getDocs(docRfCenter).then((response) => {
       const DataCenter = response.docs.map((doc) => ({ data: doc.data() }));
       setsearchBloodCenter(DataCenter);
+      searchUserAndCenters({Centers:DataCenter});
       console.log(DataCenter);
     })
 
@@ -296,18 +298,8 @@ export const SearchUserBlood = () => {
                 mt="2px"
               >  {Progress ? <CircularProgress /> :
                 ClickIcon ?
-                  searchBlood.map((user, index) => {
-                    return (
-                      user.data.is_shown === "1" ?
-                        <Grid item xs={10} md={3.5} key={index} >
-                          <CardSearch
-                            nameSearch={user.data.name}
-                            bloodType={user.data.blood_type}
-                            neighborhood={user.data.neighborhood}
-                            sx={{ margin: "10px", p: 2 }}
-                          /></Grid> : "");
-                  }) : 
-                     searchBlood.map((user,index)=>{
+                         <TypeBloodSame resultSearch={searchBlood}/> : 
+                          searchBlood.map((user,index)=>{
                               return ( clickBloodType === user.data.blood_type && user.data.is_shown === "1" ?
                             <Grid item xs={10} md={3.5} key={index}>
                               <CardSearch 

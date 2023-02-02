@@ -33,7 +33,7 @@ export default function SignInSide() {
   });
   
   const navigate = useNavigate();
-  const { signIn } = useAuthContext();
+  const { checkIfAuthenticated } = useAuthContext();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -48,8 +48,8 @@ export default function SignInSide() {
     onSubmit: ({username,password}) => {
       signInWithEmailAndPassword(auth,username,password)
       .then((userCredential)=>{
+        localStorage.setItem("uid",auth?.currentUser?.uid);    
         navigate("/");
-        console.log(auth.currentUser.uid);
          })
       .catch((error) => {
         setShowTost(true);
