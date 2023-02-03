@@ -30,11 +30,11 @@ class HomeDrawerHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppRadius.r50),
                   color: ColorManager.white,
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(
                     Icons.emoji_emotions,
                     size: AppSize.s50,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: ColorManager.lightSecondary,
                   ),
                 ),
               ),

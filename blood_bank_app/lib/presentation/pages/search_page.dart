@@ -22,8 +22,10 @@ class SearchPage extends StatelessWidget {
         title: const Text('البحث عن دم'),
         // backgroundColor: Colors.white,
         // foregroundColor: ColorManager.primary,
+        backgroundColor: const Color.fromARGB(255, 250, 250, 250),
         elevation: 0,
       ),
+      // backgroundColor: const Color.fromARGB(255, 250, 250, 250),
       body: BlocConsumer<MapsCubit, MapsState>(
         listener: (context, state) {
           if (state is MapsSuccess) {

@@ -18,11 +18,9 @@ class _HomeCarouselState extends State<HomeCarousel> {
   final CarouselController _controller = CarouselController();
 
   final List<String> imgList = [
-    'assets/images/1.jpg',
-    'assets/images/2.jpg',
-    'assets/images/3.jpg',
-    'assets/images/4.jpg',
-    'assets/images/5.png',
+    'assets/images/world-blood.jpg',
+    'assets/images/blutspenden-taschenikone.jpg',
+    'assets/images/give-blood.jpg',
   ];
 
   int _current = 0;
