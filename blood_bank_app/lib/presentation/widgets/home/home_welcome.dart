@@ -11,16 +11,16 @@ import '../../resources/style.dart';
 import '../forms/my_button.dart';
 import '../forms/my_text_form_field.dart';
 
-class HomeWelcome extends StatelessWidget {
+class HomeWelcome extends StatefulWidget {
   const HomeWelcome({Key? key}) : super(key: key);
 
   @override
+  State<HomeWelcome> createState() => _HomeWelcomeState();
+}
+
+class _HomeWelcomeState extends State<HomeWelcome> {
+  @override
   Widget build(BuildContext context) {
-    if (FirebaseAuth.instance.currentUser == null) {
-      print("no user");
-    } else {
-      print("user");
-    }
     return Stack(
       children: [
         SizedBox(
@@ -79,23 +79,25 @@ class HomeWelcome extends StatelessWidget {
                     },
                   ),
                 ),
-                FirebaseAuth.instance.currentUser == null
-                    ? MyButton(
-                        title: 'إنشاء حساب متبرع',
-                        color: Theme.of(context).primaryColor,
-                        titleStyle: Theme.of(context).textTheme.titleLarge,
-                        onPressed: () {
-                          di.initSignUp();
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const SignUpPage(),
-                            ),
-                          );
-                        },
-                      )
-                    : const SizedBox(),
+                // FirebaseAuth.instance.currentUser == null
+                //     ?
+                MyButton(
+                  title: 'إنشاء حساب متبرع',
+                  color: Theme.of(context).primaryColor,
+                  titleStyle: Theme.of(context).textTheme.titleLarge,
+                  onPressed: () {
+                    di.initSignUp();
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SignUpPage(),
+                      ),
+                    );
+                  },
+                )
+                // : const SizedBox()
+                ,
               ],
             ),
           ),
