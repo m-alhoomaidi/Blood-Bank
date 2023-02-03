@@ -1,13 +1,12 @@
 import 'package:blood_bank_app/core/app_constants.dart';
 import 'package:blood_bank_app/domain/entities/donor.dart';
-import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/main.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
+import 'package:blood_bank_app/presentation/pages/update_loc&show_notfication.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
-import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/presentation/widgets/home/home_carousel/home_carousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +22,6 @@ import 'package:hive/hive.dart';
 
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_drawer/home_drawer.dart';
-import '../../dependency_injection.dart' as di;
 //-------------
 
 import 'package:http/http.dart' as http;
@@ -54,10 +52,9 @@ class _HomePageState extends State<HomePage> {
   initialMessageing() async {
     var message = await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
-      Navigator.push(
-        context,
+      Navigator.of(context).push(
         MaterialPageRoute(
-          builder: ((context) => NotFicationPage(
+          builder: ((context) => UpdateLocNotFicationPage(
               remoteMessage: message.notification!,
               dateTime: message.sentTime!)),
         ),
@@ -264,6 +261,7 @@ class _HomePageState extends State<HomePage> {
               centerTitle: true,
               elevation: AppSize.s0,
               leadingWidth: 90,
+
               actions: [
                 Stack(
                   children: [
