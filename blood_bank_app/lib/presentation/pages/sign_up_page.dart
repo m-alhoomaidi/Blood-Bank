@@ -144,19 +144,25 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: AppSize.s140,
                     child: MyButton(
                       title: AppStrings.signUpPreviousButton,
-                      titleStyle: const TextStyle(
+                      // color: Theme.of(context).primaryColor,
+                      titleStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
                         fontSize: FontSize.s14,
-                        color: ColorManager.secondary,
                         fontFamily: FontConstants.fontFamily,
                       ),
+                      // titleStyle: const TextStyle(
+                      //   fontSize: FontSize.s14,
+                      //   color: ColorManager.secondary,
+                      //   fontFamily: FontConstants.fontFamily,
+                      // ),
                       onPressed: _validateForm,
                       color: ColorManager.grey1,
                       icon: const Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Icon(
-                          Icons.arrow_back,
-                          color: ColorManager.secondary,
-                          size: AppSize.s30,
+                          Icons.arrow_back_rounded,
+                          color: ColorManager.primary,
+                          size: AppSize.s24,
                         ),
                       ),
                       isPrefexIcon: true,
@@ -182,14 +188,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         )
                       : MyButton(
                           title: AppStrings.signUpNextButton,
+                          color: Theme.of(context).primaryColor,
+                          titleStyle: Theme.of(context).textTheme.titleLarge,
                           onPressed: _validateForm,
-                          color: Theme.of(context).colorScheme.secondary,
                           icon: const Padding(
                             padding: EdgeInsets.only(right: 10.0),
                             child: Icon(
-                              Icons.arrow_forward,
+                              Icons.arrow_forward_rounded,
                               color: ColorManager.white,
-                              size: AppSize.s30,
+                              size: AppSize.s24,
                             ),
                           ),
                         ),
@@ -205,10 +212,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     onPressed: _moveToSignUpAsCenter,
                     child: Text(
                       AppStrings.signUpAsCenterLink,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: ColorManager.link),
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                      // style: Theme.of(context)
+                      //     .textTheme
+                      //     .titleMedium!
+                      //     .copyWith(color: ColorManager.link),
                     ),
                   ),
                 )
@@ -523,6 +533,12 @@ class _SignUpPageState extends State<SignUpPage> {
           }
         }
       }
+      //  else {
+      //   if (formData!.validate()) {
+      //     formData.save();
+      //     setState(() => _activeStepIndex++);
+      //   }
+      // }
     }
   }
 

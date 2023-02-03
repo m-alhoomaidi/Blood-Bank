@@ -49,9 +49,9 @@ class _HomeWelcomeState extends State<HomeWelcome> {
           // color: ColorManager.grey1,
         ),
         SizedBox(
-          height: 300,
+          height: 350,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
