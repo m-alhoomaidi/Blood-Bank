@@ -83,7 +83,6 @@ class MapsCubit extends Cubit<MapsState> {
     } else {
       if (!await location.serviceEnabled()) {
         await location.requestService();
-        await checkGps();
       }
       if (kDebugMode) {
         print("GPS Service is not enabled, turn on GPS location");
