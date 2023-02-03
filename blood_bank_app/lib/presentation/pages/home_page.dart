@@ -265,16 +265,27 @@ class _HomePageState extends State<HomePage> {
               elevation: AppSize.s0,
               leadingWidth: 90,
               actions: [
-                IconButton(
-                  onPressed: () async {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => NotFicationPage())));
-                  },
-                  icon: const Icon(
-                    Icons.notifications,
-                  ),
+                Stack(
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => NotFicationPage())));
+                      },
+                      icon: const Icon(
+                        Icons.notifications,
+                      ),
+                    ),
+                    const Positioned(
+                      // draw a red marble
+                      top: 8.0,
+                      right: 10.0,
+                      child: Icon(Icons.brightness_1,
+                          size: 8.0, color: Colors.redAccent),
+                    )
+                  ],
                 ),
                 const SizedBox(width: 20),
               ],
