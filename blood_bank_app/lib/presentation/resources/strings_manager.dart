@@ -96,7 +96,7 @@ class AppStrings {
   static const String profileSwitchListTile2 = "اضهار رقمي";
   static const String profileSwitchSubTitle2 = "سيظهر رقمك للجميع";
   static const String profileSwitchListTile3 = "استخدام الموقع";
-  static const String profileSwitchSubTitle3 = "تشغيل gbs";
+  static const String profileSwitchSubTitle3 = " تشغيل الموقع     (GPS) ";
   static const String profileDataBrithday = "تاريخ الميلاد";
   static const String profileButtonSave = "حفظ";
   static const String profileEditMainDataPageTitle = "تعديل البيانات الاساسية";

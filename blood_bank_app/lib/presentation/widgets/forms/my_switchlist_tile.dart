@@ -6,14 +6,16 @@ class MySwitchListTile extends StatelessWidget {
   const MySwitchListTile({
     Key? key,
     required this.title,
-    required this.subTitle,
+    this.subTitle,
     required this.onChange,
+    this.style,
     this.onchangValue = false,
   }) : super(key: key);
   final String title;
-  final String subTitle;
+  final String? subTitle;
   final bool onchangValue;
   final ValueChanged<bool>? onChange;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +26,10 @@ class MySwitchListTile extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge!,
+              style: style,
             )),
         subtitle: Text(
-          subTitle,
+          subTitle!,
           style: Theme.of(context).textTheme.titleMedium!,
         ),
         value: onchangValue,

@@ -44,6 +44,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
         appBar: AppBar(
           title: const Text(AppStrings.profileEditMainDataPageTitle),
         ),
+        backgroundColor: ColorManager.white,
         body: MediaQuery(
           data:
               MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
@@ -66,21 +67,33 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                     district: state.donors.district,
                     neighborhood: state.donors.neighborhood);
                 return Padding(
-                  padding: const EdgeInsets.all(AppPadding.p20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: AppPadding.p20),
                   child: ListView(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: AppPadding.p10,
                             vertical: AppPadding.p10),
-                        child: Text(AppStrings.editMainDataTextName),
+                        child: Text(
+                          AppStrings.editMainDataTextName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: ColorManager.black),
+                        ),
                       ),
                       Form(
                         key: _formState,
                         child: MyTextFormField(
+                          blurrBorderColor: ColorManager.grey1,
+                          focusBorderColor: ColorManager.grey2,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          fillColor: ColorManager.grey1,
                           initialValue: (profileLocalData!.name == null)
                               ? null
                               : profileLocalData!.name,
+
                           // (box.get("name") == null) ? null : box.get("name"),
                           validator: (value) {
                             if (value!.length < 2) {
@@ -95,14 +108,21 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                         ),
                       ),
                       const SizedBox(height: AppSize.s14),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: AppPadding.p10,
                             vertical: AppPadding.p10),
-                        child: Text(AppStrings.profileBloodTypeTitle),
+                        child: Text(
+                          AppStrings.profileBloodTypeTitle,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: ColorManager.black),
+                        ),
                       ),
                       MyDropdownButtonFormField(
                         hint: AppStrings.profileBloodTypeHint,
+                        style: Theme.of(context).textTheme.bodyLarge,
                         validator: (value) {
                           return (value == null)
                               ? AppStrings.profileValidatorCheckBloodType
@@ -113,11 +133,11 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                             ? bloodType
                             : profileLocalData!.bloodType,
                         // : box.get("blood_type"),
-                        hintColor: eTextColor,
+                        hintColor: ColorManager.secondary,
                         items: BloodTypes.bloodTypes,
-                        blurrBorderColor: eFieldBlurrBorderColor,
-                        focusBorderColor: eFieldFocusBorderColor,
-                        fillColor: eFieldFillColor,
+                        blurrBorderColor: ColorManager.grey1,
+                        focusBorderColor: ColorManager.grey1,
+                        fillColor: ColorManager.grey1,
                         icon: const Icon(Icons.bloodtype_outlined),
                         onChange: (value) => setState(() {
                           bloodType = value;
@@ -128,11 +148,18 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                           });
                         }),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      const SizedBox(height: AppSize.s14),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: AppPadding.p10,
                             vertical: AppPadding.p10),
-                        child: Text(AppStrings.profileAdressTitle),
+                        child: Text(
+                          AppStrings.profileAdressTitle,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: ColorManager.black),
+                        ),
                       ),
                       Column(
                         children: [
@@ -152,7 +179,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                                     dropdownDecoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(AppSize.s10)),
-                                      color: ColorManager.primary,
+                                      color: ColorManager.grey1,
                                       border: Border.all(
                                         color: ColorManager.white,
                                         width: 1,
@@ -181,7 +208,7 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
 
                                     selectedItemStyle: const TextStyle(
                                       fontWeight: FontWeight.normal,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                     ),
                                     dropdownHeadingStyle: const TextStyle(
                                         color: Colors.black,
@@ -227,9 +254,11 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                                               : profileLocalData!.neighborhood),
                                       hint: "المنطقة",
                                       hintStyle: eHintStyle,
-                                      blurrBorderColor: eFieldBlurrBorderColor,
-                                      focusBorderColor: eFieldFocusBorderColor,
-                                      fillColor: eFieldFillColor,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                      blurrBorderColor: ColorManager.grey1,
+                                      focusBorderColor: ColorManager.grey1,
+                                      fillColor: ColorManager.grey1,
                                       suffixIcon: false,
                                       icon: const Icon(
                                           Icons.my_location_outlined),
@@ -256,6 +285,8 @@ class _EditMainDataPageState extends State<EditMainDataPage> {
                       const SizedBox(height: AppSize.s30),
                       MyButton(
                           title: AppStrings.profileButtonSave,
+                          color: Theme.of(context).primaryColor,
+                          titleStyle: Theme.of(context).textTheme.titleLarge,
                           onPressed: (() {
                             if (_formState.currentState!.validate() |
                                 _formStateBloodType.currentState!.validate()) {

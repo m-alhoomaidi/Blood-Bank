@@ -28,9 +28,11 @@ ThemeData getApplicationTheme() {
 
     // app bar theme
     appBarTheme: AppBarTheme(
-      foregroundColor: ColorManager.black,
+      foregroundColor: ColorManager.darkGrey,
+      elevation: 0,
       systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: ColorManager.white,
+
           // statusBarBrightness: Brightness.light,
           // systemNavigationBarIconBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.dark),
@@ -95,7 +97,7 @@ ThemeData getApplicationTheme() {
       ),
       bodyLarge: getRegularStyle(
         color: ColorManager.darkGrey,
-        fontSize: FontSize.s16,
+        fontSize: FontSize.s18,
       ),
       bodySmall: getRegularStyle(color: ColorManager.grey),
     ),
