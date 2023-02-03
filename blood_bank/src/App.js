@@ -13,7 +13,7 @@ import { db,auth } from './utils/firebase';
 import MapPage from './pages/map';
 import { Box } from '@mui/material';
 import Aboutus from './pages/aboutus';
-import SignUpCenter from './pages/signupcenter';
+import SignUpCenter from './pages/signupCenter';
 import CenterProfiles from './pages/centerprofile';
 import Add from './Local/FunctionApi';
 const App = () => {

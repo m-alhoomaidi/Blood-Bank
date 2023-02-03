@@ -48,30 +48,25 @@ const handleChangeGovernorate =(newVal)=>{
     setGoverner(cityData)
   }
 };
-  const [FCMToken, setFCMToken] = useState('');
-  let messaging = async () => { return await getMessaging() }
-
-  // useEffect(() => {
-  //   console.log("hieffect");
-  //     requestForToken();
-  // }, [])
-
-  const requestForToken = async () => {
-    console.log("hi");
-    try {
-        const currentToken = await getToken(await messaging(), { vapidKey: "BKwsPLK4i41_RA0Gy81vw5ZhLYzGXXoCBaHCWt1pMBqbDN_fSNnhjMpsQeEYc3EmDDMAqyPfefNhtPhj20q1vpU" });
-        if (currentToken) {
-            setFCMToken(currentToken)
-            console.log('current token for client: ', currentToken);
-            return currentToken
-        } else {
-            // Show permission request UI
-            console.log('No registration token available. Request permission to generate one.');
-        }
-    } catch (err) {
-        console.log('An error occurred while retrieving token. ', err);
+async function requestPermissions (){
+  await Notification.requestPermission().then((permission)=>{
+    if(permission === 'granted'){
+      getToken(messaging,{vapidKey:'BBn3zGcKMynrgirvOIsFXTHoTHKNW-iX3FWefaw9zUVbRygfIzYSQqHqJabWsNcg5v-oYG2E1tDBsh42WR7RNzQ'}).then((token)=>{
+      console.log(token);
+      });
+    } else if(permission === 'denied') 
+    {
+     alert("rrrrrrrrrrrrr")
+ 
     }
-};
+   
+
+   });
+  }
+  useEffect(()=>{
+    requestPermissions();
+
+  },[]);
   const phoneRegExp = /7(1|7|3|8|0)([0-9]){7}/;
   // const [bloodtype,setBloodtype]= useState("");
   // const [citiess,setCitiess]= useState("");
@@ -109,7 +104,7 @@ const handleChangeGovernorate =(newVal)=>{
             .then((userCredential)=>{
               localStorage.setItem("uid",auth?.currentUser?.uid);
               const uid = userCredential.user.uid;
-              requestForToken();
+             
               setDoc(doc(db, "donors", uid), {
                  name: values.name,
                  email:values.email,
@@ -124,7 +119,7 @@ const handleChangeGovernorate =(newVal)=>{
                  is_shown:"1",
                  is_gps_on:"1",
                  image:"",
-                 token:FCMToken,
+                 token:"",
                  status:'ACTIVE',
                 });
                 navigate("/");
