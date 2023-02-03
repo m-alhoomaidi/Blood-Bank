@@ -1,6 +1,7 @@
 import 'package:blood_bank_app/presentation/pages/search_page.dart';
 import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -10,43 +11,25 @@ import '../../resources/style.dart';
 import '../forms/my_button.dart';
 import '../forms/my_text_form_field.dart';
 
-class HomeWelcome extends StatefulWidget {
+class HomeWelcome extends StatelessWidget {
   const HomeWelcome({Key? key}) : super(key: key);
 
   @override
-  State<HomeWelcome> createState() => _HomeWelcomeState();
-}
-
-class _HomeWelcomeState extends State<HomeWelcome> {
-  String userType = "0";
-
-  void checkUserType() {
-    setState(() => userType = Hive.box(dataBoxName).get('user') ?? "0");
-    super.initState();
-  }
-
-  @override
-  void initState() {
-    checkUserType();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      print("no user");
+    } else {
+      print("user");
+    }
     return Stack(
       children: [
         SizedBox(
           height: 300,
           width: MediaQuery.of(context).size.width,
-          // child: const Image(
-          //   image: AssetImage('assets/images/1.jpg'),
-          //   fit: BoxFit.cover,
-          // ),
         ),
         SizedBox(
           height: 300,
           width: MediaQuery.of(context).size.width,
-          // color: ColorManager.grey1,
         ),
         SizedBox(
           height: 300,
@@ -56,10 +39,6 @@ class _HomeWelcomeState extends State<HomeWelcome> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Text(
-                //   'مرحباً',
-                //   style: Theme.of(context).textTheme.displayLarge,
-                // ),
                 Text(
                   'ومن أحياها\n فكأنما أحيا الناس جميعاً',
                   style: Theme.of(context)
@@ -74,7 +53,7 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                       BoxShadow(
                           color: ColorManager.grey.withOpacity(0.4),
                           blurRadius: 2.0,
-                          offset: Offset(0, 2)),
+                          offset: const Offset(0, 2)),
                     ],
                   ),
                   child: MyTextFormField(
@@ -100,7 +79,7 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                     },
                   ),
                 ),
-                userType == "0"
+                FirebaseAuth.instance.currentUser == null
                     ? MyButton(
                         title: 'إنشاء حساب متبرع',
                         color: Theme.of(context).primaryColor,
