@@ -9,20 +9,19 @@ import Countryes from "../../Local/Data.json";
 import Paper from "@mui/material/Paper";
 import CircularProgress from '@mui/material/CircularProgress';
 import { NotFoundData } from "./not-fondData";
-import CardSearch from "./card-search";
+import {CardSearch} from "./card-search";
 import { db } from "../../utils/firebase";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { collection, getDocs, query, where } from "firebase/firestore";
-import {TypeBlood, TypeBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus } from "./function-api";
+import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import {TypeBlood, TypeBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus,SendNotification } from "./function-api";
 import { Grow, IconButton, Typography } from "@mui/material";
 import SearchCenter from "./searchCenter";
 import { useAuthContext } from "../../context/auth-context";
 export const SearchUserBlood = () => {
-  const { searchUserAndCenters } = useAuthContext();
-  
+const { searchUserAndCenters } = useAuthContext();
   const [searchBlood, setsearchBlood] = useState([]);
   const [searchBloodCenter, setsearchBloodCenter] = useState([]);
   const [district, setdistrict] = useState('');
@@ -32,6 +31,34 @@ export const SearchUserBlood = () => {
   const [Progress, setProgress] = useState(false);
   const [BloodIconShow, setBloodIconShow] = useState(false);
   const [state, setState] = useState('');
+  const [noti,setNoti] =useState([])
+
+  const SendNotification = async (tokens) => {
+    const title = "حالة حرجة";
+  const body="زمرة الدم";
+  const {to}=tokens
+  console.log(tokens);
+    return await fetch('https://fcm.googleapis.com/fcm/send', {
+        method: "POST",
+        headers: {
+            Authorization: 'key=AAAA38t9Pf8:APA91bHd0hEzCkV3I2p-fNMcOefQ1qPB33maAXXHMdf8fYy-oAkbyBBkGd4qKNR50j8P8QHb0gJwWOG4ejoGpbwaZw526MHofn3kb4HsQfyGW2j5ooAPIxdVtyFSC6wX9-JiAtspHITX',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            title,
+            body,
+            to: to
+        })
+    }).then((res) => {
+        console.log(res)
+       
+    })
+        .catch((err) => {
+            console.log(err)
+        })
+
+  }
+
   const SearhBloold = async () => {
     setProgress(true);
     const docRf = query(
@@ -40,13 +67,32 @@ export const SearchUserBlood = () => {
       where("district", "==", district),
     );
 
-    getDocs(docRf).then((response) => {
+   await getDocs(docRf).then((response) => {
       const DataUser = response.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
       setsearchBlood(DataUser);
       setProgress(false);
       setClickIcon(true);
       searchUserAndCenters({Users:DataUser});
+      
     })
+
+    const docRfNot = query(
+      collection(db, "donors"),
+      where("state", "==", state),
+      where("blood_type", "==", typeBlood),
+      where("district", "==", district),
+    );
+
+   await getDocs(docRfNot).then((response) => {
+      const DataUser = response.docs.map((doc) => ({ data: doc.data(), id: doc.id }));
+      DataUser.map((user,index)=>{
+        SendNotification( { to :user?.data?.token});
+      })
+      
+    })
+
+
+
 
     const docRfCenter = query(
       collection(db, "centers"),
@@ -54,15 +100,14 @@ export const SearchUserBlood = () => {
       where("district", "==", district),
     );
 
-    getDocs(docRfCenter).then((response) => {
+    await getDocs(docRfCenter).then((response) => {
       const DataCenter = response.docs.map((doc) => ({ data: doc.data() }));
       setsearchBloodCenter(DataCenter);
       searchUserAndCenters({Centers:DataCenter});
-      console.log(DataCenter);
+     
     })
 
   }
-
   const [Stateid, setStateid] = useState([]);
   const [City, setCity] = useState([]);
   const [ClickIcon, setClickIcon] = useState(true);
@@ -151,6 +196,7 @@ export const SearchUserBlood = () => {
                 variant="contained"
                 fullWidth
                 sx={{ marginTop: "10px" }}
+                color="primary"
                 onClick={SearhBloold}
               >
                 بــحــث
@@ -290,16 +336,15 @@ export const SearchUserBlood = () => {
                     : ""}
                 </Grid>
               </Grid>
-              <Grid
-                container
-                spacing={3}
+              <Box
                 justifyContent="center"
                 flexDirection="row"
                 mt="2px"
               >  {Progress ? <CircularProgress /> :
                 ClickIcon ?
-                         <TypeBloodSame resultSearch={searchBlood}/> : 
-                          searchBlood.map((user,index)=>{
+                
+                         <TypeBloodSame resultSearch={searchBlood} BloodType={typeBlood}/> : <Grid container justifyContent="center" flexDirection="row" spacing={2} mt={2}>
+                           {searchBlood.map((user,index)=>{
                               return ( clickBloodType === user.data.blood_type && user.data.is_shown === "1" ?
                             <Grid item xs={10} md={3.5} key={index}>
                               <CardSearch 
@@ -307,9 +352,12 @@ export const SearchUserBlood = () => {
                                    neighborhood={user.data.neighborhood} 
                                    sx={{margin:"10px",p:2}} />
                             </Grid> : "");
-                            })
+                            })}
+
+                         </Grid>
                     }
-              </Grid></TabPanel>
+              </Box> </TabPanel>
+              {setsearchBloodCenter.length > 0 ?
             <TabPanel value="2">
                 <Grid
                    container
@@ -326,6 +374,7 @@ export const SearchUserBlood = () => {
                       </Grid>}
                 </Grid>
             </TabPanel>
+            :""}
           </TabContext>
         </Box>
       </Box>

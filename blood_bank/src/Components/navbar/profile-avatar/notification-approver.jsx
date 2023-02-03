@@ -60,7 +60,7 @@ export const NotificationPopover = (props) => {
   await Notification.requestPermission().then((permission)=>{
     if(permission === 'granted'){
       getToken(messaging,{vapidKey:'BBn3zGcKMynrgirvOIsFXTHoTHKNW-iX3FWefaw9zUVbRygfIzYSQqHqJabWsNcg5v-oYG2E1tDBsh42WR7RNzQ'}).then((token)=>{
-       console.log(token);
+     //  console.log(token);
       });
     } else if(permission === 'denied') 
     {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Box, IconButton, Typography, Button, Grid } from '@mui/material';
-import CardSearch from './card-search';
+import {CardSearch} from './card-search';
 import { NotFoundData } from './not-fondData';
+import { SendNotification } from '../../utils/notification-group';
 export const TypeBlood = [
   { label: "A+" },
   { label: "B+" },
@@ -14,8 +15,8 @@ export const TypeBlood = [
 ];
 export const Apositive = [
   { label: "A+" },
-  { label: "O+" },
   { label: "A-" },
+  { label: "O+" },
   { label: "O-" },
 ];
 export const Bpositive = [
@@ -72,77 +73,86 @@ export const style = {
     }
   }
 }
-export const TypeBloodSame = ({ resultSearch }) => {
+
+
+export const TypeBloodSame = ({ resultSearch,BloodType }) => {
 
   return (
-    <Box>
+    <Grid container justifyContent="center" flexDirection="row" spacing={2} mt={2}>
       {
         resultSearch.map((user, index) => {
           return (
-            user.data.is_shown === "1" && user.data.blood_type === Apositive.label ?
+            BloodType === "A+" && user.data.is_shown === "1" ?
+           user.data.blood_type === "A+" || user.data.blood_type === "A+"  || user.data.blood_type === "O+"  || user.data.blood_type === "O-"  ?
               <Grid item xs={10} md={3.5} key={index} >
                 <CardSearch
                   nameSearch={user.data.name}
                   bloodType={user.data.blood_type}
                   neighborhood={user.data.neighborhood}
                   sx={{ margin: "10px", p: 2 }}
-                /></Grid> :
-
-              user.data.is_shown === "1" && user.data.blood_type === Bpositive.label ?
+                /> </Grid>
+                 :"" :
+              BloodType === "B+" && user.data.is_shown === "1" ?
+               user.data.blood_type === "B+" || user.data.blood_type === "B-" || user.data.blood_type === "O+" || user.data.blood_type === "O-" ?
                 <Grid item xs={10} md={3.5} key={index} >
+                  
                   <CardSearch
                     nameSearch={user.data.name}
                     bloodType={user.data.blood_type}
                     neighborhood={user.data.neighborhood}
                     sx={{ margin: "10px", p: 2 }}
-                  /></Grid> :
-
-                user.data.is_shown === "1" && user.data.blood_type === Opositive.label ?
+                  /></Grid> :"":
+                  BloodType === "O+" && user.data.is_shown === "1" ?
+                user.data.blood_type === "O+" && user.data.blood_type === "O-" ?
                   <Grid item xs={10} md={3.5} key={index} >
                     <CardSearch
                       nameSearch={user.data.name}
                       bloodType={user.data.blood_type}
                       neighborhood={user.data.neighborhood}
                       sx={{ margin: "10px", p: 2 }}
-                    /></Grid> :
+                    /></Grid>:"" :
 
-                  user.data.is_shown === "1" && user.data.blood_type === Onegative.label ?
+                    BloodType === "O-" && user.data.is_shown === "1" ? 
                     <Grid item xs={10} md={3.5} key={index} >
+                      
                       <CardSearch
                         nameSearch={user.data.name}
                         bloodType={user.data.blood_type}
                         neighborhood={user.data.neighborhood}
                         sx={{ margin: "10px", p: 2 }}
                       /></Grid> :
-
-                    user.data.is_shown === "1" && user.data.blood_type === Anegative.label ?
+                      BloodType === "A-" && user.data.is_shown === "1" ? 
+                        user.data.blood_type === "O-" || user.data.blood_type === "O-" ?
                       <Grid item xs={10} md={3.5} key={index} >
+                        
                         <CardSearch
                           nameSearch={user.data.name}
                           bloodType={user.data.blood_type}
                           neighborhood={user.data.neighborhood}
                           sx={{ margin: "10px", p: 2 }}
-                        /></Grid> :
-
-                      user.data.is_shown === "1" && user.data.blood_type === Bnegative.label ?
+                        /></Grid> :"":
+                        BloodType === "B-" && user.data.is_shown === "1" ? 
+                       user.data.blood_type === "B-" || user.data.blood_type === "O-" ?
                         <Grid item xs={10} md={3.5} key={index} >
                           <CardSearch
+                           
                             nameSearch={user.data.name}
                             bloodType={user.data.blood_type}
                             neighborhood={user.data.neighborhood}
                             sx={{ margin: "10px", p: 2 }}
-                          /></Grid> :
-
-                        user.data.is_shown === "1" && user.data.blood_type === ABnegative.label ?
+                          /></Grid>
+                             :"" :
+                          BloodType === "AB-" && user.data.is_shown === "1" ?
+                         user.data.blood_type === "AB-" || user.data.blood_type === "A-" || user.data.blood_type === "B-" || user.data.blood_type === "O-" ?
                           <Grid item xs={10} md={3.5} key={index} >
                             <CardSearch
                               nameSearch={user.data.name}
                               bloodType={user.data.blood_type}
                               neighborhood={user.data.neighborhood}
                               sx={{ margin: "10px", p: 2 }}
-                            /></Grid> :
+                            /></Grid> :"" :
 
-                          user.data.is_shown === "1" ?
+                          user.data.is_shown === "1"  && BloodType === "AB+" ?
                             <Grid item xs={10} md={3.5} key={index} >
                               <CardSearch
                                 nameSearch={user.data.name}
@@ -155,7 +165,8 @@ export const TypeBloodSame = ({ resultSearch }) => {
           );
         })
       }
-    </Box>
+    </Grid>
   );
 }
+
 

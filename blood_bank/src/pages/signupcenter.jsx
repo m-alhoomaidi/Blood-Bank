@@ -111,7 +111,7 @@ const navigate = useNavigate();
                  is_gps_on:"1",
                  image:"",
                  token:"",
-                
+                 status:'ACTIVE',
                 }));
             }).catch((error) => {
               if(error.message === "Firebase: Error (auth/email-already-in-use).")
