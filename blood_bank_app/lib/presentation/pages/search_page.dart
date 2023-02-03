@@ -1,3 +1,4 @@
+import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,11 +42,16 @@ class SearchPage extends StatelessWidget {
               SizedBox(
                 height: 150,
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: const BorderRadius.only(
-                      // topLeft: Radius.circular(30),
-                      // topRight: Radius.circular(30),
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                    left: 10,
+                    right: 10,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: ColorManager.primary,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30),
                     ),
