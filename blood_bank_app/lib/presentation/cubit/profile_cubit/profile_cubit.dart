@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
 import '../../../domain/usecases/profile_use_case.dart';
@@ -18,10 +20,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit({
     required this.profileUseCase,
   }) : super(ProfileInitial());
-  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  Donor? donors;
-  BloodCenter? bloodCenter;
+  Donor? currentDonor;
+  BloodCenter? currentBloodCenter;
 
   Future<void> getDataToProfilePage() async {
     try {

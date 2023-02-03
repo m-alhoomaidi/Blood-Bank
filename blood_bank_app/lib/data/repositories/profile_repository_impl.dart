@@ -29,7 +29,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
         if (currentUser != null) {
           return await _fireStore
               .collection('donors')
-              .doc("9U74upZiSOJugT9wrDnu")
+              .doc(currentUser.currentUser!.uid.toString())
               .get()
               .then((value) async {
             donors = Donor.fromMap(value.data()!);
@@ -54,7 +54,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
         if (currentUser != null) {
           return await _fireStore
               .collection('donors')
-              .doc("9U74upZiSOJugT9wrDnu")
+              .doc(currentUser.currentUser!.uid.toString())
               .update({
             DonorFields.isGpsOn: profileLocalData.isGpsOn,
             DonorFields.isShown: profileLocalData.isShown,
@@ -84,7 +84,7 @@ class ProfileReopsitoryImpl implements ProfileRepository {
         if (currentUser != null) {
           return await _fireStore
               .collection('donors')
-              .doc("9U74upZiSOJugT9wrDnu")
+              .doc(currentUser.currentUser!.uid.toString())
               .update({
             DonorFields.name: profileLocalData.name,
             DonorFields.bloodType: profileLocalData.bloodType,

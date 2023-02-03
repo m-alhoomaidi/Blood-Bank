@@ -2,7 +2,6 @@ import '../../resources/strings_manager.dart';
 import '../../resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../domain/entities/donor.dart';
 import '../../cubit/profile_cubit/profile_cubit.dart';
 import '../../pages/edit_main_data_page.dart';
@@ -79,8 +78,12 @@ class _ProfileBodyState extends State<ProfileBody> {
     return Column(
       children: [
         MySwitchListTile(
-          title: AppStrings.profileSwitchListTile1,
-          subTitle: AppStrings.profileSwitchSubTitle1,
+          title: AppStrings.profileSwitchSubTitle1,
+          subTitle: "",
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontSize: AppSize.s16),
           onChange: (val) {
             setState(() {
               profileLocalData!.isShown = val == true ? "1" : "0";
@@ -88,19 +91,23 @@ class _ProfileBodyState extends State<ProfileBody> {
           },
           onchangValue: (profileLocalData!.isShown == "1") ? true : false,
         ),
+        // MySwitchListTile(
+        //   title: AppStrings.profileSwitchListTile2,
+        //   subTitle: AppStrings.profileSwitchSubTitle2,
+        //   onChange: (val) {
+        //     setState(() {
+        //       profileLocalData!.isShownPhone = val == true ? "1" : "0";
+        //     });
+        //   },
+        //   onchangValue: (profileLocalData!.isShownPhone == "1") ? true : false,
+        // ),
         MySwitchListTile(
-          title: AppStrings.profileSwitchListTile2,
-          subTitle: AppStrings.profileSwitchSubTitle2,
-          onChange: (val) {
-            setState(() {
-              profileLocalData!.isShownPhone = val == true ? "1" : "0";
-            });
-          },
-          onchangValue: (profileLocalData!.isShownPhone == "1") ? true : false,
-        ),
-        MySwitchListTile(
-          title: AppStrings.profileSwitchListTile3,
-          subTitle: AppStrings.profileSwitchSubTitle3,
+          title: AppStrings.profileSwitchSubTitle3,
+          subTitle: "",
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontSize: AppSize.s16),
           onChange: (val) {
             setState(() {
               profileLocalData!.isGpsOn = val == true ? "1" : "0";
@@ -108,6 +115,7 @@ class _ProfileBodyState extends State<ProfileBody> {
           },
           onchangValue: (profileLocalData!.isGpsOn == "1") ? true : false,
         ),
+        const SizedBox(height: AppSize.s24),
         Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: AppPadding.p30, vertical: AppPadding.p10),
@@ -136,6 +144,8 @@ class _ProfileBodyState extends State<ProfileBody> {
             )),
         MyButton(
             title: AppStrings.profileButtonSave,
+            color: Theme.of(context).primaryColor,
+            titleStyle: Theme.of(context).textTheme.titleLarge,
             minWidth: MediaQuery.of(context).size.width * 0.85,
             onPressed: (() {
               if (profileLocalData != null) {

@@ -203,7 +203,7 @@ export const AuthProvider = (props) => {
           } 
         else
             throw Error("there is an error")
-    }
+        }
 
     const checkAuthenticated = async (user) => {
         dispatch({

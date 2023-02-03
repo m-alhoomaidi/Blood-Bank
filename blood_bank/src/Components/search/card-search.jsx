@@ -4,7 +4,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import Button from '@mui/material/Button';
 import ClockIcon from '@mui/icons-material/AccessTime';
 import MessageIcon from '@mui/icons-material/Message';
-import { SendNotification } from '../../utils/notification-group';
+
 
 export const CardSearch = ({nameSearch,bloodType,neighborhood}) => { 
    

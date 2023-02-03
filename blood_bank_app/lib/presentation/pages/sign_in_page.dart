@@ -1,3 +1,6 @@
+import 'package:blood_bank_app/core/check_active.dart';
+import 'package:blood_bank_app/presentation/cubit/profile_cubit/profile_cubit.dart';
+
 import '../resources/assets_manager.dart';
 import '../resources/color_manageer.dart';
 import '../resources/constatns.dart';
@@ -61,17 +64,6 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   _submitSignIn() async {
-    // print("llllllllllllllllllllllllllllllllll");
-    // print(emailController.text);
-    // print(passwordController.text);
-    // await FirebaseAuth.instance
-    //     .signInWithEmailAndPassword(
-    //         email: emailController.text, password: passwordController.text)
-    //     .then((value) {
-    //   print(value);
-    // }).onError((error, stackTrace) {
-    //   print(error);
-    // });
     if (_emailState.currentState!.validate() &
         _formState.currentState!.validate()) {
       BlocProvider.of<SignInCubit>(context).signIn(
@@ -99,6 +91,7 @@ class _SignInPageState extends State<SignInPage> {
           child: BlocConsumer<SignInCubit, SignInState>(
             listener: (context, state) {
               if (state is SignInSuccess) {
+                CheckActive.checkActiveUser();
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const HomePage()));
               } else if (state is SigninFailure) {
@@ -172,9 +165,7 @@ class _SignInPageState extends State<SignInPage> {
                 ],
               ),
               _buildSignUpButton(),
-              SizedBox(
-                height: 20,
-              )
+              const SizedBox(height: 20)
             ],
           ),
         ],

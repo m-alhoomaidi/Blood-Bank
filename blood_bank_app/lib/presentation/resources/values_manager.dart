@@ -33,6 +33,7 @@ class AppRadius {
 
 class AppSize {
   static const double s0 = 0;
+  static const double s0_9 = 0.9;
   static const double s1_1 = 1.1;
   static const double s1 = 1;
   static const double s1_5 = 1.5;

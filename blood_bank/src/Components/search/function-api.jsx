@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Box, IconButton, Typography, Button, Grid } from '@mui/material';
 import {CardSearch} from './card-search';
 import { NotFoundData } from './not-fondData';
-import { SendNotification } from '../../utils/notification-group';
 export const TypeBlood = [
   { label: "A+" },
   { label: "B+" },

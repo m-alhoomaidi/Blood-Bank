@@ -5,6 +5,7 @@ import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
 import 'package:blood_bank_app/presentation/pages/splash_screen.dart';
 import 'package:blood_bank_app/presentation/resources/theme_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -116,7 +117,7 @@ Future<void> backgroundMessage(RemoteMessage message) async {
 
   await FirebaseFirestore.instance
       .collection('donors')
-      .doc("9U74upZiSOJugT9wrDnu")
+      .doc(FirebaseAuth.instance.currentUser!.uid.toString())
       .update({
     DonorFields.lat: position.latitude,
     DonorFields.lon: position.longitude
