@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:blood_bank_app/domain/entities/donor_point.dart';
+import 'package:blood_bank_app/domain/entities/notfication_data.dart';
 import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/presentation/cubit/maps_cubit/maps_cubit.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';

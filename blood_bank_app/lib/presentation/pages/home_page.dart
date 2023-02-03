@@ -264,25 +264,14 @@ class _HomePageState extends State<HomePage> {
               centerTitle: true,
               elevation: AppSize.s0,
               leadingWidth: 90,
-              // leading: Builder(
-              //   builder: (BuildContext context) {
-              //     return IconButton(
-              //       icon: const Icon(
-              //         Icons.menu,
-              //         // color: Colors.red,
-              //         size: 28, // Changing Drawer Icon Size
-              //       ),
-              //       onPressed: () {
-              //         Scaffold.of(context).openDrawer();
-              //       },
-              //       tooltip:
-              //           MaterialLocalizations.of(context).openAppDrawerTooltip,
-              //     );
-              //   },
-              // ),
               actions: [
                 IconButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => NotFicationPage())));
+                  },
                   icon: const Icon(
                     Icons.notifications,
                   ),
