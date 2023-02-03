@@ -15,17 +15,19 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 
-class NotFicationPage extends StatefulWidget {
-  NotFicationPage({this.remoteMessage, this.dateTime, super.key});
-  RemoteNotification? remoteMessage;
-  DateTime? dateTime;
+class UpdateLocNotFicationPage extends StatefulWidget {
+  UpdateLocNotFicationPage(
+      {required this.remoteMessage, required this.dateTime, super.key});
+  RemoteNotification remoteMessage;
+  DateTime dateTime;
   static const String routeName = "notfication_page";
 
   @override
-  State<NotFicationPage> createState() => _NotFicationPageState();
+  State<UpdateLocNotFicationPage> createState() =>
+      _UpdateLocNotFicationPageState();
 }
 
-class _NotFicationPageState extends State<NotFicationPage> {
+class _UpdateLocNotFicationPageState extends State<UpdateLocNotFicationPage> {
   late Position position;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -39,7 +41,7 @@ class _NotFicationPageState extends State<NotFicationPage> {
       print("++++++++++++++++++++++++++++++555");
       print(value.latitude);
       print(value.longitude);
-      Fluttertoast.showToast(msg: widget.remoteMessage!.body.toString());
+      Fluttertoast.showToast(msg: widget.remoteMessage.body.toString());
       return value;
     });
     if (_firebaseAuth.currentUser != null) {
@@ -59,7 +61,7 @@ class _NotFicationPageState extends State<NotFicationPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getLocation();
+    getLocation();
   }
 
   @override
@@ -74,48 +76,19 @@ class _NotFicationPageState extends State<NotFicationPage> {
     //     ));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("الاشعارات"),
-      ),
-      backgroundColor: ColorManager.grey1,
-      body: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: _firebaseFirestore
-              .collection("notifications")
-              .where('donor_id', isEqualTo: " 8gbRLuu1L7TkUNuf4FyE8wXrALi1")
-              .where('isRead', isEqualTo: "1")
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.blue,
-                ),
-              );
-            }
-            List<GetNotficationData> notfication =
-                snapshot.data!.docs.map((doc) {
-              return GetNotficationData(
-                  title: doc.get("title"),
-                  body: doc.get("body"),
-                  date: doc.get("createdAt"),
-                  isRead: doc.get("isRead"),
-                  donorID: doc.get("donor_id"));
-            }).toList();
-
-            if (notfication.isEmpty) {
-              return const Center(
-                child: Text("لا يوجد اشعارات لهذا المتبرع"),
-              );
-            }
-
-            return AnimationLimiter(
+        appBar: AppBar(
+          title: const Text("الاشعارات"),
+        ),
+        backgroundColor: ColorManager.grey1,
+        body: MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaleFactor: textScaleFactor),
+            child: AnimationLimiter(
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width / 50),
-                itemCount: notfication.length,
+                itemCount: 1,
                 itemBuilder: (BuildContext context, int index) {
                   return AnimationConfiguration.staggeredList(
                     position: index,
@@ -150,12 +123,12 @@ class _NotFicationPageState extends State<NotFicationPage> {
                                 Positioned(
                                     top: 20,
                                     left: 60,
-                                    child: Text("${notfication[index].date}")),
+                                    child: Text("${widget.dateTime}")),
                                 Positioned(
                                     bottom: 80,
                                     right: 130,
                                     child: Text(
-                                      "${notfication[index].title}",
+                                      "${widget.remoteMessage.title}",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
@@ -163,20 +136,15 @@ class _NotFicationPageState extends State<NotFicationPage> {
                                 Positioned(
                                     bottom: 50,
                                     right: 130,
-                                    child: Text("${notfication[index].body}")),
+                                    child:
+                                        Text("${widget.remoteMessage.body}")),
                                 Positioned(
                                     top: 15, right: 40, child: Text("تاريخ ")),
                                 Positioned(
                                     top: 5,
                                     left: 0,
                                     child: IconButton(
-                                      onPressed: () {
-                                        _firebaseFirestore
-                                            .collection("notifications")
-                                            .doc(snapshot.data!.docs[index].id
-                                                .toString())
-                                            .update({'isRead': "0"});
-                                      },
+                                      onPressed: () {},
                                       icon: Icon(Icons.close),
                                     )),
                               ],
@@ -188,10 +156,6 @@ class _NotFicationPageState extends State<NotFicationPage> {
                   );
                 },
               ),
-            );
-          },
-        ),
-      ),
-    );
+            )));
   }
 }

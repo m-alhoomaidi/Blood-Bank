@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:blood_bank_app/core/app_constants.dart';
+import 'package:blood_bank_app/domain/entities/notfication_data.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/pages/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
