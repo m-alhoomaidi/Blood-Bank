@@ -13,13 +13,15 @@ import { db,auth } from './utils/firebase';
 import MapPage from './pages/map';
 import { Box } from '@mui/material';
 import Aboutus from './pages/aboutus';
-import SignUpCenter from './pages/signupcenter';
+import SignUpCenter from './pages/signupCenter';
 import CenterProfiles from './pages/centerprofile';
 import Add from './Local/FunctionApi';
+import { NotificationProvider } from './context/notification-context';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
+        <NotificationProvider>
         <BrowserRouter>
           <AuthGuard>
             <Box sx={{backgroundColor:"#fafafa",}} px={{md:5,xs:1}}>
@@ -40,6 +42,7 @@ const App = () => {
             {/* <Footer /> */}
           </AuthGuard>
         </BrowserRouter>
+        </NotificationProvider>
       </AuthProvider>
     </ThemeProvider>
   );

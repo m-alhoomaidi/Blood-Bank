@@ -16,7 +16,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
-import {TypeBlood, TypeBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus,SendNotification } from "./function-api";
+import {TypeBlood, TypeBloodSame, Apositive, Bpositive, ABpositive, Opositive, ABnegative, Anegative, Bnegative, Onegative, style, styleFocus } from "./function-api";
 import { Grow, IconButton, Typography } from "@mui/material";
 import SearchCenter from "./searchCenter";
 import { useAuthContext } from "../../context/auth-context";
@@ -79,7 +79,6 @@ const { searchUserAndCenters } = useAuthContext();
     const docRfNot = query(
       collection(db, "donors"),
       where("state", "==", state),
-      where("blood_type", "==", typeBlood),
       where("district", "==", district),
     );
 
