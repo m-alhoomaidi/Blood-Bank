@@ -5,11 +5,12 @@ import { useAuthContext } from './auth-context';
 import { getOrigin } from '../utils/get-origin';
 import { auth, db } from '../utils/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-// import { useNotificationContext } from '../contexts/notification-context';
+import { useNotificationContext } from './notification-context';
+
 export const AuthGuard = (props) => {
     const { children } = props;
     const { checkIfAuthenticated, user, signIn,updateUser } = useAuthContext();
-    // const { requestForToken } = useNotificationContext();
+     const { checkIfnotificationenticated } = useNotificationContext();
     const ignore = useRef(false);
     const [checked, setChecked] = useState(false);
     const [FCMToken, setFCMToken] = useState('');
@@ -18,6 +19,7 @@ export const AuthGuard = (props) => {
         () => {
             const checkAuth = async () => {
                 checkIfAuthenticated()
+                checkIfnotificationenticated()
                     .then((data) => {
                          setChecked(true)
                         const path = getOrigin()

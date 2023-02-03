@@ -1,11 +1,15 @@
+import 'dart:async';
 import 'package:blood_bank_app/presentation/resources/font_manager.dart';
 import 'package:blood_bank_app/presentation/widgets/forms/my_button.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart' as loc;
 
 import '../../core/utils.dart';
 import '../cubit/signup_cubit/signup_cubit.dart';
@@ -37,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _thirdFormState = GlobalKey<FormState>();
   // _fourthFormState = GlobalKey<FormState>();
 
-  TextEditingController emailController = TextEditingController(),
+  final TextEditingController emailController = TextEditingController(),
       passwordController = TextEditingController(),
       nameController = TextEditingController(),
       phoneController = TextEditingController(),
@@ -52,9 +56,14 @@ class _SignUpPageState extends State<SignUpPage> {
   bool isFirstStep() => _activeStepIndex == 0;
   bool isLastStep() => _activeStepIndex == stepList().length - 1;
 
+  // To Get Location Point
+  final location = loc.Location();
+  String lon = "", lat = "";
+
   Future<void> _submit() async {
     FormState? formData = _thirdFormState.currentState;
     if (formData!.validate()) {
+      await checkGps();
       Donor newDonor = Donor(
         email: emailController.text,
         password: passwordController.text,
@@ -64,11 +73,58 @@ class _SignUpPageState extends State<SignUpPage> {
         state: stateNameController.text,
         district: districtController.text,
         neighborhood: neighborhoodController.text,
+        lon: lon,
+        lat: lat,
       );
       BlocProvider.of<SignUpCubit>(context).signUpDonor(
         donor: newDonor,
       );
     }
+  }
+
+  checkGps() async {
+    bool haspermission = false;
+    LocationPermission permission;
+    if (await location.serviceEnabled()) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          if (kDebugMode) {
+            print('Location permissions are denied');
+          }
+        } else if (permission == LocationPermission.deniedForever) {
+          if (kDebugMode) {
+            print("'Location permissions are permanently denied");
+          }
+        } else {
+          haspermission = true;
+        }
+      } else {
+        haspermission = true;
+      }
+      if (haspermission) {
+        await getLocation();
+      }
+    } else {
+      if (!await location.serviceEnabled()) {
+        await location.requestService();
+      }
+      if (kDebugMode) {
+        print("GPS Service is not enabled, turn on GPS location");
+      }
+    }
+  }
+
+  getLocation() async {
+    Position currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    if (kDebugMode) {
+      print(currentPosition.longitude);
+      print(currentPosition.latitude);
+    }
+    lon = currentPosition.longitude.toString();
+    lat = currentPosition.latitude.toString();
   }
 
   @override

@@ -16,11 +16,12 @@ import Aboutus from './pages/aboutus';
 import SignUpCenter from './pages/signupCenter';
 import CenterProfiles from './pages/centerprofile';
 import Add from './Local/FunctionApi';
+import { NotificationProvider } from './context/notification-context';
 const App = () => {
-  console.log(auth?.currentUser?.uid);
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
+        <NotificationProvider>
         <BrowserRouter>
           <AuthGuard>
             <Box sx={{backgroundColor:"#fafafa",}} px={{md:5,xs:1}}>
@@ -41,6 +42,7 @@ const App = () => {
             {/* <Footer /> */}
           </AuthGuard>
         </BrowserRouter>
+        </NotificationProvider>
       </AuthProvider>
     </ThemeProvider>
   );
