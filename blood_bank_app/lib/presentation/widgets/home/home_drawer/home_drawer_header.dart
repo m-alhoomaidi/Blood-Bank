@@ -15,13 +15,14 @@ class HomeDrawerHeader extends StatelessWidget {
     User? currentUser = FirebaseAuth.instance.currentUser;
     return DrawerHeader(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: ColorManager.lightSecondary,
       ),
       child: InkWell(
         onTap: () async {},
         child: Center(
-          child: Column(
+          child: Row(
             children: [
+              const SizedBox(width: AppSize.s10),
               Container(
                 height: AppSize.s80,
                 width: AppSize.s80,
@@ -37,12 +38,16 @@ class HomeDrawerHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: AppSize.s20),
-              Text(
-                (currentUser != null)
-                    ? currentUser.email!
-                    : AppStrings.homeDrawerHeaderAppName,
-                style: Theme.of(context).textTheme.titleLarge,
+              const SizedBox(width: AppSize.s20),
+              Wrap(
+                children: [
+                  Text(
+                    (currentUser != null)
+                        ? currentUser.email!
+                        : AppStrings.homeDrawerHeaderAppName,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
               ),
             ],
           ),
