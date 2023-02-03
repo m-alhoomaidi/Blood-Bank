@@ -3,6 +3,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:blood_bank_app/domain/entities/search_log.dart';
+import 'package:blood_bank_app/presentation/pages/setting_page.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hive/hive.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../domain/entities/blood_center.dart';
@@ -15,11 +19,9 @@ part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
   final SearchStateDonorsUseCase searchStateDonorsUseCase;
-  // final SearchDonorsUseCase searchDonorsUseCase;
   final SearchCentersUseCase searchCentersUseCase;
   SearchCubit({
     required this.searchStateDonorsUseCase,
-    // required this.searchDonorsUseCase,
     required this.searchCentersUseCase,
   }) : super(SearchInitial());
 
@@ -35,7 +37,7 @@ class SearchCubit extends Cubit<SearchState> {
     if (selectedState == '' ||
         selectedDistrict == '' ||
         selectedBloodType == null) {
-      emit(SearchFailure(error: 'يجب تحديد المحافظة والمديرية وفصيلة الدم'));
+      emit(SearchFailure(error: 'يجب تحديد الخيارات المطلوب البحث عنها'));
     } else {
       try {
         searchStateDonorsUseCase(
@@ -49,6 +51,7 @@ class SearchCubit extends Cubit<SearchState> {
             donors = fetchedStateDonors
                 .where((donor) => donor.district == selectedDistrict)
                 .toList();
+            ;
             await searchCentersUseCase(
               state: selectedState,
               district: selectedDistrict,
@@ -71,6 +74,26 @@ class SearchCubit extends Cubit<SearchState> {
             });
           });
         });
+        fireStore
+            .collection("search_logs")
+            .add(
+              SearchLog(
+                state: selectedState,
+                district: selectedDistrict,
+                bloodType: selectedBloodType!,
+                date: DateTime.now().toString(),
+                donorsCount: donors
+                    .where((donor) =>
+                        donor.district == selectedDistrict &&
+                        donor.bloodType == selectedBloodType!)
+                    .toList()
+                    .length
+                    .toString(),
+                token: await FirebaseMessaging.instance.getToken() ?? "",
+                userType: await Hive.box(dataBoxName).get('user') ?? "0",
+              ).toMap(),
+            )
+            .then((_) => print("log has recorded"));
       } on FirebaseException catch (e) {
         emit(SearchFailure(error: e.code));
       } catch (e) {
