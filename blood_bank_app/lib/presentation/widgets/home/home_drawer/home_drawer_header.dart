@@ -14,8 +14,8 @@ class HomeDrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
     return DrawerHeader(
-      decoration: BoxDecoration(
-        color: ColorManager.lightSecondary,
+      decoration: const BoxDecoration(
+        color: ColorManager.lightPrimary,
       ),
       child: InkWell(
         onTap: () async {},
