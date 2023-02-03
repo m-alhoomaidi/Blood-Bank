@@ -2,7 +2,6 @@ import '../../resources/strings_manager.dart';
 import '../../resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../domain/entities/donor.dart';
 import '../../cubit/profile_cubit/profile_cubit.dart';
 import '../../pages/edit_main_data_page.dart';
