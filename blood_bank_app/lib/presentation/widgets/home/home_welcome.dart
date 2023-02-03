@@ -66,8 +66,10 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                     fillColor: ColorManager.grey1,
                     blurrBorderColor: eSecondColor.withOpacity(0),
                     focusBorderColor: eSecondColor.withOpacity(0),
-                    hintStyle:
-                        Theme.of(context).textTheme.bodyLarge as TextStyle,
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: ColorManager.grey),
                     readOnly: true,
                     onTap: () {
                       Navigator.push(
@@ -87,7 +89,6 @@ class _HomeWelcomeState extends State<HomeWelcome> {
                   titleStyle: Theme.of(context).textTheme.titleLarge,
                   onPressed: () {
                     di.initSignUp();
-                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -68,7 +68,7 @@ ThemeData getApplicationTheme() {
     // text theme
     textTheme: TextTheme(
       displayLarge: getSemiBoldStyle(
-        color: ColorManager.darkGrey,
+        color: ColorManager.secondary,
         fontSize: FontSize.s30,
       ),
       displaySmall: getRegularStyle(
@@ -95,7 +95,11 @@ ThemeData getApplicationTheme() {
         color: ColorManager.link,
         fontSize: FontSize.s14,
       ),
-      bodyLarge: getRegularStyle(
+      bodyLarge: getBoldStyle(
+        color: ColorManager.lightSecondary,
+        fontSize: FontSize.s18,
+      ),
+      bodyMedium: getRegularStyle(
         color: ColorManager.darkGrey,
         fontSize: FontSize.s18,
       ),
