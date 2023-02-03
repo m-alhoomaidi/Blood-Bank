@@ -62,20 +62,31 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                     district: state.bloodCenter.district,
                     neighborhood: state.bloodCenter.neighborhood);
                 return Padding(
-                  padding: const EdgeInsets.all(AppPadding.p20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: AppPadding.p20),
                   child: ListView(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: AppPadding.p10,
                             vertical: AppPadding.p10),
-                        child: Text(AppStrings.editMainDataTextName),
+                        child: Text(
+                          AppStrings.editMainDataTextName,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: ColorManager.black),
+                        ),
                       ),
                       Form(
                         key: _formState,
                         child: Column(
                           children: [
                             MyTextFormField(
+                              blurrBorderColor: ColorManager.grey1,
+                              focusBorderColor: ColorManager.grey2,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              fillColor: ColorManager.grey1,
                               initialValue: (profileCenterData!.name == null)
                                   ? null
                                   : profileCenterData!.name,
@@ -92,17 +103,25 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                                 profileCenterData!.name = newValue;
                               }),
                             ),
-                            const Align(
+                            Align(
                               alignment: Alignment.centerRight,
                               child: Padding(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 10),
                                 child: Text(
                                   "الرقم",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(color: ColorManager.black),
                                 ),
                               ),
                             ),
                             MyTextFormField(
+                              blurrBorderColor: ColorManager.grey1,
+                              focusBorderColor: ColorManager.grey2,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              fillColor: ColorManager.grey1,
                               initialValue: profileCenterData!.phone,
                               // (box.get("name") == null) ? null : box.get("name"),
                               validator: _phoneNumberValidator,
@@ -115,11 +134,17 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                         ),
                       ),
                       const SizedBox(height: AppSize.s14),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: AppPadding.p10,
                             vertical: AppPadding.p10),
-                        child: Text(AppStrings.profileAdressTitle),
+                        child: Text(
+                          AppStrings.profileAdressTitle,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: ColorManager.black),
+                        ),
                       ),
                       Column(
                         children: [
@@ -139,7 +164,7 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                                     dropdownDecoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(AppSize.s10)),
-                                      color: Colors.red[100],
+                                      color: ColorManager.grey1,
                                       border: Border.all(
                                         color: ColorManager.white,
                                         width: 1,
@@ -214,9 +239,11 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                                           : profileCenterData!.neighborhood),
                                       hint: "المنطقة",
                                       hintStyle: eHintStyle,
-                                      blurrBorderColor: eFieldBlurrBorderColor,
-                                      focusBorderColor: eFieldFocusBorderColor,
-                                      fillColor: eFieldFillColor,
+                                      blurrBorderColor: ColorManager.grey1,
+                                      focusBorderColor: ColorManager.grey2,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                      fillColor: ColorManager.grey1,
                                       suffixIcon: false,
                                       icon: const Icon(
                                           Icons.my_location_outlined),
@@ -243,6 +270,8 @@ class _EditMainCenterDataPageState extends State<EditMainCenterDataPage> {
                       const SizedBox(height: AppSize.s30),
                       MyButton(
                           title: AppStrings.profileButtonSave,
+                          color: Theme.of(context).primaryColor,
+                          titleStyle: Theme.of(context).textTheme.titleLarge,
                           onPressed: (() {
                             if (_formState.currentState!.validate()) {
                               _formState.currentState!.save();

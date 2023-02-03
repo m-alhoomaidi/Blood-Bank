@@ -44,6 +44,7 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
         title: const Text(AppStrings.profileAppBarTitle),
         elevation: 0,
       ),
+      backgroundColor: ColorManager.white,
       body: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
         child: BlocConsumer<ProfileCubit, ProfileState>(
@@ -125,6 +126,7 @@ class _ProfileCenterPageState extends State<ProfileCenterPage> {
                     ),
                     MyButton(
                       title: AppStrings.profileButtonSave,
+                      titleStyle: Theme.of(context).textTheme.titleLarge,
                       onPressed: () {
                         BlocProvider.of<ProfileCubit>(context)
                             .sendProfileCenterData(profileCenterData!);
