@@ -5,7 +5,6 @@ import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatelessWidget {
