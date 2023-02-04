@@ -1,9 +1,7 @@
-import { FC, useState, useEffect, useCallback, useContext, createContext,useReducer,useRef } from "react";
-import { app, db } from '../utils/firebase';
+import {useContext, createContext,useReducer,useRef } from "react";
+import {  db } from '../utils/firebase';
 import PropTypes from 'prop-types';
-import { getMessaging, getToken, onMessage } from 'firebase/messaging';
-import { doc, getDoc } from "firebase/firestore";
-
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const HANDLERS = {
     INITIALIZE: 'INITIALIZE',
@@ -13,7 +11,7 @@ const HANDLERS = {
 const initialState = {
     isAuthenticated: false,
     isLoading: false,
-   notificationDonors :{}
+   notificationDonors :[]
 };
 const handlers = {
     [HANDLERS.INITIALIZE]: (state, action) => {
@@ -21,7 +19,6 @@ const handlers = {
         return {
             ...state,
             ...(
-                // if payload (user) is provided, then is authenticated
                 notificationDonors
                     ? ({
                         isAuthenticated: true,
@@ -47,9 +44,7 @@ const reducer = (state, action) => (
     handlers[action.type] ? handlers[action.type](state, action) : state
 );
 
-
-
-export const NotificationContext = createContext();
+export const NotificationContext = createContext({undefined});
 export const NotificationProvider = (props) => {
     
     const { children } = props;
@@ -64,67 +59,30 @@ export const NotificationProvider = (props) => {
         initialized.current = true;
 
     };
-
-    // const [FCMToken, setFCMToken] = useState('');
-    // let messaging = async () => { return await getMessaging(app) }
-
-    // useEffect(() => {
-
-    //     requestForToken();
-    // }, [])
-
-    // const requestForToken = async () => {
-    //     try {
-    //         const currentToken = await getToken(await messaging(), { vapidKey: "BKwsPLK4i41_RA0Gy81vw5ZhLYzGXXoCBaHCWt1pMBqbDN_fSNnhjMpsQeEYc3EmDDMAqyPfefNhtPhj20q1vpU" });
-    //         if (currentToken) {
-    //             setFCMToken(currentToken)
-    //             console.log('current token for client: ', currentToken);
-    //             return currentToken
-    //         } else {
-    //             // Show permission request UI
-    //             console.log('No registration token available. Request permission to generate one.');
-    //         }
-    //     } catch (err) {
-    //         console.log('An error occurred while retrieving token. ', err);
-    //     }
-    // };
-
-    // const onMessageListener = async () =>
-    //     new Promise(async (resolve) => {
-    //         onMessage(await messaging(), (payload) => {
-    //             resolve(payload);
-    //         });
-    //     });
-    const SendNotificationDonors = (notificationDonors)=>{
+    const DispatchNotificationDonors = (notificationDonors)=>{
         dispatch({
            type: HANDLERS.NOTIFICATION_DONORS,
            payload: notificationDonors,
         })
-        console.log(notificationDonors);
+       // console.log(notificationDonors);
     }
     const checkIfnotificationenticated = async () => {
         const id=localStorage.getItem("uid");
-        const docRef = doc(db, "donors",id);
-        const docSnap = await getDoc(docRef);
-        const NotDonors = docSnap.data(); 
-        SendNotificationDonors(NotDonors);
-        if (docSnap.exists()) {
-            dispatch({
-                        type:HANDLERS.NOTIFICATION_DONORS,
-                        payload: NotDonors
-                    });
-                    return true
-          } 
-        else
-            throw Error("there is an error")
+        const q = query(
+            collection(db, "notifications"), 
+            where("donor_id", "==", id));
+        await getDocs(q).then((response) => {
+            const DataNotification = response.docs.map((doc) => ({ id:doc.id, data: doc.data() }));
+            DispatchNotificationDonors(DataNotification);
+           // console.log(DataNotification.id);
+          })
         }
-
     return (
         <NotificationContext.Provider value={{
             ...state,
             notificationDonors: state.notificationDonors,
             checkIfnotificationenticated,
-            SendNotificationDonors,
+            DispatchNotificationDonors,
 
         }}>{props.children}</NotificationContext.Provider>
 
@@ -138,4 +96,4 @@ export const NotificationConsumer = NotificationContext.Consumer;
 
 export const useNotificationContext = () => useContext(NotificationContext);
 
-// export default SocketProvider;
+
