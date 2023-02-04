@@ -41,7 +41,7 @@ const navigate = useNavigate();
         <Typography color="text.secondary" variant="body2" sx={{cursor:'pointer'}} onClick={()=>{navigate('/profile');}}>
           {user?.name}
         </Typography>
-      </Box>
+      </Box> 
       <MenuList
         disablePadding
         sx={{

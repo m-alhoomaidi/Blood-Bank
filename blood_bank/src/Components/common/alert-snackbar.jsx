@@ -4,7 +4,7 @@ export const AlertSnackBar = (props) => {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={1000}
+      autoHideDuration={2000}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",

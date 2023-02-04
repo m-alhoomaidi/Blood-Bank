@@ -12,22 +12,22 @@ const variants = {
 const navItems = [
   {
     id: 1,
-    name: "الرئيسية",
-    href: "/",
+    name: "نبذه",
+    href: "/#about",
   },
   {
     id: 2,
-    name: "خدماتنا",
-    href: "#services",
+    name: "التطبيق",
+    href: "/#app",
   },
   {
     id: 3,
-    name: "تبرع",
-    href: "#about",
+    name: "ساعدنا",
+    href: "/#help-us",
   },
   {
     id: 4,
-    name: "البحث عن متبرع",
+    name: "تطوع معنا",
     href: "/search",
   },
 ];

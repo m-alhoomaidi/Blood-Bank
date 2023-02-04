@@ -16,28 +16,23 @@ import { useAuthContext } from "../../context/auth-context";
 const navItems = [
   {
     id: 1,
-    name: "الرئيسية",
-    href: "/",
+    name: "نبذه",
+    href: "/#about",
   },
   {
     id: 2,
-    name: "من نحن",
-    href: "/aboutus",
+    name: "التطبيق",
+    href: "/#app",
   },
   {
     id: 3,
-    name: "تبرع",
-    href: "#about",
+    name: "ساعدنا",
+    href: "/#help-us",
   },
   {
     id: 4,
-    name: "البحث عن متبرع",
+    name: "تطوع معنا",
     href: "/search",
-  },
-  {
-    id: 5,
-    name: "الخريطة",
-    href: "/map",
   },
 ];
 
@@ -57,14 +52,29 @@ const NavBar = (props) => {
         textDecoration: "none",
         transition: "0.5s",
         p: 2,
-        "&:hover": {
-          color: "white",
-          backgroundColor: SECONDARY_COLOR,
-          borderRadius: 1,
-        },
+        // "&:hover": {
+        //   color: "white",
+        //   backgroundColor: SECONDARY_COLOR,
+        //   // borderRadius: 1,
+        // },
       }}
     >
-      <Typography sx={{ display: "inline" }}> {item.name}</Typography>
+      <Typography
+        color="primary"
+        sx={{
+          display: "inline",
+          transition: "0.5s",
+          fontWeight: "bold",
+
+          "&:hover": {
+            transform: "scale(2)",
+            color: "#3d3b87",
+          },
+        }}
+      >
+        {" "}
+        {item.name}
+      </Typography>
     </Link>
   ));
   return (
