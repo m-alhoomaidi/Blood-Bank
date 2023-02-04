@@ -11,7 +11,7 @@ import { SECONDARY_COLOR } from "../../../constant/color";
 import { useAuthContext } from "../../../context/auth-context";
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
-  const { user, signOut,authType } = useAuthContext();
+  const { user, signOut } = useAuthContext();
 const navigate = useNavigate();
   return (
     <Popover
@@ -38,12 +38,7 @@ const navigate = useNavigate();
       >
         <Typography variant="overline">حسابك الشخصي</Typography>
 
-        <Typography color="text.secondary" variant="body2" sx={{cursor:'pointer'}} onClick={()=>{
-          if(authType === "user")
-          { navigate('/profile');}
-          else if(authType === "center"){
-            navigate('/centerprofile');
-          }}}>
+        <Typography color="text.secondary" variant="body2" sx={{cursor:'pointer'}} onClick={()=>{navigate('/profile');}}>
           {user?.name}
         </Typography>
       </Box>

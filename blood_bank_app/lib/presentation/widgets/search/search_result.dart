@@ -1,5 +1,4 @@
 import 'package:blood_bank_app/domain/entities/blood_center.dart';
-import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/widgets/search/result_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,9 +45,7 @@ class _SearchResultState extends State<SearchResult>
                     Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30),
-                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
                       ),
                       child: TabBar(
                         controller: tabController,
@@ -96,7 +93,7 @@ class _SearchResultState extends State<SearchResult>
                                   },
                                   expandedHeaderPadding: EdgeInsets.zero,
                                   elevation: 0,
-                                  dividerColor: ColorManager.white,
+                                  dividerColor: Colors.white,
                                   children: compatibleDonors
                                       .map<ExpansionPanel>((Donor donor) {
                                     return ExpansionPanelRadio(
@@ -143,7 +140,7 @@ class _SearchResultState extends State<SearchResult>
                               },
                               expandedHeaderPadding: EdgeInsets.zero,
                               elevation: 0,
-                              dividerColor: ColorManager.white,
+                              dividerColor: Colors.white,
                               children: state.centers
                                   .map<ExpansionPanel>((BloodCenter center) {
                                 return ExpansionPanelRadio(

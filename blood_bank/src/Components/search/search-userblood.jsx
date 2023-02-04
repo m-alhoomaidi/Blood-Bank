@@ -339,7 +339,7 @@ const { searchUserAndCenters } = useAuthContext();
                 justifyContent="center"
                 flexDirection="row"
                 mt="2px"
-              >  {Progress ? <Box sx={{display:"flex",justifyContent:"center"}}><CircularProgress /></Box> :
+              >  {Progress ? <CircularProgress /> :
                 ClickIcon ?
                 
                          <TypeBloodSame resultSearch={searchBlood} BloodType={typeBlood}/> : <Grid container justifyContent="center" flexDirection="row" spacing={2} mt={2}>
@@ -365,7 +365,7 @@ const { searchUserAndCenters } = useAuthContext();
                         marginTop: "40px",
                         justifyContent: "center" 
                       }}>
-                      {Progress ? <Box sx={{display:"flex",justifyContent:"center"}}><CircularProgress /></Box> :
+                      {Progress ? <CircularProgress /> :
                       <Grid item xs={10} md={4} >
                             <SearchCenter 
                                 resultSearchCenter={searchBloodCenter} 
