@@ -6,27 +6,23 @@ import {
 import { useFormik } from "formik";
 import Countryes from '../../Local/Data.json';
 import * as Yup from "yup";
-import { CardSuccesCenter, ModelCancleCenter } from "./modelCancel";
 import { storage, db, auth } from '../../utils/firebase';
 import { AlertSnackBar } from '../common/alert-snackbar';
-import { addDoc, collection, getDocs, query, where, doc, updateDoc, getDoc, onSnapshot } from "firebase/firestore";
+import {  doc, updateDoc} from "firebase/firestore";
 import { v4 } from "uuid";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuthContext } from '../../context/auth-context';
 export const PersonalInfoProfile = () => {
     const [open, setOpen] = useState(false);
-    const HandleOpen = () => { setOpen(true); }
-    const handleClose = () => setOpen(false);
     const [imagess, setImages] = useState("");
     const [progress, setProgress] = useState(false);
     const [showTost, setShowTost] = useState(false);
-    const [displayNone, setDisplayNone] = useState(true);
     const [IsShown, setIsShown] = useState("");
     const [tost, setTost] = useState({
         tostMsg: "لم يتم تحديث البيانات",
         tostType: "error",
     });
-    const { user, updateUser } = useAuthContext();
+    const { user, updateUser,checkIfAuthenticated } = useAuthContext();
     const UploadAndDownImage = (event) => {
         const ImgeProfiles = event.target.files[0];
         setProgress(true);
@@ -34,7 +30,7 @@ export const PersonalInfoProfile = () => {
         uploadBytes(imageRef, ImgeProfiles).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
                 setImages(url);
-                updateDoc(doc(db, "donors", 'AtFv1cCtkCZxQapmqgHBADktwpv1'), { image: url }).then((response) => {
+                updateDoc(doc(db, "centers", 'JQfnKqa2aWNk1Gbaq39qUBmg0fb2'), { image: url }).then((response) => {
                     console.log(response);
                     setProgress(false);
                     updateUser({ ...user, image: url });
@@ -48,20 +44,17 @@ export const PersonalInfoProfile = () => {
     const formik = useFormik({
         initialValues: {
             username: "",
-            neighborhood: user.neighborhood,
-            phone: user.phone,
+            neighborhood: user?.neighborhood,
+            phone: user?.phone,
             state: { name: "", id: "" },
             district: { name: "", id: "" },
-            email: user.email,
-            typeBlood: user.blood_type,
+            email: user?.email,
         },
         validationSchema: Yup.object({
             username: Yup.string()
                 .max(255)
                 .required("اسم المستخدم مطلوب"),
-            neighborhood: Yup.string().max(255).required("اسم المنطقة مطلوب"),
             phone: Yup.string().max(255).required("رقم التلفون مطلوب"),
-            typeBlood: Yup.string().max(255).required("فصيلة الدم مطلوبة"),
         }),
         onSubmit: (values) => {
             console.log(values);
@@ -72,12 +65,11 @@ export const PersonalInfoProfile = () => {
                 name: values.username,
                 neighborhood: values.neighborhood,
                 district: values.district.name,
-                blood_type: values.typeBlood,
                 state: values.state.name,
                 phone: values.phone,
                 email: values.email,
             }
-            const userDoc = doc(db, "donors", '9U74upZiSOJugT9wrDnu');
+            const userDoc = doc(db, "centers", 'JQfnKqa2aWNk1Gbaq39qUBmg0fb2');
             updateDoc(userDoc, newProfile).then((response) => {
                 setShowTost(true);
                 setTost({
@@ -85,7 +77,8 @@ export const PersonalInfoProfile = () => {
                     tostType: "success",
                 });
             });
-            updateUser({ ...values, image: imagess });
+            checkIfAuthenticated();
+           // updateUser({ ...values, image: imagess });
         },
     });
     const [City, setCity] = useState([]);
@@ -94,15 +87,13 @@ export const PersonalInfoProfile = () => {
         const GetState = Countryes?.filter((country) => country?.name === user?.state);
         const GetDistricts = GetState[0]?.city
         const GetDistrict = GetDistricts?.filter((district) => district?.name === user?.district) || null;
-        formik.setFieldValue('username', user.name)
+        formik.setFieldValue('username', user?.name)
         formik.setFieldValue('state', GetState[0])
-        formik.setFieldValue('neighborhood', user.neighborhood)
-        formik.setFieldValue('phone', user.phone)
-        formik.setFieldValue('email', user.email)
-        formik.setFieldValue('typeBlood', user.blood_type)
+        formik.setFieldValue('neighborhood', user?.neighborhood)
+        formik.setFieldValue('phone', user?.phone)
+        formik.setFieldValue('email', user?.email)
         formik.setFieldValue('district', GetDistrict ? GetDistrict[0] : null)
         setImages(user?.image);
-        setIsShown(user.is_shown);
     }, [user]);
 
 
@@ -168,14 +159,6 @@ export const PersonalInfoProfile = () => {
                                                 }
                                             }}>
                                                 تحديث صورة الملف الشخصي
-                                            </Button>
-                                            <Button variant="contained"
-                                                sx={{
-                                                    fontSize: { md: 14, xs: 10 },
-                                                    backgroundColor: '#EBEEF0', color: '#808AB9',
-                                                    widows: { xs: '150px' }
-                                                }}>
-                                                اعادة تعيين الصورة
                                             </Button>
                                         </Box>
                                         <Typography sx={{
@@ -305,40 +288,6 @@ export const PersonalInfoProfile = () => {
                             </Grid>
                         </Grid>
                     </Box>
-                </Card>
-
-                <Card sx={{ px: { md: 3, xs: 2 }, mt: { xs: 3, md: 2 }, mx: { md: -2, xs: 0 }, pb: 2 ,width:{md:"100%"}}}>
-                    <Grid container>
-                        <Grid item xs={12} md={10.8} sx={{ mr: 2 }}>
-                            <Typography sx={{
-                                fontWeight: 700,
-                                my: 3,
-                                color: '#4c4c4c'
-                            }}>
-                                الغاء تنشيط الحساب
-                            </Typography>
-                            <Alert severity="error" sx={{ color: '#BF4E4E' }}>
-                                <AlertTitle sx={{ color: '#BF4E4E' }}>متأكد من إلغاء تنشيط الحساب؟</AlertTitle>
-                                لن تظهر بياناتك عند عملية البحث عن زمر الدم
-                            </Alert>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="error"
-                                sx={{ mt: 3, backgroundColor: '#BF4E4E' }}
-                                onClick={HandleOpen}
-
-                            >
-                                الغاء تنشيط الحساب
-                            </Button>
-                        </Grid>
-                        <Grid item xs={10} md={10}>
-                            {displayNone || IsShown === "1" ?
-                                <ModelCancleCenter opens={open} Hand={handleClose} displayed={setDisplayNone} IsShowning={setIsShown} />
-
-                                : <CardSuccesCenter Hand={handleClose} displayed={setDisplayNone} IsShowning={setIsShown} />}
-                        </Grid>
-                    </Grid>
                 </Card>
                 <AlertSnackBar
                     open={showTost}

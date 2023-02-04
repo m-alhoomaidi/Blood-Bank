@@ -16,9 +16,20 @@ import {
 import { ModalContainerStyle } from "../../style/global-style";
 import CloseIcon from "@mui/icons-material/Close";
 import { FlexVertical } from "../common/flex-vertical";
+import { db,auth } from "../../utils/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 
 export const ModalViewNotification = (props) => {
-  const { open, handleClose, notification } = props;
+  const { open, handleClose, notification,Id,BackNotification } = props;
+  const IsReading =  async () =>{
+    handleClose();
+    const read = true;
+         const userDoc = doc (db,"notifications",Id);
+     updateDoc(userDoc ,{ isRead : true}).then((response) =>{
+      console.log("succses")
+      BackNotification(true);
+     });
+   };
   return (
     <>
       <Modal
@@ -57,7 +68,7 @@ export const ModalViewNotification = (props) => {
                       <Typography variant="h5">
                         {notification?.title}
                       </Typography>
-                      <IconButton onClick={handleClose}>
+                      <IconButton onClick={IsReading}>
                         <CloseIcon />
                       </IconButton>
                     </Box>
