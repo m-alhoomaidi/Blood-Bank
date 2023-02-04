@@ -46,7 +46,7 @@ const navigate = useNavigate();
           }}}>
           {user?.name}
         </Typography>
-      </Box>
+      </Box> 
       <MenuList
         disablePadding
         sx={{
