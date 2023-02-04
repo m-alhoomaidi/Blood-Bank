@@ -42,14 +42,12 @@ export const MenuItem = ({ i, item }) => {
           borderBottom: "1px solid gray",
           p: 1,
           transition: "0.5s",
-          "&:hover": {
-            color: "white",
-            backgroundColor: SECONDARY_COLOR,
-          },
         }}
       >
         <Container fixed>
-          <Typography align="center">{item.name}</Typography>
+          <Typography align="center" color="primary">
+            {item.name}
+          </Typography>
         </Container>
       </Link>
     </motion.li>

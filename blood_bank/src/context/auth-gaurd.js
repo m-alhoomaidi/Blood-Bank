@@ -9,8 +9,8 @@ import { useNotificationContext } from './notification-context';
 
 export const AuthGuard = (props) => {
     const { children } = props;
-    const { checkIfAuthenticated, user, signIn,updateUser } = useAuthContext();
-     const { checkIfnotificationenticated } = useNotificationContext();
+    const { checkIfAuthenticated, user, signIn, updateUser } = useAuthContext();
+    const { checkIfnotificationenticated } = useNotificationContext();
     const ignore = useRef(false);
     const [checked, setChecked] = useState(false);
     const [FCMToken, setFCMToken] = useState('');
@@ -21,10 +21,10 @@ export const AuthGuard = (props) => {
                 checkIfAuthenticated()
                 checkIfnotificationenticated()
                     .then((data) => {
-                         setChecked(true)
+                        setChecked(true)
                         const path = getOrigin()
-                        if (path == 'login')
-                            navigate('/')
+                        // if (path == 'login')
+                        //     navigate('/')
                     })
                     .catch((err) => {
                         console.log(err)
