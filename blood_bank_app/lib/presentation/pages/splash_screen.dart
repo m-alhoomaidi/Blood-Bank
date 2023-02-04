@@ -7,7 +7,10 @@ import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> c190121177ca54752925eb648e5a71454f0e30fb
 import 'package:page_transition/page_transition.dart';
 >>>>>>> c190121177ca54752925eb648e5a71454f0e30fb
 
