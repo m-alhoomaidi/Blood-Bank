@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:blood_bank_app/presentation/pages/search_page.dart';
 import 'package:blood_bank_app/presentation/pages/setting_page.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
@@ -39,12 +40,26 @@ class _HomeWelcomeState extends State<HomeWelcome> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'ومن أحياها\n فكأنما أحيا الناس جميعاً',
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayLarge!
-                      .copyWith(height: 1.5),
+                AnimatedTextKit(
+                  // pause: const Duration(milliseconds: 1000),
+                  // // isRepeatingAnimation: true,
+                  // stopPauseOnTap: false,
+                  animatedTexts: [
+                    TyperAnimatedText(
+                      'ومن أحياها\n فكأنما أحيا الناس جميعاً',
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .displayLarge!
+                          .copyWith(height: 1.5),
+                    )
+                  ],
+                  // child: Text(
+                  //   'ومن أحياها\n فكأنما أحيا الناس جميعاً',
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .displayLarge!
+                  //       .copyWith(height: 1.5),
+                  // ),
                 ),
                 Container(
                   decoration: BoxDecoration(
