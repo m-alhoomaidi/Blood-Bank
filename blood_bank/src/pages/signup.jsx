@@ -33,6 +33,7 @@ const bloodTypes = [
 ];
 const data=JSON.parse(JSON.stringify(Countryes));
 const Try = (props) => {
+  const [token,setToken]=useState("");
   const [city,setCity]=useState(data?.map((item)=>{
     return{
       id:item?.id,
@@ -52,7 +53,7 @@ async function requestPermissions (){
   await Notification.requestPermission().then((permission)=>{
     if(permission === 'granted'){
       getToken(messaging,{vapidKey:'BBn3zGcKMynrgirvOIsFXTHoTHKNW-iX3FWefaw9zUVbRygfIzYSQqHqJabWsNcg5v-oYG2E1tDBsh42WR7RNzQ'}).then((token)=>{
-      console.log(token);
+        setToken(token);
       });
     } else if(permission === 'denied') 
     {
@@ -119,7 +120,7 @@ async function requestPermissions (){
                  is_shown:"1",
                  is_gps_on:"1",
                  image:"",
-                 token:"",
+                 token:token,
                  status:'ACTIVE',
                 });
                 navigate("/");
