@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import LottieApp from "../Components/lottie";
-import { HEALTH_LOTTIE } from "../constant/media";
+import { HEALTH_LOTTIE, LOGIN, SETTINGS1 } from "../constant/media";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -28,10 +28,10 @@ export default function SignInSide() {
   const [isRememberMe, setIsRememberMe] = useState(false);
   const [showTost, setShowTost] = useState(false);
   const [tost, setTost] = useState({
-      tostMsg: "",
-      tostType: "success",
+    tostMsg: "",
+    tostType: "success",
   });
-  
+
   const navigate = useNavigate();
   const { checkIfAuthenticated } = useAuthContext();
   const formik = useFormik({
@@ -45,19 +45,19 @@ export default function SignInSide() {
         .required("اسم المستخدم أو معرف البريد الإلكتروني مطلوب"),
       password: Yup.string().max(255).required("كلمة السر مطلوبة"),
     }),
-    onSubmit: ({username,password}) => {
-      signInWithEmailAndPassword(auth,username,password)
-      .then((userCredential)=>{
-        localStorage.setItem("uid",auth?.currentUser?.uid);    
-        navigate("/");
-         })
-      .catch((error) => {
-        setShowTost(true);
-        setTost({
+    onSubmit: ({ username, password }) => {
+      signInWithEmailAndPassword(auth, username, password)
+        .then((userCredential) => {
+          localStorage.setItem("uid", auth?.currentUser?.uid);
+          navigate("/");
+        })
+        .catch((error) => {
+          setShowTost(true);
+          setTost({
             tostMsg: "عنوان البريد أو كلمة السر غير صحيحة",
             tostType: "error",
+          });
         });
-      })
     },
   });
 
@@ -67,12 +67,12 @@ export default function SignInSide() {
   return (
     <>
       <AlertSnackBar
-                open={showTost}
-                handleClose={() => setShowTost(false)}
-                message={tost.tostMsg}
-                type={tost.tostType}
-        />
-      <Grid container component="main" sx={{ height: "100vh", dir: "ltr" }}>
+        open={showTost}
+        handleClose={() => setShowTost(false)}
+        message={tost.tostMsg}
+        type={tost.tostType}
+      />
+      <Grid container component="main" sx={{ dir: "ltr" }}>
         <Grid item xs={12} md={6}>
           <Box
             sx={{
@@ -82,7 +82,7 @@ export default function SignInSide() {
               height: "100%",
             }}
           >
-            <LottieApp animationpath={HEALTH_LOTTIE} />
+            <LottieApp animationpath={LOGIN} />
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -113,7 +113,7 @@ export default function SignInSide() {
                   flexDirection: "column",
                 }}
               >
-                <Avatar sx={{ m: 1, bgcolor: "#e12c34" }}>
+                <Avatar bgcolor="primary" sx={{ m: 1 }}>
                   <LockOutlinedIcon />
                 </Avatar>
                 <Typography>تسجيل الدخول</Typography>
@@ -177,12 +177,6 @@ export default function SignInSide() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    sx={{
-                      color: SECONDARY_COLOR,
-                      "&.Mui-checked": {
-                        color: SECONDARY_COLOR,
-                      },
-                    }}
                     color="primary"
                     checked={isRememberMe}
                     onChange={handleChangeRemembeMe}
@@ -197,12 +191,13 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                color="primary"
                 sx={{
                   mt: 3,
                   mb: 2,
-                  bgcolor: "#e12c34",
+                  // bgcolor: "#e12c34",
                   "&:hover": {
-                    backgroundColor: "red",
+                    // backgroundColor: "red",
                     textDecoration: "none",
                   },
                 }}

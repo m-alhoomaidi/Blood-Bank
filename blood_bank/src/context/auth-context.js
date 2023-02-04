@@ -11,21 +11,18 @@ const HANDLERS = {
     SIGN_OUT: 'SIGN_OUT',
     UPDATE_USER: 'UPDATE_USER',
     SEARCH_USER:'SEARCH_USER',
-    AUTHTYPE:'AUTHTYPE',
 };
 
 const initialState = {
     isAuthenticated: false,
     isLoading: false,
     user: {},
-   mapData:{},
-   authType:"user",
+   mapData:{}
 };
 
 const handlers = {
     [HANDLERS.INITIALIZE]: (state, action) => {
         const user = action.payload;
-        const authType =action.payload;
         const mapData =action.payload;
         return {
             ...state,
@@ -36,15 +33,6 @@ const handlers = {
                         isAuthenticated: true,
                         isLoading: false,
                         user
-                    })
-                    : ({
-                        isLoading: false
-                    }),
-                    authType
-                    ? ({
-                        isAuthenticated: true,
-                        isLoading: false,
-                        authType
                     })
                     : ({
                         isLoading: false
@@ -82,14 +70,6 @@ const handlers = {
             ...state,
             isAuthenticated: true,
             user
-        };
-    },
-    [HANDLERS.AUTHTYPE]: (state, action) => {
-        const authType = action.payload;
-        return {
-            ...state,
-            isAuthenticated: true,
-            authType
         };
     },
     [HANDLERS.SEARCH_USER]: (state, action) => {
@@ -179,13 +159,6 @@ export const AuthProvider = (props) => {
            })
            console.log(mapData);
        }
-       const AuthTypeUserOrCenter = (authType)=>{
-        dispatch({
-           type: HANDLERS.SEARCH_USER,
-           payload: authType,
-        })
-       // console.log(authType);
-    }
 
     const updateUser = (user) => {
         dispatch({
@@ -197,14 +170,30 @@ export const AuthProvider = (props) => {
 
 
     const checkIfAuthenticated = async () => {
-       // const id=localStorage.getItem("uid");
-       const id="JQfnKqa2aWNk1Gbaq39qUBmg0fb2";
+        // const docRf = query(
+        //     collection(db, "donors"),
+        //     where("email", "==", username),
+        //     where("password", "==", password)
+        // );
+        const id=localStorage.getItem("uid");
         const docRef = doc(db, "donors",id);
         const docSnap = await getDoc(docRef);
         const user = docSnap.data(); 
-        updateUser(user); 
+        updateUser(user);
+        //console.log(id);
+        // if (!querySnapshot?.docs?.length == 0) {
+        //     const user = querySnapshot.docs[0].data()
+        //     console.log(user.email)
+        //     localStorage.setItem('blood-bank-username', user.email)
+        //     localStorage.setItem('blood-bank-password', user.password)
+        //     delete user.password
+        //     dispatch({
+        //         type: HANDLERS.SIGN_IN,
+        //         payload: user
+        //     });
+        //     return true
+        // }
         if (docSnap.exists()) {
-            AuthTypeUserOrCenter("user");
             dispatch({
                         type: HANDLERS.SIGN_IN,
                         payload: user
@@ -212,20 +201,9 @@ export const AuthProvider = (props) => {
                     return true
             
           } 
-        else{
-        const docCenter = doc(db, "centers",id);
-        const docSnapCenter = await getDoc(docCenter);
-        const user = docSnapCenter.data(); 
-        updateUser(user);
-        if (docSnap.exists()) {
-            AuthTypeUserOrCenter("center");
-            dispatch({
-                        type: HANDLERS.SIGN_IN,
-                        payload: user
-                    });
-                    return true
-          } 
-        }}
+        else
+            throw Error("there is an error")
+        }
 
     const checkAuthenticated = async (user) => {
         dispatch({
@@ -239,8 +217,6 @@ export const AuthProvider = (props) => {
                 ...state,
                 user: state.user,
                 mapData:state.mapData,
-                authType:state.authType,
-                AuthTypeUserOrCenter,
                 signIn,
                 signOut,
                 checkAuthenticated,

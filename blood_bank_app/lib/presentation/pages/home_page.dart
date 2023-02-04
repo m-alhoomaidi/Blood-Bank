@@ -1,12 +1,13 @@
 import 'package:blood_bank_app/core/app_constants.dart';
 import 'package:blood_bank_app/domain/entities/donor.dart';
+import 'package:blood_bank_app/domain/usecases/send_notfication_.dart';
 import 'package:blood_bank_app/main.dart';
 import 'package:blood_bank_app/presentation/cubit/send_notfication/send_notfication_cubit.dart';
 import 'package:blood_bank_app/presentation/methode/shared_method.dart';
 import 'package:blood_bank_app/presentation/pages/notfication_page.dart';
-import 'package:blood_bank_app/presentation/pages/update_loc&show_notfication.dart';
 import 'package:blood_bank_app/presentation/resources/color_manageer.dart';
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
+import 'package:blood_bank_app/presentation/resources/strings_manager.dart';
 import 'package:blood_bank_app/presentation/resources/values_manager.dart';
 import 'package:blood_bank_app/presentation/widgets/home/home_carousel/home_carousel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,7 @@ import 'package:hive/hive.dart';
 
 import '../widgets/home/home_about.dart';
 import '../widgets/home/home_drawer/home_drawer.dart';
+import '../../dependency_injection.dart' as di;
 //-------------
 
 import 'package:http/http.dart' as http;
@@ -52,9 +54,10 @@ class _HomePageState extends State<HomePage> {
   initialMessageing() async {
     var message = await FirebaseMessaging.instance.getInitialMessage();
     if (message != null) {
-      Navigator.of(context).push(
+      Navigator.push(
+        context,
         MaterialPageRoute(
-          builder: ((context) => UpdateLocNotFicationPage(
+          builder: ((context) => NotFicationPage(
               remoteMessage: message.notification!,
               dateTime: message.sentTime!)),
         ),
@@ -261,29 +264,28 @@ class _HomePageState extends State<HomePage> {
               centerTitle: true,
               elevation: AppSize.s0,
               leadingWidth: 90,
-
+              // leading: Builder(
+              //   builder: (BuildContext context) {
+              //     return IconButton(
+              //       icon: const Icon(
+              //         Icons.menu,
+              //         // color: Colors.red,
+              //         size: 28, // Changing Drawer Icon Size
+              //       ),
+              //       onPressed: () {
+              //         Scaffold.of(context).openDrawer();
+              //       },
+              //       tooltip:
+              //           MaterialLocalizations.of(context).openAppDrawerTooltip,
+              //     );
+              //   },
+              // ),
               actions: [
-                Stack(
-                  children: [
-                    IconButton(
-                      onPressed: () async {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => NotFicationPage())));
-                      },
-                      icon: const Icon(
-                        Icons.notifications,
-                      ),
-                    ),
-                    const Positioned(
-                      // draw a red marble
-                      top: 8.0,
-                      right: 10.0,
-                      child: Icon(Icons.brightness_1,
-                          size: 8.0, color: Colors.redAccent),
-                    )
-                  ],
+                IconButton(
+                  onPressed: () async {},
+                  icon: const Icon(
+                    Icons.notifications,
+                  ),
                 ),
                 const SizedBox(width: 20),
               ],

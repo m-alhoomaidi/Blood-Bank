@@ -169,13 +169,13 @@ export const theme = createTheme({
     },
     divider: "#E6E8F0",
     primary: {
-      main: "#e22c34",
+      main: "#3b3970",
       light: "#828DF8",
       dark: "#3832A0",
       contrastText: "#FFFFFF",
     },
     secondary: {
-      main: "#5048E5",
+      main: "#f2494c",
       light: "#3FC79A",
       dark: "#0B815A",
       contrastText: "#FFFFFF",

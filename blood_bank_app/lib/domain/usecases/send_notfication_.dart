@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:blood_bank_app/domain/entities/notfication_data.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:blood_bank_app/core/error/failures.dart';
@@ -16,4 +15,15 @@ class SendNotficationUseCase {
     return sendNotificationRepository.senNotficationToGroup(
         sendNotificationData: sendNotficationData);
   }
+}
+
+class SendNotificationData {
+  List<String> listToken;
+  String title;
+  String body;
+  SendNotificationData({
+    required this.listToken,
+    required this.title,
+    required this.body,
+  });
 }

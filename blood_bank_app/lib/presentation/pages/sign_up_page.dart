@@ -310,10 +310,7 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               Text(
                 AppStrings.signUpFirstStepMotivationPhrase,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: ColorManager.lightSecondary),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(height: AppSize.s40),
               Container(

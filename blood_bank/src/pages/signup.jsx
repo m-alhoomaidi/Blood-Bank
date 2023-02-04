@@ -1,43 +1,89 @@
 import React, { useEffect } from "react";
-import { Autocomplete, Box, Button, CardContent, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  CardContent,
+  TextField,
+} from "@mui/material";
 import { Field, Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Grid from "@mui/material/Grid";
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
 import { useForm, FormProvider } from "react-hook-form";
 import LottieApp from "../Components/lottie";
-import { HEALTH_LOTTIE } from "../constant/media";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import {doc, setDoc } from "firebase/firestore";
-import {db, messaging} from "../utils/firebase";
-import {AlertSnackBar} from "../Components/common/alert-snackbar";
+import { HEALTH_LOTTIE, SETTINGS } from "../constant/media";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { db, messaging } from "../utils/firebase";
+import { AlertSnackBar } from "../Components/common/alert-snackbar";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
 import Countryes from "../Local/Data.json";
 import { getMessaging, getToken } from "firebase/messaging";
-import { app } from '../utils/firebase'
-const bloodTypes = [
-   'A+' ,
-   'B+' ,
-   'AB+' ,
-   'O+' ,
-   'A-' ,
-   'B-' ,
-   'AB-',
-   'O-' ,
-];
-const data=JSON.parse(JSON.stringify(Countryes));
+import { app } from "../utils/firebase";
+const bloodTypes = ["A+", "B+", "AB+", "O+", "A-", "B-", "AB-", "O-"];
+const data = JSON.parse(JSON.stringify(Countryes));
 const Try = (props) => {
-  const [city,setCity]=useState(data?.map((item)=>{
-    return{
-      id:item?.id,
-      name:item?.name
+  const [city, setCity] = useState(
+    data?.map((item) => {
+      return {
+        id: item?.id,
+        name: item?.name,
+      };
+    })
+  );
+  const [governer, setGoverner] = useState(data[0]?.city);
+  const handleChangeGovernorate = (newVal) => {
+    const id = newVal?.id;
+    console.log(id);
+    if (id) {
+      const cityData = data?.filter((item) => item?.id == id)[0]?.city;
+      setGoverner(cityData);
     }
+<<<<<<< HEAD
+  };
+  const [FCMToken, setFCMToken] = useState("");
+  let messaging = async () => {
+    return await getMessaging();
+  };
+
+  // useEffect(() => {
+  //   console.log("hieffect");
+  //     requestForToken();
+  // }, [])
+
+  const requestForToken = async () => {
+    console.log("hi");
+    try {
+      const currentToken = await getToken(await messaging(), {
+        vapidKey:
+          "BKwsPLK4i41_RA0Gy81vw5ZhLYzGXXoCBaHCWt1pMBqbDN_fSNnhjMpsQeEYc3EmDDMAqyPfefNhtPhj20q1vpU",
+      });
+      if (currentToken) {
+        setFCMToken(currentToken);
+        console.log("current token for client: ", currentToken);
+        return currentToken;
+      } else {
+        // Show permission request UI
+        console.log(
+          "No registration token available. Request permission to generate one."
+        );
+      }
+    } catch (err) {
+      console.log("An error occurred while retrieving token. ", err);
+    }
+  };
+=======
   }))
 const [governer,setGoverner]= useState(data[0]?.city)
 const handleChangeGovernorate =(newVal)=>{
@@ -67,45 +113,79 @@ async function requestPermissions (){
     requestPermissions();
 
   },[]);
+>>>>>>> 7063da1bdb51d8e3294a11ec65e9c79b48841736
   const phoneRegExp = /7(1|7|3|8|0)([0-9]){7}/;
   // const [bloodtype,setBloodtype]= useState("");
   // const [citiess,setCitiess]= useState("");
   // const [governerss,setGoverners]= useState("");
   const [showTost, setShowTost] = useState(false);
   const [tost, setTost] = useState({
-      tostMsg: " البريد الإلكتروني موجود مسبقًا",
-      tostType: "error",
+    tostMsg: " البريد الإلكتروني موجود مسبقًا",
+    tostType: "error",
   });
   const navigate = useNavigate();
   return (
     <CardContent>
       <Formik
         initialValues={{
-          name: '', email: '', phone: '', password: '',
-          bloodType:'',cities:'',governer:'', address: '',
+          name: "",
+          email: "",
+          phone: "",
+          password: "",
+          bloodType: "",
+          cities: "",
+          governer: "",
+          address: "",
         }}
         validationSchema={Yup.object().shape({
           name: Yup.string().max(255).required("مطلوب إدخال اسم"),
           email: Yup.string().email().required("مطلوب إدخال ايميل"),
           // phone: Yup.string().max(9).matches(phoneRegExp, "مطلوب إدخال رقم هاتف"),
-          phone: Yup.string().max(9).min(9).matches(phoneRegExp, "مطلوب إدخال رقم هاتف").required("مطلوب إدخال رقم هاتف"),
+          phone: Yup.string()
+            .max(9)
+            .min(9)
+            .matches(phoneRegExp, "مطلوب إدخال رقم هاتف")
+            .required("مطلوب إدخال رقم هاتف"),
           //phone: Yup.string().required( "مطلوب إدخال رقم هاتف"),
           password: Yup.string().min(6).required("مطلوب  إدخال كلمة سر"),
           bloodType: Yup.string().required("اختر فصيلة دم"),
           cities: Yup.object().required("اختر مدينتك الحالية"),
           governer: Yup.object().required("اختر مديريتك الحالية"),
           address: Yup.string().required("ادخل عنوانك"),
-        })
-        }
-        onSubmit={(values, { setSubmitting }) => {  
-            setSubmitting(false);
-            const auth = getAuth();
-            createUserWithEmailAndPassword(auth,values.email,values.password)
-            .then((userCredential)=>{
-              localStorage.setItem("uid",auth?.currentUser?.uid);
+        })}
+        onSubmit={(values, { setSubmitting }) => {
+          setSubmitting(false);
+          const auth = getAuth();
+          createUserWithEmailAndPassword(auth, values.email, values.password)
+            .then((userCredential) => {
+              localStorage.setItem("uid", auth?.currentUser?.uid);
               const uid = userCredential.user.uid;
              
               setDoc(doc(db, "donors", uid), {
+<<<<<<< HEAD
+                name: values.name,
+                email: values.email,
+                phone: values.phone,
+                blood_type: values.bloodType,
+                state: values.cities.name,
+                district: values.governer.name,
+                neighborhood: values.address,
+                lon: "",
+                lat: "",
+                is_shown_phone: "1",
+                is_shown: "1",
+                is_gps_on: "1",
+                image: "",
+                token: FCMToken,
+                status: "ACTIVE",
+              });
+              navigate("/");
+            })
+            .catch((error) => {
+              if (
+                error.message === "Firebase: Error (auth/email-already-in-use)."
+              ) {
+=======
                  name: values.name,
                  email:values.email,
                  phone:values.phone,
@@ -126,11 +206,11 @@ async function requestPermissions (){
             }).catch((error) => {
               if(error.message === "Firebase: Error (auth/email-already-in-use).")
                {
+>>>>>>> 7063da1bdb51d8e3294a11ec65e9c79b48841736
                 console.log(error.message);
                 setShowTost(true);
-               
-               }
-            })
+              }
+            });
         }}
       >
         {({
@@ -142,7 +222,7 @@ async function requestPermissions (){
           handleSubmit,
           isSubmitting,
           validateField,
-          setFieldValue
+          setFieldValue,
           /* and other goodies */
         }) => (
           <Form onSubmit={handleSubmit}>
@@ -162,7 +242,7 @@ async function requestPermissions (){
                   onBlur={handleBlur}
                   value={values.name}
                   component={TextField}
-                  error={Boolean (touched.name && errors.name )}
+                  error={Boolean(touched.name && errors.name)}
                   helperText={errors.name && errors.name}
                   margin="normal"
                   autoFocus
@@ -222,7 +302,7 @@ async function requestPermissions (){
                     color: "blue",
                   }}
                 >
-                    تسجيل الدخول كبنك دم
+                  تسجيل الدخول كبنك دم
                 </Link>
               </Box>
               <Box>
@@ -238,15 +318,19 @@ async function requestPermissions (){
                   value={values.bloodType}
                   // disableCloseOnSelect
                   // disableClearable
-                   variant="outlined"
-                  renderInput={(params) => <TextField
-                    {...params} label="فصيلة دمك ؟"
-                     error={errors.bloodType ? true : false}
-                     helperText={errors.bloodType && errors.bloodType}
-                     
-                  />}
+                  variant="outlined"
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="فصيلة دمك ؟"
+                      error={errors.bloodType ? true : false}
+                      helperText={errors.bloodType && errors.bloodType}
+                    />
+                  )}
                   //value={bloodtype}
-                  onChange={(event,newBloodtype)=> setFieldValue("bloodType",newBloodtype) }
+                  onChange={(event, newBloodtype) =>
+                    setFieldValue("bloodType", newBloodtype)
+                  }
                 />
                 <Autocomplete
                   id="cities"
@@ -256,20 +340,23 @@ async function requestPermissions (){
                     marginBottom: "15px",
                   }}
                   options={city}
-                  getOptionLabel={(option)=>option?.name}
+                  getOptionLabel={(option) => option?.name}
                   value={values.cities}
                   // disableCloseOnSelect
                   // disableClearable
-                  onChange={(event,newVal)=>{ 
-                    setFieldValue("cities",newVal)
-                    handleChangeGovernorate(newVal)
-                }}
+                  onChange={(event, newVal) => {
+                    setFieldValue("cities", newVal);
+                    handleChangeGovernorate(newVal);
+                  }}
                   variant="outlined"
-                  renderInput={(params) => <TextField
-                    {...params} label="المحافظة"
-                     error={errors.cities ? true : false}
-                     helperText={errors.cities && errors.cities}
-                  />}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="المحافظة"
+                      error={errors.cities ? true : false}
+                      helperText={errors.cities && errors.cities}
+                    />
+                  )}
                   // value={citiess}
                   // onChange={(event,newCitiess)=> setFieldValue("cities",newCitiess)}
                 />
@@ -278,19 +365,22 @@ async function requestPermissions (){
                   name="governer"
                   margin="normal"
                   options={governer}
-                  onChange={(event,newVal)=> {
-                    setFieldValue("governer",newVal) 
+                  onChange={(event, newVal) => {
+                    setFieldValue("governer", newVal);
                   }}
-                  getOptionLabel={(option)=>option?.name}
+                  getOptionLabel={(option) => option?.name}
                   value={values.governer}
                   // disableCloseOnSelect
                   // disableClearable
-                   variant="outlined"
-                  renderInput={(params) => <TextField
-                    {...params} label="المديرية"
-                     error={errors.governer ? true : false}
-                     helperText={errors.governer && errors.governer}
-                  />}
+                  variant="outlined"
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="المديرية"
+                      error={errors.governer ? true : false}
+                      helperText={errors.governer && errors.governer}
+                    />
+                  )}
                   //value={governerss}
                   // onChange={(event,newGoverners)=> setFieldValue("governer",newGoverners) }
                 />
@@ -319,7 +409,7 @@ async function requestPermissions (){
         handleClose={() => setShowTost(false)}
         message={tost.tostMsg}
         type={tost.tostType}
-        />
+      />
     </CardContent>
   );
 };
@@ -327,26 +417,26 @@ const FormSteps = (props) => {
   const childernArr = React.Children.toArray(props.children);
   const [step, setStep] = useState(1);
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = ["حسابك", "بياناتك",];
-  const name = childernArr[step - 1].props.children.map((item) => item.props.name);
+  const steps = ["حسابك", "بياناتك"];
+  const name = childernArr[step - 1].props.children.map(
+    (item) => item.props.name
+  );
   const goBack = () => {
-    setStep(step - 1)
-  }
+    setStep(step - 1);
+  };
   const goNext = () => {
-     for(var a=0;a<name.length;a++){
-      if(props.errors[name[a]])
-      {
+    for (var a = 0; a < name.length; a++) {
+      if (props.errors[name[a]]) {
         props.validateField(name);
         return;
       }
-     }
-      setStep(step + 1);
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-  }
+    }
+    setStep(step + 1);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
   return (
     <>
-      <Grid container component="main" sx={{ height: "60vh", dir: "ltr",marginTop:"20px" }}>
+      <Grid container component="main" sx={{ dir: "ltr", marginTop: "20px" }}>
         <Grid item xs={12} md={6}>
           <Box
             sx={{
@@ -356,7 +446,7 @@ const FormSteps = (props) => {
               height: "100%",
             }}
           >
-            <LottieApp animationpath={HEALTH_LOTTIE} />
+            <LottieApp animationpath={SETTINGS} />
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -379,36 +469,38 @@ const FormSteps = (props) => {
                 width: { xs: "90%", md: "70%" },
               }}
             >
-              <Stepper activeStep={activeStep}
+              <Stepper
+                activeStep={activeStep}
                 sx={{
-                  '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-active ':
-                  {
-                    color: "red",
-                  },
-                  '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed': {
-                    color: "green",
-                  },
+                  "& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-active ":
+                    {
+                      color: "red",
+                    },
+                  "& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed":
+                    {
+                      color: "green",
+                    },
                 }}
               >
                 {steps.map((label, index) => {
                   const stepProps = {};
                   const labelProps = {};
                   return (
-                    <Step key={label} {...stepProps} sx={{mb:"20px",}}>
+                    <Step key={label} {...stepProps} sx={{ mb: "20px" }}>
                       <StepLabel
                         {...labelProps}
                         sx={{
-                          '& .css-1gdzht-MuiStepLabel-label':
-                          {
+                          "& .css-1gdzht-MuiStepLabel-label": {
                             mr: "9px",
                           },
-                          '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-active ':
-                          {
-                            color: "red",
-                          },
-                          '& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed': {
-                            color: "green",
-                          },
+                          "& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-active ":
+                            {
+                              color: "red",
+                            },
+                          "& .css-gz0zcn-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed":
+                            {
+                              color: "green",
+                            },
                         }}
                       >
                         {label}
@@ -419,89 +511,86 @@ const FormSteps = (props) => {
               </Stepper>
               <Box>
                 <FormProvider>
-                 
-                    {childernArr[step - 1]}
-                    <React.Fragment>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          pt: 2,
-                        }}
-                      >
-                        {step > 1 && (
-                          <Button
-                            onClick={goBack}
-                            disabled={props.isSubmitting}
-                            variant="contained"
-                            sx={{
-                              mr: 1,
-                              mt: 3,
-                              mb: 2,
-                              bgcolor: "#e22c34",
-                              color: "white",
-                              borderRadius: "10px",
-                              "&:hover": {
-                                backgroundColor: "red",
-                                textDecoration: "none",
-                              },
-                            }}
-                          >
-                            <ArrowForwardIcon />
-                            السابق
-                          </Button>
-                        )}
-                        {step < childernArr.length && (
-                          <Button
-                            onClick={goNext}
-                            disabled={props.isSubmitting}
-                            variant="contained"
-                            sx={{
-                              mr: 1,
-                              mt: 3,
-                              mb: 2,
-                              bgcolor: "#e22c34",
-                              color: "white",
-                              borderRadius: "10px",
-                              "&:hover": {
-                                backgroundColor: "red",
-                                textDecoration: "none",
-                              },
-                            }}
-                          >
-                            <ArrowBackIcon />
-                            التالي
-                          </Button>
-                        )}
+                  {childernArr[step - 1]}
+                  <React.Fragment>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        pt: 2,
+                      }}
+                    >
+                      {step > 1 && (
+                        <Button
+                          onClick={goBack}
+                          disabled={props.isSubmitting}
+                          variant="contained"
+                          sx={{
+                            mr: 1,
+                            mt: 3,
+                            mb: 2,
+                            bgcolor: "#e22c34",
+                            color: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "red",
+                              textDecoration: "none",
+                            },
+                          }}
+                        >
+                          <ArrowForwardIcon />
+                          السابق
+                        </Button>
+                      )}
+                      {step < childernArr.length && (
+                        <Button
+                          onClick={goNext}
+                          disabled={props.isSubmitting}
+                          variant="contained"
+                          sx={{
+                            mr: 1,
+                            mt: 3,
+                            mb: 2,
+                            bgcolor: "#e22c34",
+                            color: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "red",
+                              textDecoration: "none",
+                            },
+                          }}
+                        >
+                          <ArrowBackIcon />
+                          التالي
+                        </Button>
+                      )}
                       <Box sx={{ flex: "1 1 auto" }} />
-                        {step === childernArr.length && (
-                          <Button
-                            type="submit"
-                            onClick={props.handleSubmit}
-                            disabled={props.isSubmitting}
-                            variant="contained"
-                            sx={{
-                              mr: 1,
-                              mt: 3,
-                              mb: 2,
-                              bgcolor: "#e22c34",
-                              color: "white",
-                              borderRadius: "10px",
-                              "&:hover": {
-                                backgroundColor: "red",
-                                textDecoration: "none",
-                              },
-                            }}
-                          >
-                            تسجيل
-                          </Button>
-                        )}
-                      </Box>
-                    </React.Fragment>
-                 
+                      {step === childernArr.length && (
+                        <Button
+                          type="submit"
+                          onClick={props.handleSubmit}
+                          disabled={props.isSubmitting}
+                          variant="contained"
+                          sx={{
+                            mr: 1,
+                            mt: 3,
+                            mb: 2,
+                            bgcolor: "#e22c34",
+                            color: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "red",
+                              textDecoration: "none",
+                            },
+                          }}
+                        >
+                          تسجيل
+                        </Button>
+                      )}
+                    </Box>
+                  </React.Fragment>
                 </FormProvider>
               </Box>
-
             </Box>
           </Box>
         </Grid>
