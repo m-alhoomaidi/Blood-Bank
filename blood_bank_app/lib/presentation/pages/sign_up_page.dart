@@ -145,39 +145,36 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar(
         title: const Text(AppStrings.signUpAppBarTitle),
       ),
-      body: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
-        child: BlocConsumer<SignUpCubit, SignupState>(
-          listener: (context, state) {
-            if (state is SignUpSuccess) {
-              Utils.showSuccessSnackBar(
-                  context: context, msg: AppStrings.signUpSuccessMessage);
-              Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-            } else if (state is SignUpFailure) {
-              Utils.showFalureSnackBar(context: context, msg: state.error);
-            }
-          },
-          builder: (context, state) {
-            return ModalProgressHUD(
-              inAsyncCall: (state is SignupLoading),
-              child: my_stepper.Stepper(
-                svgPictureAsset: ImageAssets.bloodDrop,
-                iconColor: Theme.of(context).primaryColor,
-                elevation: AppSize.s0,
-                type: my_stepper.StepperType.horizontal,
-                currentStep: _activeStepIndex,
-                steps: stepList(),
-                onStepContinue: _onStepContinue,
-                onStepCancel: _onStepCancel,
-                onStepTapped: _onStepTapped,
-                controlsBuilder: (BuildContext context,
-                    my_stepper.ControlsDetails controls) {
-                  return buildNavigationButtons(context, controls);
-                },
-              ),
-            );
-          },
-        ),
+      body: BlocConsumer<SignUpCubit, SignupState>(
+        listener: (context, state) {
+          if (state is SignUpSuccess) {
+            Utils.showSuccessSnackBar(
+                context: context, msg: AppStrings.signUpSuccessMessage);
+            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+          } else if (state is SignUpFailure) {
+            Utils.showFalureSnackBar(context: context, msg: state.error);
+          }
+        },
+        builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: (state is SignupLoading),
+            child: my_stepper.Stepper(
+              svgPictureAsset: ImageAssets.bloodDrop,
+              iconColor: Theme.of(context).primaryColor,
+              elevation: AppSize.s0,
+              type: my_stepper.StepperType.horizontal,
+              currentStep: _activeStepIndex,
+              steps: stepList(),
+              onStepContinue: _onStepContinue,
+              onStepCancel: _onStepCancel,
+              onStepTapped: _onStepTapped,
+              controlsBuilder:
+                  (BuildContext context, my_stepper.ControlsDetails controls) {
+                return buildNavigationButtons(context, controls);
+              },
+            ),
+          );
+        },
       ),
     );
   }
@@ -200,19 +197,25 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: AppSize.s140,
                     child: MyButton(
                       title: AppStrings.signUpPreviousButton,
-                      titleStyle: const TextStyle(
+                      // color: Theme.of(context).primaryColor,
+                      titleStyle: TextStyle(
+                        color: Theme.of(context).primaryColor,
                         fontSize: FontSize.s14,
-                        color: ColorManager.secondary,
                         fontFamily: FontConstants.fontFamily,
                       ),
-                      onPressed: _validateForm,
+                      // titleStyle: const TextStyle(
+                      //   fontSize: FontSize.s14,
+                      //   color: ColorManager.secondary,
+                      //   fontFamily: FontConstants.fontFamily,
+                      // ),
+                      onPressed: controls.onStepCancel!,
                       color: ColorManager.grey1,
                       icon: const Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Icon(
-                          Icons.arrow_back,
-                          color: ColorManager.secondary,
-                          size: AppSize.s30,
+                          Icons.arrow_back_rounded,
+                          color: ColorManager.primary,
+                          size: AppSize.s24,
                         ),
                       ),
                       isPrefexIcon: true,
@@ -224,7 +227,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: (isLastStep())
                       ? MyButton(
                           title: AppStrings.signUpCreateButton,
-                          color: ColorManager.success,
+                          color: ColorManager.secondary,
                           titleStyle: Theme.of(context).textTheme.titleLarge,
                           icon: const Padding(
                             padding: EdgeInsets.only(right: 10.0),
@@ -238,14 +241,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         )
                       : MyButton(
                           title: AppStrings.signUpNextButton,
+                          color: Theme.of(context).primaryColor,
+                          titleStyle: Theme.of(context).textTheme.titleLarge,
                           onPressed: _validateForm,
-                          color: Theme.of(context).colorScheme.secondary,
                           icon: const Padding(
                             padding: EdgeInsets.only(right: 10.0),
                             child: Icon(
-                              Icons.arrow_forward,
+                              Icons.arrow_forward_rounded,
                               color: ColorManager.white,
-                              size: AppSize.s30,
+                              size: AppSize.s24,
                             ),
                           ),
                         ),
@@ -261,10 +265,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     onPressed: _moveToSignUpAsCenter,
                     child: Text(
                       AppStrings.signUpAsCenterLink,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: ColorManager.link),
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                            color: ColorManager.link,
+                          ),
+                      // style: Theme.of(context)
+                      //     .textTheme
+                      //     .titleMedium!
+                      //     .copyWith(color: ColorManager.link),
                     ),
                   ),
                 )
@@ -312,7 +319,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: AppStrings.signUpEmailHint,
                   controller: emailController,
                   blurrBorderColor: ColorManager.lightGrey,
-                  focusBorderColor: ColorManager.secondary,
+                  focusBorderColor: ColorManager.lightSecondary,
                   fillColor: ColorManager.white,
                   validator: _emailValidator,
                   icon: const Icon(Icons.email),
@@ -327,7 +334,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: passwordController,
                   isPassword: isPasswordHidden,
                   blurrBorderColor: ColorManager.lightGrey,
-                  focusBorderColor: ColorManager.secondary,
+                  focusBorderColor: ColorManager.lightSecondary,
                   fillColor: ColorManager.white,
                   validator: _passwordValidator,
                   icon: IconButton(
@@ -369,7 +376,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: AppStrings.signUpNameHint,
                   controller: nameController,
                   blurrBorderColor: ColorManager.lightGrey,
-                  focusBorderColor: ColorManager.secondary,
+                  focusBorderColor: ColorManager.lightSecondary,
                   fillColor: ColorManager.white,
                   validator: _nameValidator,
                   icon: const Icon(Icons.person),
@@ -382,7 +389,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: AppStrings.signUpPhoneHint,
                   controller: phoneController,
                   blurrBorderColor: ColorManager.lightGrey,
-                  focusBorderColor: ColorManager.secondary,
+                  focusBorderColor: ColorManager.lightSecondary,
                   fillColor: ColorManager.white,
                   validator: _phoneNumberValidator,
                   icon: const Icon(Icons.phone_android),
@@ -399,7 +406,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hintColor: eTextColor,
                   items: BloodTypes.bloodTypes,
                   blurrBorderColor: ColorManager.lightGrey,
-                  focusBorderColor: ColorManager.secondary,
+                  focusBorderColor: ColorManager.lightSecondary,
                   fillColor: ColorManager.white,
                   icon: const Icon(Icons.bloodtype_outlined),
                   onChange: (value) => setState(() => bloodType = value!),
@@ -480,7 +487,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   hint: AppStrings.signUpNeighborhoodHint,
                   controller: neighborhoodController,
                   blurrBorderColor: ColorManager.lightGrey,
-                  focusBorderColor: ColorManager.secondary,
+                  focusBorderColor: ColorManager.lightSecondary,
                   fillColor: ColorManager.white,
                   icon: const Icon(Icons.my_location_outlined),
                   validator: _neighborhoodValidator,
@@ -569,14 +576,12 @@ class _SignUpPageState extends State<SignUpPage> {
     if (_activeStepIndex == 2 && districtController.text == "") {
       Fluttertoast.showToast(msg: AppStrings.signUpStateCityValidator);
     } else {
-      if (stepIndex != null) {
-        if (stepIndex < _activeStepIndex) {
-          setState(() => _activeStepIndex = stepIndex);
+      if (formData!.validate()) {
+        formData.save();
+        if (stepIndex == null) {
+          setState(() => _activeStepIndex++);
         } else {
-          if (formData!.validate()) {
-            formData.save();
-            setState(() => _activeStepIndex = stepIndex);
-          }
+          setState(() => _activeStepIndex = stepIndex);
         }
       }
     }
@@ -596,7 +601,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void _onStepContinue() {
     if (_activeStepIndex < (stepList().length - 1)) {
       setState(() {
-        _activeStepIndex += 1;
+        _activeStepIndex++;
       });
     }
   }

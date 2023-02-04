@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:blood_bank_app/core/check_active.dart';
+import 'package:blood_bank_app/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/error/failures.dart';
 import '../../../domain/usecases/reset_password_use_case.dart';
@@ -31,12 +34,13 @@ class SignInCubit extends Cubit<SignInState> {
           (failure) => emit(SigninFailure(error: getFailureMessage(failure))),
           (userCredential) async {
             await updateToken(userCredential.user!.uid);
+            await CheckActive.checkActiveUser();
             emit(SignInSuccess());
           },
         );
       });
     } catch (e) {
-      //  emit(SigninFailure(error:"تحقق من صحة بريدك الالكتروني"));
+      emit(SigninFailure(error: e.toString()));
     }
   }
 

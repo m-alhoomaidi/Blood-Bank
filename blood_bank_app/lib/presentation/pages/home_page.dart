@@ -287,9 +287,7 @@ class _HomePageState extends State<HomePage> {
                     Icons.notifications,
                   ),
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                const SizedBox(width: 20),
               ],
             ),
             backgroundColor: ColorManager.white,

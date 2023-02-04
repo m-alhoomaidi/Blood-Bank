@@ -15,6 +15,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("search refresh");
     return Scaffold(
       appBar: AppBar(
         title: const Text('البحث عن دم'),
@@ -22,43 +23,40 @@ class SearchPage extends StatelessWidget {
         // foregroundColor: ColorManager.primary,
         elevation: 0,
       ),
-      body: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
-        child: BlocConsumer<MapsCubit, MapsState>(
-          listener: (context, state) {
-            if (state is MapsSuccess) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SearchMapPage(),
-                ),
-              );
-            }
-          },
-          builder: (context, state) => ModalProgressHUD(
-            inAsyncCall: (state is MapsLoading),
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 150,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.only(
-                        // topLeft: Radius.circular(30),
-                        // topRight: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
+      body: BlocConsumer<MapsCubit, MapsState>(
+        listener: (context, state) {
+          if (state is MapsSuccess) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SearchMapPage(),
+              ),
+            );
+          }
+        },
+        builder: (context, state) => ModalProgressHUD(
+          inAsyncCall: (state is MapsLoading),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 150,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: const BorderRadius.only(
+                      // topLeft: Radius.circular(30),
+                      // topRight: Radius.circular(30),
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
                     ),
-                    child: SearchOptions(),
                   ),
+                  child: SearchOptions(),
                 ),
-                const Expanded(
-                  child: SearchResult(),
-                ),
-              ],
-            ),
+              ),
+              const Expanded(
+                child: SearchResult(),
+              ),
+            ],
           ),
         ),
       ),

@@ -4,6 +4,7 @@ class MyTextFormField extends StatelessWidget {
   const MyTextFormField(
       {Key? key,
       this.hint,
+      this.style,
       this.icon,
       this.keyBoardType = TextInputType.text,
       this.onChange,
@@ -22,6 +23,7 @@ class MyTextFormField extends StatelessWidget {
       : super(key: key);
 
   final TextInputType keyBoardType;
+  final TextStyle? style;
   final String? hint;
   final ValueChanged<String>? onChange;
   final FormFieldValidator<String>? validator;
@@ -50,6 +52,7 @@ class MyTextFormField extends StatelessWidget {
       keyboardType: keyBoardType,
       textAlign: TextAlign.center,
       readOnly: readOnly,
+      style: style,
       decoration: InputDecoration(
         prefixIcon: suffixIcon
             ? null

@@ -8,9 +8,9 @@ class ColorManager {
       Color(0xfff2494c);
   static const Color lightPrimary = Color.fromARGB(255, 255, 150, 150);
   static const Color darkPrimary = Color.fromARGB(255, 100, 0, 0);
-  static const Color secondary = Color.fromARGB(255, 0, 160, 160);
-  static const Color lightSecondary = Color.fromARGB(255, 0, 220, 220);
-  static const Color darkSecondary = Color.fromARGB(255, 0, 100, 100);
+  static const Color secondary = Color(0xff2A3990);
+  static const Color lightSecondary = Color.fromARGB(255, 120, 140, 255);
+  static const Color darkSecondary = Color(0xff050590);
 
   // Other Colors
 

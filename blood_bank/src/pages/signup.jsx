@@ -50,6 +50,7 @@ const Try = (props) => {
       const cityData = data?.filter((item) => item?.id == id)[0]?.city;
       setGoverner(cityData);
     }
+<<<<<<< HEAD
   };
   const [FCMToken, setFCMToken] = useState("");
   let messaging = async () => {
@@ -82,6 +83,37 @@ const Try = (props) => {
       console.log("An error occurred while retrieving token. ", err);
     }
   };
+=======
+  }))
+const [governer,setGoverner]= useState(data[0]?.city)
+const handleChangeGovernorate =(newVal)=>{
+  const id=newVal?.id
+  console.log(id);
+  if(id){
+    const cityData=data?.filter((item)=>item?.id==id)[0]?.city
+    setGoverner(cityData)
+  }
+};
+async function requestPermissions (){
+  await Notification.requestPermission().then((permission)=>{
+    if(permission === 'granted'){
+      getToken(messaging,{vapidKey:'BBn3zGcKMynrgirvOIsFXTHoTHKNW-iX3FWefaw9zUVbRygfIzYSQqHqJabWsNcg5v-oYG2E1tDBsh42WR7RNzQ'}).then((token)=>{
+      console.log(token);
+      });
+    } else if(permission === 'denied') 
+    {
+     alert("rrrrrrrrrrrrr")
+ 
+    }
+   
+
+   });
+  }
+  useEffect(()=>{
+    requestPermissions();
+
+  },[]);
+>>>>>>> 7063da1bdb51d8e3294a11ec65e9c79b48841736
   const phoneRegExp = /7(1|7|3|8|0)([0-9]){7}/;
   // const [bloodtype,setBloodtype]= useState("");
   // const [citiess,setCitiess]= useState("");
@@ -128,8 +160,9 @@ const Try = (props) => {
             .then((userCredential) => {
               localStorage.setItem("uid", auth?.currentUser?.uid);
               const uid = userCredential.user.uid;
-              requestForToken();
+             
               setDoc(doc(db, "donors", uid), {
+<<<<<<< HEAD
                 name: values.name,
                 email: values.email,
                 phone: values.phone,
@@ -152,6 +185,28 @@ const Try = (props) => {
               if (
                 error.message === "Firebase: Error (auth/email-already-in-use)."
               ) {
+=======
+                 name: values.name,
+                 email:values.email,
+                 phone:values.phone,
+                 blood_type:values.bloodType,
+                 state:values.cities.name,
+                 district:values.governer.name,
+                 neighborhood:values.address,
+                 lon:"",
+                 lat:"",
+                 is_shown_phone:"1",
+                 is_shown:"1",
+                 is_gps_on:"1",
+                 image:"",
+                 token:"",
+                 status:'ACTIVE',
+                });
+                navigate("/");
+            }).catch((error) => {
+              if(error.message === "Firebase: Error (auth/email-already-in-use).")
+               {
+>>>>>>> 7063da1bdb51d8e3294a11ec65e9c79b48841736
                 console.log(error.message);
                 setShowTost(true);
               }

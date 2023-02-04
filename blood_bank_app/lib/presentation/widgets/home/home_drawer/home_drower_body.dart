@@ -58,10 +58,12 @@ class HomeDrawerBody extends StatelessWidget {
                   );
                 },
               ),
+
               HomeDrawerMenuItem(
                 title: AppStrings.homeDrawerSettings,
                 icon: Icons.settings_outlined,
                 onTap: () {
+                  print("++++++++++++++++++");
                   BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
                   if (FirebaseAuth.instance.currentUser != null) {
                     Navigator.of(context).pop();
@@ -86,6 +88,7 @@ class HomeDrawerBody extends StatelessWidget {
                   }
                 },
               ),
+
               HomeDrawerMenuItem(
                 title: AppStrings.homeDrawerUpdateBloodBank,
                 icon: Icons.sync,

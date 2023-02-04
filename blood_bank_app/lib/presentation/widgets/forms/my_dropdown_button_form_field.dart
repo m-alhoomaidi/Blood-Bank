@@ -12,12 +12,14 @@ class MyDropdownButtonFormField extends StatelessWidget {
     this.blurrBorderColor = Colors.blue,
     this.hintColor = Colors.black87,
     this.fillColor,
+    this.style,
     this.raduis = 10,
     this.validator,
   }) : super(key: key);
 
   final String hint;
   final String? value;
+  final TextStyle? style;
   final Icon icon;
   final Color focusBorderColor, blurrBorderColor, hintColor;
   final Color? fillColor;
@@ -36,6 +38,7 @@ class MyDropdownButtonFormField extends StatelessWidget {
           color: hintColor,
         ),
       ),
+      style: style,
       value: value,
       items: items
           .map(

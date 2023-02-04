@@ -1,4 +1,5 @@
 import 'package:blood_bank_app/presentation/resources/constatns.dart';
+import 'package:blood_bank_app/presentation/widgets/common/dialog_lottie.dart';
 
 import '../cubit/profile_cubit/profile_cubit.dart';
 import '../resources/assets_manager.dart';
@@ -178,12 +179,10 @@ class _SettingPageState extends State<SettingPage> {
                   const Padding(
                     padding: EdgeInsets.only(bottom: AppPadding.p10),
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () {
-                      // _showSelectPhotoOptions(context);
-                      // BlocProvider.of<ProfileCubit>(context).getDataToProfilePage();
-
-                      // putDataTodataProfileTable();
+                      print("+++++++++++++++++++++000000000");
+                      _showSelectPhotoOptions(context);
                     },
                     child: DisplayImage(
                       imagePath: _image ?? ImageAssets.ProfileImage,
@@ -196,7 +195,7 @@ class _SettingPageState extends State<SettingPage> {
                   if (state is ProfileGetData) ProfileBody(donor: state.donors),
                   if (state is ProfileFailure)
                     const Center(
-                      child: CircularProgressIndicator(),
+                      child: MyLottie(),
                     ),
 
                   // (state is ProfileGetData)
